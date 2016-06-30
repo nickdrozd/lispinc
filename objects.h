@@ -33,7 +33,7 @@ typedef enum {
 	ENV,
 	LABEL,
 	DUMMY,
-	type_count
+	tag_count
 } Tag;
 
 union Val {

@@ -16,6 +16,16 @@ void print_obj(Obj obj) {
 			printf("%s\n", "LIST");
 			print_list(obj.val.list);
 			break;
+		case FUNC:
+			printf("%s\n", "FUNC");
+			break;
+		// these last few shouldn't be possible
+		case ENV:
+		case LABEL:
+		case DUMMY:
+		case tag_count:
+			printf("%s\n", "how did this happen?");
+			break;
 	}
 	return;
 }

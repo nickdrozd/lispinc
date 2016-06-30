@@ -1,10 +1,5 @@
 /*
 	TODO:
-		-- lookup
-		-- convert extendEnv to Obj form
-		-- convert makeBaseEnv to Obj form
-		-- convert other functions to Obj form?
-		-- don't forget to change env.h
 */
 
 #include <stdio.h>

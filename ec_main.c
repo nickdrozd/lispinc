@@ -170,8 +170,8 @@ int main(void) {
 		restore(&expr);
 		if (isTrue(val))
 			goto IF_THEN;
-
-	IF_ELSE:
+		// fall-through to IF_ELSE
+	// IF_ELSE:
 		expr = ifElse(expr);
 		goto EVAL;
 

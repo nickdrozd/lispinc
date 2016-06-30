@@ -1,7 +1,6 @@
 /*
 	TODO:
-		-- isTrue (in IF_DECIDE)
-		-- makeFunc (figure out how to make Lists)
+		-- figure out isTrue
 */
 
 // low-level helper functions
@@ -12,11 +11,11 @@
 #include "objects.h"
 
 bool isNum(Obj expr) {
-	return expr.tag = NUM;
+	return expr.tag == NUM;
 }
 
 bool isVar(Obj expr) {
-	return expr.tag = NAME;
+	return expr.tag == NAME;
 }
 
 /* special forms */
@@ -63,8 +62,9 @@ Obj ifTest(Obj expr) {
 	return expr.val.list->cdr->car;
 }
 
+// is this right?
 bool isTrue(Obj expr) {
-	// switch on tag
+	return expr.val.num != false;
 }
 
 Obj ifThen(Obj expr) {
