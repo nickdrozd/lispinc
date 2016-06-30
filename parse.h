@@ -36,6 +36,3 @@ Obj parse(Token_list* tokens);
 void dock(Token_list** list);
 Token_list* slice_ends(Token_list** list);
 void push(Obj obj, List** list);
-
-void print_list(List* list);
-void print_obj(Obj obj);

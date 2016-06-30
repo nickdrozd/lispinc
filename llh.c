@@ -6,6 +6,7 @@
 
 // low-level helper functions
 
+#include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
 #include "objects.h"
@@ -21,7 +22,7 @@ bool isVar(Obj expr) {
 /* special forms */
 
 char* specialForm(Obj expr) {
-	return expr.val.list->car.name;
+	return expr.val.list->car.val.name;
 }
 
 bool cmpForm(char* cand, char* form) {
@@ -39,7 +40,7 @@ bool isQuote(Obj expr) {
 }
 
 Obj quotedText(Obj expr) {
-	return expr.val.list->cdr;
+	return MKOBJ(LIST, list, expr.val.list->cdr);
 }
 
 /* begin */
@@ -49,7 +50,7 @@ bool isBegin(Obj expr) {
 }
 
 Obj beginActions(Obj expr) {
-	return expr.val.list->cdr;
+	return MKOBJ(LIST, list, expr.val.list->cdr);
 }
 
 /* if (and other boolean macros) */
@@ -204,17 +205,17 @@ Obj funcEnv(Obj obj) {
 /* sequence */
 
 Obj firstExp(Obj seq) {
-	return obj.val.list->car;
+	return seq.val.list->car;
 }
 
 Obj restExps(Obj seq) {
-	return obj.val.list->cdr;
+	return MKOBJ(LIST, list, seq.val.list->cdr);
 }
 
 bool isLastExp(Obj seq) {
-	return restExps(seq) == NULL;
+	return (restExps(seq)).val.list == NULL;
 }
 
 bool noExps(Obj seq) {
-	return Obj.val.list == NULL;
+	return seq.val.list == NULL;
 }

@@ -2,6 +2,7 @@
 #include "objects.h"
 
 void print_list(List* list);
+void print_obj(Obj obj);
 
 void print_obj(Obj obj) {
 	switch(obj.tag) {

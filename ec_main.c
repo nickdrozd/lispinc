@@ -86,7 +86,9 @@ int main(void) {
 
 	CONTINUE:
 		if (cont.val.label == _DONE)
-			goto _DONE;
+			goto DONE;
+		if (cont.val.label == _IF_DECIDE)
+			goto IF_DECIDE;
 		if (cont.val.label == _DID_ASS_VAL)
 			goto DID_ASS_VAL;
 		if (cont.val.label == _DID_DEF_VAL)
@@ -163,9 +165,9 @@ int main(void) {
 		goto EVAL;
 
 	IF_DECIDE:
-		restore(cont);
-		restore(env);
-		restore(expr);
+		restore(&cont);
+		restore(&env);
+		restore(&expr);
 		if (isTrue(val))
 			goto IF_THEN;
 
@@ -193,9 +195,9 @@ int main(void) {
 		goto EVAL;
 
 	DID_ASS_VAL:
-		restore(cont);
-		restore(env);
-		restore(unev);
+		restore(&cont);
+		restore(&env);
+		restore(&unev);
 		setVar(unev, val, env); // var, val, env
 		// val = ASS_DEF_RETURN_VAL;
 		goto CONTINUE;
@@ -210,10 +212,10 @@ int main(void) {
 		goto EVAL;
 
 	DID_DEF_VAL:
-		restore(cont);
-		restore(env);
-		restore(unev);
-		defineVar(unev, val, env) // var, val, env
+		restore(&cont);
+		restore(&env);
+		restore(&unev);
+		defineVar(unev, val, env); // var, val, env
 		// val = ASS_DEF_RETURN_VAL;
 		goto CONTINUE;
 
@@ -232,8 +234,8 @@ int main(void) {
 		goto EVAL;
 
 	DID_FUNC:
-		restore(unev); // the arguments
-		restore(env);
+		restore(&unev); // the arguments
+		restore(&env);
 		arglist = empty_arglist; // #definition above
 		func = val;
 		if (noArgs(unev)) // (null? unev)
@@ -248,13 +250,13 @@ int main(void) {
 			goto LAST_ARG;
 		save(env);
 		save(unev);
-		cont = _ACC_ARG;
+		cont = MKOBJ(LABEL, label, _ACC_ARG);
 		goto EVAL;
 
 	ACC_ARG:
-		restore(unev);
-		restore(env);
-		restore(arglist);
+		restore(&unev);
+		restore(&env);
+		restore(&arglist);
 		arglist = adjoinArg(val, arglist); // append val to end of arglist
 		unev = restArgs(unev); // (cdr unev)
 		goto ARG_LOOP;
@@ -264,9 +266,9 @@ int main(void) {
 		goto EVAL;
 
 	DID_LAST_ARG:
-		restore(arglist);
+		restore(&arglist);
 		arglist = adjoinArg(val, arglist);
-		restore(func);
+		restore(&func);
 		goto APPLY;
 
 
@@ -280,7 +282,7 @@ int main(void) {
 
 	APPLY_PRIMITIVE:
 		val = applyPrimitive(func, arglist);
-		restore(cont);
+		restore(&cont);
 		goto CONTINUE;
 
 	APPLY_COMPUND: // only place env is assigned a new value
@@ -304,13 +306,13 @@ int main(void) {
 		goto EVAL;
 
 	SEQ_CONT:
-		restore(env);
-		restore(unev);
+		restore(&env);
+		restore(&unev);
 		unev = restExps(unev);
 		goto SEQUENCE;
 
 	LAST_EXP:
-		restore(cont);
+		restore(&cont);
 		goto EVAL;
 
 	/* alternatively, we could require that the stack is always saved in full */
@@ -325,13 +327,13 @@ int main(void) {
 		goto EVAL;
 
 	ALT_SEQ_CONT:
-		restore(env);
-		restore(unev);
+		restore(&env);
+		restore(&unev);
 		unev = restExps(unev);
 		goto ALT_SEQUENCE;
 
 	SEQ_END:
-		restore(cont);
+		restore(&cont);
 		goto CONTINUE;
 
 

@@ -50,5 +50,10 @@ Obj restExps(Obj seq);
 bool isLastExp(Obj seq);
 bool noExps(Obj seq);
 
+/* stack.c */
+void save(Obj reg);
+void restore(Obj* reg);
+void clear_stack(void);
+
 /* print.c */
 void print_obj(Obj obj);

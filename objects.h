@@ -12,6 +12,7 @@ but these are the ones that
 get saved and restored */
 typedef enum {
 	_DONE,
+	_IF_DECIDE,
 	_DID_ASS_VAL,
 	_DID_DEF_VAL,
 	_DID_FUNC,
