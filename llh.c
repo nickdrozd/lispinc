@@ -5,10 +5,18 @@
 
 // low-level helper functions
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
 #include "objects.h"
+
+extern int DEBUG;
+
+// bool isQuit(Obj expr) {
+// 	return expr.tag == NAME &&
+// 		strcmp(expr.val.name, "quit") == 1;
+// }
 
 bool isNum(Obj expr) {
 	return expr.tag == NUM;
@@ -156,12 +164,14 @@ bool isLastArg(Obj expr) {
 
 // adjoinArg
 Obj adjoinArg(Obj val, Obj arglist) {
+	if (DEBUG) printf("%s\n", "adjoining args...");
 	List* list = arglist.val.list;
 	while (list)
 		list = list->cdr;
 	list = malloc(sizeof(List));
 	list->car = val;
 	list->cdr = NULL;
+	if (DEBUG) print_list(list);
 	return MKOBJ(LIST, list, list);
 }
 
@@ -180,11 +190,15 @@ bool isCompound(Obj obj) {
 }
 
 Obj applyPrimitive(Obj func, Obj arglist) {
+	if (DEBUG) printf("%s\n", "applying primitive");
 	List* list = arglist.val.list;
+	if (DEBUG) print_list(list);
 	int arg1 = list->car.val.num;
 	int arg2 = list->cdr->car.val.num;
+	if (DEBUG) printf("arg1: %d, arg2: %d\n", arg1, arg2);
 	intFunc prim = func.val.func;
 	int result = (*prim)(arg1, arg2);
+	if (DEBUG) printf("%d\n", result);
 	return MKOBJ(NUM, num, result);
 }
 

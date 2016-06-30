@@ -7,6 +7,8 @@
 #include <string.h>
 #include "objects.h"
 
+extern int DEBUG;
+
 // prototypes
 Frame* makeFrame(List* vars, List* vals);
 Env* makeEnv(Frame* frame, Env* enclosure);
@@ -71,6 +73,7 @@ Obj makeBaseEnv(void) {
 /* lookup in env */
 
 Obj lookup(Obj var_obj, Obj env_obj) {
+	if (DEBUG) printf("looking up \"%s\"\n", var_obj.val.name);
 	char* var = var_obj.val.name;
 	Env* env = env_obj.val.env;
 
@@ -78,8 +81,11 @@ Obj lookup(Obj var_obj, Obj env_obj) {
 }
 
 Obj lookup_in_env(char* var, Env* env) { // lookup in env
-	if (env == NULL)
+	if (DEBUG) printf("%s\n", "looking up in env...");
+	if (env == NULL) {
+		if (DEBUG) printf("%s\n", "null env, returning DUMMY");
 		return MKOBJ(DUMMY, dummy, 0);
+	}
 
 	Frame* frame = env->frame;
 	Obj checkFrame = lookup_in_frame(var, frame);
@@ -91,6 +97,7 @@ Obj lookup_in_env(char* var, Env* env) { // lookup in env
 }
 
 Obj lookup_in_frame(char* var, Frame* frame) { // helper for lookup
+	if (DEBUG) printf("%s\n", "looking up in frame...");
 	if (frame == NULL)
 		return MKOBJ(DUMMY, dummy, 0);
 

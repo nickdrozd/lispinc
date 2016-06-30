@@ -1,13 +1,15 @@
 /* parse.c */
-Obj read_code(char* expr); // void parameter
+Obj read_code(void); // void parameter
 
 /* env.c */
 Obj lookup(Obj var_obj, Obj env_obj);
 void defineVar(Obj var_obj, Obj val_obj, Obj env_obj);
 void setVar(Obj var_obj, Obj val_obj, Obj env_obj);
 Obj extendEnv(Obj vars_obj, Obj vals_obj, Obj base_env_obj);
+Obj makeBaseEnv(void);
 
 /* llh.c */
+//bool isQuit(Obj expr)
 bool isNum(Obj expr);
 bool isVar(Obj expr);
 char* specialForm(Obj expr);
@@ -51,9 +53,12 @@ bool isLastExp(Obj seq);
 bool noExps(Obj seq);
 
 /* stack.c */
+//extern List* stack;
 void save(Obj reg);
 void restore(Obj* reg);
 void clear_stack(void);
+void print_stack(void);
 
 /* print.c */
-void print_obj(Obj obj);
+// void print_obj(Obj obj);
+// void print_list(List* list);

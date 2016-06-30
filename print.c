@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include "objects.h"
 
-void print_list(List* list);
-void print_obj(Obj obj);
+// void print_list(List* list);
+// void print_obj(Obj obj);
 
 void print_obj(Obj obj) {
 	switch(obj.tag) {
@@ -19,12 +19,14 @@ void print_obj(Obj obj) {
 		case FUNC:
 			printf("%s\n", "FUNC");
 			break;
-		// these last few shouldn't be possible
+		// these last few can occur in the stack
 		case ENV:
+			printf("%s\n", "ENV");
+			break;
 		case LABEL:
+			printf("%s: %d\n", "LABEL", obj.val.label);
 		case DUMMY:
 		case tag_count:
-			printf("%s\n", "how did this happen?");
 			break;
 	}
 	return;

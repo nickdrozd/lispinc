@@ -22,7 +22,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-
 #include "objects.h"
 #include "declarations.h"
 
@@ -66,25 +65,33 @@
 
 #define empty_arglist MKOBJ(LIST, list, NULL)
 
-Obj expr;
-Obj val;
-Obj env;
-Obj cont;
-Obj func;
-Obj arglist;
-Obj unev;
+//declare registers outside main?
+
+int DEBUG = 1;
 
 int main(void) {
+	printf("%s\n", "starting main...");
 
-	START:
-		// expr = read_code
-		// if (quit) return
+	Obj expr;
+	Obj val;
+	Obj env = makeBaseEnv();
+	Obj cont;
+	Obj func;
+	Obj arglist;
+	Obj unev;
+
+	START:if (DEBUG) printf("%s\n", "@ START");
+		expr = read_code();
+		print_obj(expr);
+		if (DEBUG) printf("%s\n", "code read!");
+		// if (isQuit(expr)) 
+		// 	return 0;
 		// debug options
 		cont = MKOBJ(LABEL, label, _DONE);
+		if (DEBUG) printf ("cont: %s\n", "_DONE");
 		goto EVAL;
 
-
-	CONTINUE:
+	CONTINUE:if (DEBUG) printf("%s\n", "@ CONTINUE");
 		if (cont.val.label == _DONE)
 			goto DONE;
 		if (cont.val.label == _IF_DECIDE)
@@ -104,7 +111,7 @@ int main(void) {
 		if (cont.val.label == _ALT_SEQ_CONT)
 			goto ALT_SEQ_CONT;
 
-	EVAL:
+	EVAL:if (DEBUG) printf("%s\n", "@ EVAL");
 		if (isNum(expr))
 			goto NUMBER;
 		if (isVar(expr))
@@ -124,31 +131,32 @@ int main(void) {
 		goto FUNCTION;
 
 
-	NUMBER:
+	NUMBER:printf("%s\n", "@ NUMBER");
 		val = expr;
 		goto CONTINUE;
 
-	VARIABLE:
+	VARIABLE:printf("%s\n", "@ VARIABLE");
+		if (DEBUG) printf("%s\n", expr.val.name);
 		val = lookup(expr, env);
 		if (val.tag == DUMMY)
 			goto UNBOUND;
 		goto CONTINUE;
 
-	UNBOUND:
+	UNBOUND:printf("%s\n", "@ UNBOUND");
 		printf("%s\n", "unbound variable");
 		clear_stack();
 		goto START;
 
-	QUOTATION:
+	QUOTATION:printf("%s\n", "@ QUOTATION");
 		val = quotedText(expr);
 		goto CONTINUE;
 
-	BEGIN:
+	BEGIN:if (DEBUG) printf("%s\n", "@ BEGIN");
 		unev = beginActions(expr);
 		save(cont);
 		goto SEQUENCE;
 
-	LAMBDA:
+	LAMBDA:if (DEBUG) printf("%s\n", "@ LAMBDA");
 		unev = lambdaParams(expr);
 		expr = lambdaBody(expr);
 		val = makeFunc(unev, expr, env);
@@ -224,16 +232,17 @@ int main(void) {
 
 	/* function application */
 
-	FUNCTION:
+	FUNCTION:if (DEBUG) printf("%s\n", "@ FUNCTION");
 		save(cont);
 		save(env);
 		unev = getArgs(expr);
 		save(unev);
 		expr = getFunc(expr);
 		cont = MKOBJ(LABEL, label, _DID_FUNC);
+		if (DEBUG) print_stack();
 		goto EVAL;
 
-	DID_FUNC:
+	DID_FUNC:if (DEBUG) printf("%s\n", "@ DID_FUNC");
 		restore(&unev); // the arguments
 		restore(&env);
 		arglist = empty_arglist; // #definition above
@@ -243,7 +252,7 @@ int main(void) {
 		save(func);
 		// fall through to ARG_LOOP
 
-	ARG_LOOP:
+	ARG_LOOP:if (DEBUG) printf("%s\n", "@ ARG_LOOP");
 		save(arglist);
 		expr = firstArg(unev); // (car unev)
 		if (isLastArg(unev)) // (null? (cdr unev))
@@ -253,7 +262,7 @@ int main(void) {
 		cont = MKOBJ(LABEL, label, _ACC_ARG);
 		goto EVAL;
 
-	ACC_ARG:
+	ACC_ARG:if (DEBUG) printf("%s\n", "@ ACC_ARG");
 		restore(&unev);
 		restore(&env);
 		restore(&arglist);
@@ -261,11 +270,11 @@ int main(void) {
 		unev = restArgs(unev); // (cdr unev)
 		goto ARG_LOOP;
 
-	LAST_ARG:
+	LAST_ARG:if (DEBUG) printf("%s\n", "@ LAST_ARG");
 		cont = MKOBJ(LABEL, label, _DID_LAST_ARG);
 		goto EVAL;
 
-	DID_LAST_ARG:
+	DID_LAST_ARG:if (DEBUG) printf("%s\n", "@ DID_LAST_ARG");
 		restore(&arglist);
 		arglist = adjoinArg(val, arglist);
 		restore(&func);
@@ -274,18 +283,19 @@ int main(void) {
 
 	/******************/
 
-	APPLY:
+	APPLY:if (DEBUG) printf("%s\n", "@ APPLY");
 		if (isPrimitive(func))
 			goto APPLY_PRIMITIVE;
 		if (isCompound(func))
-			goto APPLY_COMPUND;
+			goto APPLY_COMPOUND;
 
-	APPLY_PRIMITIVE:
+	APPLY_PRIMITIVE:if (DEBUG) printf("%s\n", "@ APPLY_PRIMITIVE");
 		val = applyPrimitive(func, arglist);
 		restore(&cont);
 		goto CONTINUE;
 
-	APPLY_COMPUND: // only place env is assigned a new value
+	// only place env is assigned a new value
+	APPLY_COMPOUND: if (DEBUG) printf("%s\n", "@ APPLY_COMPOUND");
 		unev = funcParams(func);
 		env = funcEnv(func);
 		env = extendEnv(unev, arglist, env);
@@ -341,8 +351,8 @@ int main(void) {
 
 	DONE:
 		print_obj(val);
-		goto START;
-
+		// goto START; // can't do repl until input gets sorted out
+		return 0;
 }
 
 

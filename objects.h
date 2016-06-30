@@ -73,3 +73,7 @@ struct Env {
 	Frame* frame;
 	Env* enclosure;
 };
+
+/* print.c prototypes */
+void print_list(List* list);
+void print_obj(Obj obj);

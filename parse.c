@@ -13,7 +13,15 @@
 
 // add scanf?
 // void parameter
-Obj read_code(char* expr) {
+Obj read_code(void) {
+
+	char* expr = "(add 3 4)";
+	//char* expr = "cat";
+	//char* expr = "()";
+	//char* expr = "(quote ())";
+	//char* expr = "(add)";
+	//char* expr = "(add ((addn 3) 4) 7 (mul 5 6))";
+
 	return parse(tokenize(expr));
 }
 
