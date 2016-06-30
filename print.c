@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include "objects.h"
 
-// void print_list(List* list);
-// void print_obj(Obj obj);
+// declarations in objects.h
 
 void print_obj(Obj obj) {
 	switch(obj.tag) {

@@ -60,5 +60,4 @@ void clear_stack(void);
 void print_stack(void);
 
 /* print.c */
-// void print_obj(Obj obj);
-// void print_list(List* list);
+// see objects.h

@@ -165,15 +165,50 @@ bool isLastArg(Obj expr) {
 // adjoinArg
 Obj adjoinArg(Obj val, Obj arglist) {
 	if (DEBUG) printf("%s\n", "adjoining args...");
+	
 	List* list = arglist.val.list;
-	while (list)
+	List* head;
+	List* tail;
+	
+	if (list) {
+		tail = malloc(sizeof(List));
+		tail->car = list->car;
+		tail->cdr = NULL;
+		head = tail;
 		list = list->cdr;
-	list = malloc(sizeof(List));
-	list->car = val;
-	list->cdr = NULL;
-	if (DEBUG) print_list(list);
-	return MKOBJ(LIST, list, list);
+		while (list) {
+			tail->cdr = malloc(sizeof(List));
+			tail = tail->cdr;
+			tail->car = list->car;
+			tail->cdr = NULL;
+			list = list->cdr;
+		}
+		tail = malloc(sizeof(List));
+		tail->car = val;
+		tail->cdr = NULL;
+		return MKOBJ(LIST, list, head);
+	}
+	
+	else {
+		head = malloc(sizeof(List));
+		head->car = val;
+		head->cdr = NULL;
+		return MKOBJ(LIST, list, head);
+	}
 }
+
+// // adjoinArg
+// Obj adjoinArg(Obj val, Obj arglist) {
+// 	if (DEBUG) printf("%s\n", "adjoining args...");
+// 	List* list = arglist.val.list;
+// 	while (list)
+// 		list = list->cdr;
+// 	list = malloc(sizeof(List));
+// 	list->car = val;
+// 	list->cdr = NULL;
+// 	if (DEBUG) print_list(list);
+// 	return MKOBJ(LIST, list, list);
+// }
 
 Obj restArgs(Obj expr) {
 	return MKOBJ(LIST, list, expr.val.list->cdr);

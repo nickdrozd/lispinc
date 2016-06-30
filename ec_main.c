@@ -246,6 +246,7 @@ int main(void) {
 		restore(&unev); // the arguments
 		restore(&env);
 		arglist = empty_arglist; // #definition above
+		if (DEBUG) { printf("arglist:\n"); print_obj(arglist); }
 		func = val;
 		if (noArgs(unev)) // (null? unev)
 			goto APPLY;
@@ -266,8 +267,11 @@ int main(void) {
 		restore(&unev);
 		restore(&env);
 		restore(&arglist);
+		if (DEBUG) { printf("arglist:\n"); print_obj(arglist); }
 		arglist = adjoinArg(val, arglist); // append val to end of arglist
+		if (DEBUG) { printf("arglist:\n"); print_obj(arglist); }
 		unev = restArgs(unev); // (cdr unev)
+		if (DEBUG) print_obj(unev);
 		goto ARG_LOOP;
 
 	LAST_ARG:if (DEBUG) printf("%s\n", "@ LAST_ARG");
@@ -277,6 +281,7 @@ int main(void) {
 	DID_LAST_ARG:if (DEBUG) printf("%s\n", "@ DID_LAST_ARG");
 		restore(&arglist);
 		arglist = adjoinArg(val, arglist);
+		if (DEBUG) { printf("arglist:\n"); print_obj(arglist); }
 		restore(&func);
 		goto APPLY;
 
