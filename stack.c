@@ -7,10 +7,6 @@
 #include <stdlib.h>
 #include "objects.h"
 
-// from print.c
-// void print_list(List* list);
-// void print_obj(Obj obj);
-
 extern int DEBUG;
 List* stack = NULL;
 
@@ -43,14 +39,17 @@ void clear_stack(void) {
 }
 
 void print_stack(void) {
-	printf("%s\n", "printing stack...");
+	printf("%s\n", "----------");
+	// printf("%s\n", "printing stack...");
 	List* temp = stack;
 	int count = 0;
+	if (!temp)
+		printf("%s\n", "-- STACK EMPTY --");
 	while (temp) {
-		printf("%d -- ", count);
+		printf("-- STACK ENTRY %d -- \n", count);
 		print_obj(temp->car);
 		temp = temp->cdr;
 		count++;
 	}
-	printf("%s\n", "stack printed!");
+	printf("%s\n", "----------");
 }

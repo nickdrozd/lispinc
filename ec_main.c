@@ -72,13 +72,13 @@ int DEBUG = 1;
 int main(void) {
 	printf("%s\n", "starting main...");
 
-	Obj expr;
-	Obj val;
-	Obj env = makeBaseEnv();
-	Obj cont;
-	Obj func;
-	Obj arglist;
-	Obj unev;
+	// Obj expr;
+	// Obj val;
+	env = makeBaseEnv();
+	// Obj cont;
+	// Obj func;
+	// Obj arglist;
+	// Obj unev;
 
 	START:if (DEBUG) printf("%s\n", "@ START");
 		expr = read_code();
@@ -254,7 +254,9 @@ int main(void) {
 		// fall through to ARG_LOOP
 
 	ARG_LOOP:if (DEBUG) printf("%s\n", "@ ARG_LOOP");
+		if (DEBUG) { printf("arglist:\n"); print_obj(arglist); }
 		save(arglist);
+		if (DEBUG) print_stack();
 		expr = firstArg(unev); // (car unev)
 		if (isLastArg(unev)) // (null? (cdr unev))
 			goto LAST_ARG;
@@ -272,6 +274,7 @@ int main(void) {
 		if (DEBUG) { printf("arglist:\n"); print_obj(arglist); }
 		unev = restArgs(unev); // (cdr unev)
 		if (DEBUG) print_obj(unev);
+		if (DEBUG) { printf("arglist:\n"); print_obj(arglist); }
 		goto ARG_LOOP;
 
 	LAST_ARG:if (DEBUG) printf("%s\n", "@ LAST_ARG");
@@ -280,6 +283,7 @@ int main(void) {
 
 	DID_LAST_ARG:if (DEBUG) printf("%s\n", "@ DID_LAST_ARG");
 		restore(&arglist);
+		if (DEBUG) { printf("arglist:\n"); print_obj(arglist); }
 		arglist = adjoinArg(val, arglist);
 		if (DEBUG) { printf("arglist:\n"); print_obj(arglist); }
 		restore(&func);
@@ -289,6 +293,7 @@ int main(void) {
 	/******************/
 
 	APPLY:if (DEBUG) printf("%s\n", "@ APPLY");
+	print_info();
 		if (isPrimitive(func))
 			goto APPLY_PRIMITIVE;
 		if (isCompound(func))

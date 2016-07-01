@@ -33,6 +33,7 @@ typedef enum {
 	ENV,
 	LABEL,
 	DUMMY,
+	UNINITIALIZED,
 	tag_count
 } Tag;
 
@@ -44,7 +45,7 @@ union Val {
 	Env* env;
 	Label label;
 	int dummy;
-	// new function type?
+	int uninitialized;
 };
 
 struct Obj {

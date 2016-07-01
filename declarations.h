@@ -1,3 +1,12 @@
+/* registers.c */
+extern Obj expr;
+extern Obj val;
+extern Obj env;
+extern Obj cont;
+extern Obj func;
+extern Obj arglist;
+extern Obj unev;
+
 /* parse.c */
 Obj read_code(void); // void parameter
 
@@ -60,4 +69,4 @@ void clear_stack(void);
 void print_stack(void);
 
 /* print.c */
-// see objects.h
+void print_info(void);
