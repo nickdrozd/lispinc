@@ -22,6 +22,7 @@ Obj read_code(void) {
 	//char* expr = "(add)";
 	//char* expr = "(add ((addn 3) 4) 7 (mul 5 6))";
 
+	if (DEBUG) printf("%s\n", expr);
 	return parse(tokenize(expr));
 }
 

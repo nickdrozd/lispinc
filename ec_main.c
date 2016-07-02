@@ -65,24 +65,32 @@
 
 #define empty_arglist MKOBJ(LIST, list, NULL)
 
-//declare registers outside main?
+int DEBUG = 0;
+int INFO = 1;
 
-int DEBUG = 1;
+Obj expr;
+Obj val;
+Obj cont;
+Obj func;
+Obj arglist;
+Obj unev;
+Obj env;
 
 int main(void) {
-	printf("%s\n", "starting main...");
+	if (DEBUG) printf("%s\n", "starting main...");
 
-	// Obj expr;
-	// Obj val;
+	expr = MKOBJ(UNINIT, uninit, 0);
+	val = MKOBJ(UNINIT, uninit, 0);
+	cont = MKOBJ(UNINIT, uninit, 0);
+	func = MKOBJ(UNINIT, uninit, 0);
+	arglist = MKOBJ(UNINIT, uninit, 0);
+	unev = MKOBJ(UNINIT, uninit, 0);
+
 	env = makeBaseEnv();
-	// Obj cont;
-	// Obj func;
-	// Obj arglist;
-	// Obj unev;
 
-	START:if (DEBUG) printf("%s\n", "@ START");
+	START:
+		if (INFO) { printf("\n\n@ START\n"); print_info(); }
 		expr = read_code();
-		print_obj(expr);
 		if (DEBUG) printf("%s\n", "code read!");
 		// if (isQuit(expr)) 
 		// 	return 0;
@@ -91,7 +99,8 @@ int main(void) {
 		if (DEBUG) printf ("cont: %s\n", "_DONE");
 		goto EVAL;
 
-	CONTINUE:if (DEBUG) printf("%s\n", "@ CONTINUE");
+	CONTINUE:
+		if (INFO) { printf("\n\n@ CONTINUE\n"); print_info(); }
 		if (cont.val.label == _DONE)
 			goto DONE;
 		if (cont.val.label == _IF_DECIDE)
@@ -111,7 +120,8 @@ int main(void) {
 		if (cont.val.label == _ALT_SEQ_CONT)
 			goto ALT_SEQ_CONT;
 
-	EVAL:if (DEBUG) printf("%s\n", "@ EVAL");
+	EVAL:
+		if (INFO) { printf("\n\n@ EVAL\n"); print_info(); }
 		if (isNum(expr))
 			goto NUMBER;
 		if (isVar(expr))
@@ -131,32 +141,38 @@ int main(void) {
 		goto FUNCTION;
 
 
-	NUMBER:printf("%s\n", "@ NUMBER");
+	NUMBER:
+		if (INFO) { printf("\n\n@ NUMBER\n"); print_info(); }
 		val = expr;
 		goto CONTINUE;
 
-	VARIABLE:printf("%s\n", "@ VARIABLE");
+	VARIABLE:
+		if (INFO) { printf("\n\n@ VARIABLE\n"); print_info(); }
 		if (DEBUG) printf("%s\n", expr.val.name);
 		val = lookup(expr, env);
 		if (val.tag == DUMMY)
 			goto UNBOUND;
 		goto CONTINUE;
 
-	UNBOUND:printf("%s\n", "@ UNBOUND");
+	UNBOUND:
+		if (INFO) { printf("\n\n@ UNBOUND\n"); print_info(); }
 		printf("%s\n", "unbound variable");
 		clear_stack();
 		goto START;
 
-	QUOTATION:printf("%s\n", "@ QUOTATION");
+	QUOTATION:
+		if (INFO) { printf("\n\n@ QUOTATION\n"); print_info(); }
 		val = quotedText(expr);
 		goto CONTINUE;
 
-	BEGIN:if (DEBUG) printf("%s\n", "@ BEGIN");
+	BEGIN:
+		if (INFO) { printf("\n\n@ BEGIN\n"); print_info(); }
 		unev = beginActions(expr);
 		save(cont);
 		goto SEQUENCE;
 
-	LAMBDA:if (DEBUG) printf("%s\n", "@ LAMBDA");
+	LAMBDA:
+		if (INFO) { printf("\n\n@ LAMBDA\n"); print_info(); }
 		unev = lambdaParams(expr);
 		expr = lambdaBody(expr);
 		val = makeFunc(unev, expr, env);
@@ -165,6 +181,7 @@ int main(void) {
 	/* if (and other boolean macros) */
 
 	IF:
+		if (INFO) { printf("\n\n@ IF\n"); print_info(); }
 		save(expr);
 		save(env);
 		save(cont);
@@ -173,6 +190,7 @@ int main(void) {
 		goto EVAL;
 
 	IF_DECIDE:
+		if (INFO) { printf("\n\n@ IF_DECIDE\n"); print_info(); }
 		restore(&cont);
 		restore(&env);
 		restore(&expr);
@@ -184,6 +202,7 @@ int main(void) {
 		goto EVAL;
 
 	IF_THEN:
+		if (INFO) { printf("\n\n@ IF_THEN\n"); print_info(); }
 		expr = ifThen(expr);
 		goto EVAL;
 
@@ -194,6 +213,7 @@ int main(void) {
 	// leave ass/def val as return val?
 
 	ASSIGNMENT:
+		if (INFO) { printf("\n\n@ ASSIGNMENT\n"); print_info(); }
 		unev = assVar(expr);
 		save(unev);
 		expr = assVal(expr);
@@ -203,6 +223,7 @@ int main(void) {
 		goto EVAL;
 
 	DID_ASS_VAL:
+		if (INFO) { printf("\n\n@ DID_ASS_VAL\n"); print_info(); }
 		restore(&cont);
 		restore(&env);
 		restore(&unev);
@@ -211,6 +232,7 @@ int main(void) {
 		goto CONTINUE;
 
 	DEFINITION:
+		if (INFO) { printf("\n\n@ DEFINITION\n"); print_info(); }
 		unev = defVar(expr);
 		save(unev);
 		expr = defVal(expr);
@@ -220,6 +242,7 @@ int main(void) {
 		goto EVAL;
 
 	DID_DEF_VAL:
+		if (INFO) { printf("\n\n@ DID_DEF_VAL\n"); print_info(); }
 		restore(&cont);
 		restore(&env);
 		restore(&unev);
@@ -232,7 +255,8 @@ int main(void) {
 
 	/* function application */
 
-	FUNCTION:if (DEBUG) printf("%s\n", "@ FUNCTION");
+	FUNCTION:
+		if (INFO) { printf("\n\n@ FUNCTION\n"); print_info(); }
 		save(cont);
 		save(env);
 		unev = getArgs(expr);
@@ -242,7 +266,8 @@ int main(void) {
 		if (DEBUG) print_stack();
 		goto EVAL;
 
-	DID_FUNC:if (DEBUG) printf("%s\n", "@ DID_FUNC");
+	DID_FUNC:
+		if (INFO) { printf("\n\n@ DID_FUNC\n"); print_info(); }
 		restore(&unev); // the arguments
 		restore(&env);
 		arglist = empty_arglist; // #definition above
@@ -253,8 +278,8 @@ int main(void) {
 		save(func);
 		// fall through to ARG_LOOP
 
-	ARG_LOOP:if (DEBUG) printf("%s\n", "@ ARG_LOOP");
-		if (DEBUG) { printf("arglist:\n"); print_obj(arglist); }
+	ARG_LOOP:
+		if (INFO) { printf("\n\n@ ARG_LOOP\n"); print_info(); }
 		save(arglist);
 		if (DEBUG) print_stack();
 		expr = firstArg(unev); // (car unev)
@@ -265,7 +290,8 @@ int main(void) {
 		cont = MKOBJ(LABEL, label, _ACC_ARG);
 		goto EVAL;
 
-	ACC_ARG:if (DEBUG) printf("%s\n", "@ ACC_ARG");
+	ACC_ARG:
+		if (INFO) { printf("\n\n@ ACC_ARG\n"); print_info(); }
 		restore(&unev);
 		restore(&env);
 		restore(&arglist);
@@ -277,11 +303,13 @@ int main(void) {
 		if (DEBUG) { printf("arglist:\n"); print_obj(arglist); }
 		goto ARG_LOOP;
 
-	LAST_ARG:if (DEBUG) printf("%s\n", "@ LAST_ARG");
+	LAST_ARG:
+		if (INFO) { printf("\n\n@ LAST_ARG\n"); print_info(); }
 		cont = MKOBJ(LABEL, label, _DID_LAST_ARG);
 		goto EVAL;
 
-	DID_LAST_ARG:if (DEBUG) printf("%s\n", "@ DID_LAST_ARG");
+	DID_LAST_ARG:
+		if (INFO) { printf("\n\n@ _DID_LAST_ARG\n"); print_info(); }
 		restore(&arglist);
 		if (DEBUG) { printf("arglist:\n"); print_obj(arglist); }
 		arglist = adjoinArg(val, arglist);
@@ -292,20 +320,22 @@ int main(void) {
 
 	/******************/
 
-	APPLY:if (DEBUG) printf("%s\n", "@ APPLY");
-	print_info();
+	APPLY:
+		if (INFO) { printf("\n\n@ APPLY\n"); print_info(); }
 		if (isPrimitive(func))
 			goto APPLY_PRIMITIVE;
 		if (isCompound(func))
 			goto APPLY_COMPOUND;
 
-	APPLY_PRIMITIVE:if (DEBUG) printf("%s\n", "@ APPLY_PRIMITIVE");
+	APPLY_PRIMITIVE:
+		if (INFO) { printf("\n\n@ APPLY_PRIMITIVE\n"); print_info(); }
 		val = applyPrimitive(func, arglist);
 		restore(&cont);
 		goto CONTINUE;
 
 	// only place env is assigned a new value
-	APPLY_COMPOUND: if (DEBUG) printf("%s\n", "@ APPLY_COMPOUND");
+	APPLY_COMPOUND:
+		if (INFO) { printf("\n\n@ APPLY_COMPOUND\n"); print_info(); }
 		unev = funcParams(func);
 		env = funcEnv(func);
 		env = extendEnv(unev, arglist, env);
@@ -317,6 +347,7 @@ int main(void) {
 	/* tail recursion is implented in SEQUENCE */
 
 	SEQUENCE: // SEQUENCE never receives an empty list
+		if (INFO) { printf("\n\n@ SEQUENCE\n"); print_info(); }
 		expr = firstExp(unev);
 		if (isLastExp(unev));
 			goto LAST_EXP;
@@ -326,18 +357,21 @@ int main(void) {
 		goto EVAL;
 
 	SEQ_CONT:
+		if (INFO) { printf("\n\n@ SEQ_CONT\n"); print_info(); }
 		restore(&env);
 		restore(&unev);
 		unev = restExps(unev);
 		goto SEQUENCE;
 
 	LAST_EXP:
+		if (INFO) { printf("\n\n@ LAST_EXP\n"); print_info(); }
 		restore(&cont);
 		goto EVAL;
 
 	/* alternatively, we could require that the stack is always saved in full */
 
 	ALT_SEQUENCE:
+		if (INFO) { printf("\n\n@ ALT_SEQUENCE\n"); print_info(); }
 		if (noExps(unev))
 			goto SEQ_END;
 		expr = firstExp(unev);
@@ -347,12 +381,14 @@ int main(void) {
 		goto EVAL;
 
 	ALT_SEQ_CONT:
+		if (INFO) { printf("\n\n@ ALT_SEQ_CONT\n"); print_info(); }
 		restore(&env);
 		restore(&unev);
 		unev = restExps(unev);
 		goto ALT_SEQUENCE;
 
 	SEQ_END:
+		if (INFO) { printf("\n\n@ SEQ_END\n"); print_info(); }
 		restore(&cont);
 		goto CONTINUE;
 
@@ -360,6 +396,7 @@ int main(void) {
 	/************************/
 
 	DONE:
+		if (INFO) { printf("\n\n@ DONE\n"); print_info(); }
 		print_obj(val);
 		// goto START; // can't do repl until input gets sorted out
 		return 0;

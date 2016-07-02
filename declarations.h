@@ -1,14 +1,14 @@
-/* registers.c */
-extern Obj expr;
-extern Obj val;
-extern Obj env;
-extern Obj cont;
-extern Obj func;
-extern Obj arglist;
-extern Obj unev;
-
 /* parse.c */
-Obj read_code(void); // void parameter
+Obj read_code(void);
+
+/* print.c */
+void print_info(void);
+void print_stack(void);
+
+/* stack.c */
+void save(Obj reg);
+void restore(Obj* reg);
+void clear_stack(void);
 
 /* env.c */
 Obj lookup(Obj var_obj, Obj env_obj);
@@ -60,13 +60,3 @@ Obj firstExp(Obj seq);
 Obj restExps(Obj seq);
 bool isLastExp(Obj seq);
 bool noExps(Obj seq);
-
-/* stack.c */
-//extern List* stack;
-void save(Obj reg);
-void restore(Obj* reg);
-void clear_stack(void);
-void print_stack(void);
-
-/* print.c */
-void print_info(void);

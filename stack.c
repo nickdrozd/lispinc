@@ -1,13 +1,14 @@
 /*
-	stack is like an object, and the
-	stack functions are like methods
+	the stack is never directly manipulated;
+	it is only affected by calls to stack
+	functions. so the stack is like an object,
+	and the functions are like its methods.
 */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include "objects.h"
 
-extern int DEBUG;
 List* stack = NULL;
 
 void save(Obj reg) {
@@ -36,20 +37,4 @@ void clear_stack(void) {
 		temp = stack;
 	}
 	return;
-}
-
-void print_stack(void) {
-	printf("%s\n", "----------");
-	// printf("%s\n", "printing stack...");
-	List* temp = stack;
-	int count = 0;
-	if (!temp)
-		printf("%s\n", "-- STACK EMPTY --");
-	while (temp) {
-		printf("-- STACK ENTRY %d -- \n", count);
-		print_obj(temp->car);
-		temp = temp->cdr;
-		count++;
-	}
-	printf("%s\n", "----------");
 }

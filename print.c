@@ -1,23 +1,60 @@
 #include <stdio.h>
 #include "objects.h"
 
-// registers.c
-void print_registers(void);
+#define DASHES printf("--------------------\n");
 
-// stack.c
+extern Obj expr;
+extern Obj val;
+extern Obj env;
+extern Obj cont;
+extern Obj func;
+extern Obj arglist;
+extern Obj unev;
+extern List* stack;
+
+void print_registers(void);
 void print_stack(void);
 
-int start = 1;
-
 void print_info(void) {
-	if (start) {
-		start = 0;
-		return;
-	}
-
+	DASHES;
 	print_registers();
 	print_stack();
 }
+
+void print_registers(void) {
+	printf("-- %s -- \n", "EXPR");
+	print_obj(expr);
+	printf("-- %s -- \n", "VAL");
+	print_obj(val);
+	printf("-- %s -- \n", "CONT");
+	print_obj(cont);
+	printf("-- %s -- \n", "FUNC");
+	print_obj(func);
+	printf("-- %s -- \n", "ARGLIST");
+	print_obj(arglist);
+	printf("-- %s -- \n", "UNEV");
+	print_obj(unev);
+	// printf("-- %s -- \n", "ENV");
+	// print_obj(env);
+}
+
+void print_stack(void) {
+	DASHES;
+	// printf("%s\n", "printing stack...");
+	List* temp = stack;
+	int count = 0;
+	if (!temp)
+		printf("%s\n", "-- STACK EMPTY --");
+	while (temp) {
+		printf("-- STACK ENTRY %d -- \n", count);
+		print_obj(temp->car);
+		temp = temp->cdr;
+		count++;
+	}
+	DASHES;
+}
+
+void print_label(Label label);
 
 void print_obj(Obj obj) {
 	switch(obj.tag) {
@@ -38,14 +75,13 @@ void print_obj(Obj obj) {
 			printf("%s\n", "env");
 			break;
 		case LABEL:
-			printf("%s: %d\n", "LABEL", obj.val.label);
-			// add print_label
+			print_label(obj.val.label);
 			break;
 		case DUMMY:
 			printf("%s\n", "DUMMY");
 			break;
-		case UNINITIALIZED:
-			printf("%s\n", "UNINITIALIZED");
+		case UNINIT:
+			printf("%s\n", "***");
 			break;
 		case tag_count:
 			printf("%s\n", "huh?");
@@ -59,7 +95,40 @@ void print_list(List* list) {
 		printf("%s\n", "END");
 		return;
 	}
-
 	print_obj(list->car);
 	print_list(list->cdr);
+}
+
+void print_label(Label label) {
+	switch(label) {
+		case _DONE:
+			printf("DONE\n");
+			break;
+		case _IF_DECIDE:
+			printf("IF_DECIDE\n");
+			break;
+		case _DID_ASS_VAL:
+			printf("DID_ASS_VAL\n");
+			break;
+		case _DID_DEF_VAL:
+			printf("DID_DEF_VAL\n");
+			break;
+		case _DID_FUNC:
+			printf("DID_FUNC\n");
+			break;
+		case _ACC_ARG:
+			printf("ADD_ARG\n");
+			break;
+		case _DID_LAST_ARG:
+			printf("DID_LAST_ARG\n");
+			break;
+		case _SEQ_CONT:
+			printf("SEQ_CONT\n");
+			break;
+		case _ALT_SEQ_CONT:
+			printf("ALT_SEQ_CONT\n");
+			break;
+		default:
+			printf("UNKNOWN LABEL\n");
+	}
 }

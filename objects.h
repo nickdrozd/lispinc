@@ -33,7 +33,7 @@ typedef enum {
 	ENV,
 	LABEL,
 	DUMMY,
-	UNINITIALIZED,
+	UNINIT,
 	tag_count
 } Tag;
 
@@ -45,7 +45,7 @@ union Val {
 	Env* env;
 	Label label;
 	int dummy;
-	int uninitialized;
+	int uninit;
 };
 
 struct Obj {
@@ -75,6 +75,9 @@ struct Env {
 	Env* enclosure;
 };
 
-/* print.c prototypes */
-void print_list(List* list);
+/* debug mode */
+extern int DEBUG;
+
+/* print.c prototypes (for debugging) */
 void print_obj(Obj obj);
+void print_list(List* list);

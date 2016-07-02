@@ -11,7 +11,7 @@
 #include <string.h>
 #include "objects.h"
 
-extern int DEBUG;
+// extern int DEBUG;
 
 // bool isQuit(Obj expr) {
 // 	return expr.tag == NAME &&
