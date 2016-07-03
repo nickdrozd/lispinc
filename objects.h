@@ -5,7 +5,7 @@ typedef struct List List;
 
 typedef struct Frame Frame;
 typedef struct Env Env;
-typedef int (*intFunc)(int, int); // ???
+typedef int (*intFunc)(int, int);
 
 /* there are more labels, 
 but these are the ones that 
@@ -75,9 +75,12 @@ struct Env {
 	Env* enclosure;
 };
 
-/* debug mode */
+/* debug / info mode */
 extern int DEBUG;
+extern int INFO;
 
 /* print.c prototypes (for debugging) */
+void debug_register(Obj reg, char* name);
+// hopefully these can be isolated to print.c
 void print_obj(Obj obj);
 void print_list(List* list);

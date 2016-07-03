@@ -1,5 +1,11 @@
 /*
 	TODO:
+		-- copy_env function to prevent
+			naming disputes
+		-- markings for distinct envs
+		-- contract env to go back to
+			prior scope?
+		-- separate lookup table for prim names
 */
 
 #include <stdio.h>
@@ -212,3 +218,26 @@ Env* makeEnv(Frame* frame, Env* enclosure) {
 	return env;
 }
 
+/* lookup table for primitive function names */
+
+// Obj makeBaseEnv(void) {
+// 	List* function_vars = 
+// 		makeList(MKOBJ(NAME, name, "add"), 
+// 			makeList(MKOBJ(NAME, name, "sub"), 
+// 				makeList(MKOBJ(NAME, name, "mul"), 
+// 					makeList(MKOBJ(NAME, name, "div"), NULL))));
+
+// 	List* function_vals = 
+// 		makeList(MKOBJ(FUNC, func, add_), 
+// 			makeList(MKOBJ(FUNC, func, sub_), 
+// 				makeList(MKOBJ(FUNC, func, mul_), 
+// 					makeList(MKOBJ(FUNC, func, div_), NULL))));
+
+// 	Frame* primitives = makeFrame(function_vars, function_vals);
+
+// 	Env* env = makeEnv(primitives, NULL);
+
+// 	Obj env_obj = MKOBJ(ENV, env, env);
+
+// 	return env_obj;
+// }

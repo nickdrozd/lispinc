@@ -1,4 +1,33 @@
 /*
+	PARSE
+
+	The only "public" function here is read_code,
+	which is just a wrapper around two other more
+	substantial functions: tokenize and parse.
+
+	tokenize is a classic finite state automaton
+	for "tokenizing" (i.e. determining the basic
+	meaningful pieces of) the input code string.
+	Because Lisp syntax is so brilliantly simple
+	(only parentheses and whitespace are syntactically
+	significant), the FSA has only two "states".
+	It is implemented entirely with GOTOs, with no
+	function calls at all!***
+
+	*** Actually, it uses the C standard library,
+	but still, it makes no calls to user-defined
+	functions.
+
+	tokenize generates a list of tokens which is
+	then passed to parse. parse, in turn, generates
+	a basic abstract syntax tree. again, because
+	Lisp syntax is so simple, no further analysis
+	is needed. parse generates a single Obj, which
+	may itself contain a List of Objs (see objects.h
+	for details).
+*/
+
+/*
 	TODO:
 		-- fix tokenize for nonlist case
 		-- add scanf (or something) to read_code
@@ -13,17 +42,21 @@
 
 // add scanf?
 // void parameter
+
+// for now...
+extern char* code;
+
 Obj read_code(void) {
 
-	char* expr = "(add 3 4)";
+	//char* expr = "(add 3 4)";
 	//char* expr = "cat";
 	//char* expr = "()";
 	//char* expr = "(quote ())";
 	//char* expr = "(add)";
 	//char* expr = "(add ((addn 3) 4) 7 (mul 5 6))";
 
-	if (DEBUG) printf("%s\n", expr);
-	return parse(tokenize(expr));
+	if (DEBUG) printf("%s\n", code);
+	return parse(tokenize(code));
 }
 
 // TODO: special case for nonlist expr

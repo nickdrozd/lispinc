@@ -86,7 +86,7 @@ Obj ifElse(Obj expr) {
 /* lambda */
 
 bool isLambda(Obj expr) {
-	return hasForm(expr, "fun");
+	return hasForm(expr, "lambda");
 }
 
 Obj lambdaParams(Obj expr) {
@@ -99,10 +99,10 @@ Obj lambdaBody(Obj expr) {
 
 Obj makeFunc(Obj params, Obj body, Obj env) {
 	List* list = 
-		//makeList(MKOBJ(NAME, name, "lambda"),
+		makeList(MKOBJ(NAME, name, "lambda"),
 			makeList(params,
 				makeList(body,
-					makeList(env, NULL)));
+					makeList(env, NULL))));
 
 	Obj obj = MKOBJ(LIST, list, list);
 	return obj;
@@ -162,53 +162,45 @@ bool isLastArg(Obj expr) {
 	return expr.val.list->cdr == NULL;
 }
 
-// adjoinArg
-Obj adjoinArg(Obj val, Obj arglist) {
-	if (DEBUG) printf("%s\n", "adjoining args...");
-	
-	List* list = arglist.val.list;
-	List* head;
-	List* tail;
-	
-	if (list) {
-		tail = malloc(sizeof(List));
-		tail->car = list->car;
-		tail->cdr = NULL;
-		head = tail;
-		list = list->cdr;
-		while (list) {
-			tail->cdr = malloc(sizeof(List));
-			tail = tail->cdr;
-			tail->car = list->car;
-			tail->cdr = NULL;
-			list = list->cdr;
-		}
-		tail = malloc(sizeof(List));
-		tail->car = val;
-		tail->cdr = NULL;
-		return MKOBJ(LIST, list, head);
+/* adjoinArg (with its own helpers) */
+
+void appendObj(Obj obj, List** list) {
+	if (*list == NULL) {
+		*list = malloc(sizeof(List));
+		(*list)->car = obj;
+		(*list)->cdr = NULL;
+		return;
 	}
-	
-	else {
-		head = malloc(sizeof(List));
-		head->car = val;
-		head->cdr = NULL;
-		return MKOBJ(LIST, list, head);
-	}
+	else appendObj(obj, &((*list)->cdr));
 }
 
-// // adjoinArg
-// Obj adjoinArg(Obj val, Obj arglist) {
-// 	if (DEBUG) printf("%s\n", "adjoining args...");
-// 	List* list = arglist.val.list;
-// 	while (list)
-// 		list = list->cdr;
-// 	list = malloc(sizeof(List));
-// 	list->car = val;
-// 	list->cdr = NULL;
-// 	if (DEBUG) print_list(list);
-// 	return MKOBJ(LIST, list, list);
-// }
+List* reverse(List* list) {
+	if (list == NULL)
+		return NULL;
+
+	Obj car = list->car;
+	List* cdr = list->cdr;
+	List* head = reverse(cdr);
+	appendObj(car, &head);
+	return head;
+}
+
+/*
+	adjoinArg conses val to the front of
+	arglist, then reverses the whole thing.
+	this isn't efficient, but it was
+	shockingly and insurmountably difficult
+	to do it more straighforwardly.
+*/
+
+Obj adjoinArg(Obj val, Obj arglist) {
+	List* args = arglist.val.list;
+	List* head = malloc(sizeof(List));
+	head->car = val;
+	head->cdr = args;
+	head = reverse(head);
+	return MKOBJ(LIST, list, head);
+}
 
 Obj restArgs(Obj expr) {
 	return MKOBJ(LIST, list, expr.val.list->cdr);
@@ -225,15 +217,14 @@ bool isCompound(Obj obj) {
 }
 
 Obj applyPrimitive(Obj func, Obj arglist) {
-	if (DEBUG) printf("%s\n", "applying primitive");
+			if (INFO) printf("%s\n", "applying PRIMITIVE...");
+			if (DEBUG) debug_register(arglist, "arglist");
 	List* list = arglist.val.list;
-	if (DEBUG) print_list(list);
 	int arg1 = list->car.val.num;
 	int arg2 = list->cdr->car.val.num;
-	if (DEBUG) printf("arg1: %d, arg2: %d\n", arg1, arg2);
+			if (INFO) printf("arg1: %d\narg2: %d\n", arg1, arg2);
 	intFunc prim = func.val.func;
 	int result = (*prim)(arg1, arg2);
-	if (DEBUG) printf("%d\n", result);
 	return MKOBJ(NUM, num, result);
 }
 
@@ -268,3 +259,103 @@ bool isLastExp(Obj seq) {
 bool noExps(Obj seq) {
 	return seq.val.list == NULL;
 }
+
+
+/* 
+	for posterity: failed attempts at adjoinArg
+	
+	three version (one with a helper)
+ */
+
+// version 1
+
+// Obj adjoinArg(Obj val, Obj arglist) {
+// 	if (DEBUG) printf("%s\n", "adjoining args...");
+// 	List* list = arglist.val.list;
+// 	List* temp = list;
+// 	while (list) {
+// 		print_list(list);
+// 		print_list(temp);
+// 		list = list->cdr;
+// 	}
+// 	list = malloc(sizeof(List));
+// 	list->car = val;
+// 	list->cdr = NULL;
+// 	if (DEBUG) print_list(list);
+// 	return MKOBJ(LIST, list, temp);
+// }
+
+/***/
+
+// version 2
+
+// List* appendObj(Obj obj, List* list) {
+// 	List* result = list;
+// 	while (list != NULL)
+// 		list = list->cdr;
+// 	list = malloc(sizeof(List));
+// 	list->car = obj;
+// 	list->cdr = NULL;
+// 	return result;
+// }
+
+// Obj adjoinArg(Obj arg, Obj argl) {
+// 	List* args = argl.val.list;
+// 	List* result = appendObj(arg, args);
+// 	Obj resobj = { .tag = LIST,
+// 					.val = { .list = result }};
+// 	return resobj;
+// }
+
+/***/
+
+// version 3
+
+// Obj adjoinArg(Obj val, Obj arglist) {
+// 	if (DEBUG) printf("%s\n", "adjoining args...");
+	
+// 	List* list = arglist.val.list;
+// 	List* head = NULL;
+// 	List* tail = NULL;
+	
+// 	if (list) {
+// 		print_list(list);
+// 		print_list(list->cdr);
+// 		tail = malloc(sizeof(List));
+// 		tail->car = list->car;
+// 		tail->cdr = NULL;
+// 		head = tail;
+// 		print_list(tail);
+// 		print_list(head);
+// 		list = list->cdr;
+// 		while (list) {
+// 			print_list(list);
+// 			print_list(tail);
+// 			print_list(head);
+// 			tail->cdr = malloc(sizeof(List));
+// 			tail = tail->cdr;
+// 			tail->car = list->car;
+// 			tail->cdr = NULL;
+// 			list = list->cdr;
+// 		}
+// 		tail = malloc(sizeof(List));
+// 		tail->car = val;
+// 		tail->cdr = NULL;
+// 		// return MKOBJ(LIST, list, head);
+// 	}
+	
+// 	else {
+// 		head = malloc(sizeof(List));
+// 		head->car = val;
+// 		head->cdr = NULL;
+// 		// return MKOBJ(LIST, list, head);
+// 	}
+
+// 	printf("\n");
+// 	print_list(head);
+// 	printf("\n");
+// 	return MKOBJ(LIST, list, head);
+// }
+
+/***/
+

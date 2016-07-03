@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include "objects.h"
 
-List* stack = NULL;
+extern List* stack;
 
 void save(Obj reg) {
 	if (DEBUG) printf("%s\n", "save!");

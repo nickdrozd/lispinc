@@ -4,6 +4,8 @@ Obj read_code(void);
 /* print.c */
 void print_info(void);
 void print_stack(void);
+void debug_register(Obj register, char* name);
+void print_final_val(void);
 
 /* stack.c */
 void save(Obj reg);
