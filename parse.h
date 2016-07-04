@@ -1,3 +1,8 @@
+/*
+	Token and Token_list types, passed
+	from tokenize to parse, and prototypes
+*/
+
 /* tokens */
 
 typedef struct Token Token;

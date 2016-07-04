@@ -67,7 +67,8 @@
 #define empty_arglist MKOBJ(LIST, list, NULL)
 
 int DEBUG = 0;
-int INFO = 1;
+int INFO = 0;
+int STATS = 1;
 
 /* until scanf gets sorted out... */
 
@@ -406,7 +407,8 @@ int main(void) {
 
 	DONE:
 				if (INFO) { printf("\n\n@ DONE\n"); print_info(); }
-		void print_final_val(void);
+		print_final_val();
+				if (STATS) print_stats();
 		// goto START; // can't do repl until input gets sorted out
 		//print_list(stack); // to silence warning
 		return 0;

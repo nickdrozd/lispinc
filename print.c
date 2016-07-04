@@ -1,8 +1,18 @@
 /*
+	PRINT
+
+	Some print functions, mostly used for debugging.
+	In general, the low-level print functions 
+	print_obj and print_list shouldn't be called
+	directly, debug_register being preferred.
+*/
+
+/*
 	TODO:
 		-- figure out how to mark envs
 			so that printing them is useful
 		-- separate lookup table for prim names
+		-- what's wrong with print_final_val?
 */
 
 #include <stdio.h>
@@ -19,6 +29,9 @@ extern Obj func;
 extern Obj arglist;
 extern Obj unev;
 extern List* stack;
+
+extern int save_count;
+extern int max_stack_depth;
 
 void print_registers(void);
 void print_stack(void);
@@ -65,10 +78,15 @@ void print_stack(void) {
 	PRDIV;
 }
 
+void print_stats(void) {
+	printf("*** STATS ***\n");
+	printf("Total number of saves: %d\n", save_count);
+	printf("Maximum stack depth: %d\n", max_stack_depth);
+}
+
 void print_final_val(void) {
 	printf("VALUE: ");
 	print_obj(val); NL;
-	printf("hello\n");
 }
 
 // is there a better way to include the register name?

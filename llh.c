@@ -1,17 +1,30 @@
 /*
-	TODO:
-		-- figure out isTrue
+	Low-Level Helpers
+
+	These functions perform mostly boring
+	tasks like determing whether an expression
+	is lambda expression. The idea is that in
+	a real register machine, these would be
+	implemented as primitive machine operations.
+
+	One function, adjoinArgs, turned out to be
+	bizarrely difficult to implement correctly 
+	and stalled the whole project for three days.
+	Several failed attempts have been preserved
+	at the end of the file
 */
 
-// low-level helper functions
+/*
+	TODO:
+		-- figure out isTrue
+		-- should isQuit be here? parse.c?
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
 #include "objects.h"
-
-// extern int DEBUG;
 
 // bool isQuit(Obj expr) {
 // 	return expr.tag == NAME &&

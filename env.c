@@ -1,5 +1,63 @@
 /*
+	ENV
+
+	The evaluation environment is a lookup
+	table wherein names (variables) are bound
+	to values. The heart of Lisp is lambdas,
+	and lambdas are evaluated by extending
+	the enviroment with the lambdas variables
+	bound to its arguments.
+
+	Typewise, an Env is a struct containing 
+	a pointer to another Env (its 'enclosing
+	enviroment' or 'enclosure') and a pointer
+	to a Frame. A Frame is a linked list of
+	key / value pairs. For convenience, both
+	keys and values are wrapped in the Obj
+	type (see objects.h for definitions).
+
+	[ add a diagram here? ]
+
+	Functions
+
+	makeBaseEnv returns a pointer to an
+	enviroment with basic arithmetic operations
+	defined. More primitive functions can be
+	added later.
+
+	lookup takes two Objs as arguments, the
+	first of type NAME and the second of type
+	ENV. It looks up the name in the env and
+	returns the bound value.
+
+	defineVar and setVar each take three Objs as
+	arguments, with the first of type NAME and 
+	the third of type ENV (the second can be
+	anything.) setVar sets the first occurence
+	of the name in the env to the value (raising
+	an error if the name is unbound), while
+	defineVar sets the name to the value in the
+	'topmost' level of the environment, adding
+	a new Frame binding if the name is unboind.
+
+	extendEnv takes two List Objs (the first being
+	a List of NAME Objs) and an Env Obj and adds
+	a returns a new Env Obj, the frame of which is
+	the two Lists zipped together and the enclosure
+	of which is the first Env.
+
+	Note that these functions all take Objs as
+	arguments: this is because they have to
+	interface the registers of the evaluator,
+	which are all of type Obj. In general, the
+	functions in this file that operate on types
+	other than Obj are 'private' functions, and
+	the Obj-valued functions are 'public'.
+*/
+
+/*
 	TODO:
+		-- extendEnv doesn't work
 		-- copy_env function to prevent
 			naming disputes
 		-- markings for distinct envs

@@ -1,3 +1,14 @@
+/*
+	DECLARATIONS
+
+	These are all the functions used by ec_main.c
+	but defined elsewhere. Ideally there should
+	be as few of these as possible. For instance,
+	read_code calls tokenize and parse, but main
+	doesn't see either of those. Information
+	hiding, separation of concerns, blah blah blah.
+*/
+
 /* parse.c */
 Obj read_code(void);
 
@@ -6,6 +17,7 @@ void print_info(void);
 void print_stack(void);
 void debug_register(Obj register, char* name);
 void print_final_val(void);
+void print_stats(void);
 
 /* stack.c */
 void save(Obj reg);
