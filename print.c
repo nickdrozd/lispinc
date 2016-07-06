@@ -57,9 +57,9 @@ void print_registers(void) {
 	print_obj(arglist); NL;
 	printf("-- %s -- \n", "UNEV");
 	print_obj(unev); NL;
-	// is it possible to mark envs?
-	// printf("-- %s -- \n", "ENV");
-	// print_obj(env); NL;
+	// identify envs with their pointers
+	printf("-- %s -- \n", "ENV");
+	print_obj(env); NL;
 }
 
 void print_stack(void) {
@@ -115,13 +115,13 @@ void print_obj(Obj obj) {
 			printf("%s ", ":func:");
 			break;
 		case ENV:
-			printf("%s ", "env");
+			printf("%p ", obj.val.env);
 			break;
 		case LABEL:
 			print_label(obj.val.label);
 			break;
 		case DUMMY:
-			printf("%s ", "DUMMY");
+			printf("%s ", "???");
 			break;
 		case UNINIT:
 			printf("%s ", "***");
@@ -135,7 +135,7 @@ void print_obj(Obj obj) {
 
 void print_list(List* list) {
 	if (list == NULL) {
-		printf("%s", ")");
+		printf("%s", ") ");
 		return;
 	}
 	print_obj(list->car);

@@ -66,14 +66,18 @@
 
 #define empty_arglist MKOBJ(LIST, list, NULL)
 
-int DEBUG = 0;
-int INFO = 0;
+int DEBUG = 1;
+int INFO = 1;
 int STATS = 1;
 
 /* until scanf gets sorted out... */
 
-char* code = "(add (sub 2 7) (mul 5 6))";
+//char* code = "add";
+//char* code = "cat";
+//char* code = "(add (sub 2 7) (mul 5 6))";
 //char* code = "((lambda (x) (add x 3)) 5)";
+//char* code = "(add 3 cat)";
+char* code = "(quote (a b c))";
 
 Obj expr;
 Obj val;
@@ -85,7 +89,7 @@ Obj env;
 List* stack;
 
 int main(void) {
-	if (DEBUG) printf("%s\n", "starting main...");
+			if (DEBUG) printf("%s\n\n", "starting main...");
 
 	expr = MKOBJ(UNINIT, uninit, 0);
 	val = MKOBJ(UNINIT, uninit, 0);
@@ -96,12 +100,13 @@ int main(void) {
 
 	env = makeBaseEnv();
 
+			if (DEBUG) printf("base_env: %p\n", env.val.env);
+
 	List* stack = NULL;
 
 	START:
-		if (INFO) { printf("\n\n@ START\n"); print_info(); }
+				if (INFO) { printf("\n\n@ START\n"); print_info(); }
 		expr = read_code();
-		if (DEBUG) printf("%s\n", "code read!");
 		// if (isQuit(expr)) 
 		// 	return 0;
 		// debug options
@@ -109,7 +114,7 @@ int main(void) {
 		goto EVAL;
 
 	CONTINUE:
-		if (INFO) { printf("\n\n@ CONTINUE\n"); print_info(); }
+				if (INFO) { printf("\n\n@ CONTINUE\n"); print_info(); }
 		if (cont.val.label == _DONE)
 			goto DONE;
 		if (cont.val.label == _IF_DECIDE)
@@ -130,7 +135,7 @@ int main(void) {
 			goto ALT_SEQ_CONT;
 
 	EVAL:
-		if (INFO) { printf("\n\n@ EVAL\n"); print_info(); }
+				if (INFO) { printf("\n\n@ EVAL\n"); print_info(); }
 		if (isNum(expr))
 			goto NUMBER;
 		if (isVar(expr))
@@ -151,27 +156,29 @@ int main(void) {
 
 
 	NUMBER:
-		if (INFO) { printf("\n\n@ NUMBER\n"); print_info(); }
+				if (INFO) { printf("\n\n@ NUMBER\n"); print_info(); }
 		val = expr;
 		goto CONTINUE;
 
 	VARIABLE:
-		if (INFO) { printf("\n\n@ VARIABLE\n"); print_info(); }
-		if (DEBUG) printf("%s\n", expr.val.name);
+				if (INFO) { printf("\n\n@ VARIABLE\n"); print_info(); }
+				if (DEBUG) printf("%s\n", expr.val.name);
 		val = lookup(expr, env);
 		if (val.tag == DUMMY)
 			goto UNBOUND;
 		goto CONTINUE;
 
 	UNBOUND:
-		if (INFO) { printf("\n\n@ UNBOUND\n"); print_info(); }
-		printf("unbound variable: %s!\n", expr.val.name);
+				if (INFO) { printf("\n\n@ UNBOUND\n"); print_info(); }
+		printf("UNBOUND VARIABLE: \"%s\"!\n", expr.val.name);
 		printf("%s\n", "clearing stack...");
 		clear_stack();
-		goto START;
+		// if in repl mode,
+		// goto START;
+		goto ERROR;
 
 	QUOTATION:
-		if (INFO) { printf("\n\n@ QUOTATION\n"); print_info(); }
+				if (INFO) { printf("\n\n@ QUOTATION\n"); print_info(); }
 		val = quotedText(expr);
 		goto CONTINUE;
 
@@ -411,6 +418,11 @@ int main(void) {
 				if (STATS) print_stats();
 		// goto START; // can't do repl until input gets sorted out
 		//print_list(stack); // to silence warning
+		return 0;
+
+	ERROR:
+		// put something interesting here?
+		// what to do?
 		return 0;
 }
 

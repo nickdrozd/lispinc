@@ -60,7 +60,7 @@ bool isQuote(Obj expr) {
 }
 
 Obj quotedText(Obj expr) {
-	return MKOBJ(LIST, list, expr.val.list->cdr);
+	return expr.val.list->cdr->car;
 }
 
 /* begin */

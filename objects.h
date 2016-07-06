@@ -48,9 +48,9 @@
 	it requires nesting brackets, and MKOBJ is both
 	easier to type and easier to read.
 
-	The Env type is included here because it's part
-	of Val, and the Frame type is included because
-	it's part of Env. See env.c for details.
+	//The Env type is included here because it's part
+	//of Val, and the Frame type is included because
+	//it's part of Env. See env.c for details.
 
 	Besides all that, objects.h contains prototypes
 	for print functions and debugging flags. These
@@ -58,6 +58,9 @@
 	universally included, it's convenient to put 
 	them here. See print.c for definitions.
 */
+
+#ifndef OBJECTS_GUARD
+#define OBJECTS_GUARD
 
 /* typedefs */
 typedef union Val Val;
@@ -123,19 +126,6 @@ struct List {
 #define MKOBJ(TAG,VALTYPE,VAL) (Obj){.tag = TAG, .val = (Val){.VALTYPE = VAL}}
 List* makeList(Obj car, List* cdr);
 
-/* frames and envs */
-
-struct Frame {
-	char* key;
-	Obj val;
-	Frame* next;
-};
-
-struct Env {
-	Frame* frame;
-	Env* enclosure;
-};
-
 /* debug / info mode */
 extern int DEBUG;
 extern int INFO;
@@ -146,3 +136,5 @@ void debug_register(Obj reg, char* name);
 // hopefully these can be isolated to print.c
 void print_obj(Obj obj);
 void print_list(List* list);
+
+#endif

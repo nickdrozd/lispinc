@@ -73,6 +73,20 @@
 
 extern int DEBUG;
 
+/* frames and envs */
+// (declared in objects.h)
+
+struct Frame {
+	char* key;
+	Obj val;
+	Frame* next;
+};
+
+struct Env {
+	Frame* frame;
+	Env* enclosure;
+};
+
 // prototypes
 Frame* makeFrame(List* vars, List* vals);
 Env* makeEnv(Frame* frame, Env* enclosure);
@@ -298,4 +312,12 @@ Env* makeEnv(Frame* frame, Env* enclosure) {
 // 	Obj env_obj = MKOBJ(ENV, env, env);
 
 // 	return env_obj;
+// }
+
+
+
+
+
+// Obj extendEnv(Obj vars_obj, Obj vals_obj, Obj base_env_obj) {
+	
 // }

@@ -55,7 +55,7 @@ Obj read_code(void) {
 	//char* expr = "(add)";
 	//char* expr = "(add ((addn 3) 4) 7 (mul 5 6))";
 
-	printf("LISP CODE: %s\n", code);
+	printf("\nLISP CODE: %s\n", code);
 	return parse(tokenize(code));
 }
 
