@@ -53,11 +53,11 @@
 	functions in this file that operate on types
 	other than Obj are 'private' functions, and
 	the Obj-valued functions are 'public'.
+	EDIT: changed makeBaseEnv type
 */
 
 /*
 	TODO:
-		-- extendEnv doesn't work
 		-- copy_env function to prevent
 			naming disputes
 		-- markings for distinct envs
@@ -73,20 +73,6 @@
 
 extern int DEBUG;
 
-/* frames and envs */
-// (declared in objects.h)
-
-struct Frame {
-	char* key;
-	Obj val;
-	Frame* next;
-};
-
-struct Env {
-	Frame* frame;
-	Env* enclosure;
-};
-
 // prototypes
 Frame* makeFrame(List* vars, List* vals);
 Env* makeEnv(Frame* frame, Env* enclosure);
@@ -99,7 +85,7 @@ Obj lookup(Obj var_obj, Obj env_obj);
 void defineVar(Obj var_obj, Obj val_obj, Obj env_obj);
 void setVar(Obj var_obj, Obj val_obj, Obj env_obj);
 
-Obj makeBaseEnv(void);
+Env* makeBaseEnv(void);
 
 /* primitive functions */
 
@@ -126,7 +112,7 @@ intFunc div_ = div_func;
 
 /* base_env */
 
-Obj makeBaseEnv(void) {
+Env* makeBaseEnv(void) {
 	List* function_vars = 
 		makeList(MKOBJ(NAME, name, "add"), 
 			makeList(MKOBJ(NAME, name, "sub"), 
@@ -143,9 +129,9 @@ Obj makeBaseEnv(void) {
 
 	Env* env = makeEnv(primitives, NULL);
 
-	Obj env_obj = MKOBJ(ENV, env, env);
+	// Obj env_obj = MKOBJ(ENV, env, env);
 
-	return env_obj;
+	// return env_obj;
 }
 
 /* lookup in env */
@@ -241,19 +227,19 @@ void setVar(Obj var_obj, Obj val_obj, Obj env_obj) {
 }
 
 // add a new frame to base_env, return pointer to new env
-Obj extendEnv(Obj vars_obj, Obj vals_obj, Obj base_env_obj) {
-	List* vars = vars_obj.val.list;
-	List* vals = vals_obj.val.list;
-	Env* base_env = base_env_obj.val.env;
+// Obj extendEnv(Obj vars_obj, Obj vals_obj, Obj base_env_obj) {
+// 	List* vars = vars_obj.val.list;
+// 	List* vals = vals_obj.val.list;
+// 	Env* base_env = base_env_obj.val.env;
 
-	Frame* frame = makeFrame(vars, vals);
-	Env* ext_env = malloc(sizeof(Env));
-	ext_env->frame = frame;
-	ext_env->enclosure = base_env;
+// 	Frame* frame = makeFrame(vars, vals);
+// 	Env* ext_env = malloc(sizeof(Env));
+// 	ext_env->frame = frame;
+// 	ext_env->enclosure = base_env;
 
-	Obj ext_env_obj = MKOBJ(ENV, env, ext_env);
-	return ext_env_obj;
-}
+// 	Obj ext_env_obj = MKOBJ(ENV, env, ext_env);
+// 	return ext_env_obj;
+// }
 
 /* constructors */
 
@@ -318,6 +304,13 @@ Env* makeEnv(Frame* frame, Env* enclosure) {
 
 
 
-// Obj extendEnv(Obj vars_obj, Obj vals_obj, Obj base_env_obj) {
-	
-// }
+Obj extendEnv(Obj vars_obj, Obj vals_obj, Obj base_env_obj) {
+	List* vars = vars_obj.val.list;
+	List* vals = vals_obj.val.list;
+	Env* base_env = base_env_obj.val.env;
+
+	Frame* frame = makeFrame(vars, vals);
+	Env* ext_env = makeEnv(frame, base_env);
+
+	return MKOBJ(ENV, env, ext_env);
+}

@@ -122,6 +122,19 @@ struct List {
 	List* cdr;
 };
 
+/* frames and envs */
+
+struct Frame {
+	char* key;
+	Obj val;
+	Frame* next;
+};
+
+struct Env {
+	Frame* frame;
+	Env* enclosure;
+};
+
 /* constructors */
 #define MKOBJ(TAG,VALTYPE,VAL) (Obj){.tag = TAG, .val = (Val){.VALTYPE = VAL}}
 List* makeList(Obj car, List* cdr);

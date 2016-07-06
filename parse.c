@@ -95,7 +95,7 @@ Token_list* tokenize(char* expr) {
 			goto OPEN;
 		if (c == ')')
 			goto CLOSE;
-		if (c == ' ' || c == '\n')
+		if (c == ' ' || c == '\n' || c == '\t')
 			goto WHITESPACE;
 		if (isalnum(c))
 			goto TEXT;

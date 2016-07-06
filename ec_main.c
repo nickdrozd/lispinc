@@ -4,9 +4,6 @@
 			:: env, parse
 		-- figure out scanf
 		-- double check labels in objects.h
-		-- quotation?
-		-- something wrong with extendEnv
-		-- print_final_val
 		-- lookup table for primitive names
 */
 
@@ -66,18 +63,21 @@
 
 #define empty_arglist MKOBJ(LIST, list, NULL)
 
-int DEBUG = 1;
+int DEBUG = 0;
 int INFO = 1;
 int STATS = 1;
 
 /* until scanf gets sorted out... */
 
-//char* code = "add";
+char* code = 
+
+//"add";
 //char* code = "cat";
-//char* code = "(add (sub 2 7) (mul 5 6))";
-//char* code = "((lambda (x) (add x 3)) 5)";
-//char* code = "(add 3 cat)";
-char* code = "(quote (a b c))";
+//"(add (sub 2 7) (mul 5 6))";
+//"((lambda (x) (add x 3)) 5)";
+"(((lambda (x) (lambda (y) (add x y))) 3) 4)";
+//"(add 3 cat)";
+//"(quote (a b c))";
 
 Obj expr;
 Obj val;
@@ -86,10 +86,16 @@ Obj func;
 Obj arglist;
 Obj unev;
 Obj env;
+
 List* stack;
+
+Env* base_env;
 
 int main(void) {
 			if (DEBUG) printf("%s\n\n", "starting main...");
+
+	// needed for repl?
+	base_env = makeBaseEnv();
 
 	expr = MKOBJ(UNINIT, uninit, 0);
 	val = MKOBJ(UNINIT, uninit, 0);
@@ -98,9 +104,9 @@ int main(void) {
 	arglist = MKOBJ(UNINIT, uninit, 0);
 	unev = MKOBJ(UNINIT, uninit, 0);
 
-	env = makeBaseEnv();
+	env = MKOBJ(ENV, env, base_env);
 
-			if (DEBUG) printf("base_env: %p\n", env.val.env);
+			if (INFO) printf("base_env: %p\n", env.val.env);
 
 	List* stack = NULL;
 
@@ -354,9 +360,13 @@ int main(void) {
 	APPLY_COMPOUND:
 				if (INFO) { printf("\n\n@ APPLY_COMPOUND\n"); print_info(); }
 		unev = funcParams(func);
+				if (DEBUG) debug_register(unev, "unev");
 		env = funcEnv(func);
+				if (DEBUG) debug_register(env, "env");
 		env = extendEnv(unev, arglist, env);
+				if (DEBUG) debug_register(env, "env");
 		unev = funcBody(func);
+				if (DEBUG) debug_register(unev, "unev");
 		goto SEQUENCE; // why not eval?
 		// goto ALT_SEQUENCE; 
 			// use ternary with tail_recursion switch to choose

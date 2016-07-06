@@ -235,22 +235,24 @@ Obj applyPrimitive(Obj func, Obj arglist) {
 	List* list = arglist.val.list;
 	int arg1 = list->car.val.num;
 	int arg2 = list->cdr->car.val.num;
-			if (INFO) printf("arg1: %d\narg2: %d\n", arg1, arg2);
+			if (INFO) printf("arg1: %d\narg2: %d\n\n", arg1, arg2);
 	intFunc prim = func.val.func;
 	int result = (*prim)(arg1, arg2);
 	return MKOBJ(NUM, num, result);
 }
 
-Obj funcParams(Obj obj) {
-	return obj.val.list->car;
-}
+// make sure these coordinate with makeFunc
 
-Obj funcBody(Obj obj) {
+Obj funcParams(Obj obj) {
 	return obj.val.list->cdr->car;
 }
 
+Obj funcBody(Obj obj) {
+	return MKOBJ(LIST, list, obj.val.list->cdr->cdr);
+}
+
 Obj funcEnv(Obj obj) {
-	return obj.val.list->cdr->cdr->car;
+	return obj.val.list->cdr->cdr->cdr->car;
 }
 
 // extendEnv in env.c
