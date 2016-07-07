@@ -79,14 +79,14 @@ char* code =
 //"((lambda (x) (add x 3)) 5)";
 //"(((lambda (x) (lambda (y) (add x y))) 3) 4)";
 //"((lambda (a b) (div a b)) 36 9)";
-"(quote (a b c))";
+//"(quote (a b c))";
 
-// "(begin (define factorial "
-// 		"(lambda (n) "
-// 			"(if (eq n 0) "
-// 				"1 "
-// 				"(mul n (factorial (sub n 1)))))) "
-// 	"(factorial 6))";
+"(begin (define factorial "
+		"(lambda (n) "
+			"(if (eq n 0) "
+				"1 "
+				"(mul n (factorial (sub n 1)))))) "
+	"(factorial 6))";
 
 Obj expr;
 Obj val;
@@ -110,7 +110,7 @@ int main(void) {
 	// needed for repl?
 	base_env = makeBaseEnv();
 
-			if (INFO) printf("base_env: %p\n", env.val.env);
+			if (INFO) printf("base_env: %p\n", base_env);
 
 	// List* stack = NULL;
 
@@ -397,7 +397,7 @@ int main(void) {
 	SEQUENCE: // SEQUENCE never receives an empty list
 				if (INFO) { printf("\n\n@ SEQUENCE\n"); print_info(); }
 		expr = firstExp(unev);
-		if (isLastExp(unev));
+		if (isLastExp(unev))
 			goto LAST_EXP;
 		save(unev);
 		save(env);

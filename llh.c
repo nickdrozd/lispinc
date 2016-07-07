@@ -275,7 +275,7 @@ Obj restExps(Obj seq) {
 }
 
 bool isLastExp(Obj seq) {
-	return (restExps(seq)).val.list == NULL;
+	return (restExps(seq)).val.list->cdr = NULL;
 }
 
 bool noExps(Obj seq) {
