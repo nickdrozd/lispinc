@@ -1,8 +1,11 @@
+CC = gcc
+CFLAGS = -Wall
+
 lispinc: ec_main.c objects
-	cc *.o ec_main.c -o lispinc
+	$(CC) *.o ec_main.c -o lispinc $(CFLAGS)
 
 objects: env.c llh.c parse.c print.c stack.c
-	cc env.c llh.c parse.c print.c stack.c -c
+	$(CC) env.c llh.c parse.c print.c stack.c -c
 
 .PHONY: clean
 clean: 

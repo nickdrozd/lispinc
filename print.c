@@ -114,7 +114,7 @@ void print_obj(Obj obj) {
 			print_list(obj.val.list);
 			break;
 		case FUNC:
-			printf("%s\n", ":func:");
+			printf("%s", ":func:");
 			// printf("primitive func: %s ", 
 			// 	lookup_func_name(obj));
 			break;

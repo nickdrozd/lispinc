@@ -5,6 +5,9 @@
 		-- figure out scanf
 		-- double check labels in objects.h
 		-- lookup table for primitive names
+		-- is STATS needed?
+		-- add registers.c
+			-- initialize_registers()
 */
 
 /*
@@ -61,8 +64,6 @@
 			all other registers may be destroyed
 */
 
-#define empty_arglist MKOBJ(LIST, list, NULL)
-
 int DEBUG = 0;
 int INFO = 1;
 int STATS = 1;
@@ -72,11 +73,12 @@ int STATS = 1;
 char* code = 
 
 //"add";
-//char* code = "cat";
+//"cat";
 //"(add (sub 2 7) (mul 5 6))";
-//"((lambda (x) (add x 3)) 5)";
-"(((lambda (x) (lambda (y) (add x y))) 3) 4)";
 //"(add 3 cat)";
+//"((lambda (x) (add x 3)) 5)";
+//"(((lambda (x) (lambda (y) (add x y))) 3) 4)";
+"((lambda (a b) (div a b)) 36 9)";
 //"(quote (a b c))";
 
 Obj expr;
@@ -91,26 +93,38 @@ List* stack;
 
 Env* base_env;
 
+#define empty_arglist MKOBJ(LIST, list, NULL)
+#define empty_stack NULL;
+//#define uninitialized_register MKOBJ(UNINIT, uninit, 0)
+
 int main(void) {
 			if (DEBUG) printf("%s\n\n", "starting main...");
 
 	// needed for repl?
 	base_env = makeBaseEnv();
 
-	expr = MKOBJ(UNINIT, uninit, 0);
-	val = MKOBJ(UNINIT, uninit, 0);
-	cont = MKOBJ(UNINIT, uninit, 0);
-	func = MKOBJ(UNINIT, uninit, 0);
-	arglist = MKOBJ(UNINIT, uninit, 0);
-	unev = MKOBJ(UNINIT, uninit, 0);
-
-	env = MKOBJ(ENV, env, base_env);
-
 			if (INFO) printf("base_env: %p\n", env.val.env);
 
-	List* stack = NULL;
+	// List* stack = NULL;
+
+	// expr = MKOBJ(UNINIT, uninit, 0);
+	// val = MKOBJ(UNINIT, uninit, 0);
+	// cont = MKOBJ(UNINIT, uninit, 0);
+	// func = MKOBJ(UNINIT, uninit, 0);
+	// arglist = MKOBJ(UNINIT, uninit, 0);
+	// unev = MKOBJ(UNINIT, uninit, 0);
+
+	// env = MKOBJ(ENV, env, base_env);
 
 	START:
+		stack = empty_stack;
+		expr = MKOBJ(UNINIT, uninit, 0);
+		val = MKOBJ(UNINIT, uninit, 0);
+		cont = MKOBJ(UNINIT, uninit, 0);
+		func = MKOBJ(UNINIT, uninit, 0);
+		arglist = MKOBJ(UNINIT, uninit, 0);
+		unev = MKOBJ(UNINIT, uninit, 0);
+		env = MKOBJ(ENV, env, base_env);
 				if (INFO) { printf("\n\n@ START\n"); print_info(); }
 		expr = read_code();
 		// if (isQuit(expr)) 
@@ -269,7 +283,7 @@ int main(void) {
 		restore(&cont);
 		restore(&env);
 		restore(&unev);
-		defineVar(unev, val, env); // var, val, env
+		defineVar(unev, val, &env); // var, val, env
 		// val = ASS_DEF_RETURN_VAL;
 		goto CONTINUE;
 
