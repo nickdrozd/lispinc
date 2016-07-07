@@ -26,7 +26,7 @@ void clear_stack(void);
 
 /* env.c */
 Obj lookup(Obj var_obj, Obj env_obj);
-void defineVar(Obj var_obj, Obj val_obj, Obj env_obj);
+void defineVar(Obj var_obj, Obj val_obj, Obj* env_obj);
 void setVar(Obj var_obj, Obj val_obj, Obj env_obj);
 Obj extendEnv(Obj vars_obj, Obj vals_obj, Obj base_env_obj);
 Env* makeBaseEnv(void);

@@ -82,7 +82,7 @@ Obj lookup_in_frame(char* var, Frame* frame);
 Obj lookup_in_env(char* var, Env* env);
 Obj lookup(Obj var_obj, Obj env_obj);
 
-void defineVar(Obj var_obj, Obj val_obj, Obj env_obj);
+void defineVar(Obj var_obj, Obj val_obj, Obj* env_obj);
 void setVar(Obj var_obj, Obj val_obj, Obj env_obj);
 
 Env* makeBaseEnv(void);
@@ -105,10 +105,18 @@ int div_func(int a, int b) {
 	return a / b; // floor division
 }
 
+int eq_func(int a, int b) {
+	if (a == b)
+		return 1;
+	else
+		return 0;
+}
+
 intFunc add_ = add_func;
 intFunc sub_ = sub_func;
 intFunc mul_ = mul_func;
 intFunc div_ = div_func;
+intFunc eq_ = eq_func;
 
 /* base_env */
 
@@ -117,13 +125,15 @@ Env* makeBaseEnv(void) {
 		makeList(MKOBJ(NAME, name, "add"), 
 			makeList(MKOBJ(NAME, name, "sub"), 
 				makeList(MKOBJ(NAME, name, "mul"), 
-					makeList(MKOBJ(NAME, name, "div"), NULL))));
+					makeList(MKOBJ(NAME, name, "div"), 
+						makeList(MKOBJ(NAME, name, "eq"), NULL)))));
 
 	List* function_vals = 
 		makeList(MKOBJ(FUNC, func, add_), 
 			makeList(MKOBJ(FUNC, func, sub_), 
 				makeList(MKOBJ(FUNC, func, mul_), 
-					makeList(MKOBJ(FUNC, func, div_), NULL))));
+					makeList(MKOBJ(FUNC, func, div_), 
+						makeList(MKOBJ(FUNC, func, eq_), NULL)))));
 
 	Frame* primitives = makeFrame(function_vars, function_vals);
 
@@ -176,26 +186,42 @@ Obj lookup_in_frame(char* var, Frame* frame) { // helper for lookup
 /* modify env */
 
 // add keyval to first frame in env
-void defineVar(Obj var_obj, Obj val_obj, Obj env_obj) {
+// void defineVar(Obj var_obj, Obj val_obj, Obj* env_obj) {
+// 			if (DEBUG) printf("%s\n", "defining...");
+// 	char* var = var_obj.val.name;
+// 	Env* env = (*env_obj).val.env;
+
+// 	Frame* frame = env->frame;
+
+// 	while (frame != NULL) {
+// 		if (strcmp(var, frame->key) == 0) {
+// 			frame->val = val_obj;
+// 			printf("\"%s\" already defined!\n", var);
+// 			return;
+// 		}
+// 			if (DEBUG) printf("checking next frame...\n");
+// 		frame = frame->next; // cdr down frame list
+// 	}
+
+// 			if (DEBUG) printf("var unbound! adding var...\n");
+
+// 	// frame == NULL
+// 	frame = malloc(sizeof(Frame));
+// 	frame->key = var;
+// 	frame->val = val_obj;
+// 	frame->next = NULL;
+// 	return;
+// }
+
+void defineVar(Obj var_obj, Obj val_obj, Obj* env_obj) {
 	char* var = var_obj.val.name;
-	Env* env = env_obj.val.env;
+	Env* env = (*env_obj).val.env;
 
-	Frame* frame = env->frame;
-
-	while (frame != NULL) {
-		if (strcmp(var, frame->key) == 0) {
-			frame->val = val_obj;
-			return;
-		}
-
-		frame = frame->next; // cdr down frame list
-	}
-
-	// frame == NULL
-	frame = malloc(sizeof(Frame));
+	Frame* frame = malloc(sizeof(Frame));
 	frame->key = var;
 	frame->val = val_obj;
-	frame->next = NULL;
+	frame->next = env->frame;
+	env->frame = frame;
 	return;
 }
 
