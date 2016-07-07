@@ -78,8 +78,15 @@ char* code =
 //"(add 3 cat)";
 //"((lambda (x) (add x 3)) 5)";
 //"(((lambda (x) (lambda (y) (add x y))) 3) 4)";
-"((lambda (a b) (div a b)) 36 9)";
-//"(quote (a b c))";
+//"((lambda (a b) (div a b)) 36 9)";
+"(quote (a b c))";
+
+// "(begin (define factorial "
+// 		"(lambda (n) "
+// 			"(if (eq n 0) "
+// 				"1 "
+// 				"(mul n (factorial (sub n 1)))))) "
+// 	"(factorial 6))";
 
 Obj expr;
 Obj val;

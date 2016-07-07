@@ -26,6 +26,13 @@
 #include <string.h>
 #include "objects.h"
 
+#define QUOTE_KEY "quote"
+#define BEGIN_KEY "begin"
+#define IF_KEY "if"
+#define FUN_KEY "lambda"
+#define DEF_KEY "define"
+#define ASS_KEY "set!"
+
 // bool isQuit(Obj expr) {
 // 	return expr.tag == NAME &&
 // 		strcmp(expr.val.name, "quit") == 1;
@@ -56,7 +63,7 @@ bool hasForm(Obj expr, char* form) {
 /* quotation */
 
 bool isQuote(Obj expr) {
-	return hasForm(expr, "quote");
+	return hasForm(expr, QUOTE_KEY);
 }
 
 Obj quotedText(Obj expr) {
@@ -66,7 +73,7 @@ Obj quotedText(Obj expr) {
 /* begin */
 
 bool isBegin(Obj expr) {
-	return hasForm(expr, "begin");
+	return hasForm(expr, BEGIN_KEY);
 }
 
 Obj beginActions(Obj expr) {
@@ -76,7 +83,7 @@ Obj beginActions(Obj expr) {
 /* if (and other boolean macros) */
 
 bool isIf(Obj expr) {
-	return hasForm(expr, "if");
+	return hasForm(expr, IF_KEY);
 }
 
 Obj ifTest(Obj expr) {
@@ -99,7 +106,7 @@ Obj ifElse(Obj expr) {
 /* lambda */
 
 bool isLambda(Obj expr) {
-	return hasForm(expr, "lambda");
+	return hasForm(expr, FUN_KEY);
 }
 
 Obj lambdaParams(Obj expr) {
@@ -124,7 +131,7 @@ Obj makeFunc(Obj params, Obj body, Obj env) {
 /* ass, def */
 
 bool isAss(Obj expr) {
-	return hasForm(expr, "set!");
+	return hasForm(expr, ASS_KEY);
 }
 
 Obj assVar(Obj expr) {
@@ -138,7 +145,7 @@ Obj assVal(Obj expr) {
 // -- setVar in env.c
 
 bool isDef(Obj expr) {
-	return hasForm(expr, "def");
+	return hasForm(expr, DEF_KEY);
 }
 
 Obj defVar(Obj expr) {
