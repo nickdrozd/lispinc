@@ -29,7 +29,7 @@
 
 /*
 	TODO:
-		-- fix tokenize for nonlist case
+		-- fix tokenize for nonlist case // not a problem anymore?
 		-- add scanf (or something) to read_code
 */
 
@@ -44,23 +44,19 @@
 // void parameter
 
 // for now...
-extern char* code;
+// extern char* code;
 
 Obj read_code(void) {
-
-	//char* expr = "(add 3 4)";
-	//char* expr = "cat";
-	//char* expr = "()";
-	//char* expr = "(quote ())";
-	//char* expr = "(add)";
-	//char* expr = "(add ((addn 3) 4) 7 (mul 5 6))";
-
-	printf("\nLISP CODE: %s\n", code);
+	char code[BUFSIZ];
+	printf("lispinc >>> ");
+	fgets(code, BUFSIZ, stdin);
+			if (DEBUG) printf("\nLISP CODE: %s\n", code);
 	return parse(tokenize(code));
 }
 
 // TODO: special case for nonlist expr
 Token_list* tokenize(char* expr) {
+			if (DEBUG) printf("%s\n", "tokenizing...");
 	State state = READY;
 
 	int length = strlen(expr);
@@ -166,6 +162,8 @@ Token_list* tokenize(char* expr) {
 
 
 Obj parse(Token_list* tokens) {
+		if (DEBUG) printf("%s\n", "parsing");
+
 	if (tokens == NULL) {
 		printf("%s\n", "no tokens -- read_from_tokens");
 		exit(1);

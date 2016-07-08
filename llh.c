@@ -26,6 +26,8 @@
 #include <string.h>
 #include "objects.h"
 
+/* reserved words */
+
 #define QUOTE_KEY "quote"
 #define BEGIN_KEY "begin"
 #define IF_KEY "if"
@@ -33,10 +35,13 @@
 #define DEF_KEY "define"
 #define ASS_KEY "set!"
 
-// bool isQuit(Obj expr) {
-// 	return expr.tag == NAME &&
-// 		strcmp(expr.val.name, "quit") == 1;
-// }
+/* input */
+bool isQuit(Obj expr) {
+	return expr.tag == NAME &&
+		strcmp(expr.val.name, "quit") == 1;
+}
+
+/* primitive types */
 
 bool isNum(Obj expr) {
 	return expr.tag == NUM;

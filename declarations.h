@@ -32,7 +32,7 @@ Obj extendEnv(Obj vars_obj, Obj vals_obj, Obj base_env_obj);
 Env* makeBaseEnv(void);
 
 /* llh.c */
-//bool isQuit(Obj expr)
+bool isQuit(Obj expr);
 bool isNum(Obj expr);
 bool isVar(Obj expr);
 char* specialForm(Obj expr);

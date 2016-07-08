@@ -64,12 +64,12 @@
 			all other registers may be destroyed
 */
 
-int DEBUG = 0;
+int DEBUG = 1;
 int INFO = 1;
 int STATS = 1;
 
 /* until scanf gets sorted out... */
-char* code = 
+//char* code = 
 
 /* a number */
 //"68";
@@ -99,13 +99,13 @@ char* code =
 //"(quote (a b c))";
 
 /* recursive factorial */
-"(begin "
-	"(define factorial "
-		"(lambda (n) "
-			"(if (eq n 0) "
-				"1 "
-				"(mul n (factorial (sub n 1)))))) "
-	"(factorial 6))";
+// "(begin "
+// 	"(define factorial "
+// 		"(lambda (n) "
+// 			"(if (eq n 0) "
+// 				"1 "
+// 				"(mul n (factorial (sub n 1)))))) "
+// 	"(factorial 6))";
 
 /* tail-recursive factorial */
 // "(begin "
@@ -154,8 +154,9 @@ int main(void) {
 		env = MKOBJ(ENV, env, base_env);
 				if (INFO) { printf("\n\n@ START\n"); print_info(); }
 		expr = read_code();
-		// if (isQuit(expr)) 
-		// 	return 0;
+				if (DEBUG) printf("%s\n", "code read!");
+		if (isQuit(expr)) 
+			goto QUIT;
 		// debug options
 		cont = MKOBJ(LABEL, label, _DONE);
 		goto EVAL;
@@ -466,14 +467,17 @@ int main(void) {
 	DONE:
 				if (INFO) { printf("\n\n@ DONE\n"); print_info(); }
 		print_final_val();
+		//getchar();
 				if (STATS) print_stats();
-		// goto START; // can't do repl until input gets sorted out
-		//print_list(stack); // to silence warning
+		goto START; // can't do repl until input gets sorted out
 		return 0;
 
 	ERROR:
-		// put something interesting here?
-		// what to do?
+		printf("%s\n", "I AM ERROR");
+		return 0;
+
+	QUIT:
+		printf("%s\n", "exiting lispinc...");
 		return 0;
 }
 
