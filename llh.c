@@ -274,8 +274,11 @@ Obj restExps(Obj seq) {
 	return MKOBJ(LIST, list, seq.val.list->cdr);
 }
 
+// UGLY HACK
 bool isLastExp(Obj seq) {
-	return (restExps(seq)).val.list->cdr = NULL;
+	List* next = seq.val.list->cdr;
+	return next == NULL || next->car.tag == ENV;
+	//return seq.val.list->cdr == NULL;
 }
 
 bool noExps(Obj seq) {
