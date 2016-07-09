@@ -1,1 +1,1 @@
-Obj read(char* expr);
+Obj read_code(void);

@@ -1,4 +1,4 @@
-void initialize(void);
+void initialize_registers(void);
 
 extern Obj expr;
 extern Obj val;

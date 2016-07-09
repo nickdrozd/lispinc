@@ -5,17 +5,16 @@
 		-- figure out scanf
 		-- double check labels in objects.h
 		-- lookup table for primitive names
-		-- is STATS needed?
-		-- add registers.c
-			-- initialize_registers()
 */
 
 /*
 	compile with:
 		-- parse.c
+		-- read.c
 		-- env.c
-		-- llh.c
+		-- registers.c
 		-- stack.c
+		-- llh.c
 		-- print.c
 */
 
