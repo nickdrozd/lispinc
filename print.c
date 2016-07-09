@@ -11,11 +11,10 @@
 	TODO:
 		-- figure out how to mark envs
 			so that printing them is useful
-		-- separate lookup table for prim names
-		-- what's wrong with print_final_val?
 */
 
 #include <stdio.h>
+		
 #include "objects.h"
 #include "print.h"
 #include "registers.h"
@@ -94,7 +93,7 @@ void debug_register(Obj reg, char* name) {
 /* low-level printing */
 
 void print_label(Label label);
-char* lookup_func_name(Obj func_obj);
+char* lookup_func_name(Obj* func_obj);
 
 void print_obj(Obj obj) {
 	switch(obj.tag) {
@@ -109,9 +108,8 @@ void print_obj(Obj obj) {
 			print_list(obj.val.list);
 			break;
 		case FUNC:
-			printf("%s", ":func:");
-			// printf("primitive func: %s ", 
-			// 	lookup_func_name(obj));
+			printf("__%s__ ", 
+				lookup_func_name(&obj));
 			break;
 		case ENV:
 			printf("%p ", obj.val.env);
@@ -175,24 +173,17 @@ void print_label(Label label) {
 	}
 }
 
-// why doesn't this work?
-// are function pointers different in different places?
-// pointer to a pointer?
-char* lookup_func_name(Obj func_obj) {
-	intFunc lookup_func = func_obj.val.func;
-	Env* env = base_env;
-	printf("base_env in lookup_func_name: %p\n", base_env);
-	Frame* frame = env->frame;
+char* lookup_func_name(Obj* func_obj) {
+	intFunc lookup_func = (*func_obj).val.func;
+	Frame* frame = base_env->frame;
 	Obj val;
 	intFunc val_func;
 	char* key;
 	while (frame) {
-		if (val.tag = FUNC) {
+		val = frame->val;
+		if (val.tag == FUNC) {
 			val_func = val.val.func;
 			key = frame->key;
-			printf("%s\n", key);
-			printf("lookup_func: %p\n", lookup_func);
-			printf("val_func: %p\n", val_func);
 			if (lookup_func == val_func)
 				return key;
 		}
