@@ -30,7 +30,7 @@
 #include <stdlib.h>
 #include "objects.h"
 
-extern List* stack;
+List* stack;
 
 // stat counters (see print.c)
 int save_count = 0;
@@ -63,6 +63,8 @@ void restore(Obj* reg) {
 	return;
 }
 
+#define empty_stack NULL
+
 void clear_stack(void) {
 	List* temp = stack;
 	while (stack != NULL) {
@@ -70,5 +72,10 @@ void clear_stack(void) {
 		free(temp);
 		temp = stack;
 	}
+	return;
+}
+
+void initialize_stack(void) {
+	stack = empty_stack;
 	return;
 }

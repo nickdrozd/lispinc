@@ -40,20 +40,6 @@
 #include "objects.h"
 #include "parse.h"
 
-// add scanf?
-// void parameter
-
-// for now...
-// extern char* code;
-
-Obj read_code(void) {
-	char code[BUFSIZ];
-	printf("lispinc >>> ");
-	fgets(code, BUFSIZ, stdin);
-			if (DEBUG) printf("\nLISP CODE: %s\n", code);
-	return parse(tokenize(code));
-}
-
 // TODO: special case for nonlist expr
 Token_list* tokenize(char* expr) {
 			if (DEBUG) printf("%s\n", "tokenizing...");

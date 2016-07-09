@@ -17,17 +17,12 @@
 
 #include <stdio.h>
 #include "objects.h"
+#include "print.h"
+#include "registers.h"
 
 #define NL printf("\n");
 #define PRDIV printf("--------------------\n");
 
-extern Obj expr;
-extern Obj val;
-extern Obj env;
-extern Obj cont;
-extern Obj func;
-extern Obj arglist;
-extern Obj unev;
 extern List* stack;
 extern Env* base_env;
 

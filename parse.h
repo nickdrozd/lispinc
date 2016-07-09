@@ -34,7 +34,6 @@ struct Token_list {
 };
 
 // prototypes
-Obj read(char* expr);
 Token_list* tokenize(char* expr);
 Obj parse(Token_list* tokens);
 

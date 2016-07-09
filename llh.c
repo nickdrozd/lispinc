@@ -25,6 +25,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include "objects.h"
+#include "llh.h"
 
 /* reserved words */
 
@@ -118,7 +119,12 @@ Obj lambdaParams(Obj expr) {
 	return expr.val.list->cdr->car;
 }
 
+/* to allow for implicit begin blocks, change this
+and some other functions to provide for a list of
+body expressions; otherwise, explicit begins are needed
+for, e.g, iterative factorial */
 Obj lambdaBody(Obj expr) {
+	//return MKOBJ(LIST, list, expr.val.list->cdr->cdr);
 	return expr.val.list->cdr->cdr->car;
 }
 
@@ -286,8 +292,11 @@ bool isLastExp(Obj seq) {
 	//return seq.val.list->cdr == NULL;
 }
 
+// UGLY HACK
 bool noExps(Obj seq) {
-	return seq.val.list == NULL;
+	List* list = seq.val.list;
+	return seq.val.list == NULL ||
+				list->car.tag == ENV;
 }
 
 
