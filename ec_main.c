@@ -4,7 +4,7 @@
 			:: env, parse
 		-- figure out scanf
 		-- double check labels in objects.h
-		-- lookup table for primitive names
+		-- add flags.c?
 */
 
 /*
@@ -22,6 +22,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+		
 #include "objects.h"
 #include "read.h"
 #include "env.h"
@@ -67,6 +68,59 @@
 			the stack will be popped; the contents of 
 			all other registers may be destroyed
 */
+
+/* until scanf gets sorted out... */
+char* code = 
+
+/* a number */
+// "68";
+
+/* a defined variable */
+// "add";
+
+/* un undefined variable */
+// "cat";
+
+/* arithmetic */
+// "(add (sub 2 7) (mul 5 6))";
+
+/* arithmetic with undefined variable */
+// "(add 3 cat)";
+
+/* one lambda of one arg */
+// "((lambda (x) (add x 3)) 5)";
+
+/* two lambdas of one arg each */
+// "(((lambda (x) (lambda (y) (add x y))) 3) 4)";
+
+/* one lambda of two args */
+// "((lambda (a b) (div a b)) 36 9)";
+
+/* quotation */
+// "(quote (a b c))";
+
+/* recursive factorial */
+// "(begin "
+// 	"(define factorial "
+// 		"(lambda (n) "
+// 			"(if (eq n 0) "
+// 				"1 "
+// 				"(mul n (factorial (sub n 1)))))) "
+// 	"(factorial 6))";
+
+/* tail-recursive factorial */
+"(begin "
+	"(define factorial "
+		"(lambda (n) "
+			"(begin " // explicit begin needed because of lambdaBody in llh.c
+				"(define loop "
+					"(lambda (count total) "
+						"(if (eq count 0) "
+							"total "
+							"(loop (sub count 1) "
+									"(mul total count))))) "
+				"(loop n 1)))) "
+	"(factorial 6))";
 
 int DEBUG = 0;
 int REPL = 0;

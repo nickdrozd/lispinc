@@ -1,4 +1,5 @@
 #include "objects.h"
+//#include "registers.c"
 
 /* stack.c */
 // void initialize_stack(void);

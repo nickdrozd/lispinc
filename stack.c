@@ -28,7 +28,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+	
 #include "objects.h"
+#include "stack.h"
 
 List* stack;
 

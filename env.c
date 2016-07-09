@@ -58,8 +58,6 @@
 
 /*
 	TODO:
-		-- copy_env function to prevent
-			naming disputes
 		-- markings for distinct envs
 		-- contract env to go back to
 			prior scope?
