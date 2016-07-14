@@ -1,0 +1,1 @@
+void switch_flag(char* flag_name);

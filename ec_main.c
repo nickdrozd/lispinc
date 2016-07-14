@@ -67,11 +67,11 @@
 			all other registers may be destroyed
 */
 
-int DEBUG = 0;
-int REPL = 1;
-int INFO = 1;
-int STATS = 0;
-int TAIL = 1;
+// int DEBUG = 0;
+// int REPL = 1;
+// int INFO = 1;
+// int STATS = 0;
+// int TAIL = 1;
 
 int main(void) {
 			if (DEBUG) printf("\n%s\n\n", "starting main...");
@@ -93,7 +93,7 @@ int main(void) {
 		env = MKOBJ(ENV, env, base_env);
 				if (INFO) { printf("\n\n@ START\n"); print_info(); }
 		expr = read_code();
-				if (DEBUG) printf("\n%s\n", "code read!");
+				if (DEBUG) printf("\nec_main -- code read!\n");
 		if (isQuit(expr)) 
 			goto QUIT;
 		// debug options
@@ -158,7 +158,7 @@ int main(void) {
 	UNBOUND:
 				if (INFO) { printf("\n\n@ UNBOUND\n"); print_info(); }
 		printf("\n\nUNBOUND VARIABLE: \"%s\"!\n", expr.val.name);
-		clear_stack();
+		// clear_stack();
 		// getchar();
 		if (REPL)
 			goto START;

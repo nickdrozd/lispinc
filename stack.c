@@ -78,6 +78,7 @@ void clear_stack(void) {
 }
 
 void initialize_stack(void) {
+	clear_stack();
 	stack = empty_stack;
 	return;
 }

@@ -143,11 +143,16 @@ List* makeList(Obj car, List* cdr);
 extern int DEBUG;
 extern int INFO;
 extern int STATS;
+extern int REPL;
+extern int TAIL;
 
 /* print.c prototypes (for debugging) */
 void debug_register(Obj reg, char* name);
 // hopefully these can be isolated to print.c
 void print_obj(Obj obj);
 void print_list(List* list);
+
+/* string comparison (from read.c) */
+int streq(char* str1, char* str2);
 
 #endif

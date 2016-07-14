@@ -37,10 +37,12 @@
 #define DEF_KEY "define"
 #define ASS_KEY "set!"
 
+#define QUIT ".quit"
+
 /* input */
 bool isQuit(Obj expr) {
 	return expr.tag == NAME &&
-		strcmp(expr.val.name, "quit") == 0;
+		strcmp(expr.val.name, QUIT) == 0;
 }
 
 /* primitive types */
