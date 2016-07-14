@@ -250,7 +250,6 @@ bool isCompound(Obj obj) {
 
 Obj applyPrimitive(Obj func, Obj arglist) {
 			if (INFO) printf("%s\n", "applying PRIMITIVE...");
-			if (DEBUG) debug_register(arglist, "arglist");
 	List* list = arglist.val.list;
 	int arg1 = list->car.val.num;
 	int arg2 = list->cdr->car.val.num;

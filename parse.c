@@ -166,7 +166,7 @@ Obj parse(Token_list* tokens) {
 
 	// code is a name or number
 	if (token.id == SYM) {
-		if (DEBUG) printf("token: %s\n", token.text);
+		// if (DEBUG) printf("token: %s\n", token.text);
 		char* text = token.text;
 		if (isdigit(text[0])) 
 			obj = MKOBJ(NUM, num, atoi(text));
