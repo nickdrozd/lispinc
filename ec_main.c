@@ -1,7 +1,5 @@
 /*
 	TODO:
-		-- check TODOs in other files
-			:: env, parse
 		-- figure out scanf
 		-- double check labels in objects.h
 		-- add flags.c?
@@ -69,69 +67,16 @@
 			all other registers may be destroyed
 */
 
-/* until scanf gets sorted out... */
-char* code = 
-
-/* a number */
-// "68";
-
-/* a defined variable */
-// "add";
-
-/* un undefined variable */
-// "cat";
-
-/* arithmetic */
-// "(add (sub 2 7) (mul 5 6))";
-
-/* arithmetic with undefined variable */
-// "(add 3 cat)";
-
-/* one lambda of one arg */
-// "((lambda (x) (add x 3)) 5)";
-
-/* two lambdas of one arg each */
-// "(((lambda (x) (lambda (y) (add x y))) 3) 4)";
-
-/* one lambda of two args */
-// "((lambda (a b) (div a b)) 36 9)";
-
-/* quotation */
-// "(quote (a b c))";
-
-/* recursive factorial */
-// "(begin "
-// 	"(define factorial "
-// 		"(lambda (n) "
-// 			"(if (eq n 0) "
-// 				"1 "
-// 				"(mul n (factorial (sub n 1)))))) "
-// 	"(factorial 6))";
-
-/* tail-recursive factorial */
-"(begin "
-	"(define factorial "
-		"(lambda (n) "
-			"(begin " // explicit begin needed because of lambdaBody in llh.c
-				"(define loop "
-					"(lambda (count total) "
-						"(if (eq count 0) "
-							"total "
-							"(loop (sub count 1) "
-									"(mul total count))))) "
-				"(loop n 1)))) "
-	"(factorial 6))";
-
 int DEBUG = 0;
-int REPL = 0;
+int REPL = 1;
 int INFO = 1;
+int STATS = 0;
 int TAIL = 1;
-int STATS = 1;
 
 #define empty_arglist MKOBJ(LIST, list, NULL)
 
 int main(void) {
-			if (DEBUG) printf("%s\n\n", "starting main...");
+			if (DEBUG) printf("\n%s\n\n", "starting main...");
 
 	// needed for repl?
 	base_env = makeBaseEnv();
@@ -141,15 +86,16 @@ int main(void) {
 	INITIALIZE:
 		/* maybe initialize isn't needed, but it could
 		make reading repl info easier */
-		initialize_registers();
-		initialize_stack();
+		
 		goto START;
 
 	START:
+		initialize_registers();
+		initialize_stack();
 		env = MKOBJ(ENV, env, base_env);
 				if (INFO) { printf("\n\n@ START\n"); print_info(); }
 		expr = read_code();
-				if (DEBUG) printf("%s\n", "code read!");
+				if (DEBUG) printf("\n%s\n", "code read!");
 		if (isQuit(expr)) 
 			goto QUIT;
 		// debug options
@@ -213,12 +159,13 @@ int main(void) {
 
 	UNBOUND:
 				if (INFO) { printf("\n\n@ UNBOUND\n"); print_info(); }
-		printf("UNBOUND VARIABLE: \"%s\"!\n", expr.val.name);
-		printf("%s\n", "clearing stack...");
+		printf("\n\nUNBOUND VARIABLE: \"%s\"!\n", expr.val.name);
+		// printf("%s\n", "clearing stack...");
 		clear_stack();
-		// if in repl mode,
-		// goto START;
-		goto ERROR;
+		// getchar();
+		if (REPL)
+			goto START;
+		// goto ERROR;
 
 	QUOTATION:
 				if (INFO) { printf("\n\n@ QUOTATION\n"); print_info(); }
@@ -256,14 +203,15 @@ int main(void) {
 		restore(&expr);
 		if (isTrue(val))
 			goto IF_THEN;
-		// fall-through to IF_ELSE
-	// IF_ELSE:
-		expr = ifElse(expr);
-		goto EVAL;
+		goto IF_ELSE;
 
 	IF_THEN:
 		if (INFO) { printf("\n\n@ IF_THEN\n"); print_info(); }
 		expr = ifThen(expr);
+		goto EVAL;
+
+	IF_ELSE:
+		expr = ifElse(expr);
 		goto EVAL;
 
 	/* ass, def */
@@ -466,14 +414,15 @@ int main(void) {
 				if (STATS) print_stats();
 		if (REPL) 
 			goto INITIALIZE; // can't do repl until input gets sorted out
-		return 0;
-
-	ERROR:
-		printf("%s\n", "I AM ERROR");
 		goto QUIT;
-		return 0;
+
+	// ERROR:
+	// 	printf("%s\n", "I AM ERROR");
+	// 	goto QUIT;
+	// 	return 0;
 
 	QUIT:
+		// free env(s)
 		printf("\n%s\n", "exiting lispinc...");
 		return 0;
 }

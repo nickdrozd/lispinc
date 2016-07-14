@@ -30,7 +30,6 @@
 /*
 	TODO:
 		-- fix tokenize for nonlist case // not a problem anymore?
-		-- add scanf (or something) to read_code
 */
 
 #include <stdio.h>
@@ -61,6 +60,10 @@ Token_list* tokenize(char* expr) {
 	int sub_length;
 	char* text;
 
+	// debugging
+	// Token_list* temp = tokens;
+	// int parens = 0;
+
 	START:
 		if (i >= length) {
 			if (state == SYMBOL) {
@@ -79,7 +82,9 @@ Token_list* tokenize(char* expr) {
 			goto CLOSE;
 		if (c == ' ' || c == '\n' || c == '\t')
 			goto WHITESPACE;
-		if (isalnum(c))
+		/* default case is any other char
+		so no other if clause is needed? */
+		// if (isalnum(c))
 			goto TEXT;
 
 	OPEN://printf("%d @ %s\n", state, "OPEN");
@@ -102,7 +107,7 @@ Token_list* tokenize(char* expr) {
 		tail->token.end = i + 1;
 		tail->token.id = CP;
 		tail->token.text = "CLOSE";
-		if (i < length - 1) {
+		if (i < length - 2) {
 			tail->next = malloc(sizeof(Token_list));
 			tail = tail->next;
 			tail->next = NULL;
@@ -134,21 +139,22 @@ Token_list* tokenize(char* expr) {
 		strncpy(text, expr + start, sub_length);
 		text[sub_length] = '\0';	
 		tail->token.text = text;
-		//if (i < length - 1) {
+		if (i < length - 1) {
 			tail->next = malloc(sizeof(Token_list));
 			tail = tail->next;
 			tail->next = NULL;
-		//}
+		}
 		state = READY;
 		goto START;
 
 	DONE:
+				if (DEBUG) print_tokens(tokens);
 		return tokens;
 }	
 
 
 Obj parse(Token_list* tokens) {
-		if (DEBUG) printf("%s\n", "parsing");
+			if (DEBUG) { printf("%s\n", "parsing..."); print_tokens(tokens); }
 
 	if (tokens == NULL) {
 		printf("%s\n", "no tokens -- read_from_tokens");
@@ -160,6 +166,7 @@ Obj parse(Token_list* tokens) {
 
 	// code is a name or number
 	if (token.id == SYM) {
+		if (DEBUG) printf("token: %s\n", token.text);
 		char* text = token.text;
 		if (isdigit(text[0])) 
 			obj = MKOBJ(NUM, num, atoi(text));
@@ -220,8 +227,8 @@ Obj parse(Token_list* tokens) {
 }
 
 
-// list manipulation
-	// token list
+/* list manipulation */
+// token list
 void dock(Token_list** list) {
 	if (*list == NULL) return;
 	
@@ -242,7 +249,7 @@ Token_list* slice_ends(Token_list** list) {
 	return sliced;
 }
 
-	// obj list
+// obj list
 void push(Obj obj, List** list) {
 	if (*list == NULL) {
 		*list = malloc(sizeof(List));
@@ -252,4 +259,31 @@ void push(Obj obj, List** list) {
 	}
 
 	else push(obj, &((*list)->cdr));
+}
+
+/* memory management */
+
+void free_tokens(Token_list** list) {
+	if (*list == NULL)
+		return;
+
+	Token_list* temp = *list;
+	*list = (*list)->next;
+	free(temp);
+	temp = NULL;
+	free_tokens(list);
+}
+
+/* for debugging */
+void print_tokens(Token_list* tokens) {
+	printf("printing tokens...\n");
+
+	while (tokens) {
+		printf("text: %s\n", tokens->token.text);
+		printf("next: %p\n", tokens->next);
+		tokens = tokens->next;
+	}
+
+	printf("tokens printed!\n");
+	return;
 }

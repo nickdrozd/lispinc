@@ -59,9 +59,7 @@
 /*
 	TODO:
 		-- markings for distinct envs
-		-- contract env to go back to
-			prior scope?
-		-- separate lookup table for prim names
+		-- free envs after
 */
 
 #include <stdio.h>
@@ -72,21 +70,7 @@
 
 extern int DEBUG;
 
-// prototypes
-// Frame* makeFrame(List* vars, List* vals);
-// Env* makeEnv(Frame* frame, Env* enclosure);
-// Obj extendEnv(Obj vars_obj, Obj vals_obj, Obj base_env_obj);
-
-// Obj lookup_in_frame(char* var, Frame* frame);
-// Obj lookup_in_env(char* var, Env* env);
-// Obj lookup(Obj var_obj, Obj env_obj);
-
-// void defineVar(Obj var_obj, Obj val_obj, Obj* env_obj);
-// void setVar(Obj var_obj, Obj val_obj, Obj env_obj);
-
-// Env* makeBaseEnv(void);
-
-// established to persist through repl
+// base_env established separately to persist through repl
 Env* base_env;
 
 /* primitive functions */
@@ -141,9 +125,7 @@ Env* makeBaseEnv(void) {
 
 	Env* env = makeEnv(primitives, NULL);
 
-	// Obj env_obj = MKOBJ(ENV, env, env);
-
-	// return env_obj;
+	return env;
 }
 
 /* lookup in env */

@@ -82,6 +82,7 @@ void print_stats(void) {
 void print_final_val(void) {
 	printf("\nVALUE: ");
 	print_obj(val); NL; NL;
+	getchar();
 }
 
 // is there a better way to include the register name?
