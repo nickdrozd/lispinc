@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -Wall
 make_obj = $(CC) $(CFLAGS) -c
 
-objects = ec_main.o parse.o read.o flags.o env.o registers.o stack.o llh.o print.o
+objects = ec_main.o parse.o read.o env.o registers.o stack.o llh.o print.o
 main_headers = read.h env.h registers.h stack.h llh.h print.h objects.h
 
 lispinc : $(objects)
@@ -14,10 +14,7 @@ ec_main.o : ec_main.c $(main_headers)
 parse.o : parse.c parse.h objects.h
 	$(make_obj) parse.c
 
-flags.o : flags.c
-	$(make_obj) flags.c
-
-read.o : read.c read.h parse.h objects.h flags.h
+read.o : read.c read.h parse.h objects.h
 	$(make_obj) read.c
 
 env.o : env.c env.h objects.h

@@ -76,7 +76,6 @@
 int main(void) {
 			if (DEBUG) printf("\n%s\n\n", "starting main...");
 
-	// needed for repl?
 	base_env = makeBaseEnv();
 
 			if (INFO) printf("base_env: %p\n", base_env);
@@ -94,9 +93,8 @@ int main(void) {
 				if (INFO) { printf("\n\n@ START\n"); print_info(); }
 		expr = read_code();
 				if (DEBUG) printf("\nec_main -- code read!\n");
-		if (isQuit(expr)) 
+		if (isQuit(expr)) // move this to read.c
 			goto QUIT;
-		// debug options
 		cont = MKOBJ(LABEL, label, _DONE);
 		goto EVAL;
 
