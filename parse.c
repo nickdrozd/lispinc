@@ -76,9 +76,9 @@ Token_list* tokenize(char* expr) {
 
 		// TODO: special case for nonlist expr
 
-		if (c == '(')
+		if (c == '(' || c == '[' || c == '{')
 			goto OPEN;
-		if (c == ')')
+		if (c == ')' || c == ']' || c == '}')
 			goto CLOSE;
 		if (c == ' ' || c == '\n' || c == '\t')
 			goto WHITESPACE;
@@ -107,6 +107,7 @@ Token_list* tokenize(char* expr) {
 		tail->token.end = i + 1;
 		tail->token.id = CP;
 		tail->token.text = "CLOSE";
+		// what should this value be???
 		if (i < length - 2) {
 			tail->next = malloc(sizeof(Token_list));
 			tail = tail->next;
