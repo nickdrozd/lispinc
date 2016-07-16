@@ -34,10 +34,13 @@
 
 List* stack;
 
-// stat counters (see print.c)
+/* stat counters (see print.c) */
+
 int save_count = 0;
 int curr_stack_depth = 0;
 int max_stack_depth = 0;
+
+/* stack operations */
 
 void save(Obj reg) {
 	if (DEBUG) printf("%s\n", "save!");
@@ -69,7 +72,7 @@ void restore(Obj* reg) {
 
 void clear_stack(void) {
 	List* temp = stack;
-	while (stack != NULL) {
+	while (stack) {
 		stack = stack->cdr;
 		free(temp);
 		temp = stack;
@@ -81,4 +84,10 @@ void initialize_stack(void) {
 	clear_stack();
 	stack = empty_stack;
 	return;
+}
+
+void reset_stats(void) {
+	save_count = 0;
+	curr_stack_depth = 0;
+	max_stack_depth = 0;
 }

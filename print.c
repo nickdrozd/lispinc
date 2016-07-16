@@ -10,7 +10,7 @@
 /*
 	TODO:
 		-- figure out how to mark envs
-			so that printing them is useful
+			so that printing them is informative
 */
 
 #include <stdio.h>
@@ -18,20 +18,14 @@
 #include "objects.h"
 #include "print.h"
 #include "registers.h"
+#include "stack.h"
 
 #define NL printf("\n");
 #define PRDIV printf("--------------------\n");
 
-extern List* stack;
-extern Env* base_env;
-
-extern int save_count;
-extern int max_stack_depth;
-
-void print_registers(void);
-void print_stack(void);
 
 /***************************/
+
 
 void print_info(void) {
 	PRDIV;
@@ -77,6 +71,7 @@ void print_stats(void) {
 	printf("*** STATS ***\n");
 	printf("Total number of saves: %d\n", save_count);
 	printf("Maximum stack depth: %d\n", max_stack_depth);
+	reset_stats();
 }
 
 void print_final_val(void) {
@@ -173,6 +168,8 @@ void print_label(Label label) {
 			printf("UNKNOWN LABEL ");
 	}
 }
+
+extern Env* base_env;
 
 char* lookup_func_name(Obj* func_obj) {
 	intFunc lookup_func = (*func_obj).val.func;
