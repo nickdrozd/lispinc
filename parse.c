@@ -1,10 +1,6 @@
 /*
 	PARSE
 
-	The only "public" function here is read_code,
-	which is just a wrapper around two other more
-	substantial functions: tokenize and parse.
-
 	tokenize is a classic finite state automaton
 	for "tokenizing" (i.e. determining the basic
 	meaningful pieces of) the input code string.
@@ -25,11 +21,16 @@
 	is needed. parse generates a single Obj, which
 	may itself contain a List of Objs (see objects.h
 	for details).
+
+	parse mixes iteration and recursion -- it walks
+	down the token list and recurs when it finds
+	a list. Is that what recursive descent is?
 */
 
 /*
 	TODO:
-		-- fix tokenize for nonlist case // not a problem anymore?
+		-- figure out memory management
+			-- what's wrong with free_tokens?
 */
 
 #include <stdio.h>
@@ -39,7 +40,7 @@
 #include "objects.h"
 #include "parse.h"
 
-// TODO: special case for nonlist expr
+// TODO: special case for nonlist expr (???)
 Token_list* tokenize(char* expr) {
 			if (DEBUG) printf("%s\n", "tokenizing...");
 	State state = READY;
@@ -264,6 +265,7 @@ void push(Obj obj, List** list) {
 
 /* memory management */
 
+// what's wrong with this?
 void free_tokens(Token_list** list) {
 	if (*list == NULL)
 		return;
