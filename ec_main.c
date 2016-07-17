@@ -67,14 +67,11 @@
 			all other registers may be destroyed
 */
 
-// int DEBUG = 0;
-// int REPL = 1;
-// int INFO = 1;
-// int STATS = 0;
-// int TAIL = 1;
 
 int main(void) {
 			if (DEBUG) printf("\n%s\n\n", "starting main...");
+
+	print_intro();
 
 	base_env = makeBaseEnv();
 

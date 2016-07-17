@@ -1,6 +1,6 @@
 /*
 	TODO:
-		-- print_help and print_intro
+		-- print_help
 */
 
 #include <stdio.h>
@@ -55,7 +55,7 @@ void input_prompt(void) {
 }
 
 void print_prompt(void) {
-	NL; NL;
+	NL;
 	printf("lispinc >>> ");
 }
 
@@ -67,8 +67,19 @@ void get_input(void) {
 
 /* help */
 
+void print_intro(void) {
+	NL;
+	printf("Welcome to lispinc!"); NL; NL;
+	printf("Nick Drozd, 2016"); NL;
+	printf("github.com/nickdrozd/lispinc"); NL; NL;
+	printf("Enter .help for help and enter .quit to quit."); NL; NL;
+	printf("Now, the time has come for you to lispinc...for your life!"); NL; NL;
+}
+
 void print_help(void) {
-	printf("\nHELP -- You're on your own for now...\n");
+	NL;
+	printf("HELP -- You're on your own for now...");
+	NL;
 }
 
 /* check for user commands */
