@@ -1,8 +1,7 @@
 /*
 	TODO:
-		-- figure out scanf
+		-- load basic library functions (list operations, full arithmetic, etc)
 		-- double check labels in objects.h
-		-- add flags.c?
 */
 
 /*
@@ -32,19 +31,12 @@
 /*
 	registers:
 		val -- result of evaluation
-		expr  -- (pointer to) expression to be evaluated
+		expr -- expression to be evaluated
 		env -- pointer to evaluation environment (data structure)
 		cont -- Label
-		func -- pointer to function data structure
-			-- pointer to list/env pair?
-			-- note the structure of lambdas
-				(see function_notes)
-		arglist -- list of evaluated arguments
-			-- Obj list?
+		func -- function / operator
+		arglist -- arguments / operands
 		unev -- temporary register for expressions
-			-- Obj list?
-
-		flag? no?
 */
 
 /*
