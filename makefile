@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall
+CFLAGS = -Wall -std=c99
 make_obj = $(CC) $(CFLAGS) -c
 
 objects = ec_main.o parse.o read.o env.o registers.o stack.o llh.o print.o
