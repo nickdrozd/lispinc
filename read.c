@@ -1,6 +1,22 @@
 /*
+	READ
+
+	read.c handles input. It doesn't do anything
+	terribly interesting or exotic. Input is taken
+	from fgets. If the input is a user command,
+	then command is executed. Otherwise, the input
+	(presumed to be Lisp code) is passed to the
+	functions in parse.c.
+
+	Also included here are a few print functions,
+	like printing the REPL prompt, help, and the 
+	intro text. These aren't included in print.c 
+	because they don't do anything substantive.
+*/
+
+/*
 	TODO:
-		-- print_help
+		-- 
 */
 
 #include <stdio.h>
@@ -114,8 +130,12 @@ void print_intro(void) {
 
 void print_help(void) {
 	NL;
-	printf("HELP -- You're on your own for now...");
-	NL;
+	printf("HELP");NL;
+	printf("\t-- enter .stats to toggle stats mode");NL;
+	printf("\t-- enter .info to toggle info mode");NL;
+	printf("\t-- enter .debug to toggle debug mode");NL;
+	printf("\t-- enter .tail to toggle tail recursion mode (turning this off is really only of any interest in conjunction with stats mode)");NL;
+	printf("\t-- enter .quit to quit");NL;NL;
 }
 
 /* check for user commands */
