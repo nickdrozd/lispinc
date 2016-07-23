@@ -13,6 +13,7 @@
 
 #define NL printf("\n");
 
+// it would be nice if these didn't need newlines
 #define _DEBUG ".debug\n"
 #define _REPL ".repl\n"
 #define _INFO ".info\n"
@@ -52,6 +53,10 @@ Obj read_code(void) {
 void input_prompt(void) {
 	print_prompt();
 	get_input();
+	if (badSyntax(code)) {
+		printf("Bad syntax! Try again!\n");
+		input_prompt();
+	}
 }
 
 void print_prompt(void) {
@@ -63,6 +68,37 @@ void print_prompt(void) {
 void get_input(void) {
 	fgets(code, BUFSIZ, stdin);
 	// code[strlen(code) - 1] = '\0';
+}
+
+bool badSyntax(char* code) {
+	return !parens_balanced(code);
+}
+
+bool parens_balanced(char* code) {
+	int op = 0;
+	int cp = 0;
+	int len = strlen(code);
+
+	for (int i = 0; i < len; i++) {
+		if (open_paren(code[i]))
+			op++;
+		if (close_paren(code[i]))
+			cp++;
+	}
+
+	return op == cp;
+}
+
+bool open_paren(char c) {
+	return c == '(' ||
+			c == '[' ||
+			c == '{';
+}
+
+bool close_paren(char c) {
+	return c == ')' ||
+			c == ']' ||
+			c == '}';
 }
 
 /* help */

@@ -4,6 +4,10 @@ Obj read_code(void);
 void input_prompt(void);
 void print_prompt(void);
 void get_input(void);
+bool badSyntax(char* code);
+bool parens_balanced(char* code);
+bool open_paren(char c);
+bool close_paren(char c);
 
 /* help */
 void print_intro(void);
