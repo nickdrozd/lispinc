@@ -108,11 +108,11 @@ intFunc eq_ = eq_func;
 
 Env* makeBaseEnv(void) {
 	List* function_vars = 
-		makeList(MKOBJ(NAME, name, "add"), 
-			makeList(MKOBJ(NAME, name, "sub"), 
-				makeList(MKOBJ(NAME, name, "mul"), 
-					makeList(MKOBJ(NAME, name, "div"), 
-						makeList(MKOBJ(NAME, name, "eq"), NULL)))));
+		makeList(MKOBJ(NAME, name, "+"), 
+			makeList(MKOBJ(NAME, name, "-"), 
+				makeList(MKOBJ(NAME, name, "*"), 
+					makeList(MKOBJ(NAME, name, "/"), 
+						makeList(MKOBJ(NAME, name, "="), NULL)))));
 
 	List* function_vals = 
 		makeList(MKOBJ(FUNC, func, add_), 
