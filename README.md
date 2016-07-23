@@ -24,6 +24,8 @@ TODO
 
 * Add documentation to individual functions.
 
+* Add links to acknowledgements section of readme.
+
 * Figure out how to format this readme.
 
 
