@@ -22,6 +22,10 @@ TODO
 
 * There is rudimentary syntax checking, but any other error unceremoniously crashes the entire interpreter. Figure out an error-checking system (although as SICP says, "this is lots of work" and "this is a major project").
 
+* Add documentation to individual functions.
+
+* Figure out how to format this readme.
+
 
 BACKGROUND
 
