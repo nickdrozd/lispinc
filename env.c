@@ -106,13 +106,19 @@ intFunc eq_ = eq_func;
 
 /* base_env */
 
+#define PRIM_ADD "+"
+#define PRIM_SUB "-"
+#define PRIM_MUL "*"
+#define PRIM_DIV "/"
+#define PRIM_EQ "="
+
 Env* makeBaseEnv(void) {
 	List* function_vars = 
-		makeList(MKOBJ(NAME, name, "+"), 
-			makeList(MKOBJ(NAME, name, "-"), 
-				makeList(MKOBJ(NAME, name, "*"), 
-					makeList(MKOBJ(NAME, name, "/"), 
-						makeList(MKOBJ(NAME, name, "="), NULL)))));
+		makeList(MKOBJ(NAME, name, PRIM_ADD), 
+			makeList(MKOBJ(NAME, name, PRIM_SUB), 
+				makeList(MKOBJ(NAME, name, PRIM_MUL), 
+					makeList(MKOBJ(NAME, name, PRIM_DIV), 
+						makeList(MKOBJ(NAME, name, PRIM_EQ), NULL)))));
 
 	List* function_vals = 
 		makeList(MKOBJ(FUNC, func, add_), 
