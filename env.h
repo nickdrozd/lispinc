@@ -12,3 +12,17 @@ void setVar(Obj var_obj, Obj val_obj, Obj env_obj);
 Env* makeBaseEnv(void);
 
 extern Env* base_env;
+
+/* env memory management */
+
+typedef struct Env_list Env_list;
+
+struct Env_list {
+	Env* env;
+	Env_list* next;
+};
+
+void free_envs(void);
+void free_env(Env** env);
+void free_frame(Frame** frame);
+void append_to_envs(Env* env);
