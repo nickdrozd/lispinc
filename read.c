@@ -61,7 +61,7 @@ Obj read_code(void) {
 
 			if (DEBUG) printf("\nLISP CODE: %s\n", code);
 
-	return parse(tokenize(code));
+	return process_code_text(code);
 }
 
 /* input prompt */

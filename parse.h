@@ -34,6 +34,7 @@ struct Token_list {
 };
 
 // prototypes
+Obj process_code_text(char* expr);
 Token_list* tokenize(char* expr);
 Obj parse(Token_list* tokens);
 
@@ -44,3 +45,16 @@ void push(Obj obj, List** list);
 void print_tokens(Token_list* tokens);
 
 void free_tokens(Token_list** list);
+void free_lists(void);
+void free_list(List** list);
+void append_to_lists(List* list);
+
+/* memory management */
+
+typedef struct List_list List_list;
+
+struct List_list {
+	List* list;
+	List_list* next;
+};
+

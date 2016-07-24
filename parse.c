@@ -30,15 +30,27 @@
 /*
 	TODO:
 		-- figure out memory management
-			-- what's wrong with free_tokens?
 */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+
 #include "objects.h"
 #include "parse.h"
+
+/* list of lists allocated */
+List_list* lists_head;
+List_list* lists_tail;
+
+
+Obj process_code_text(char* expr) {
+	Token_list* tokens = tokenize(expr);
+	Obj parsed = parse(tokens);
+	free_tokens(&tokens);
+	return parsed;
+}
 
 // TODO: special case for nonlist expr (???)
 Token_list* tokenize(char* expr) {
@@ -224,6 +236,11 @@ Obj parse(Token_list* tokens) {
 		} 
 	}
 
+	// record memory usage
+	append_to_lists(result);
+	if (!lists_head)
+		lists_head = lists_tail;
+
 	obj = MKOBJ(LIST, list, result);
 	return obj;
 }
@@ -265,7 +282,6 @@ void push(Obj obj, List** list) {
 
 /* memory management */
 
-// what's wrong with this?
 void free_tokens(Token_list** list) {
 	if (*list == NULL)
 		return;
@@ -277,7 +293,39 @@ void free_tokens(Token_list** list) {
 	free_tokens(list);
 }
 
+void free_lists(void) {
+			if (DEBUG) printf("freeing lists...\n");
+
+	if (lists_head == NULL)
+		return;
+
+	List_list* temp = lists_head;
+	lists_head = lists_head->next;
+	free_list(&(temp->list));
+	free_lists();
+}
+
+void free_list(List** list) {
+	if (*list == NULL)
+		return;
+
+	List* temp = *list;
+	*list = (*list)->cdr;
+	free(temp);
+	temp = NULL;
+	free_list(list);
+}
+
+void append_to_lists(List* list) {
+	if (lists_tail)
+		lists_tail = lists_tail->next;
+	lists_tail = malloc(sizeof(List_list));
+	lists_tail->list = list;
+	lists_tail->next = NULL;
+}
+
 /* for debugging */
+
 void print_tokens(Token_list* tokens) {
 	printf("printing tokens...\n");
 

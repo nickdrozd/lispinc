@@ -1,6 +1,7 @@
 /*
 	TODO:
 		-- load basic library functions (list operations, full arithmetic, etc)
+		-- get better memory management
 		-- double check labels in objects.h
 */
 
@@ -21,6 +22,7 @@
 #include <stdbool.h>
 		
 #include "objects.h"
+#include "parse.h"
 #include "read.h"
 #include "env.h"
 #include "registers.h"
@@ -396,8 +398,10 @@ int main(void) {
 	// 	return 0;
 
 	QUIT:
-		// free env(s)
+		free_envs();
+		free_lists();
 		printf("\n%s\n", "exiting lispinc...");
+		printf("Byeeeeee!\n\n");
 		return 0;
 }
 
