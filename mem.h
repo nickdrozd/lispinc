@@ -1,3 +1,5 @@
+void free_memory(void);
+
 /* lists */
 
 typedef struct List_list List_list;

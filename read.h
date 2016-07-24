@@ -11,6 +11,7 @@ bool close_paren(char c);
 
 /* help */
 void print_intro(void);
+void print_lib(void);
 void print_help(void);
 
 /* check for user commands */

@@ -26,6 +26,7 @@
 #include "objects.h"
 #include "read.h"
 #include "parse.h"
+#include "lib.h"
 
 #define NL printf("\n");
 
@@ -42,12 +43,60 @@
 int DEBUG = 0;
 int REPL = 1;
 int INFO = 0;
-int STATS = 1;
+int STATS = 0;
 int TAIL = 1;
+int LIB = 1;
 
 char code[BUFSIZ];
 
+// ext char*[] library;
+
+// char* cons = 
+// 	"(define cons"
+// 		"(lambda (x y)"
+// 			"(lambda (s)"
+// 				"(s x y))))";
+
+// char* car = 
+// 	"(define car"
+// 		"(lambda (p)"
+// 			"(p (lambda (x y)"
+// 				"x))))";
+
+// char* cdr = 
+// 	"(define cdr"
+// 		"(lambda (p)"
+// 			"(p (lambda (x y)"
+// 				"y))))";
+
+// char* fact_rec =
+// 	"(define factorial_rec "
+// 		"(lambda (n) "
+// 			"(if (eq n 0) "
+// 				"1 "
+// 				"(mul n (factorial_rec (sub n 1)))))) ";
+
+// char* library[] = {cons, car, cdr, fact_rec};
+
+int lib_counter = 0;
+
+/* should there be a separate load_library function?
+	how should it be implemented? */
+
 Obj read_code(void) {
+
+	if (lib_counter < lib_len) {
+		// print_lib();
+		char* lib_entry = library[lib_counter];
+				if (DEBUG) printf("library entry: %s\n", lib_entry);
+		Obj result = process_code_text(lib_entry);
+		lib_counter++;
+		return result;
+	}
+
+	if (lib_counter >= lib_len && LIB) 
+		toggle_val(&LIB);
+
 
 	input_prompt();
 
@@ -61,7 +110,8 @@ Obj read_code(void) {
 
 			if (DEBUG) printf("\nLISP CODE: %s\n", code);
 
-	return process_code_text(code);
+	Obj result = process_code_text(code);
+	return result;
 }
 
 /* input prompt */
@@ -126,6 +176,11 @@ void print_intro(void) {
 	printf("github.com/nickdrozd/lispinc"); NL; NL;
 	printf("Enter .help for help and enter .quit to quit."); NL; NL;
 	printf("Now, the time has come for you to lispinc...for your life!"); NL; NL;
+}
+
+void print_lib(void) {
+	printf("loading library..."); 
+	NL;
 }
 
 void print_help(void) {

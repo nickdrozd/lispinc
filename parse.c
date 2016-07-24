@@ -30,6 +30,7 @@
 /*
 	TODO:
 		-- figure out memory management
+			-- free_tokens doesn't mix with library?
 */
 
 #include <stdio.h>
@@ -39,12 +40,13 @@
 
 #include "objects.h"
 #include "parse.h"
+#include "mem.h"
 
 
 Obj process_code_text(char* expr) {
 	Token_list* tokens = tokenize(expr);
 	Obj parsed = parse(tokens);
-	free_tokens(&tokens);
+	// free_tokens(&tokens);
 	return parsed;
 }
 

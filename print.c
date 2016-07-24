@@ -68,6 +68,8 @@ void print_stack(void) {
 }
 
 void print_stats(void) {
+	if (LIB) return;
+
 	printf("*** STATS ***\n");
 	printf("Total number of saves: %d\n", save_count);
 	printf("Maximum stack depth: %d\n", max_stack_depth);
@@ -75,6 +77,8 @@ void print_stats(void) {
 }
 
 void print_final_val(void) {
+	if (LIB) return;
+	
 	printf("\nVALUE: ");
 	print_obj(val); NL; NL;
 	// getchar();
