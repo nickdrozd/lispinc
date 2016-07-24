@@ -59,22 +59,20 @@
 /*
 	TODO:
 		-- markings for distinct envs
-		-- free envs after
 */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "objects.h"
 #include "env.h"
+#include "mem.h"
 
 /* base_env established separately to 
 	persist through repl */
-Env* base_env;
 
-/* list of envs established */
-Env_list* envs_head;
-Env_list* envs_tail;
+Env* base_env;
 
 /* primitive functions */
 
@@ -135,7 +133,6 @@ Env* makeBaseEnv(void) {
 	Env* env = makeEnv(primitives, NULL);
 
 	append_to_envs(env);
-	envs_head = envs_tail;
 
 	return env;
 }
@@ -339,46 +336,3 @@ Obj extendEnv(Obj vars_obj, Obj vals_obj, Obj base_env_obj) {
 	return MKOBJ(ENV, env, ext_env);
 }
 
-
-
-/* memory management */
-
-void free_envs(void) {
-			if (DEBUG) printf("freeing envs...\n");
-
-	if (envs_head == NULL)
-		return;
-
-	Env_list* temp = envs_head;
-	envs_head = envs_head->next;
-	free_env(&(temp->env));
-	free_envs();
-}
-
-void free_env(Env** env) {
-	if (*env == NULL)
-		return;
-
-	Frame* temp = (*env)->frame;
-	free(*env);
-	*env = NULL;
-	free_frame(&temp);
-}
-
-void free_frame(Frame** frame) {
-	if (*frame == NULL)
-		return;
-
-	Frame* temp = (*frame)->next;
-	free(*frame);
-	*frame = NULL;
-	free_frame(&temp);
-}
-
-void append_to_envs(Env* env) {
-	if (envs_tail)
-		envs_tail = envs_tail->next;
-	envs_tail = malloc(sizeof(Env_list));
-	envs_tail->env = env;
-	envs_tail->next = NULL;
-}

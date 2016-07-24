@@ -22,13 +22,13 @@
 #include <stdbool.h>
 		
 #include "objects.h"
-#include "parse.h"
 #include "read.h"
 #include "env.h"
 #include "registers.h"
 #include "stack.h"
 #include "llh.h"
 #include "print.h"
+#include "mem.h"
 
 /*
 	registers:

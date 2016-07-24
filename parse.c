@@ -40,10 +40,6 @@
 #include "objects.h"
 #include "parse.h"
 
-/* list of lists allocated */
-List_list* lists_head;
-List_list* lists_tail;
-
 
 Obj process_code_text(char* expr) {
 	Token_list* tokens = tokenize(expr);
@@ -238,8 +234,8 @@ Obj parse(Token_list* tokens) {
 
 	// record memory usage
 	append_to_lists(result);
-	if (!lists_head)
-		lists_head = lists_tail;
+	// if (!lists_head)
+	// 	lists_head = lists_tail;
 
 	obj = MKOBJ(LIST, list, result);
 	return obj;
@@ -247,6 +243,7 @@ Obj parse(Token_list* tokens) {
 
 
 /* list manipulation */
+
 // token list
 void dock(Token_list** list) {
 	if (*list == NULL) return;
@@ -280,50 +277,6 @@ void push(Obj obj, List** list) {
 	else push(obj, &((*list)->cdr));
 }
 
-/* memory management */
-
-void free_tokens(Token_list** list) {
-	if (*list == NULL)
-		return;
-
-	Token_list* temp = *list;
-	*list = (*list)->next;
-	free(temp);
-	temp = NULL;
-	free_tokens(list);
-}
-
-void free_lists(void) {
-			if (DEBUG) printf("freeing lists...\n");
-
-	if (lists_head == NULL)
-		return;
-
-	List_list* temp = lists_head;
-	lists_head = lists_head->next;
-	free_list(&(temp->list));
-	free_lists();
-}
-
-void free_list(List** list) {
-	if (*list == NULL)
-		return;
-
-	List* temp = *list;
-	*list = (*list)->cdr;
-	free(temp);
-	temp = NULL;
-	free_list(list);
-}
-
-void append_to_lists(List* list) {
-	if (lists_tail)
-		lists_tail = lists_tail->next;
-	lists_tail = malloc(sizeof(List_list));
-	lists_tail->list = list;
-	lists_tail->next = NULL;
-}
-
 /* for debugging */
 
 void print_tokens(Token_list* tokens) {
@@ -337,4 +290,19 @@ void print_tokens(Token_list* tokens) {
 
 	printf("tokens printed!\n");
 	return;
+}
+
+/* memory management */
+
+void free_tokens(Token_list** list) {
+			if (DEBUG) printf("freeing tokens...\n");
+
+	if (*list == NULL)
+		return;
+
+	Token_list* temp = *list;
+	*list = (*list)->next;
+	free(temp);
+	temp = NULL;
+	free_tokens(list);
 }
