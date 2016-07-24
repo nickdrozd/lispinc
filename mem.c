@@ -4,6 +4,8 @@
 	mem.c handles memory management. In particular,
 	it contains functions that free memory that has
 	been allocated via malloc.
+
+	Does any of this even work?
 */
 
 #include <stdio.h>
@@ -13,6 +15,13 @@
 #include "parse.h"
 #include "mem.h"
 
+
+void free_memory(void) {
+			if (DEBUG) printf("freeing memory...\n");
+
+	free_lists();
+	free_envs();
+}
 
 /* lists */
 

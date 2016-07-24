@@ -398,8 +398,7 @@ int main(void) {
 	// 	return 0;
 
 	QUIT:
-		free_envs();
-		free_lists();
+		free_memory();
 		printf("\n%s\n", "exiting lispinc...");
 		printf("Byeeeeee!\n\n");
 		return 0;
