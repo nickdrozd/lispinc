@@ -53,10 +53,11 @@
 	//it's part of Env. See env.c for details.
 
 	Besides all that, objects.h contains prototypes
-	for print functions and debugging flags. These
+	for print functions and command flags. These
 	are unrelated to Obj, but since this file is
 	universally included, it's convenient to put 
-	them here. See print.c for definitions.
+	them here. See print.c for definitions and read.c
+	for flag information.
 */
 
 #ifndef OBJECTS_GUARD
@@ -146,6 +147,7 @@ extern int STATS;
 extern int REPL;
 extern int TAIL;
 extern int LIB;
+extern int STEP;
 
 /* print.c prototypes (for debugging) */
 void debug_register(Obj reg, char* name);

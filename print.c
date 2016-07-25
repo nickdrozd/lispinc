@@ -31,6 +31,8 @@ void print_info(void) {
 	PRDIV;
 	print_registers();
 	print_stack();
+	if (STEP)
+		getchar();
 }
 
 void print_registers(void) {
@@ -81,7 +83,8 @@ void print_final_val(void) {
 	
 	printf("\nVALUE: ");
 	print_obj(val); NL; NL;
-	// getchar();
+	if (STEP)
+		getchar();
 }
 
 // is there a better way to include the register name?

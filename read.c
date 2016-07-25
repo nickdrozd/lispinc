@@ -31,20 +31,24 @@
 #include "lib.h"
 
 #define NL printf("\n");
+#define nlchar "\n"
 
 // it would be nice if these didn't need newlines
-#define _DEBUG ".debug\n"
-#define _REPL ".repl\n"
-#define _INFO ".info\n"
-#define _STATS ".stats\n"
-#define _TAIL ".tail\n"
+#define _DEBUG ".debug"nlchar
+#define _INFO ".info"nlchar
+#define _STATS ".stats"nlchar
+#define _TAIL ".tail"nlchar
+#define _STEP ".step"nlchar
 
-#define _HELP ".help\n"
-#define _QUIT ".quit\n"
+#define _REPL ".repl"nlchar
+
+#define _HELP ".help"nlchar
+#define _QUIT ".quit"nlchar
 
 int DEBUG = 0;
 int INFO = 0;
 int STATS = 0;
+int STEP = 0;
 int TAIL = 1;
 
 int REPL = 1;
@@ -175,7 +179,8 @@ int isFlag(char* code) {
 			streq(code, _REPL) || 
 			streq(code, _INFO) || 
 			streq(code, _STATS) || 
-			streq(code, _TAIL);
+			streq(code, _TAIL) ||
+			streq(code, _STEP);
 }
 
 int isHelp(char* code) {
@@ -220,6 +225,8 @@ void switch_flag(char* flag_name) {
 		toggle_val(&STATS);
 	else if (streq(flag_name, _TAIL))
 		toggle_val(&TAIL);
+	else if (streq(flag_name, _STEP))
+		toggle_val(&STEP);
 }
 
 
