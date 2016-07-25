@@ -16,7 +16,9 @@
 
 /*
 	TODO:
-		-- 
+		-- make it so that newlines don't have to be
+			added to every input string (problem
+			with tokenize in parse.c?s)
 */
 
 #include <stdio.h>
@@ -41,42 +43,14 @@
 #define _QUIT ".quit\n"
 
 int DEBUG = 0;
-int REPL = 1;
 int INFO = 0;
 int STATS = 0;
 int TAIL = 1;
+
+int REPL = 1;
 int LIB = 1;
 
 char code[BUFSIZ];
-
-// ext char*[] library;
-
-// char* cons = 
-// 	"(define cons"
-// 		"(lambda (x y)"
-// 			"(lambda (s)"
-// 				"(s x y))))";
-
-// char* car = 
-// 	"(define car"
-// 		"(lambda (p)"
-// 			"(p (lambda (x y)"
-// 				"x))))";
-
-// char* cdr = 
-// 	"(define cdr"
-// 		"(lambda (p)"
-// 			"(p (lambda (x y)"
-// 				"y))))";
-
-// char* fact_rec =
-// 	"(define factorial_rec "
-// 		"(lambda (n) "
-// 			"(if (eq n 0) "
-// 				"1 "
-// 				"(mul n (factorial_rec (sub n 1)))))) ";
-
-// char* library[] = {cons, car, cdr, fact_rec};
 
 int lib_counter = 0;
 
