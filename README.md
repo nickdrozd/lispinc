@@ -10,7 +10,7 @@ This will bring up the REPL. Besides code, a few user commands can be entered:
 * .quit to quit
 * .stats to toggle stats mode
 * .info to toggle info mode
-* .step to toggel step mode (pauses between each step of the evaluator; useful in conjunction with info mode)
+* .step to toggle step mode (pauses between each step of the evaluator; useful in conjunction with info mode)
 * .debug to toggle debug mode
 * .tail to toggle tail recursion mode (turning this off is really only of any interest in conjunction with stats mode)
 
