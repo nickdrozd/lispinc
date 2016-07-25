@@ -101,6 +101,8 @@ void input_prompt(void) {
 		printf("Bad syntax! Try again!\n");
 		input_prompt();
 	}
+	if (isEnter(code))
+		input_prompt();
 }
 
 void print_prompt(void) {
@@ -116,6 +118,10 @@ void get_input(void) {
 
 bool badSyntax(char* code) {
 	return !parens_balanced(code);
+}
+
+bool isEnter(char* code) {
+	return streq(code, "\n");
 }
 
 bool parens_balanced(char* code) {
