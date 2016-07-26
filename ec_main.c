@@ -1,21 +1,9 @@
 /*
 	TODO:
-		-- load basic library functions (list operations, full arithmetic, etc)
 		-- get better memory management
 		-- double check labels in objects.h
+		-- documentation!
 */
-
-/*
-	compile with:
-		-- parse.c
-		-- read.c
-		-- env.c
-		-- registers.c
-		-- stack.c
-		-- llh.c
-		-- print.c
-*/
-
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -70,18 +58,11 @@ int main(void) {
 
 	base_env = makeBaseEnv();
 
-			if (INFO) printf("base_env: %p\n", base_env);
-
-	INITIALIZE:
-		/* maybe initialize isn't needed, but it could
-		make reading repl info easier */
-		
-		goto START;
-
 	START:
 		initialize_registers();
 		initialize_stack();
 		env = MKOBJ(ENV, env, base_env);
+				if (INFO) printf("base_env: %p\n", base_env);
 				if (INFO) { printf("\n\n@ START\n"); print_info(); }
 		expr = read_code();
 				if (DEBUG) printf("\nec_main -- code read!\n");
@@ -387,10 +368,9 @@ int main(void) {
 	DONE:
 				if (INFO) { printf("\n\n@ DONE\n"); print_info(); }
 			print_final_val();
-		//getchar();
 			if (STATS) print_stats();
 		if (REPL) 
-			goto INITIALIZE; // can't do repl until input gets sorted out
+			goto START;
 		goto QUIT;
 
 	// ERROR:
