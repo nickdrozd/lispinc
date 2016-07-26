@@ -155,7 +155,4 @@ void debug_register(Obj reg, char* name);
 void print_obj(Obj obj);
 void print_list(List* list);
 
-/* string comparison (from read.c) */
-int streq(char* str1, char* str2);
-
 #endif
