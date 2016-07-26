@@ -1,7 +1,6 @@
 extern int DEBUG;
 extern int INFO;
 extern int STATS;
-extern int REPL;
 extern int TAIL;
 extern int LIB;
 extern int STEP;
@@ -14,8 +13,6 @@ extern int STEP;
 #define _STATS ".stats"nlchar
 #define _TAIL ".tail"nlchar
 #define _STEP ".step"nlchar
-
-#define _REPL ".repl"nlchar
 
 #define _HELP ".help"nlchar
 #define _QUIT ".quit"nlchar

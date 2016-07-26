@@ -62,7 +62,7 @@ int main(void) {
 		initialize_registers();
 		initialize_stack();
 		env = MKOBJ(ENV, env, base_env);
-				if (INFO) printf("base_env: %p\n", base_env);
+				if (INFO) printf("\n\nbase_env: %p\n", base_env);
 				if (INFO) { printf("\n\n@ START\n"); print_info(); }
 		expr = read_code();
 				if (DEBUG) printf("\nec_main -- code read!\n");
@@ -131,9 +131,7 @@ int main(void) {
 		printf("\n\nUNBOUND VARIABLE: \"%s\"!\n", expr.val.name);
 		// clear_stack();
 		// getchar();
-		if (REPL)
-			goto START;
-		// goto ERROR;
+		goto START;
 
 	QUOTATION:
 				if (INFO) { printf("\n\n@ QUOTATION\n"); print_info(); }
@@ -367,22 +365,15 @@ int main(void) {
 
 	DONE:
 				if (INFO) { printf("\n\n@ DONE\n"); print_info(); }
-			print_final_val();
-			if (STATS) print_stats();
-		if (REPL) 
-			goto START;
-		goto QUIT;
-
-	// ERROR:
-	// 	printf("%s\n", "I AM ERROR");
-	// 	goto QUIT;
-	// 	return 0;
+				print_final_val();
+				if (STATS) print_stats();
+		goto START;
 
 	QUIT:
-		free_memory();
-		printf("\n%s\n", "exiting lispinc...");
-		printf("Byeeeeee!\n\n");
-		return 0;
+			free_memory();
+			printf("\n%s\n", "exiting lispinc...");
+			printf("Byeeeeee!\n\n");
+			return 0;
 }
 
 

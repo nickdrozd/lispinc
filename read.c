@@ -129,8 +129,7 @@ int isSpecial(char* code) {
 
 int isFlag(char* code) {
 			if (DEBUG) printf("isFlag\n");
-	return streq(code, _DEBUG) || 
-			streq(code, _REPL) || 
+	return streq(code, _DEBUG) ||  
 			streq(code, _INFO) || 
 			streq(code, _STATS) || 
 			streq(code, _TAIL) ||
