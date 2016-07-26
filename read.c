@@ -27,32 +27,11 @@
 
 #include "objects.h"
 #include "read.h"
+#include "flags.h"
 #include "parse.h"
 #include "lib.h"
 
 #define NL printf("\n");
-#define nlchar "\n"
-
-// it would be nice if these didn't need newlines
-#define _DEBUG ".debug"nlchar
-#define _INFO ".info"nlchar
-#define _STATS ".stats"nlchar
-#define _TAIL ".tail"nlchar
-#define _STEP ".step"nlchar
-
-#define _REPL ".repl"nlchar
-
-#define _HELP ".help"nlchar
-#define _QUIT ".quit"nlchar
-
-int DEBUG = 0;
-int INFO = 0;
-int STATS = 0;
-int STEP = 0;
-int TAIL = 1;
-
-int REPL = 1;
-int LIB = 1;
 
 char code[BUFSIZ];
 
@@ -172,12 +151,13 @@ void print_help(void) {
 	printf("HELP");NL;
 	printf("\t-- enter .stats to toggle stats mode");NL;
 	printf("\t-- enter .info to toggle info mode");NL;
-	printf("\t-- enter .debug to toggle debug mode");NL;
+	printf("\t-- enter .step to toggle step mode (pauses between each step of the evaluator; useful in conjunction with info mode)\n");
 	printf("\t-- enter .tail to toggle tail recursion mode (turning this off is really only of any interest in conjunction with stats mode)");NL;
+	printf("\t-- enter .debug to toggle debug mode");NL;
 	printf("\t-- enter .quit to quit");NL;NL;
 }
 
-/* check for user commands */
+/* check for user commands (see flags.h) */
 
 int isFlag(char* code) {
 			if (DEBUG) printf("isFlag\n");
@@ -208,103 +188,4 @@ int streq(char* str1, char* str2) {
 	return strcmp(str1, str2) == 0;
 }
 
-/* flag manipulation */
 
-void toggle_val(int* flag) {
-			if (DEBUG) printf("toggle_val: %d\n", *flag);
-	*flag = 1 - *flag;
-			// self-referential debugging statement?
-			if (DEBUG) printf("toggled! %d\n", *flag);
-
-	return;
-}
-
-void switch_flag(char* flag_name) {
-			if (DEBUG) printf("%s\n", "switching flag...");
-	if (streq(flag_name, _DEBUG))
-		toggle_val(&DEBUG);
-	else if (streq(flag_name, _REPL))
-		toggle_val(&REPL);
-	else if (streq(flag_name, _INFO))
-		toggle_val(&INFO);
-	else if (streq(flag_name, _STATS))
-		toggle_val(&STATS);
-	else if (streq(flag_name, _TAIL))
-		toggle_val(&TAIL);
-	else if (streq(flag_name, _STEP))
-		toggle_val(&STEP);
-}
-
-
-
-
-
-
-
-
-/*************************/
-
-/* until scanf gets sorted out... */
-// char* code = 
-
-/* a number */
-// "68";
-
-/* a defined variable */
-// "add";
-
-/* un undefined variable */
-// "cat";
-
-/* arithmetic */
-// "(add (sub 2 7) (mul 5 6))";
-
-/* arithmetic with undefined variable */
-// "(add 3 cat)";
-
-/* one lambda of one arg */
-// "((lambda (x) (add x 3)) 5)";
-
-/* two lambdas of one arg each */
-// "(((lambda (x) (lambda (y) (add x y))) 3) 4)";
-
-/* one lambda of two args */
-// "((lambda (a b) (div a b)) 36 9)";
-
-/* quotation */
-// "(quote (a b c))";
-
-/* define */
-// "(define x 5)";
-
-/* define, then set */
-// "(begin "
-// 	"(define x 5) "
-// 	"(set! x (add x 7)) "
-// 	"(mul x x))";
-
-/* recursive factorial */
-// "(begin "
-// 	"(define factorial "
-// 		"(lambda (n) "
-// 			"(if (eq n 0) "
-// 				"1 "
-// 				"(mul n (factorial (sub n 1)))))) "
-// 	"(factorial 6))";
-
-/* tail-recursive factorial */
-// "(begin "
-// 	"(define factorial "
-// 		"(lambda (n) "
-// 			"(begin " // explicit begin needed because of lambdaBody in llh.c
-// 				"(define loop "
-// 					"(lambda (count total) "
-// 						"(if (eq count 0) "
-// 							"total "
-// 							"(loop (sub count 1) "
-// 									"(mul total count))))) "
-// 				"(loop n 1)))) "
-// 	"(factorial 6))";
-
-/* until scanf gets sorted out... */
-// extern char* code;

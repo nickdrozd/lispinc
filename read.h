@@ -21,7 +21,3 @@ int isHelp(char* code);
 // int isQuit(char* code);
 int isSpecial(char* code);
 int streq(char* str1, char* str2);
-
-/* flag manipulation */
-void toggle_val(int* flag);
-void switch_flag(char* flag_name);
