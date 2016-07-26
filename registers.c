@@ -1,8 +1,7 @@
-#include "objects.h"
-//#include "registers.c"
+#include <stdio.h>
 
-/* stack.c */
-// void initialize_stack(void);
+#include "objects.h"
+#include "print.h"
 
 Obj expr;
 Obj val;
@@ -23,6 +22,12 @@ void initialize_registers(void) {
 	unev = uninitialized;
 	env = uninitialized;
 	return;
+}
+
+// is there a better way to include the register name?
+void debug_register(Obj reg, char* name) {
+	printf("\nDEBUG -- register: %s\n", name);
+	print_obj(reg); NL; NL;
 }
 
 // void initialize(void) {

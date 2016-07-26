@@ -19,6 +19,7 @@
 		-- make it so that newlines don't have to be
 			added to every input string (problem
 			with tokenize in parse.c?s)
+		-- load_lib function
 */
 
 #include <stdio.h>
@@ -30,8 +31,7 @@
 #include "read.h"
 #include "parse.h"
 #include "lib.h"
-
-#define NL printf("\n");
+#include "print.h"
 
 char code[BUFSIZ];
 
@@ -76,12 +76,12 @@ Obj read_code(void) {
 void input_prompt(void) {
 	print_prompt();
 	get_input();
-	if (badSyntax(code)) {
-		printf("Bad syntax! Try again!\n");
+
+	if (isIrregular(code)) {
+		if (badSyntax(code))
+			printf("Bad syntax! Try again!\n");
 		input_prompt();
 	}
-	if (isEnter(code))
-		input_prompt();
 }
 
 void print_prompt(void) {
@@ -95,12 +95,17 @@ void get_input(void) {
 	// code[strlen(code) - 1] = '\0';
 }
 
-bool badSyntax(char* code) {
-	return !parens_balanced(code);
+bool isIrregular(char* code) {
+	return badSyntax(code) ||
+			isEnter(code);
 }
 
 bool isEnter(char* code) {
 	return streq(code, "\n");
+}
+
+bool badSyntax(char* code) {
+	return !parens_balanced(code);
 }
 
 bool parens_balanced(char* code) {
@@ -128,33 +133,6 @@ bool close_paren(char c) {
 	return c == ')' ||
 			c == ']' ||
 			c == '}';
-}
-
-/* help */
-
-void print_intro(void) {
-	NL;
-	printf("Welcome to lispinc!"); NL; NL;
-	printf("Nick Drozd, 2016"); NL;
-	printf("github.com/nickdrozd/lispinc"); NL; NL;
-	printf("Enter .help for help and enter .quit to quit."); NL; NL;
-	printf("Now, the time has come for you to lispinc...for your life!"); NL; NL;
-}
-
-void print_lib(void) {
-	printf("loading library..."); 
-	NL;
-}
-
-void print_help(void) {
-	NL;
-	printf("HELP");NL;
-	printf("\t-- enter .stats to toggle stats mode");NL;
-	printf("\t-- enter .info to toggle info mode");NL;
-	printf("\t-- enter .step to toggle step mode (pauses between each step of the evaluator; useful in conjunction with info mode)\n");
-	printf("\t-- enter .tail to toggle tail recursion mode (turning this off is really only of any interest in conjunction with stats mode)");NL;
-	printf("\t-- enter .debug to toggle debug mode");NL;
-	printf("\t-- enter .quit to quit");NL;NL;
 }
 
 /* check for user commands (see flags.h) */

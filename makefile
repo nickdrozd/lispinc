@@ -13,7 +13,7 @@ $(NAME) : $(objects)
 ec_main.o : ec_main.c $(main_headers)
 	$(make_obj) ec_main.c
 
-read.o : read.c read.h parse.h lib.h flags.h objects.h
+read.o : read.c read.h parse.h lib.h flags.h print.h objects.h
 	$(make_obj) read.c
 
 flags.o : flags.c read.c flags.h
@@ -28,7 +28,7 @@ env.o : env.c env.h mem.h flags.h objects.h
 lib.o : lib.c
 	$(make_obj) lib.c
 
-registers.o : registers.c objects.h
+registers.o : registers.c print.h objects.h
 	$(make_obj) registers.c
 
 stack.o : stack.c stack.h flags.h objects.h

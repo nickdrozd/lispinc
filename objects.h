@@ -51,19 +51,13 @@
 	//The Env type is included here because it's part
 	//of Val, and the Frame type is included because
 	//it's part of Env. See env.c for details.
-
-	Besides all that, objects.h contains prototypes
-	for print functions and command flags. These
-	are unrelated to Obj, but since this file is
-	universally included, it's convenient to put 
-	them here. See print.c for definitions and read.c
-	for flag information.
 */
 
 #ifndef OBJECTS_GUARD
 #define OBJECTS_GUARD
 
 /* typedefs */
+
 typedef union Val Val;
 typedef struct Obj Obj;
 typedef struct List List;
@@ -75,6 +69,7 @@ typedef int (*intFunc)(int, int);
 /* there are more labels, 
 but these are the ones that 
 get saved and restored */
+
 typedef enum {
 	_DONE,
 	_IF_DECIDE,
@@ -139,20 +134,5 @@ struct Env {
 /* constructors */
 #define MKOBJ(TAG,VALTYPE,VAL) (Obj){.tag = TAG, .val = (Val){.VALTYPE = VAL}}
 List* makeList(Obj car, List* cdr);
-
-/* debug / info mode */
-/*extern int DEBUG;
-extern int INFO;
-extern int STATS;
-extern int REPL;
-extern int TAIL;
-extern int LIB;
-extern int STEP;*/
-
-/* print.c prototypes (for debugging) */
-void debug_register(Obj reg, char* name);
-// hopefully these can be isolated to print.c
-void print_obj(Obj obj);
-void print_list(List* list);
 
 #endif

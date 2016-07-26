@@ -41,10 +41,16 @@ int save_count = 0;
 int curr_stack_depth = 0;
 int max_stack_depth = 0;
 
+void reset_stats(void) {
+	save_count = 0;
+	curr_stack_depth = 0;
+	max_stack_depth = 0;
+}
+
 /* stack operations */
 
 void save(Obj reg) {
-	if (DEBUG) printf("%s\n", "save!");
+			if (DEBUG) printf("%s\n", "save!");
 	List* temp = stack;
 	stack = malloc(sizeof(List)); // &stack?
 	stack->car = reg;
@@ -59,7 +65,7 @@ void save(Obj reg) {
 }
 
 void restore(Obj* reg) {
-	if (DEBUG) printf("%s\n", "restore!");
+			if (DEBUG) printf("%s\n", "restore!");
 	*reg = stack->car;
 	List* temp = stack;
 	stack = stack->cdr;
@@ -68,6 +74,8 @@ void restore(Obj* reg) {
 	curr_stack_depth--;
 	return;
 }
+
+/* stack management */
 
 #define empty_stack NULL
 
@@ -85,10 +93,4 @@ void initialize_stack(void) {
 	clear_stack();
 	stack = empty_stack;
 	return;
-}
-
-void reset_stats(void) {
-	save_count = 0;
-	curr_stack_depth = 0;
-	max_stack_depth = 0;
 }

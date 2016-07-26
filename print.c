@@ -21,17 +21,35 @@
 #include "registers.h"
 #include "stack.h"
 
-#define NL printf("\n");
-#define PRDIV printf("--------------------\n");
 
-
-/***************************/
-
+/* evaluator info printing */
 
 void print_info(void) {
 	PRDIV;
 	print_registers();
 	print_stack();
+	if (STEP)
+		getchar();
+}
+
+void print_stats(void) {
+	if (LIB) return;
+
+	printf("*** STATS ***\n");
+	printf("Total number of saves: %d\n", save_count);
+	printf("Maximum stack depth: %d\n", max_stack_depth);
+	reset_stats();
+}
+
+void print_final_val(void) {
+	if (LIB) return;
+	
+	printf("\nVALUE: ");
+	print_obj(val); NL; NL;
+
+	if (!STATS)
+		reset_stats();
+	
 	if (STEP)
 		getchar();
 }
@@ -69,39 +87,6 @@ void print_stack(void) {
 	}
 	PRDIV;
 }
-
-void print_stats(void) {
-	if (LIB) return;
-
-	printf("*** STATS ***\n");
-	printf("Total number of saves: %d\n", save_count);
-	printf("Maximum stack depth: %d\n", max_stack_depth);
-	reset_stats();
-}
-
-void print_final_val(void) {
-	if (LIB) return;
-	
-	printf("\nVALUE: ");
-	print_obj(val); NL; NL;
-
-	if (!STATS)
-		reset_stats();
-	
-	if (STEP)
-		getchar();
-}
-
-// is there a better way to include the register name?
-void debug_register(Obj reg, char* name) {
-	printf("\nDEBUG -- register: %s\n", name);
-	print_obj(reg); NL; NL;
-}
-
-/* low-level printing */
-
-void print_label(Label label);
-char* lookup_func_name(Obj* func_obj);
 
 void print_obj(Obj obj) {
 	switch(obj.tag) {
@@ -201,4 +186,32 @@ char* lookup_func_name(Obj* func_obj) {
 	}
 
 	return "unknown primitive function...";
+}
+
+
+/* user interface printing */
+
+void print_intro(void) {
+	NL;
+	printf("Welcome to lispinc!"); NL; NL;
+	printf("Nick Drozd, 2016"); NL;
+	printf("github.com/nickdrozd/lispinc"); NL; NL;
+	printf("Enter .help for help and enter .quit to quit."); NL; NL;
+	printf("Now, the time has come for you to lispinc...for your life!"); NL; NL;
+}
+
+void print_lib(void) {
+	printf("loading library..."); 
+	NL;
+}
+
+void print_help(void) {
+	NL;
+	printf("HELP");NL;
+	printf("\t-- enter .stats to toggle stats mode");NL;
+	printf("\t-- enter .info to toggle info mode");NL;
+	printf("\t-- enter .step to toggle step mode (pauses between each step of the evaluator; useful in conjunction with info mode)\n");
+	printf("\t-- enter .tail to toggle tail recursion mode (turning this off is really only of any interest in conjunction with stats mode)");NL;
+	printf("\t-- enter .debug to toggle debug mode");NL;
+	printf("\t-- enter .quit to quit");NL;NL;
 }
