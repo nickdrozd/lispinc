@@ -29,6 +29,13 @@
 
 */
 
+#include <stdio.h>
+#include <stdbool.h>
+
+#include "lib.h"
+#include "flags.h"
+
+
 /* list operations */
 
 #define list_count 4
@@ -135,3 +142,24 @@ char* library[] = {cons"\n",
 	(this has to be handled manually?) */
 
 int lib_len = list_count + arith_count;
+
+
+/* library loading */
+
+int lib_counter = 0;
+
+char* load_library(void) {	
+			if (DEBUG) print_lib();
+	char* lib_entry = library[lib_counter];
+	lib_counter++;
+	return lib_entry;
+}
+
+void print_lib(void) {
+	char* lib_entry = library[lib_counter];
+	printf("loading library entry: %s\n", lib_entry);
+}
+
+bool lib_loaded(void) {
+	return lib_counter >= lib_len;
+}

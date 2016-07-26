@@ -200,11 +200,6 @@ void print_intro(void) {
 	printf("Now, the time has come for you to lispinc...for your life!"); NL; NL;
 }
 
-void print_lib(void) {
-	printf("loading library..."); 
-	NL;
-}
-
 void print_help(void) {
 	NL;
 	printf("HELP");NL;

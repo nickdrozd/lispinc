@@ -7,11 +7,6 @@
 	then command is executed. Otherwise, the input
 	(presumed to be Lisp code) is passed to the
 	functions in parse.c.
-
-	Also included here are a few print functions,
-	like printing the REPL prompt, help, and the 
-	intro text. These aren't included in print.c 
-	because they don't do anything substantive.
 */
 
 /*
@@ -19,7 +14,6 @@
 		-- make it so that newlines don't have to be
 			added to every input string (problem
 			with tokenize in parse.c?s)
-		-- load_lib function
 */
 
 #include <stdio.h>
@@ -35,25 +29,15 @@
 
 char code[BUFSIZ];
 
-int lib_counter = 0;
-
-/* should there be a separate load_library function?
-	how should it be implemented? */
-
 Obj read_code(void) {
 
-	if (lib_counter < lib_len) {
-		// print_lib();
-		char* lib_entry = library[lib_counter];
-				if (DEBUG) printf("library entry: %s\n", lib_entry);
-		Obj result = process_code_text(lib_entry);
-		lib_counter++;
+	while (!lib_loaded()) {
+		char* lib_code = load_library();
+		Obj result = process_code_text(lib_code);
 		return result;
 	}
 
-	if (lib_counter >= lib_len && LIB) 
-		toggle_val(&LIB);
-
+	if (LIB) toggle_val(&LIB);
 
 	input_prompt();
 
@@ -104,6 +88,7 @@ bool isEnter(char* code) {
 	return streq(code, "\n");
 }
 
+// other bad syntax conditions can be added later
 bool badSyntax(char* code) {
 	return !parens_balanced(code);
 }
@@ -137,6 +122,11 @@ bool close_paren(char c) {
 
 /* check for user commands (see flags.h) */
 
+int isSpecial(char* code) {
+			if (DEBUG) printf("isSpecial\n");
+	return isFlag(code) || isHelp(code); // || isQuit(code);
+}
+
 int isFlag(char* code) {
 			if (DEBUG) printf("isFlag\n");
 	return streq(code, _DEBUG) || 
@@ -156,11 +146,6 @@ int isHelp(char* code) {
 // 			if (DEBUG) printf("isQuit\n");
 // 	return streq(code, _QUIT);
 // }
-
-int isSpecial(char* code) {
-			if (DEBUG) printf("isSpecial\n");
-	return isFlag(code) || isHelp(code); // || isQuit(code);
-}
 
 int streq(char* str1, char* str2) {
 	return strcmp(str1, str2) == 0;

@@ -18,5 +18,4 @@ char* lookup_func_name(Obj* func_obj);
 /* user interface */
 
 void print_intro(void);
-void print_lib(void);
 void print_help(void);

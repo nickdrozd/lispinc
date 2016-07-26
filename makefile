@@ -25,7 +25,7 @@ parse.o : parse.c parse.h flags.h objects.h
 env.o : env.c env.h mem.h flags.h objects.h
 	$(make_obj) env.c
 
-lib.o : lib.c
+lib.o : lib.c flags.h lib.h
 	$(make_obj) lib.c
 
 registers.o : registers.c print.h objects.h
@@ -37,7 +37,7 @@ stack.o : stack.c stack.h flags.h objects.h
 llh.o : llh.c llh.h flags.h objects.h
 	$(make_obj) llh.c
 
-print.o : print.c print.h registers.h flags.h objects.h
+print.o : print.c print.h registers.h stack.h flags.h objects.h
 	$(make_obj) print.c
 
 mem.o: mem.c mem.h parse.h flags.h objects.h
