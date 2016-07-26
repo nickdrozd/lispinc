@@ -56,7 +56,7 @@
 
 /* arithmetic operations */
 
-#define arith_count 5
+#define arith_count 8
 
 #define zero_ \
 	"(define zero? \
@@ -72,6 +72,29 @@
 	"(define sub1 \
 		(lambda (n) \
 			(- n 1)))"
+
+#define triangular \
+	"(define triangular \
+		(lambda (n) \
+			(if (zero? n) \
+				0 \
+				(+ n (triangular (sub1 n))))))"
+
+#define tetrahedral \
+	"(define tetrahedral \
+		(lambda (n) \
+			(if (zero? n) \
+				0 \
+				(+ (triangular n) \
+					(tetrahedral (sub1 n))))))"
+
+#define supertetrahedral \
+	"(define supertetrahedral \
+		(lambda (n) \
+			(if (zero? n) \
+				0 \
+				(+ (tetrahedral n) \
+					(supertetrahedral (sub1 n))))))"
 
 #define fact_rec \
 	"(define recursive_factorial \
@@ -101,7 +124,10 @@ char* library[] = {cons"\n",
 					 nil"\n", 
 					 zero_"\n",
 					 add1"\n", 
-					 sub1"\n",  
+					 sub1"\n", 
+					 triangular"\n", 
+					 tetrahedral"\n", 
+					 supertetrahedral"\n", 
 					 fact_rec"\n", 
 					 fact_iter"\n"};
 

@@ -1,3 +1,11 @@
+extern int DEBUG;
+extern int INFO;
+extern int STATS;
+extern int REPL;
+extern int TAIL;
+extern int LIB;
+extern int STEP;
+
 // it would be nice if these didn't need newlines
 #define nlchar "\n"
 

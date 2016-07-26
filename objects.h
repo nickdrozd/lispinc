@@ -141,13 +141,13 @@ struct Env {
 List* makeList(Obj car, List* cdr);
 
 /* debug / info mode */
-extern int DEBUG;
+/*extern int DEBUG;
 extern int INFO;
 extern int STATS;
 extern int REPL;
 extern int TAIL;
 extern int LIB;
-extern int STEP;
+extern int STEP;*/
 
 /* print.c prototypes (for debugging) */
 void debug_register(Obj reg, char* name);

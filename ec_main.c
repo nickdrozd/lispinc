@@ -22,6 +22,7 @@
 #include <stdbool.h>
 		
 #include "objects.h"
+#include "flags.h"
 #include "read.h"
 #include "env.h"
 #include "registers.h"

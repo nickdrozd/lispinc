@@ -67,6 +67,7 @@
 
 #include "objects.h"
 #include "env.h"
+#include "flags.h"
 #include "mem.h"
 
 /* base_env established separately to 

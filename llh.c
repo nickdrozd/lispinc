@@ -26,6 +26,7 @@
 #include <string.h>
 		
 #include "objects.h"
+#include "flags.h"
 #include "llh.h"
 
 /* reserved words */
@@ -42,7 +43,7 @@
 /* input */
 bool isQuit(Obj expr) {
 	return expr.tag == NAME &&
-		strcmp(expr.val.name, QUIT) == 0;
+		cmpForm(expr.val.name, QUIT);
 }
 
 /* primitive types */

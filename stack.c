@@ -30,6 +30,7 @@
 #include <stdlib.h>
 	
 #include "objects.h"
+#include "flags.h"
 #include "stack.h"
 
 List* stack;

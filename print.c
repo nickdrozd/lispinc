@@ -16,6 +16,7 @@
 #include <stdio.h>
 		
 #include "objects.h"
+#include "flags.h"
 #include "print.h"
 #include "registers.h"
 #include "stack.h"
@@ -83,6 +84,10 @@ void print_final_val(void) {
 	
 	printf("\nVALUE: ");
 	print_obj(val); NL; NL;
+
+	if (!STATS)
+		reset_stats();
+	
 	if (STEP)
 		getchar();
 }

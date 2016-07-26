@@ -26,8 +26,8 @@
 #include <string.h>
 
 #include "objects.h"
-#include "read.h"
 #include "flags.h"
+#include "read.h"
 #include "parse.h"
 #include "lib.h"
 

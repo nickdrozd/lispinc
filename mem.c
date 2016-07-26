@@ -12,8 +12,9 @@
 #include <stdlib.h>
 
 #include "objects.h"
-#include "parse.h"
+#include "flags.h"
 #include "mem.h"
+#include "parse.h"
 
 
 void free_memory(void) {
