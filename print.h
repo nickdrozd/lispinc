@@ -14,7 +14,7 @@ void print_registers(void);
 void print_obj(Obj obj);
 void print_list(List* list);
 void print_label(Label label);
-char* lookup_func_name(Obj* func_obj);
+char* lookup_prim_name(Obj func_obj);
 
 /* user interface */
 

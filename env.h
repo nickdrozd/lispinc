@@ -60,6 +60,7 @@
 /*
 	TODO:
 		-- markings for distinct envs?
+		-- clean up lookup_prim_name, it's ugly
 */
 
 

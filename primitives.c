@@ -6,6 +6,7 @@
 /* primitive names */
 
 List* primitive_vars(void) {
+
 	List* prim_arith_vars = 
 		makeList(NAMEOBJ(PRIM_ADD), 
 			makeList(NAMEOBJ(PRIM_SUB), 
@@ -21,19 +22,37 @@ List* primitive_vars(void) {
 /* primitive values */
 
 List* primitive_vals(void) {
+
+	Prim addprim = INTFUNC(add_);
+	Prim subprim = INTFUNC(sub_);
+	Prim mulprim = INTFUNC(mul_);
+	Prim divprim = INTFUNC(div_);
+	Prim eqprim = INTFUNC(eq_);
+
 	List* prim_arith_vals = 
-		makeList(FUNCOBJ(add_), 
-			makeList(FUNCOBJ(sub_), 
-				makeList(FUNCOBJ(mul_), 
-					makeList(FUNCOBJ(div_), 
-						makeList(FUNCOBJ(eq_), NULL)))));
+		makeList(PRIMOBJ(addprim), 
+			makeList(PRIMOBJ(subprim), 
+				makeList(PRIMOBJ(mulprim), 
+					makeList(PRIMOBJ(divprim), 
+						makeList(PRIMOBJ(eqprim), NULL)))));
 
 	List* vals = prim_arith_vals;
 
 	return vals;
 }
 
-/* primitive arithmetic functions */
+/* primitive type-checking */
+
+int null_func(Obj obj) {
+	int isList = obj.tag == LIST;
+	int isNull = obj.val.list == NULL;
+
+	return isList && isNull;
+}
+
+objFunc null_ = null_func;
+
+/* primitive arithmetic */
 
 int add_func(int a, int b) {
 	return a + b;

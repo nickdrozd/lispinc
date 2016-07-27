@@ -54,6 +54,10 @@
 	it's part of Env. See env.c for details.
 */
 
+/*
+	TODO: edit to include description of Prims
+*/
+
 #ifndef OBJECTS_GUARD
 #define OBJECTS_GUARD
 
@@ -63,9 +67,13 @@ typedef union Val Val;
 typedef struct Obj Obj;
 typedef struct List List;
 
+typedef struct Prim Prim;
+typedef union primFunc primFunc;
+typedef int (*intFunc)(int, int);
+typedef int (*objFunc)(Obj);
+
 typedef struct Frame Frame;
 typedef struct Env Env;
-typedef int (*intFunc)(int, int);
 
 /* there are more labels, 
 but these are the ones that 
@@ -84,13 +92,31 @@ typedef enum {
 	label_count
 } Label;
 
+/* primitive functions */
+
+typedef enum {
+	INTPRIM,
+	OBJPRIM,
+	primType_count
+} primType;
+
+union primFunc {
+	intFunc intfunc;
+	objFunc objfunc;
+};
+
+struct Prim {
+	primType type;
+	primFunc func;
+};
+
 /* objects */
 
 typedef enum {
 	NUM,
 	NAME,
 	LIST,
-	FUNC,
+	PRIM,
 	ENV,
 	LABEL,
 	DUMMY,
@@ -102,7 +128,7 @@ union Val {
 	int num;
 	char* name;
 	List* list;
-	intFunc func;
+	Prim prim;
 	Env* env;
 	Label label;
 	int dummy;
@@ -132,21 +158,45 @@ struct Env {
 	Env* enclosure;
 };
 
+/* constructors and selectors */
+
+/* nested macros have to listed reversed from their
+	natural logical order */
+
+/* selectors */
+
+#define GETTAG(X) obj.tag
+#define GETNUM(X) obj.val.num
+#define GETNAME(X) obj.val.name
+#define GETLIST(X) obj.val.list
+// getprim
+#define GETENV(X) obj.val.env
+#define GETLABEL(X) obj.val.label
+
+
 /* constructors */
 
-// nested macro expansion
+// Prim
+
+#define INTFUNC(X) MKPRIM(INTPRIM,intfunc,X)
+#define OBJFUNC(X) MKPRIM(OBJPRIM,objfunc,X)
+
+#define MKPRIM(TYPE,FUNCTYPE,FUNC) (Prim){.type = TYPE, .func = (primFunc){.FUNCTYPE = FUNC}}
+
+// Obj
+
 #define NUMOBJ(X) MKOBJ(NUM,num,X)
 #define NAMEOBJ(X) MKOBJ(NAME,name,X)
 #define LISTOBJ(X) MKOBJ(LIST,list,X)
-#define FUNCOBJ(X) MKOBJ(FUNC,func,X)
+#define PRIMOBJ(X) MKOBJ(PRIM,prim,X)
 #define ENVOBJ(X) MKOBJ(ENV,env,X)
 #define LABELOBJ(X) MKOBJ(LABEL,label,X)
-
 #define DUMMYOBJ MKOBJ(DUMMY,dummy,0)
 #define UNINITOBJ MKOBJ(UNINIT, uninit, 0)
 
 #define MKOBJ(TAG,VALTYPE,VAL) (Obj){.tag = TAG, .val = (Val){.VALTYPE = VAL}}
 
+// List (defined in env.c)
 List* makeList(Obj car, List* cdr);
 
 #endif

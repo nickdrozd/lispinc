@@ -21,7 +21,6 @@
 #include "registers.h"
 #include "stack.h"
 
-
 /* evaluator info printing */
 
 void print_info(void) {
@@ -89,26 +88,26 @@ void print_stack(void) {
 }
 
 void print_obj(Obj obj) {
-	switch(obj.tag) {
+	switch(GETTAG(obj)) {
 		case NUM:
-			printf("%d ", obj.val.num);
+			printf("%d ", GETNUM(obj));
 			break;
 		case NAME:
-			printf("%s ", obj.val.name);
+			printf("%s ", GETNAME(obj));
 			break;
 		case LIST:
 			printf("%s", "( ");
-			print_list(obj.val.list);
+			print_list(GETLIST(obj));
 			break;
-		case FUNC:
+		case PRIM:
 			printf("__%s__ ", 
-				lookup_func_name(&obj));
+				lookup_prim_name(obj));
 			break;
 		case ENV:
-			printf("%p ", obj.val.env);
+			printf("%p ", GETENV(obj));
 			break;
 		case LABEL:
-			print_label(obj.val.label);
+			print_label(GETLABEL(obj));
 			break;
 		case DUMMY:
 			printf("%s ", "???");
@@ -168,20 +167,54 @@ void print_label(Label label) {
 
 extern Env* base_env;
 
-char* lookup_func_name(Obj* func_obj) {
-	intFunc lookup_func = (*func_obj).val.func;
+char* lookup_prim_name(Obj func_obj) {
+	// dispatch on primitive function type
+	primType type = func_obj.val.prim.type;
+
+	intFunc lookup_intfunc;
+	intFunc val_intfunc;
+
+	objFunc lookup_objfunc;
+	objFunc val_objfunc;
+
+	primType val_type;
+
+	if (type == INTPRIM) 
+		lookup_intfunc = func_obj.val.prim.func.intfunc;
+
+	else if (type == OBJPRIM) 
+		lookup_objfunc = func_obj.val.prim.func.objfunc;
+
 	Frame* frame = base_env->frame;
 	Obj val;
-	intFunc val_func;
 	char* key;
+
 	while (frame) {
+
 		val = frame->val;
-		if (val.tag == FUNC) {
-			val_func = val.val.func;
-			key = frame->key;
-			if (lookup_func == val_func)
-				return key;
+
+		if (val.tag == PRIM) {
+			val_type = val.val.prim.type;
+
+			if (val_type == INTPRIM) {
+				val_intfunc = val.val.prim.func.intfunc;
+				key = frame->key;
+				if (lookup_intfunc == val_intfunc)
+					return key;
+			}
+
+			else if (val_type == OBJPRIM) {
+				val_objfunc = val.val.prim.func.objfunc;
+				key = frame->key;
+				if (lookup_objfunc == val_objfunc)
+					return key;
+			}
+
+			// val_func = val.val.prim;
+			// if (lookup_func == val_func)
+				// return key;
 		}
+
 		frame = frame->next;
 	}
 
