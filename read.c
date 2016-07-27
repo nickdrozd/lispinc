@@ -21,6 +21,7 @@
 #include <string.h>
 
 #include "objects.h"
+#include "keywords.h"
 #include "flags.h"
 #include "read.h"
 #include "parse.h"
@@ -101,25 +102,13 @@ bool parens_balanced(char* code) {
 	int len = strlen(code);
 
 	for (int i = 0; i < len; i++) {
-		if (open_paren(code[i]))
+		if (OPENPAREN(code[i]))
 			op++;
-		if (close_paren(code[i]))
+		if (CLOSEPAREN(code[i]))
 			cp++;
 	}
 
 	return op == cp;
-}
-
-bool open_paren(char c) {
-	return c == '(' ||
-			c == '[' ||
-			c == '{';
-}
-
-bool close_paren(char c) {
-	return c == ')' ||
-			c == ']' ||
-			c == '}';
 }
 
 /* check for user commands (see flags.h) */

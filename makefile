@@ -14,13 +14,13 @@ main_headers = flags.h read.h mem.h env.h registers.h stack.h llh.h print.h obje
 ec_main.o : ec_main.c $(main_headers)
 	$(make_obj) ec_main.c
 
-read.o : read.c read.h parse.h lib.h flags.h print.h objects.h
+read.o : read.c read.h parse.h lib.h flags.h print.h keywords.h objects.h
 	$(make_obj) read.c
 
 flags.o : flags.c read.c flags.h
 	$(make_obj) flags.c
 
-parse.o : parse.c parse.h flags.h objects.h
+parse.o : parse.c parse.h flags.h keywords.h objects.h
 	$(make_obj) parse.c
 
 env.o : env.c env.h mem.h flags.h objects.h

@@ -1,3 +1,9 @@
+/* syntax */
+
+#define OPENPAREN(X)  X == '(' || X == '['  || X == '{'
+#define CLOSEPAREN(X) X == ')' || X == ']'  || X == '}'
+#define WHITESPACE(X) X == ' ' || X == '\n' || X == '\t'
+
 /* reserved words */
 
 #define QUOTE_KEY "quote"

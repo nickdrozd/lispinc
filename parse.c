@@ -39,6 +39,7 @@
 #include <ctype.h>
 
 #include "objects.h"
+#include "keywords.h"
 #include "parse.h"
 #include "flags.h"
 #include "mem.h"
@@ -86,14 +87,15 @@ Token_list* tokenize(char* expr) {
 
 		c = expr[i];
 
-		// TODO: special case for nonlist expr
+		// TODO: special case for nonlist expr (???)
 
-		if (c == '(' || c == '[' || c == '{')
+		if (OPENPAREN(c))
 			goto OPEN;
-		if (c == ')' || c == ']' || c == '}')
+		if (CLOSEPAREN(c))
 			goto CLOSE;
-		if (c == ' ' || c == '\n' || c == '\t')
-			goto WHITESPACE;
+		if (WHITESPACE(c))
+			goto SEPARATOR;
+
 		/* default case is any other char
 		so no other if clause is needed? */
 		// if (isalnum(c))
@@ -128,7 +130,7 @@ Token_list* tokenize(char* expr) {
 		i++;
 		goto START;
 
-	WHITESPACE://printf("%d @ %s\n", state, "WHITESPACE");
+	SEPARATOR://printf("%d @ %s\n", state, "SEPARATOR");
 		if (state == SYMBOL)
 			goto END_TEXT;
 		i++;
