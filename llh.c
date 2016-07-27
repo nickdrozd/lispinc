@@ -17,7 +17,6 @@
 /*
 	TODO:
 		-- figure out isTrue
-		-- should isQuit be here? parse.c?
 */
 
 #include <stdio.h>
@@ -26,21 +25,17 @@
 #include <string.h>
 		
 #include "objects.h"
+#include "keywords.h"
 #include "flags.h"
 #include "llh.h"
 
-/* reserved words */
-
-#define QUOTE_KEY "quote"
-#define BEGIN_KEY "begin"
-#define IF_KEY "if"
-#define FUN_KEY "lambda"
-#define DEF_KEY "define"
-#define ASS_KEY "set!"
-
-#define QUIT ".quit"
-
 /* input */
+
+/* isQuit can't be defined in read.c because it affects
+	how the evaluator itself runs, whereas the other 
+	user commands (e.g. flag toggling) are executed 
+	just by the read function. */
+
 bool isQuit(Obj expr) {
 	return expr.tag == NAME &&
 		cmpForm(expr.val.name, QUIT);
@@ -127,6 +122,7 @@ Obj lambdaParams(Obj expr) {
 and some other functions to provide for a list of
 body expressions; otherwise, explicit begins are needed
 for, e.g, iterative factorial */
+
 Obj lambdaBody(Obj expr) {
 	return expr.val.list->cdr->cdr->car;
 }
