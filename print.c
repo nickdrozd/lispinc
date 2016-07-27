@@ -202,11 +202,21 @@ void print_intro(void) {
 
 void print_help(void) {
 	NL;
-	printf("HELP");NL;
-	printf("\t-- enter .stats to toggle stats mode");NL;
-	printf("\t-- enter .info to toggle info mode");NL;
-	printf("\t-- enter .step to toggle step mode (pauses between each step of the evaluator; useful in conjunction with info mode)\n");
-	printf("\t-- enter .tail to toggle tail recursion mode (turning this off is really only of any interest in conjunction with stats mode)");NL;
-	printf("\t-- enter .debug to toggle debug mode");NL;
-	printf("\t-- enter .quit to quit");NL;NL;
+	printf("*** HELP ***");NL;
+	TAB;printf("-- enter .info to toggle evaluator info mode");NL;
+	TAB;printf("-- enter .step to toggle step mode (pauses between each step of the evaluator in info mode)");NL;
+	TAB;printf("-- enter .stats to toggle stack stats mode");NL;
+	TAB;printf("-- enter .tail to toggle tail recursion mode (turning this off is really only of any interest in conjunction with stats mode)");NL;
+	TAB;printf("-- enter .debug to toggle debug mode");NL;
+	TAB;printf("-- enter .quit to quit");NL;NL;
+}
+
+void print_flags(void) {
+	NL;
+	printf("*** FLAGS ***");NL;
+	TAB;printf("INFO  :%s", INFO ? "ON" : "OFF");NL
+	TAB;printf("STEP  :%s", STEP ? "ON" : "OFF");NL
+	TAB;printf("STATS :%s", STATS ? "ON" : "OFF");NL
+	TAB;printf("TAIL  :%s", TAIL ? "ON" : "OFF");NL
+	TAB;printf("DEBUG :%s", DEBUG ? "ON" : "OFF");NL
 }

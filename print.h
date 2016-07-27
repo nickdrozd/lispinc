@@ -1,4 +1,5 @@
 #define NL printf("\n");
+#define TAB printf("\t");
 #define PRDIV printf("--------------------\n");
 
 /* evaluator info printing */
@@ -19,3 +20,4 @@ char* lookup_func_name(Obj* func_obj);
 
 void print_intro(void);
 void print_help(void);
+void print_flags(void);

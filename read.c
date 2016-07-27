@@ -42,8 +42,10 @@ Obj read_code(void) {
 	input_prompt();
 
 	while (isSpecial(code)) {
-		if (isFlag(code))
+		if (isFlag(code)) {
 			switch_flag(code);
+			print_flags();
+		}
 		else if (isHelp(code))
 			print_help();
 		input_prompt();
