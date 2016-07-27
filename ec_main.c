@@ -61,14 +61,14 @@ int main(void) {
 	START:
 		initialize_registers();
 		initialize_stack();
-		env = MKOBJ(ENV, env, base_env);
+		env = ENVOBJ(base_env);
 				if (INFO) printf("\n\nbase_env: %p\n", base_env);
 				if (INFO) { printf("\n\n@ START\n"); print_info(); }
 		expr = read_code();
 				if (DEBUG) printf("\nec_main -- code read!\n");
 		if (isQuit(expr)) // move this to read.c
 			goto QUIT;
-		cont = MKOBJ(LABEL, label, _DONE);
+		cont = LABELOBJ(_DONE);
 		goto EVAL;
 
 	CONTINUE:
@@ -158,7 +158,7 @@ int main(void) {
 		save(expr);
 		save(env);
 		save(cont);
-		cont = MKOBJ(LABEL, label, _IF_DECIDE);
+		cont = LABELOBJ(_IF_DECIDE);
 		expr = ifTest(expr);
 		goto EVAL;
 
@@ -194,7 +194,7 @@ int main(void) {
 		expr = assVal(expr);
 		save(env);
 		save(cont);
-		cont = MKOBJ(LABEL, label, _DID_ASS_VAL);
+		cont = LABELOBJ(_DID_ASS_VAL);
 		goto EVAL;
 
 	DID_ASS_VAL:
@@ -213,7 +213,7 @@ int main(void) {
 		expr = defVal(expr);
 		save(env);
 		save(cont);
-		cont = MKOBJ(LABEL, label, _DID_DEF_VAL);
+		cont = LABELOBJ(_DID_DEF_VAL);
 		goto EVAL;
 
 	DID_DEF_VAL:
@@ -237,7 +237,7 @@ int main(void) {
 		unev = getArgs(expr);
 		save(unev);
 		expr = getFunc(expr);
-		cont = MKOBJ(LABEL, label, _DID_FUNC);
+		cont = LABELOBJ(_DID_FUNC);
 		goto EVAL;
 
 	#define empty_arglist MKOBJ(LIST, list, NULL)
@@ -261,7 +261,7 @@ int main(void) {
 			goto LAST_ARG;
 		save(env);
 		save(unev);
-		cont = MKOBJ(LABEL, label, _ACC_ARG);
+		cont = LABELOBJ(_ACC_ARG);
 		goto EVAL;
 
 	ACC_ARG:
@@ -275,7 +275,7 @@ int main(void) {
 
 	LAST_ARG:
 		if (INFO) { printf("\n\n@ LAST_ARG\n"); print_info(); }
-		cont = MKOBJ(LABEL, label, _DID_LAST_ARG);
+		cont = LABELOBJ(_DID_LAST_ARG);
 		goto EVAL;
 
 	DID_LAST_ARG:
@@ -321,7 +321,7 @@ int main(void) {
 			goto LAST_EXP;
 		save(unev);
 		save(env);
-		cont = MKOBJ(LABEL, label, _SEQ_CONT);
+		cont = LABELOBJ(_SEQ_CONT);
 		goto EVAL;
 
 	SEQ_CONT:
@@ -345,7 +345,7 @@ int main(void) {
 		expr = firstExp(unev);
 		save(unev);
 		save(env);
-		cont = MKOBJ(LABEL, label, _ALT_SEQ_CONT);
+		cont = LABELOBJ(_ALT_SEQ_CONT);
 		goto EVAL;
 
 	ALT_SEQ_CONT:
@@ -370,10 +370,10 @@ int main(void) {
 		goto START;
 
 	QUIT:
-			free_memory();
-			printf("\n%s\n", "exiting lispinc...");
-			printf("Byeeeeee!\n\n");
-			return 0;
+				free_memory();
+				printf("\n%s\n", "exiting lispinc...");
+				printf("Byeeeeee!\n\n");
+				return 0;
 }
 
 

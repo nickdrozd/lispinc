@@ -106,17 +106,18 @@ intFunc mul_ = mul_func;
 intFunc div_ = div_func;
 intFunc eq_ = eq_func;
 
-/* base_env */
+/* env builders */
 
 #define PRIM_ADD "+"
 #define PRIM_SUB "-"
 #define PRIM_MUL "*"
 #define PRIM_DIV "/"
-#define PRIM_EQ "="
+#define PRIM_EQ "=" 
 
+// returns pointer to base_env
 Env* makeBaseEnv(void) {
 	List* function_vars = 
-		makeList(MKOBJ(NAME, name, PRIM_ADD), 
+		makeList(NAMEOBJ(PRIM_ADD), 
 			makeList(MKOBJ(NAME, name, PRIM_SUB), 
 				makeList(MKOBJ(NAME, name, PRIM_MUL), 
 					makeList(MKOBJ(NAME, name, PRIM_DIV), 
@@ -138,6 +139,21 @@ Env* makeBaseEnv(void) {
 	return env;
 }
 
+// returns new env obj with vars bound to vals
+Obj extendEnv(Obj vars_obj, Obj vals_obj, Obj base_env_obj) {
+	List* vars = vars_obj.val.list;
+	List* vals = vals_obj.val.list;
+	Env* base_env = base_env_obj.val.env;
+
+	Frame* frame = makeFrame(vars, vals);
+	Env* ext_env = makeEnv(frame, base_env);
+
+	append_to_envs(ext_env);
+
+	return ENVOBJ(ext_env);
+}
+
+
 /* lookup in env */
 
 Obj lookup(Obj var_obj, Obj env_obj) {
@@ -148,65 +164,10 @@ Obj lookup(Obj var_obj, Obj env_obj) {
 	return lookup_in_env(var, env);
 }
 
-Obj lookup_in_env(char* var, Env* env) { // lookup in env
-	if (DEBUG) printf("%s\n", "looking up in env...");
-	if (env == NULL) {
-		if (DEBUG) printf("%s\n", "null env, returning DUMMY");
-		return MKOBJ(DUMMY, dummy, 0);
-	}
-
-	Frame* frame = env->frame;
-	Obj checkFrame = lookup_in_frame(var, frame);
-
-	if (checkFrame.tag != DUMMY)
-		return checkFrame;
-	else
-		return lookup_in_env(var, env->enclosure);
-}
-
-Obj lookup_in_frame(char* var, Frame* frame) { // helper for lookup
-	if (DEBUG) printf("%s\n", "looking up in frame...");
-	if (frame == NULL)
-		return MKOBJ(DUMMY, dummy, 0);
-
-	char* key = frame->key;
-
-	if (strcmp(var, key) == 0)
-		return (frame->val);
-	else
-		return lookup_in_frame(var, frame->next);
-}
-
 /* modify env */
 
-// add keyval to first frame in env
-// void defineVar(Obj var_obj, Obj val_obj, Obj* env_obj) {
-// 			if (DEBUG) printf("%s\n", "defining...");
-// 	char* var = var_obj.val.name;
-// 	Env* env = (*env_obj).val.env;
-
-// 	Frame* frame = env->frame;
-
-// 	while (frame != NULL) {
-// 		if (strcmp(var, frame->key) == 0) {
-// 			frame->val = val_obj;
-// 			printf("\"%s\" already defined!\n", var);
-// 			return;
-// 		}
-// 			if (DEBUG) printf("checking next frame...\n");
-// 		frame = frame->next; // cdr down frame list
-// 	}
-
-// 			if (DEBUG) printf("var unbound! adding var...\n");
-
-// 	// frame == NULL
-// 	frame = malloc(sizeof(Frame));
-// 	frame->key = var;
-// 	frame->val = val_obj;
-// 	frame->next = NULL;
-// 	return;
-// }
-
+/* adds new var/val binding to env
+(doesn't check for existing binding) */
 void defineVar(Obj var_obj, Obj val_obj, Obj* env_obj) {
 	char* var = var_obj.val.name;
 	Env* env = (*env_obj).val.env;
@@ -219,7 +180,7 @@ void defineVar(Obj var_obj, Obj val_obj, Obj* env_obj) {
 	return;
 }
 
-// set first occurence of var to val
+// sets first occurence of var to val
 void setVar(Obj var_obj, Obj val_obj, Obj env_obj) {
 	char* var = var_obj.val.name;
 	Env* env = env_obj.val.env;
@@ -241,34 +202,18 @@ void setVar(Obj var_obj, Obj val_obj, Obj env_obj) {
 		frame = frame->next;
 	}
 
-	Obj enclosure = MKOBJ(ENV, env, env->enclosure);
+	Obj enclosure = ENVOBJ(env->enclosure);
 
 	setVar(var_obj, val_obj, enclosure);
 }
 
-// add a new frame to base_env, return pointer to new env
-// Obj extendEnv(Obj vars_obj, Obj vals_obj, Obj base_env_obj) {
-// 	List* vars = vars_obj.val.list;
-// 	List* vals = vals_obj.val.list;
-// 	Env* base_env = base_env_obj.val.env;
-
-// 	Frame* frame = makeFrame(vars, vals);
-// 	Env* ext_env = malloc(sizeof(Env));
-// 	ext_env->frame = frame;
-// 	ext_env->enclosure = base_env;
-
-// 	Obj ext_env_obj = MKOBJ(ENV, env, ext_env);
-// 	return ext_env_obj;
-// }
-
 /* constructors */
 
-// cons-like
-List* makeList(Obj car, List* cdr) {
-	List* list = malloc(sizeof(List));
-	list->car = car;
-	list->cdr = cdr;
-	return list;
+Env* makeEnv(Frame* frame, Env* enclosure) {
+	Env* env = malloc(sizeof(Env));
+	env->frame = frame;
+	env->enclosure = enclosure;
+	return env;
 }
 
 // zip-like
@@ -289,51 +234,42 @@ Frame* makeFrame(List* vars, List* vals) {
 	return frame;
 }
 
-Env* makeEnv(Frame* frame, Env* enclosure) {
-	Env* env = malloc(sizeof(Env));
-	env->frame = frame;
-	env->enclosure = enclosure;
-	return env;
+// cons-like
+List* makeList(Obj car, List* cdr) {
+	List* list = malloc(sizeof(List));
+	list->car = car;
+	list->cdr = cdr;
+	return list;
 }
 
-/* lookup table for primitive function names */
+/* lookup helpers */
 
-// Obj makeBaseEnv(void) {
-// 	List* function_vars = 
-// 		makeList(MKOBJ(NAME, name, "add"), 
-// 			makeList(MKOBJ(NAME, name, "sub"), 
-// 				makeList(MKOBJ(NAME, name, "mul"), 
-// 					makeList(MKOBJ(NAME, name, "div"), NULL))));
+Obj lookup_in_env(char* var, Env* env) { // lookup in env
+			if (DEBUG) printf("%s\n", "looking up in env...");
+	if (env == NULL) {
+			if (DEBUG) printf("%s\n", "null env, returning DUMMY");
+		return DUMMYOBJ;
+	}
 
-// 	List* function_vals = 
-// 		makeList(MKOBJ(FUNC, func, add_), 
-// 			makeList(MKOBJ(FUNC, func, sub_), 
-// 				makeList(MKOBJ(FUNC, func, mul_), 
-// 					makeList(MKOBJ(FUNC, func, div_), NULL))));
+	Frame* frame = env->frame;
+	Obj checkFrame = lookup_in_frame(var, frame);
 
-// 	Frame* primitives = makeFrame(function_vars, function_vals);
+	if (checkFrame.tag != DUMMY)
+		return checkFrame;
+	else
+		return lookup_in_env(var, env->enclosure);
+}
 
-// 	Env* env = makeEnv(primitives, NULL);
+Obj lookup_in_frame(char* var, Frame* frame) { // helper for lookup
+			if (DEBUG) printf("%s\n", "looking up in frame...");
+	if (frame == NULL)
+		return DUMMYOBJ;
 
-// 	Obj env_obj = MKOBJ(ENV, env, env);
+	char* key = frame->key;
 
-// 	return env_obj;
-// }
-
-
-
-
-
-Obj extendEnv(Obj vars_obj, Obj vals_obj, Obj base_env_obj) {
-	List* vars = vars_obj.val.list;
-	List* vals = vals_obj.val.list;
-	Env* base_env = base_env_obj.val.env;
-
-	Frame* frame = makeFrame(vars, vals);
-	Env* ext_env = makeEnv(frame, base_env);
-
-	append_to_envs(ext_env);
-
-	return MKOBJ(ENV, env, ext_env);
+	if (strcmp(var, key) == 0)
+		return (frame->val);
+	else
+		return lookup_in_frame(var, frame->next);
 }
 

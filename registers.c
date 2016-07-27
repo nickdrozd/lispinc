@@ -11,16 +11,14 @@ Obj arglist;
 Obj unev;
 Obj env;
 
-#define uninitialized MKOBJ(UNINIT, uninit, 0)
-
 void initialize_registers(void) {
-	expr = uninitialized;
-	val = uninitialized;
-	cont = uninitialized;
-	func = uninitialized;
-	arglist = uninitialized;
-	unev = uninitialized;
-	env = uninitialized;
+	expr = UNINITOBJ;
+	val = UNINITOBJ;
+	cont = UNINITOBJ;
+	func = UNINITOBJ;
+	arglist = UNINITOBJ;
+	unev = UNINITOBJ;
+	env = UNINITOBJ;
 	return;
 }
 

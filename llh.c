@@ -87,7 +87,7 @@ bool isBegin(Obj expr) {
 }
 
 Obj beginActions(Obj expr) {
-	return MKOBJ(LIST, list, expr.val.list->cdr);
+	return LISTOBJ(expr.val.list->cdr);
 }
 
 /* if (and other boolean macros) */
@@ -128,18 +128,17 @@ and some other functions to provide for a list of
 body expressions; otherwise, explicit begins are needed
 for, e.g, iterative factorial */
 Obj lambdaBody(Obj expr) {
-	//return MKOBJ(LIST, list, expr.val.list->cdr->cdr);
 	return expr.val.list->cdr->cdr->car;
 }
 
 Obj makeFunc(Obj params, Obj body, Obj env) {
 	List* list = 
-		makeList(MKOBJ(NAME, name, "lambda"),
+		makeList(NAMEOBJ("lambda"),
 			makeList(params,
 				makeList(body,
 					makeList(env, NULL))));
 
-	Obj obj = MKOBJ(LIST, list, list);
+	Obj obj = LISTOBJ(list);
 	return obj;
 }
 
@@ -176,7 +175,7 @@ Obj defVal(Obj expr) {
 /* function */
 
 Obj getArgs(Obj expr) {
-	return MKOBJ(LIST, list, expr.val.list->cdr);
+	return LISTOBJ(expr.val.list->cdr);
 }
 
 Obj getFunc(Obj expr) {
@@ -234,11 +233,11 @@ Obj adjoinArg(Obj val, Obj arglist) {
 	head->car = val;
 	head->cdr = args;
 	head = reverse(head);
-	return MKOBJ(LIST, list, head);
+	return LISTOBJ(head);
 }
 
 Obj restArgs(Obj expr) {
-	return MKOBJ(LIST, list, expr.val.list->cdr);
+	return LISTOBJ(expr.val.list->cdr);
 }
 
 /* apply */
@@ -259,7 +258,7 @@ Obj applyPrimitive(Obj func, Obj arglist) {
 			if (INFO) printf("arg1: %d\narg2: %d\n\n", arg1, arg2);
 	intFunc prim = func.val.func;
 	int result = (*prim)(arg1, arg2);
-	return MKOBJ(NUM, num, result);
+	return NUMOBJ(result);
 }
 
 // make sure these coordinate with makeFunc
@@ -269,7 +268,7 @@ Obj funcParams(Obj obj) {
 }
 
 Obj funcBody(Obj obj) {
-	return MKOBJ(LIST, list, obj.val.list->cdr->cdr);
+	return LISTOBJ(obj.val.list->cdr->cdr);
 }
 
 Obj funcEnv(Obj obj) {
@@ -285,7 +284,8 @@ Obj firstExp(Obj seq) {
 }
 
 Obj restExps(Obj seq) {
-	return MKOBJ(LIST, list, seq.val.list->cdr);
+	// return MKOBJ(LIST, list, seq.val.list->cdr);
+	return LISTOBJ(seq.val.list->cdr);
 }
 
 // UGLY HACK

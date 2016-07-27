@@ -182,9 +182,9 @@ Obj parse(Token_list* tokens) {
 		// if (DEBUG) printf("token: %s\n", token.text);
 		char* text = token.text;
 		if (isdigit(text[0])) 
-			obj = MKOBJ(NUM, num, atoi(text));
+			obj = NUMOBJ(atoi(text));
 		else 
-			obj = MKOBJ(NAME, name, text);
+			obj = NAMEOBJ(text);
 		return obj;
 	}
 
@@ -240,7 +240,7 @@ Obj parse(Token_list* tokens) {
 	// if (!lists_head)
 	// 	lists_head = lists_tail;
 
-	obj = MKOBJ(LIST, list, result);
+	obj = LISTOBJ(result);
 	return obj;
 }
 

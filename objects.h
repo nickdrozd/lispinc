@@ -132,7 +132,19 @@ struct Env {
 };
 
 /* constructors */
+
+// nested macro expansion
+#define NUMOBJ(X) MKOBJ(NUM,num,X)
+#define NAMEOBJ(X) MKOBJ(NAME,name,X)
+#define LISTOBJ(X) MKOBJ(LIST,list,X)
+#define FUNCOBJ(X) MKOBJ(FUNC,func,X)
+#define ENVOBJ(X) MKOBJ(ENV,env,X)
+#define LABELOBJ(X) MKOBJ(LABEL,label,X)
+#define DUMMYOBJ MKOBJ(DUMMY,dummy,0)
+#define UNINITOBJ MKOBJ(UNINIT, uninit, 0)
+
 #define MKOBJ(TAG,VALTYPE,VAL) (Obj){.tag = TAG, .val = (Val){.VALTYPE = VAL}}
+
 List* makeList(Obj car, List* cdr);
 
 #endif
