@@ -41,16 +41,17 @@
 	linked list of Objs. Objs can themselves contain
 	such pointers and bear the LIST tag.
 
-	There are two constructors. makeList mallocs
-	a List cell and returns a pointer to it. MKOBJ
-	isn't a function, but rather a preprocessor
-	macro. Initializing an Obj is unpleasant because
-	it requires nesting brackets, and MKOBJ is both
-	easier to type and easier to read.
+	There are several constructors. makeList mallocs
+	a List cell and returns a pointer to it. NUMOBJ, 
+	NAMEOBJ, and the rest are macros that expand to 
+	different applications of another macro called 
+	MKOBJ. MKOBJ in turn expands to an initialization 
+	of an OBJ. Such an initialization is both hard to 
+	read and annoying to type.
 
-	//The Env type is included here because it's part
-	//of Val, and the Frame type is included because
-	//it's part of Env. See env.c for details.
+	The Env type is included here because it's part
+	of Val, and the Frame type is included because
+	it's part of Env. See env.c for details.
 */
 
 #ifndef OBJECTS_GUARD
@@ -140,6 +141,7 @@ struct Env {
 #define FUNCOBJ(X) MKOBJ(FUNC,func,X)
 #define ENVOBJ(X) MKOBJ(ENV,env,X)
 #define LABELOBJ(X) MKOBJ(LABEL,label,X)
+
 #define DUMMYOBJ MKOBJ(DUMMY,dummy,0)
 #define UNINITOBJ MKOBJ(UNINIT, uninit, 0)
 
