@@ -1,73 +1,11 @@
-/*
-	ENV
-
-	The evaluation environment is a lookup
-	table wherein names (variables) are bound
-	to values. The heart of Lisp is lambdas,
-	and lambdas are evaluated by extending
-	the enviroment with the lambdas variables
-	bound to its arguments.
-
-	Typewise, an Env is a struct containing 
-	a pointer to another Env (its 'enclosing
-	enviroment' or 'enclosure') and a pointer
-	to a Frame. A Frame is a linked list of
-	key / value pairs. For convenience, both
-	keys and values are wrapped in the Obj
-	type (see objects.h for definitions).
-
-	[ add a diagram here? ]
-
-	Functions
-
-	makeBaseEnv returns a pointer to an
-	enviroment with basic arithmetic operations
-	defined. More primitive functions can be
-	added later.
-
-	lookup takes two Objs as arguments, the
-	first of type NAME and the second of type
-	ENV. It looks up the name in the env and
-	returns the bound value.
-
-	defineVar and setVar each take three Objs as
-	arguments, with the first of type NAME and 
-	the third of type ENV (the second can be
-	anything.) setVar sets the first occurence
-	of the name in the env to the value (raising
-	an error if the name is unbound), while
-	defineVar sets the name to the value in the
-	'topmost' level of the environment, adding
-	a new Frame binding if the name is unboind.
-
-	extendEnv takes two List Objs (the first being
-	a List of NAME Objs) and an Env Obj and adds
-	a returns a new Env Obj, the frame of which is
-	the two Lists zipped together and the enclosure
-	of which is the first Env.
-
-	Note that these functions all take Objs as
-	arguments: this is because they have to
-	interface the registers of the evaluator,
-	which are all of type Obj. In general, the
-	functions in this file that operate on types
-	other than Obj are 'private' functions, and
-	the Obj-valued functions are 'public'.
-	EDIT: changed makeBaseEnv type
-*/
-
-/*
-	TODO:
-		-- markings for distinct envs
-*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "objects.h"
-#include "env.h"
 #include "flags.h"
+#include "env.h"
+#include "primitives.h"
 #include "mem.h"
 
 /* base_env established separately to 
@@ -75,62 +13,15 @@
 
 Env* base_env;
 
-/* primitive functions */
-
-int add_func(int a, int b) {
-	return a + b;
-}
-
-int sub_func(int a, int b) {
-	return a - b;
-}
-
-int mul_func(int a, int b) {
-	return a * b;
-}
-
-int div_func(int a, int b) {
-	return a / b; // floor division
-}
-
-int eq_func(int a, int b) {
-	if (a == b)
-		return 1;
-	else
-		return 0;
-}
-
-intFunc add_ = add_func;
-intFunc sub_ = sub_func;
-intFunc mul_ = mul_func;
-intFunc div_ = div_func;
-intFunc eq_ = eq_func;
-
 /* env builders */
-
-#define PRIM_ADD "+"
-#define PRIM_SUB "-"
-#define PRIM_MUL "*"
-#define PRIM_DIV "/"
-#define PRIM_EQ "=" 
 
 // returns pointer to base_env
 Env* makeBaseEnv(void) {
-	List* function_vars = 
-		makeList(NAMEOBJ(PRIM_ADD), 
-			makeList(MKOBJ(NAME, name, PRIM_SUB), 
-				makeList(MKOBJ(NAME, name, PRIM_MUL), 
-					makeList(MKOBJ(NAME, name, PRIM_DIV), 
-						makeList(MKOBJ(NAME, name, PRIM_EQ), NULL)))));
 
-	List* function_vals = 
-		makeList(MKOBJ(FUNC, func, add_), 
-			makeList(MKOBJ(FUNC, func, sub_), 
-				makeList(MKOBJ(FUNC, func, mul_), 
-					makeList(MKOBJ(FUNC, func, div_), 
-						makeList(MKOBJ(FUNC, func, eq_), NULL)))));
+	List* prim_vars = primitive_vars();
+	List* prim_vals = primitive_vals();
 
-	Frame* primitives = makeFrame(function_vars, function_vals);
+	Frame* primitives = makeFrame(prim_vars, prim_vals);
 
 	Env* env = makeEnv(primitives, NULL);
 
@@ -141,6 +32,7 @@ Env* makeBaseEnv(void) {
 
 // returns new env obj with vars bound to vals
 Obj extendEnv(Obj vars_obj, Obj vals_obj, Obj base_env_obj) {
+
 	List* vars = vars_obj.val.list;
 	List* vals = vals_obj.val.list;
 	Env* base_env = base_env_obj.val.env;
@@ -154,14 +46,47 @@ Obj extendEnv(Obj vars_obj, Obj vals_obj, Obj base_env_obj) {
 }
 
 
-/* lookup in env */
+/* lookup */
 
+// returns val bound to var in env
 Obj lookup(Obj var_obj, Obj env_obj) {
-	if (DEBUG) printf("looking up \"%s\"\n", var_obj.val.name);
+			if (DEBUG) printf("looking up \"%s\"\n", var_obj.val.name);
+
 	char* var = var_obj.val.name;
 	Env* env = env_obj.val.env;
 
 	return lookup_in_env(var, env);
+}
+
+// lookup helpers
+
+Obj lookup_in_env(char* var, Env* env) { // lookup in env
+			if (DEBUG) printf("%s\n", "looking up in env...");
+	if (env == NULL) {
+			if (DEBUG) printf("%s\n", "null env, returning DUMMY");
+		return DUMMYOBJ;
+	}
+
+	Frame* frame = env->frame;
+	Obj checkFrame = lookup_in_frame(var, frame);
+
+	if (checkFrame.tag != DUMMY)
+		return checkFrame;
+	else
+		return lookup_in_env(var, env->enclosure);
+}
+
+Obj lookup_in_frame(char* var, Frame* frame) { // helper for lookup
+			if (DEBUG) printf("%s\n", "looking up in frame...");
+	if (frame == NULL)
+		return DUMMYOBJ;
+
+	char* key = frame->key;
+
+	if (strcmp(var, key) == 0)
+		return (frame->val);
+	else
+		return lookup_in_frame(var, frame->next);
 }
 
 /* modify env */
@@ -169,6 +94,7 @@ Obj lookup(Obj var_obj, Obj env_obj) {
 /* adds new var/val binding to env
 (doesn't check for existing binding) */
 void defineVar(Obj var_obj, Obj val_obj, Obj* env_obj) {
+
 	char* var = var_obj.val.name;
 	Env* env = (*env_obj).val.env;
 
@@ -182,6 +108,7 @@ void defineVar(Obj var_obj, Obj val_obj, Obj* env_obj) {
 
 // sets first occurence of var to val
 void setVar(Obj var_obj, Obj val_obj, Obj env_obj) {
+
 	char* var = var_obj.val.name;
 	Env* env = env_obj.val.env;
 
@@ -234,42 +161,10 @@ Frame* makeFrame(List* vars, List* vals) {
 	return frame;
 }
 
-// cons-like
+// cons-like (declaration in objects.h)
 List* makeList(Obj car, List* cdr) {
 	List* list = malloc(sizeof(List));
 	list->car = car;
 	list->cdr = cdr;
 	return list;
 }
-
-/* lookup helpers */
-
-Obj lookup_in_env(char* var, Env* env) { // lookup in env
-			if (DEBUG) printf("%s\n", "looking up in env...");
-	if (env == NULL) {
-			if (DEBUG) printf("%s\n", "null env, returning DUMMY");
-		return DUMMYOBJ;
-	}
-
-	Frame* frame = env->frame;
-	Obj checkFrame = lookup_in_frame(var, frame);
-
-	if (checkFrame.tag != DUMMY)
-		return checkFrame;
-	else
-		return lookup_in_env(var, env->enclosure);
-}
-
-Obj lookup_in_frame(char* var, Frame* frame) { // helper for lookup
-			if (DEBUG) printf("%s\n", "looking up in frame...");
-	if (frame == NULL)
-		return DUMMYOBJ;
-
-	char* key = frame->key;
-
-	if (strcmp(var, key) == 0)
-		return (frame->val);
-	else
-		return lookup_in_frame(var, frame->next);
-}
-
