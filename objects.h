@@ -160,43 +160,52 @@ struct Env {
 
 /* constructors and selectors */
 
+#define CADDDR(X) CAR(CDDDR(X))
+#define CADDR(X) CAR(CDDR(X))
+#define CDDDR(X) CDR(CDDR(X))
+#define CADR(X) CAR(CDR(X))
+#define CDDR(X) CDR(CDR(X))
+#define CAR(X) X->car
+#define CDR(X) X->cdr
+
 /* nested macros have to listed reversed from their
 	natural logical order */
 
 /* selectors */
 
-#define GETTAG(X) obj.tag
-#define GETNUM(X) obj.val.num
-#define GETNAME(X) obj.val.name
-#define GETLIST(X) obj.val.list
+#define GETTAG(X) X.tag
+#define GETNUM(X) X.val.num
+#define GETNAME(X) X.val.name
+#define GETLIST(X) X.val.list
 // getprim
-#define GETENV(X) obj.val.env
-#define GETLABEL(X) obj.val.label
+#define GETENV(X) X.val.env
+#define GETLABEL(X) X.val.label
 
 
 /* constructors */
 
 // Prim
 
-#define INTFUNC(X) MKPRIM(INTPRIM,intfunc,X)
-#define OBJFUNC(X) MKPRIM(OBJPRIM,objfunc,X)
+#define INTFUNC(X) MKPRIM(INTPRIM,intfunc, X)
+#define OBJFUNC(X) MKPRIM(OBJPRIM, objfunc, X)
 
 #define MKPRIM(TYPE,FUNCTYPE,FUNC) (Prim){.type = TYPE, .func = (primFunc){.FUNCTYPE = FUNC}}
 
 // Obj
 
-#define NUMOBJ(X) MKOBJ(NUM,num,X)
-#define NAMEOBJ(X) MKOBJ(NAME,name,X)
-#define LISTOBJ(X) MKOBJ(LIST,list,X)
-#define PRIMOBJ(X) MKOBJ(PRIM,prim,X)
-#define ENVOBJ(X) MKOBJ(ENV,env,X)
-#define LABELOBJ(X) MKOBJ(LABEL,label,X)
-#define DUMMYOBJ MKOBJ(DUMMY,dummy,0)
+#define NUMOBJ(X) MKOBJ(NUM, num, X)
+#define NAMEOBJ(X) MKOBJ(NAME, name, X)
+#define LISTOBJ(X) MKOBJ(LIST, list, X)
+#define PRIMOBJ(X) MKOBJ(PRIM, prim, X)
+#define ENVOBJ(X) MKOBJ(ENV, env, X)
+#define LABELOBJ(X) MKOBJ(LABEL, label, X)
+#define DUMMYOBJ MKOBJ(DUMMY, dummy, 0)
 #define UNINITOBJ MKOBJ(UNINIT, uninit, 0)
 
 #define MKOBJ(TAG,VALTYPE,VAL) (Obj){.tag = TAG, .val = (Val){.VALTYPE = VAL}}
 
 // List (defined in env.c)
 List* makeList(Obj car, List* cdr);
+
 
 #endif
