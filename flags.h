@@ -1,3 +1,9 @@
+#ifndef FLAGS_GUARD
+#define FLAGS_GUARD
+
+#include <stdio.h>
+#include <stdbool.h>
+
 extern int DEBUG;
 extern int INFO;
 extern int STATS;
@@ -24,3 +30,5 @@ void switch_flag(char* flag_name);
 
 /* from read.c */
 int streq(char* str1, char* str2);
+
+#endif

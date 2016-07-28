@@ -1,3 +1,6 @@
+#ifndef KEYWORDS_GUARD
+#define KEYWORDS_GUARD
+
 /* syntax */
 
 #define OPENPAREN(X)  X == '(' || X == '['  || X == '{'
@@ -15,4 +18,6 @@
 
 /* non-flag user commands */
 
-#define QUIT ".quit"
+#define QUIT_COMMAND ".quit"
+
+#endif

@@ -1,3 +1,31 @@
+/*
+	Low-Level Helpers
+
+	These functions perform mostly boring
+	tasks like determing whether an expression
+	is lambda expression. The idea is that in
+	a real register machine, these would be
+	implemented as primitive machine operations.
+
+	One function, adjoinArgs, turned out to be
+	bizarrely difficult to implement correctly 
+	and stalled the whole project for three days.
+	Several failed attempts have been preserved
+	at the end of the file.
+*/
+
+#ifndef LLH_GUARD
+#define LLH_GUARD
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
+		
+#include "objects.h"
+#include "keywords.h"
+#include "flags.h"
+
 bool isQuit(Obj expr);
 bool isNum(Obj expr);
 bool isVar(Obj expr);
@@ -40,3 +68,5 @@ Obj firstExp(Obj seq);
 Obj restExps(Obj seq);
 bool isLastExp(Obj seq);
 bool noExps(Obj seq);
+
+#endif

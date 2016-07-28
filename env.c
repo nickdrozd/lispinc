@@ -1,12 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include "objects.h"
-#include "flags.h"
 #include "env.h"
-#include "primitives.h"
-#include "mem.h"
 
 /* base_env established separately to 
 	persist through repl */

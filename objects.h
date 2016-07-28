@@ -160,13 +160,13 @@ struct Env {
 
 /* constructors and selectors */
 
-#define CADDDR(X) CAR(CDDDR(X))
-#define CADDR(X) CAR(CDDR(X))
-#define CDDDR(X) CDR(CDDR(X))
-#define CADR(X) CAR(CDR(X))
-#define CDDR(X) CDR(CDR(X))
 #define CAR(X) X->car
 #define CDR(X) X->cdr
+#define CADR(X) CAR(CDR(X))
+#define CDDR(X) CDR(CDR(X))
+#define CADDR(X) CAR(CDDR(X))
+#define CDDDR(X) CDR(CDDR(X))
+#define CADDDR(X) CAR(CDDDR(X))
 
 /* nested macros have to listed reversed from their
 	natural logical order */

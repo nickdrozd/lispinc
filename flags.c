@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <stdbool.h>
-
 #include "flags.h"
 
 int DEBUG = 0;

@@ -1,7 +1,10 @@
-#include <stdlib.h>
-
-#include "objects.h"
 #include "primitives.h"
+
+intFunc add_;
+intFunc sub_;
+intFunc mul_;
+intFunc div_;
+intFunc eq_;
 
 /* primitive names */
 

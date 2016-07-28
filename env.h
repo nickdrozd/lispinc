@@ -63,6 +63,17 @@
 		-- clean up lookup_prim_name, it's ugly
 */
 
+#ifndef ENV_GUARD
+#define ENV_GUARD
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "objects.h"
+#include "flags.h"
+#include "primitives.h"
+#include "mem.h"
 
 /* env builders */
 
@@ -88,7 +99,7 @@ void setVar(Obj var_obj, Obj val_obj, Obj env_obj);
 Frame* makeFrame(List* vars, List* vals);
 Env* makeEnv(Frame* frame, Env* enclosure);
 
-
+#endif
 
 
 

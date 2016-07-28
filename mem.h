@@ -1,3 +1,23 @@
+/*
+	MEM
+
+	mem.c handles memory management. In particular,
+	it contains functions that free memory that has
+	been allocated via malloc.
+
+	Does any of this even work?
+*/
+
+#ifndef MEM_GUARD
+#define MEM_GUARD
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "objects.h"
+#include "flags.h"
+#include "parse.h"
+
 void free_memory(void);
 
 /* lists */
@@ -28,3 +48,5 @@ void free_frame(Frame** frame);
 void append_to_envs(Env* env);
 
 /* tokens freed in parse.c */
+
+#endif

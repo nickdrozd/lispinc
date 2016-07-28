@@ -1,7 +1,4 @@
-#include <stdio.h>
-
-#include "objects.h"
-#include "print.h"
+#include "registers.h"
 
 Obj expr;
 Obj val;

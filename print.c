@@ -1,25 +1,4 @@
-/*
-	PRINT
-
-	Some print functions, mostly used for debugging.
-	In general, the low-level print functions 
-	print_obj and print_list shouldn't be called
-	directly, debug_register being preferred.
-*/
-
-/*
-	TODO:
-		-- figure out how to mark envs
-			so that printing them is informative
-*/
-
-#include <stdio.h>
-		
-#include "objects.h"
-#include "flags.h"
 #include "print.h"
-#include "registers.h"
-#include "stack.h"
 
 /* evaluator info printing */
 

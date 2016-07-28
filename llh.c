@@ -1,32 +1,3 @@
-/*
-	Low-Level Helpers
-
-	These functions perform mostly boring
-	tasks like determing whether an expression
-	is lambda expression. The idea is that in
-	a real register machine, these would be
-	implemented as primitive machine operations.
-
-	One function, adjoinArgs, turned out to be
-	bizarrely difficult to implement correctly 
-	and stalled the whole project for three days.
-	Several failed attempts have been preserved
-	at the end of the file
-*/
-
-/*
-	TODO:
-		-- figure out isTrue
-*/
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
-		
-#include "objects.h"
-#include "keywords.h"
-#include "flags.h"
 #include "llh.h"
 
 /* input */
@@ -38,7 +9,7 @@
 
 bool isQuit(Obj expr) {
 	return GETTAG(expr) == NAME &&
-		cmpForm(GETNAME(expr), QUIT);
+		cmpForm(GETNAME(expr), QUIT_COMMAND);
 }
 
 /* primitive types */

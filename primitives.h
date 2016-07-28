@@ -1,3 +1,10 @@
+#ifndef PRIMITIVES_GUARD
+#define PRIMITIVES_GUARD
+
+#include <stdlib.h>
+
+#include "objects.h"
+
 List* primitive_vars(void);
 List* primitive_vals(void);
 
@@ -9,8 +16,4 @@ List* primitive_vals(void);
 #define PRIM_DIV "/"
 #define PRIM_EQ "=" 
 
-intFunc add_;
-intFunc sub_;
-intFunc mul_;
-intFunc div_;
-intFunc eq_;
+#endif

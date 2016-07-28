@@ -1,4 +1,52 @@
 /*
+	PARSE
+
+	tokenize is a classic finite state automaton
+	for "tokenizing" (i.e. determining the basic
+	meaningful pieces of) the input code string.
+	Because Lisp syntax is so brilliantly simple
+	(only parentheses and whitespace are syntactically
+	significant), the FSA has only two "states".
+	It is implemented entirely with GOTOs, with no
+	function calls at all!***
+
+	*** Actually, it uses the C standard library,
+	but still, it makes no calls to user-defined
+	functions.
+
+	tokenize generates a list of tokens which is
+	then passed to parse. parse, in turn, generates
+	a basic abstract syntax tree. again, because
+	Lisp syntax is so simple, no further analysis
+	is needed. parse generates a single Obj, which
+	may itself contain a List of Objs (see objects.h
+	for details).
+
+	parse mixes iteration and recursion -- it walks
+	down the token list and recurs when it finds
+	a list. Is that what recursive descent is?
+*/
+
+/*
+	TODO:
+		-- figure out memory management
+			-- free_tokens doesn't mix with library?
+*/
+
+#ifndef PARSE_GUARD
+#define PARSE_GUARD
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+#include "objects.h"
+#include "keywords.h"
+#include "flags.h"
+#include "mem.h"
+
+/*
 	Token and Token_list types, passed
 	from tokenize to parse, and prototypes
 */
@@ -46,3 +94,4 @@ void print_tokens(Token_list* tokens);
 
 void free_tokens(Token_list** list);
 
+#endif
