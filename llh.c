@@ -130,7 +130,7 @@ Obj lambdaBody(Obj expr) {
 
 Obj makeFunc(Obj params, Obj body, Obj env) {
 	List* list = 
-		makeList(NAMEOBJ("lambda"),
+		makeList(NAMEOBJ(FUN_KEY),
 			makeList(params,
 				makeList(body,
 					makeList(env, NULL))));

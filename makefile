@@ -29,7 +29,7 @@ env.o : env.c env.h mem.h flags.h objects.h
 primitives.o : primitives.c primitives.h objects.h
 	$(make_obj) primitives.c
 
-lib.o : lib.c flags.h lib.h
+lib.o : lib.c flags.h keywords.h lib.h
 	$(make_obj) lib.c
 
 registers.o : registers.c print.h objects.h
