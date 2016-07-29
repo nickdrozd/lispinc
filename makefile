@@ -1,21 +1,21 @@
-program_NAME := lispinc
-program_SRCS := $(wildcard *.c)
-program_OBJS := ${program_SRCS: .c=.o}
+NAME := lispinc
+SRCS := $(wildcard *.c)
+OBJS := ${SRCS:.c=.o}
+HDRS := ${SRCS:.c=.h}
 
 CFLAGS += -Wall -std=c99
-#make_obj := $(CC) $(CFLAGS) -c
 
-#.PHONY : all clean
+DEPS := objects.h keywords.h
 
-all : $(program_NAME)
+.PHONY : all clean
 
-$(program_NAME) : $(program_OBJS)
-	$(CC) -o $(program_NAME) $(program_OBJS)
+all : $(NAME)
 
-#clean : 
-#	@- $(RM) $(program_OBJS)
+$(NAME) : $(OBJS)
+	$(CC) -o $(NAME) $(OBJS)
 
-#define CORRESPONDING_HEADER
-#	$(1) : ${1: .o=.h}
-#	$(foreach object_file,$(program_OBJS),$(eval $(call CORRESPONDING_HEADER,$(object_file))))
-#endef
+%.o : %.c %.h $(DEPS)
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+clean : 
+	@- $(RM) $(OBJS)
