@@ -2,7 +2,10 @@
 
 /* evaluator info printing */
 
+char* main_label;
+
 void print_info(void) {
+	printf("\n\n@ %s\n", main_label);
 	PRDIV;
 	print_registers();
 	print_stack();
@@ -65,6 +68,17 @@ void print_stack(void) {
 	}
 	PRDIV;
 }
+
+void print_base_env(void) {
+	printf("\n\nbase_env: %p\n", base_env);
+}
+
+void print_unbound(void) {
+	printf("\n\nUNBOUND VARIABLE: \"%s\"!\n", 
+									GETNAME(expr));
+}
+
+/* info helpers */
 
 void print_obj(Obj obj) {
 	switch(GETTAG(obj)) {
@@ -144,8 +158,8 @@ void print_label(Label label) {
 	}
 }
 
-extern Env* base_env;
-
+// TODO: clean this up!
+// (it used to look nice!)
 char* lookup_prim_name(Obj func_obj) {
 	// dispatch on primitive function type
 	primType type = func_obj.val.prim.type;
@@ -231,4 +245,19 @@ void print_flags(void) {
 	TAB;printf("STATS :%s", STATS ? "ON" : "OFF");NL
 	TAB;printf("TAIL  :%s", TAIL ? "ON" : "OFF");NL
 	TAB;printf("DEBUG :%s", DEBUG ? "ON" : "OFF");NL
+}
+
+void print_exit(void) {
+	NL; 
+	printf("exiting lispinc..."); 
+	NL; NL;
+	printf("Byeeeeee!");
+	NL; NL;
+}
+
+
+/* debugging */
+
+void debug_print(char* statement) {
+	if (DEBUG) printf("\n\nDEBUG: %s\n\n", statement);
 }

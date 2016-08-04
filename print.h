@@ -23,6 +23,7 @@
 #include "flags.h"
 #include "registers.h"
 #include "stack.h"
+#include "env.h"
 
 #define NL printf("\n");
 #define TAB printf("\t");
@@ -30,12 +31,17 @@
 
 /* evaluator info printing */
 
+extern char* main_label;
+
 void print_info(void);
 void print_final_val(void);
 void print_stats(void);
 
 void print_stack(void);
 void print_registers(void);
+
+void print_base_env(void);
+void print_unbound(void);
 
 void print_obj(Obj obj);
 void print_list(List* list);
@@ -47,5 +53,10 @@ char* lookup_prim_name(Obj func_obj);
 void print_intro(void);
 void print_help(void);
 void print_flags(void);
+void print_exit(void);
+
+/* debugging */
+
+void debug_print(char* statement);
 
 #endif

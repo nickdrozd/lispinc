@@ -39,10 +39,6 @@
 
 #ifndef EC_MAIN_GUARD
 #define EC_MAIN_GUARD
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
 		
 #include "objects.h"
 #include "flags.h"
