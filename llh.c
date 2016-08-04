@@ -57,6 +57,26 @@ Obj beginActions(Obj expr) {
 	return LISTOBJ(CDR(GETLIST(expr)));
 }
 
+/* delay */
+
+bool isDelay(Obj expr) {
+	return hasForm(expr, DELAY_KEY);
+}
+
+Obj delayExpr(Obj expr) {
+	return CADR(GETLIST(expr));
+}
+
+Obj makeDelay(Obj expr) {
+	List* list = 
+		makeList(NAMEOBJ(FUN_KEY),
+			makeList(LISTOBJ(NULL), 
+				makeList(delayExpr(expr), NULL)));
+
+	Obj obj = LISTOBJ(list);
+	return obj;
+}
+
 /* if (and other boolean macros) */
 
 bool isIf(Obj expr) {

@@ -27,30 +27,42 @@
 #include "flags.h"
 
 bool isQuit(Obj expr);
+
 bool isNum(Obj expr);
 bool isVar(Obj expr);
+
 char* specialForm(Obj expr);
 bool cmpForm(char* cand, char* form);
 bool hasForm(Obj expr, char* form);
+
 bool isQuote(Obj expr);
 Obj quotedText(Obj expr);
+
 bool isBegin(Obj expr);
 Obj beginActions(Obj expr);
+
+bool isDelay(Obj expr);
+Obj delayExpr(Obj expr);
+Obj makeDelay(Obj expr);
+
 bool isIf(Obj expr);
 Obj ifTest(Obj expr);
 bool isTrue(Obj expr);
 Obj ifThen(Obj expr);
 Obj ifElse(Obj expr);
+
 bool isLambda(Obj expr);
 Obj lambdaParams(Obj expr);
 Obj lambdaBody(Obj expr);
 Obj makeFunc(Obj params, Obj body, Obj env);
+
 bool isAss(Obj expr);
 Obj assVar(Obj expr);
 Obj assVal(Obj expr);
 bool isDef(Obj expr);
 Obj defVar(Obj expr);
 Obj defVal(Obj expr);
+
 Obj getArgs(Obj expr);
 Obj getFunc(Obj expr);
 bool noArgs(Obj expr);

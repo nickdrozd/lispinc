@@ -52,10 +52,12 @@ int main(void) {
 			goto VARIABLE;
 		if (isQuote(expr))
 			goto QUOTATION;
-		if (isLambda(expr))
-			goto LAMBDA;
 		if (isBegin(expr))
 			goto BEGIN;
+		if (isDelay(expr))
+			goto DELAY;
+		if (isLambda(expr))
+			goto LAMBDA;
 		if (isAss(expr))
 			goto ASSIGNMENT;
 		if (isDef(expr))
@@ -98,6 +100,12 @@ int main(void) {
 		unev = beginActions(expr);
 		save(cont);
 		goto SEQUENCE;
+
+	DELAY:
+				main_label = "DELAY";
+				if (INFO) print_info();
+		expr = makeDelay(expr);
+		goto EVAL;
 
 	LAMBDA:
 				main_label = "LAMBDA";
