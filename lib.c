@@ -6,20 +6,20 @@
 
 #define cons \
 	"("DEF_KEY" cons \
-		("FUN_KEY" (x y) \
-			("FUN_KEY" (s) \
+		("LAMBDA_KEY" (x y) \
+			("LAMBDA_KEY" (s) \
 				(s x y))))"
 
 #define car \
 	"("DEF_KEY" car \
-		("FUN_KEY" (p) \
-			(p ("FUN_KEY" (x y) \
+		("LAMBDA_KEY" (p) \
+			(p ("LAMBDA_KEY" (x y) \
 					x))))"
 
 #define cdr \
 	"("DEF_KEY" cdr \
-		("FUN_KEY" (p) \
-			(p ("FUN_KEY" (x y) \
+		("LAMBDA_KEY" (p) \
+			(p ("LAMBDA_KEY" (x y) \
 					y))))"
 
 #define nil \
@@ -31,29 +31,29 @@
 
 #define zero_ \
 	"("DEF_KEY" zero? \
-		("FUN_KEY" (n) \
+		("LAMBDA_KEY" (n) \
 			(= n 0)))"
 
 #define add1 \
 	"("DEF_KEY" add1 \
-		("FUN_KEY" (n) \
+		("LAMBDA_KEY" (n) \
 			(+ n 1)))"
 
 #define sub1 \
 	"("DEF_KEY" sub1 \
-		("FUN_KEY" (n) \
+		("LAMBDA_KEY" (n) \
 			(- n 1)))"
 
 #define triangular \
 	"("DEF_KEY" triangular \
-		("FUN_KEY" (n) \
+		("LAMBDA_KEY" (n) \
 			("IF_KEY" (zero? n) \
 				0 \
 				(+ n (triangular (sub1 n))))))"
 
 #define tetrahedral \
 	"("DEF_KEY" tetrahedral \
-		("FUN_KEY" (n) \
+		("LAMBDA_KEY" (n) \
 			("IF_KEY" (zero? n) \
 				0 \
 				(+ (triangular n) \
@@ -61,7 +61,7 @@
 
 #define supertetrahedral \
 	"("DEF_KEY" supertetrahedral \
-		("FUN_KEY" (n) \
+		("LAMBDA_KEY" (n) \
 			("IF_KEY" (zero? n) \
 				0 \
 				(+ (tetrahedral n) \
@@ -69,17 +69,17 @@
 
 #define fact_rec \
 	"("DEF_KEY" recursive_factorial \
-		("FUN_KEY" (n) \
+		("LAMBDA_KEY" (n) \
 			("IF_KEY" (zero? n) \
 				1 \
 				(* n (recursive_factorial (sub1 n))))))"
 
 #define fact_iter \
 	"("DEF_KEY" iterative_factorial \
-		("FUN_KEY" (n) \
+		("LAMBDA_KEY" (n) \
 			("BEGIN_KEY" \
 				("DEF_KEY" loop \
-					("FUN_KEY" (count total) \
+					("LAMBDA_KEY" (count total) \
 						("IF_KEY" (zero? count) \
 							total \
 							(loop (sub1 count) \

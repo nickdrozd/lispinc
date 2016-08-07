@@ -9,7 +9,7 @@
 
 /* reserved words */
 
-#define FUN_KEY "lambda"
+#define LAMBDA_KEY "lambda"
 
 #define QUOTE_KEY "quote"
 #define BEGIN_KEY "begin"

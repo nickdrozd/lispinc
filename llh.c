@@ -68,7 +68,7 @@ Obj delayExpr(Obj expr) {
 
 Obj makeDelay(Obj expr) {
 	List* list = 
-		makeList(NAMEOBJ(FUN_KEY),
+		makeList(NAMEOBJ(LAMBDA_KEY),
 			makeList(LISTOBJ(NULL), 
 				makeList(delayExpr(expr), NULL)));
 
@@ -167,7 +167,7 @@ Obj makeOr(Obj expr) {
 /* lambda */
 
 bool isLambda(Obj expr) {
-	return hasForm(expr, FUN_KEY);
+	return hasForm(expr, LAMBDA_KEY);
 }
 
 Obj lambdaParams(Obj expr) {
@@ -185,7 +185,7 @@ Obj lambdaBody(Obj expr) {
 
 Obj makeFunc(Obj params, Obj body, Obj env) {
 	List* list = 
-		makeList(NAMEOBJ(FUN_KEY),
+		makeList(NAMEOBJ(LAMBDA_KEY),
 			makeList(params,
 				makeList(body,
 					makeList(env, NULL))));
