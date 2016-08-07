@@ -51,6 +51,12 @@ bool isTrue(Obj expr);
 Obj ifThen(Obj expr);
 Obj ifElse(Obj expr);
 
+bool isAnd(Obj expr);
+bool isOr(Obj expr);
+Obj boolExps(Obj expr);
+Obj makeAnd(Obj seq);
+Obj makeOr(Obj seq);
+
 bool isLambda(Obj expr);
 Obj lambdaParams(Obj expr);
 Obj lambdaBody(Obj expr);
@@ -65,17 +71,21 @@ Obj defVal(Obj expr);
 
 Obj getArgs(Obj expr);
 Obj getFunc(Obj expr);
+
 bool noArgs(Obj expr);
 Obj firstArg(Obj expr);
 bool isLastArg(Obj expr);
 Obj adjoinArg(Obj val, Obj arglist);
 Obj restArgs(Obj expr);
+
 bool isPrimitive(Obj obj);
 bool isCompound(Obj obj);
 Obj applyPrimitive(Obj func, Obj arglist);
+
 Obj funcParams(Obj obj);
 Obj funcBody(Obj obj);
 Obj funcEnv(Obj obj);
+
 Obj firstExp(Obj seq);
 Obj restExps(Obj seq);
 bool isLastExp(Obj seq);

@@ -56,14 +56,18 @@ int main(void) {
 			goto BEGIN;
 		if (isDelay(expr))
 			goto DELAY;
+		if (isIf(expr))
+			goto IF;
+		if (isAnd(expr))
+			goto AND;
+		if (isOr(expr))
+			goto OR;
 		if (isLambda(expr))
 			goto LAMBDA;
 		if (isAss(expr))
 			goto ASSIGNMENT;
 		if (isDef(expr))
 			goto DEFINITION;
-		if (isIf(expr))
-			goto IF;
 		goto FUNCTION;
 
 
@@ -147,6 +151,18 @@ int main(void) {
 				main_label = "IF_ELSE";
 				if (INFO) print_info();
 		expr = ifElse(expr);
+		goto EVAL;
+
+	AND:
+				main_label = "AND";
+				if (INFO) print_info();
+		expr = makeAnd(expr);
+		goto EVAL;
+
+	OR:
+				main_label = "OR";
+				if (INFO) print_info();
+		expr = makeOr(expr);
 		goto EVAL;
 
 	/* ass, def */

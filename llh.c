@@ -25,7 +25,6 @@ bool isVar(Obj expr) {
 /* special forms */
 
 char* specialForm(Obj expr) {
-	// return GETLIST(expr)->car.val.name;
 	return GETNAME(CAR(GETLIST(expr)));
 }
 
@@ -77,7 +76,7 @@ Obj makeDelay(Obj expr) {
 	return obj;
 }
 
-/* if (and other boolean macros) */
+/* if */
 
 bool isIf(Obj expr) {
 	return hasForm(expr, IF_KEY);
@@ -99,6 +98,71 @@ Obj ifThen(Obj expr) {
 Obj ifElse(Obj expr) {
 	return CADDDR(GETLIST(expr));
 }
+
+/* other boolean macros */
+
+bool isAnd(Obj expr) {
+	return hasForm(expr, AND_KEY);
+}
+
+bool isOr(Obj expr) {
+	return hasForm(expr, OR_KEY);
+}
+
+Obj boolExps(Obj expr) {
+	return LISTOBJ(CDR(GETLIST(expr)));
+}
+
+/* makeAnd and makeOr take and- and or-expressions and 
+transform them into if-expressions. For example, the 
+expression (and a b c d) is transformed into 
+(if a (and b c d) false), and the expression 
+(or a b c d) is tranformed into (if a true (or b c d)).
+This is not a very efficient way to implement boolean 
+expression, but it is the easiest way */
+
+Obj makeAnd(Obj expr) {
+	Obj seq = boolExps(expr);
+
+	if (noExps(seq))
+		return TRUEOBJ;
+
+	Obj first = firstExp(seq);
+
+	List* cdr = CDR(GETLIST(seq));
+	Obj rest = 
+		LISTOBJ(makeList(NAMEOBJ(AND_KEY), cdr));
+
+	List* ifTrans = 
+		makeList(NAMEOBJ(IF_KEY), 
+			makeList(first, 
+				makeList(rest, 
+					makeList(FALSEOBJ, NULL))));
+
+	return LISTOBJ(ifTrans);
+}
+
+Obj makeOr(Obj expr) {
+	Obj seq = boolExps(expr);
+
+	if (noExps(seq))
+		return FALSEOBJ;
+
+	Obj first = firstExp(seq);
+
+	List* cdr = CDR(GETLIST(seq));
+	Obj rest = 
+		LISTOBJ(makeList(NAMEOBJ(OR_KEY), cdr));
+
+	List* ifTrans = 
+		makeList(NAMEOBJ(IF_KEY), 
+			makeList(first, 
+				makeList(TRUEOBJ, 
+					makeList(rest, NULL))));
+
+	return LISTOBJ(ifTrans);
+}
+
 
 /* lambda */
 
@@ -230,25 +294,6 @@ Obj restArgs(Obj expr) {
 
 /* apply */
 
-// bool isPrimitive(Obj obj) {
-// 	return GETTAG(obj) == FUNC;
-// }
-
-// bool isCompound(Obj obj) {
-// 	return GETTAG(obj) == LIST;
-// }
-
-// Obj applyPrimitive(Obj func, Obj arglist) {
-// 			if (INFO) printf("%s\n", "applying PRIMITIVE...");
-// 	List* list = GETLIST(arglist);
-// 	int arg1 = list->car.val.num;
-// 	int arg2 = list->cdr->car.val.num;
-// 			if (INFO) printf("arg1: %d\narg2: %d\n\n", arg1, arg2);
-// 	intFunc prim = func.val.func;
-// 	int result = (*prim)(arg1, arg2);
-// 	return NUMOBJ(result);
-// }
-
 bool isPrimitive(Obj obj) {
 	return GETTAG(obj) == PRIM;
 }
@@ -309,7 +354,6 @@ Obj firstExp(Obj seq) {
 }
 
 Obj restExps(Obj seq) {
-	// return MKOBJ(LIST, list, CDR(GETLIST(seq)));
 	return LISTOBJ(CDR(GETLIST(seq)));
 }
 
@@ -328,101 +372,25 @@ bool noExps(Obj seq) {
 }
 
 
-/* 
-	for posterity: failed attempts at adjoinArg
-	
-	three version (one with a helper)
- */
 
-// version 1
+/* the old version of applyPrimitive, before adding 
+	the PRIM type that made everything messy */
 
-// Obj adjoinArg(Obj val, Obj arglist) {
-// 	if (DEBUG) printf("%s\n", "adjoining args...");
+// bool isPrimitive(Obj obj) {
+// 	return GETTAG(obj) == FUNC;
+// }
+
+// bool isCompound(Obj obj) {
+// 	return GETTAG(obj) == LIST;
+// }
+
+// Obj applyPrimitive(Obj func, Obj arglist) {
+// 			if (INFO) printf("%s\n", "applying PRIMITIVE...");
 // 	List* list = GETLIST(arglist);
-// 	List* temp = list;
-// 	while (list) {
-// 		print_list(list);
-// 		print_list(temp);
-// 		list = list->cdr;
-// 	}
-// 	list = malloc(sizeof(List));
-// 	list->car = val;
-// 	list->cdr = NULL;
-// 	if (DEBUG) print_list(list);
-// 	return MKOBJ(LIST, list, temp);
+// 	int arg1 = list->car.val.num;
+// 	int arg2 = list->cdr->car.val.num;
+// 			if (INFO) printf("arg1: %d\narg2: %d\n\n", arg1, arg2);
+// 	intFunc prim = func.val.func;
+// 	int result = (*prim)(arg1, arg2);
+// 	return NUMOBJ(result);
 // }
-
-/***/
-
-// version 2
-
-// List* appendObj(Obj obj, List* list) {
-// 	List* result = list;
-// 	while (list != NULL)
-// 		list = list->cdr;
-// 	list = malloc(sizeof(List));
-// 	list->car = obj;
-// 	list->cdr = NULL;
-// 	return result;
-// }
-
-// Obj adjoinArg(Obj arg, Obj argl) {
-// 	List* args = argl.val.list;
-// 	List* result = appendObj(arg, args);
-// 	Obj resobj = { .tag = LIST,
-// 					.val = { .list = result }};
-// 	return resobj;
-// }
-
-/***/
-
-// version 3
-
-// Obj adjoinArg(Obj val, Obj arglist) {
-// 	if (DEBUG) printf("%s\n", "adjoining args...");
-	
-// 	List* list = GETLIST(arglist);
-// 	List* head = NULL;
-// 	List* tail = NULL;
-	
-// 	if (list) {
-// 		print_list(list);
-// 		print_list(list->cdr);
-// 		tail = malloc(sizeof(List));
-// 		tail->car = list->car;
-// 		tail->cdr = NULL;
-// 		head = tail;
-// 		print_list(tail);
-// 		print_list(head);
-// 		list = list->cdr;
-// 		while (list) {
-// 			print_list(list);
-// 			print_list(tail);
-// 			print_list(head);
-// 			tail->cdr = malloc(sizeof(List));
-// 			tail = tail->cdr;
-// 			tail->car = list->car;
-// 			tail->cdr = NULL;
-// 			list = list->cdr;
-// 		}
-// 		tail = malloc(sizeof(List));
-// 		tail->car = val;
-// 		tail->cdr = NULL;
-// 		// return MKOBJ(LIST, list, head);
-// 	}
-	
-// 	else {
-// 		head = malloc(sizeof(List));
-// 		head->car = val;
-// 		head->cdr = NULL;
-// 		// return MKOBJ(LIST, list, head);
-// 	}
-
-// 	printf("\n");
-// 	print_list(head);
-// 	printf("\n");
-// 	return MKOBJ(LIST, list, head);
-// }
-
-/***/
-

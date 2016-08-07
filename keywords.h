@@ -9,12 +9,19 @@
 
 /* reserved words */
 
-#define DEF_KEY "define"
 #define FUN_KEY "lambda"
-#define IF_KEY "if"
+
 #define QUOTE_KEY "quote"
-#define ASS_KEY "set!"
 #define BEGIN_KEY "begin"
+
+#define DEF_KEY "define"
+#define ASS_KEY "set!"
+
+#define IF_KEY "if"
+#define AND_KEY "and"
+#define OR_KEY "or"
+
+#define DELAY_KEY "delay"
 
 /* non-flag user commands */
 
