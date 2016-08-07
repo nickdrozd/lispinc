@@ -6,6 +6,8 @@ intFunc mul_;
 intFunc div_;
 intFunc eq_;
 
+objFunc null_;
+
 /* primitive names */
 
 List* primitive_vars(void) {
@@ -17,7 +19,11 @@ List* primitive_vars(void) {
 					makeList(NAMEOBJ(PRIM_DIV), 
 						makeList(NAMEOBJ(PRIM_EQ), NULL)))));
 
-	List* vars = prim_arith_vars;
+	// List* vars = prim_arith_vars;
+
+	List* vars =
+		makeList(NAMEOBJ(PRIM_NULL), 
+			prim_arith_vars);
 
 	return vars;
 }
@@ -32,6 +38,8 @@ List* primitive_vals(void) {
 	Prim divprim = INTFUNC(div_);
 	Prim eqprim = INTFUNC(eq_);
 
+	Prim nullprim = OBJFUNC(null_);
+
 	List* prim_arith_vals = 
 		makeList(PRIMOBJ(addprim), 
 			makeList(PRIMOBJ(subprim), 
@@ -39,18 +47,27 @@ List* primitive_vals(void) {
 					makeList(PRIMOBJ(divprim), 
 						makeList(PRIMOBJ(eqprim), NULL)))));
 
-	List* vals = prim_arith_vals;
+	// List* vals = prim_arith_vals;
+
+	List* vals = 
+		makeList(PRIMOBJ(nullprim),
+			prim_arith_vals);
 
 	return vals;
 }
 
 /* primitive type-checking */
 
+// null? returns false for non-list objects
 int null_func(Obj obj) {
-	int isList = obj.tag == LIST;
-	int isNull = obj.val.list == NULL;
+	int isList = GETTAG(obj) == LIST;
 
-	return isList && isNull;
+	if (!isList)
+		return isList;
+
+	int isNull = GETLIST(obj) == NULL;
+
+	return isNull;
 }
 
 objFunc null_ = null_func;

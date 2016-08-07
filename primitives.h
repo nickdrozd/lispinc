@@ -10,6 +10,8 @@ List* primitive_vals(void);
 
 /* primitive arithmetic functions */
 
+#define PRIM_NULL "null?"
+
 #define PRIM_ADD "+"
 #define PRIM_SUB "-"
 #define PRIM_MUL "*"

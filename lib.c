@@ -2,7 +2,7 @@
 
 /* list operations */
 
-#define list_count 4
+#define list_count 5
 
 #define cons \
 	"("DEF_KEY" cons \
@@ -24,6 +24,13 @@
 
 #define nil \
 	"("DEF_KEY" nil ("QUOTE_KEY" ()))"
+
+#define length \
+	"("DEF_KEY" length \
+		("LAMBDA_KEY" (s) \
+			("IF_KEY" (null? s) \
+				0 \
+				(add1 (length (cdr s))))))"
 
 /* arithmetic operations */
 
@@ -93,6 +100,8 @@ char* library[] = {cons"\n",
 					 car"\n", 
 					 cdr"\n", 
 					 nil"\n", 
+					 length"\n",
+					 
 					 zero_"\n",
 					 add1"\n", 
 					 sub1"\n", 
