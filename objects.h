@@ -61,6 +61,8 @@
 #ifndef OBJECTS_GUARD
 #define OBJECTS_GUARD
 
+// #include "keywords.h"
+
 /* typedefs */
 
 typedef union Val Val;
@@ -192,6 +194,19 @@ struct Env {
 #define MKPRIM(TYPE,FUNCTYPE,FUNC) (Prim){.type = TYPE, .func = (primFunc){.FUNCTYPE = FUNC}}
 
 // Obj
+
+// keyword objs
+#define QUOTEOBJ NAMEOBJ(QUOTE_KEY)
+#define LAMBDAOBJ NAMEOBJ(LAMBDA_KEY)
+#define DEFOBJ NAMEOBJ(DEF_KEY)
+#define ASSOBJ NAMEOBJ(ASS_KEY)
+#define IFOBJ NAMEOBJ(IF_KEY)
+#define ANDOBJ NAMEOBJ(AND_KEY)
+#define OROBJ NAMEOBJ(OR_KEY)
+
+#define TRUEOBJ NUMOBJ(1)
+#define FALSEOBJ NUMOBJ(0)
+#define NULLOBJ LISTOBJ(NULL)
 
 #define NUMOBJ(X) MKOBJ(NUM, num, X)
 #define NAMEOBJ(X) MKOBJ(NAME, name, X)
