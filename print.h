@@ -43,10 +43,12 @@ void print_registers(void);
 void print_base_env(void);
 void print_unbound(void);
 
-void print_obj(Obj obj);
-void print_list(List* list);
+void print_register(Obj reg, char* name);
 void print_label(Label label);
 char* lookup_prim_name(Obj func_obj);
+
+void print_obj(Obj obj);
+void print_list(List* list);
 
 /* user interface */
 
@@ -54,6 +56,8 @@ void print_intro(void);
 void print_help(void);
 void print_flags(void);
 void print_exit(void);
+
+void print_flag(int flag, char* name);
 
 /* debugging */
 

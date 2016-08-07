@@ -302,8 +302,10 @@ bool isCompound(Obj obj) {
 	return GETTAG(obj) == LIST;
 }
 
+
+// clean this up!
 Obj applyPrimitive(Obj func, Obj arglist) {
-			if (INFO) printf("%s\n", "applying PRIMITIVE...");
+			debug_print("\napplying PRIMITIVE...\n");
 	List* list = GETLIST(arglist);
 
 	primType type = func.val.prim.type;
@@ -311,7 +313,7 @@ Obj applyPrimitive(Obj func, Obj arglist) {
 	if (type == INTPRIM) {
 		int arg1 = list->car.val.num;
 		int arg2 = list->cdr->car.val.num;
-				if (INFO) printf("arg1: %d\narg2: %d\n\n", arg1, arg2);
+				// if (INFO) printf("arg1: %d\narg2: %d\n\n", arg1, arg2);
 		intFunc prim = func.val.prim.func.intfunc;
 		int result = (*prim)(arg1, arg2);
 		return NUMOBJ(result);
@@ -319,14 +321,14 @@ Obj applyPrimitive(Obj func, Obj arglist) {
 	
 	else if (type == OBJPRIM) {
 		Obj arg = list->car;
-				if (INFO) ;
+				// if (INFO) ;
 		objFunc prim = func.val.prim.func.objfunc;
 		int result = (*prim)(arg);
 		return NUMOBJ(result);
 	}
 
 	else {
-		printf("apply_primitive: unknown primitive function type!\n");
+				debug_print("apply_primitive: unknown primitive function type!\n");
 		return DUMMYOBJ;
 	}
 }

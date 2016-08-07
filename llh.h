@@ -17,7 +17,6 @@
 #ifndef LLH_GUARD
 #define LLH_GUARD
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
@@ -25,6 +24,7 @@
 #include "objects.h"
 #include "keywords.h"
 #include "flags.h"
+#include "print.h"
 
 bool isQuit(Obj expr);
 

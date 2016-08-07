@@ -5,7 +5,8 @@
 char* main_label;
 
 void print_info(void) {
-	printf("\n\n@ %s\n", main_label);
+	NL;NL;
+	printf("@ %s", main_label);NL;
 	PRDIV;
 	print_registers();
 	print_stack();
@@ -17,8 +18,8 @@ void print_stats(void) {
 	if (LIB) return;
 
 	printf("*** STATS ***\n");
-	printf("Total number of saves: %d\n", save_count);
-	printf("Maximum stack depth: %d\n", max_stack_depth);
+	printf("Total number of saves: %d", save_count);NL;
+	printf("Maximum stack depth: %d", max_stack_depth);NL;
 	reset_stats();
 }
 
@@ -26,7 +27,8 @@ void print_final_val(void) {
 	if (LIB) return;
 	
 	printf("\nVALUE: ");
-	print_obj(val); NL; NL;
+	print_obj(val);
+	NL;NL;
 
 	if (!STATS)
 		reset_stats();
@@ -36,21 +38,13 @@ void print_final_val(void) {
 }
 
 void print_registers(void) {
-	printf("-- %s -- \n", "EXPR");
-	print_obj(expr); NL;
-	printf("-- %s -- \n", "VAL");
-	print_obj(val); NL;
-	printf("-- %s -- \n", "CONT");
-	print_obj(cont); NL;
-	printf("-- %s -- \n", "FUNC");
-	print_obj(func); NL;
-	printf("-- %s -- \n", "ARGLIST");
-	print_obj(arglist); NL;
-	printf("-- %s -- \n", "UNEV");
-	print_obj(unev); NL;
-	// identify envs with their pointers
-	printf("-- %s -- \n", "ENV");
-	print_obj(env); NL;
+	print_register(expr, "EXPR");
+	print_register(val, "VAL");
+	print_register(cont, "CONT");
+	print_register(func, "FUNC");
+	print_register(arglist, "ARGLIST");
+	print_register(unev, "UNEV");
+	print_register(env, "ENV");
 }
 
 void print_stack(void) {
@@ -61,7 +55,7 @@ void print_stack(void) {
 	if (!temp)
 		printf("%s\n", "-- EMPTY STACK --");
 	while (temp) {
-		printf("-- STACK ENTRY %d -- \n", count);
+		printf("-- STACK ENTRY %d --", count);NL;
 		print_obj(temp->car); NL;
 		temp = temp->cdr;
 		count++;
@@ -70,15 +64,24 @@ void print_stack(void) {
 }
 
 void print_base_env(void) {
-	printf("\n\nbase_env: %p\n", base_env);
+	NL;NL;
+	printf("base_env: %p", base_env);
+	NL;
 }
 
 void print_unbound(void) {
-	printf("\n\nUNBOUND VARIABLE: \"%s\"!\n", 
-									GETNAME(expr));
+	NL;NL;
+	printf("UNBOUND VARIABLE: \"%s\"!", 
+							GETNAME(expr));
+	NL;
 }
 
 /* info helpers */
+
+void print_register(Obj reg, char* name) {
+	printf("-- %s -- \n", name);
+	print_obj(reg); NL;
+}
 
 void print_obj(Obj obj) {
 	switch(GETTAG(obj)) {
@@ -219,11 +222,16 @@ char* lookup_prim_name(Obj func_obj) {
 
 void print_intro(void) {
 	NL;
-	printf("Welcome to lispinc!"); NL; NL;
-	printf("Nick Drozd, 2016"); NL;
-	printf("github.com/nickdrozd/lispinc"); NL; NL;
-	printf("Enter .help for help and enter .quit to quit."); NL; NL;
-	printf("Now, the time has come for you to lispinc...for your life!"); NL; NL;
+	printf("Welcome to lispinc!"); 
+	NL;NL;
+	printf("Nick Drozd, 2016"); 
+	NL;
+	printf("github.com/nickdrozd/lispinc"); 
+	NL;NL;
+	printf("Enter .help for help and enter .quit to quit."); 
+	NL;NL;
+	printf("Now, the time has come for you to lispinc...for your life!"); 
+	NL;NL;
 }
 
 void print_help(void) {
@@ -240,11 +248,11 @@ void print_help(void) {
 void print_flags(void) {
 	NL;
 	printf("*** FLAGS ***");NL;
-	TAB;printf("INFO  :%s", INFO ? "ON" : "OFF");NL
-	TAB;printf("STEP  :%s", STEP ? "ON" : "OFF");NL
-	TAB;printf("STATS :%s", STATS ? "ON" : "OFF");NL
-	TAB;printf("TAIL  :%s", TAIL ? "ON" : "OFF");NL
-	TAB;printf("DEBUG :%s", DEBUG ? "ON" : "OFF");NL
+	print_flag(INFO, "INFO");
+	print_flag(STEP, "STEP");
+	print_flag(STATS, "STATS");
+	print_flag(TAIL, "TAIL");
+	print_flag(DEBUG, "DEBUG");
 }
 
 void print_exit(void) {
@@ -255,9 +263,17 @@ void print_exit(void) {
 	NL; NL;
 }
 
+void print_flag(int flag, char* name) {
+	TAB;printf("%s  :%s", name, flag ? "ON" : "OFF");NL;
+}
+
 
 /* debugging */
 
 void debug_print(char* statement) {
-	if (DEBUG) printf("\n\nDEBUG: %s\n\n", statement);
+	if (DEBUG) { 
+		NL;NL;
+		printf("DEBUG: %s", statement);
+		NL;NL;
+	}
 }
