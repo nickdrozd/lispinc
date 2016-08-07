@@ -17,6 +17,7 @@ Env* makeBaseEnv(void) {
 
 	Env* env = makeEnv(primitives, NULL);
 
+	// memory management
 	append_to_envs(env);
 
 	return env;
@@ -25,13 +26,14 @@ Env* makeBaseEnv(void) {
 // returns new env obj with vars bound to vals
 Obj extendEnv(Obj vars_obj, Obj vals_obj, Obj base_env_obj) {
 
-	List* vars = vars_obj.val.list;
-	List* vals = vals_obj.val.list;
-	Env* base_env = base_env_obj.val.env;
+	List* vars = GETLIST(vars_obj);
+	List* vals = GETLIST(vals_obj);
+	Env* base_env = GETENV(base_env_obj);
 
 	Frame* frame = makeFrame(vars, vals);
 	Env* ext_env = makeEnv(frame, base_env);
 
+	// memory management
 	append_to_envs(ext_env);
 
 	return ENVOBJ(ext_env);
@@ -42,10 +44,10 @@ Obj extendEnv(Obj vars_obj, Obj vals_obj, Obj base_env_obj) {
 
 // returns val bound to var in env
 Obj lookup(Obj var_obj, Obj env_obj) {
-			if (DEBUG) printf("looking up \"%s\"\n", var_obj.val.name);
+			if (DEBUG) printf("looking up \"%s\"\n", GETNAME(var_obj));
 
-	char* var = var_obj.val.name;
-	Env* env = env_obj.val.env;
+	char* var = GETNAME(var_obj);
+	Env* env = GETENV(env_obj);
 
 	return lookup_in_env(var, env);
 }
@@ -87,7 +89,7 @@ Obj lookup_in_frame(char* var, Frame* frame) { // helper for lookup
 (doesn't check for existing binding) */
 void defineVar(Obj var_obj, Obj val_obj, Obj* env_obj) {
 
-	char* var = var_obj.val.name;
+	char* var = GETNAME(var_obj);
 	Env* env = (*env_obj).val.env;
 
 	Frame* frame = malloc(sizeof(Frame));
@@ -101,8 +103,8 @@ void defineVar(Obj var_obj, Obj val_obj, Obj* env_obj) {
 // sets first occurence of var to val
 void setVar(Obj var_obj, Obj val_obj, Obj env_obj) {
 
-	char* var = var_obj.val.name;
-	Env* env = env_obj.val.env;
+	char* var = GETNAME(var_obj);
+	Env* env = GETENV(env_obj);
 
 	if (env == NULL) {
 		printf("unbound variable -- setVar\n");
@@ -140,8 +142,8 @@ Frame* makeFrame(List* vars, List* vals) {
 	if (vars == NULL)
 		return NULL;
 
-	char* key = vars->car.val.name;
-	Obj val = vals->car;
+	char* key = GETNAME(CAR(vars));
+	Obj val = CAR(vals);
 
 	Frame* frame = malloc(sizeof(Frame));
 
