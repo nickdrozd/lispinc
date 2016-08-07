@@ -68,8 +68,8 @@ Obj delayExpr(Obj expr) {
 
 Obj makeDelay(Obj expr) {
 	List* list = 
-		makeList(NAMEOBJ(LAMBDA_KEY),
-			makeList(LISTOBJ(NULL), 
+		makeList(LAMBDAOBJ,
+			makeList(NULLOBJ, 
 				makeList(delayExpr(expr), NULL)));
 
 	Obj obj = LISTOBJ(list);
@@ -131,10 +131,10 @@ Obj makeAnd(Obj expr) {
 
 	List* cdr = CDR(GETLIST(seq));
 	Obj rest = 
-		LISTOBJ(makeList(NAMEOBJ(AND_KEY), cdr));
+		LISTOBJ(makeList(ANDOBJ, cdr));
 
 	List* ifTrans = 
-		makeList(NAMEOBJ(IF_KEY), 
+		makeList(IFOBJ, 
 			makeList(first, 
 				makeList(rest, 
 					makeList(FALSEOBJ, NULL))));
@@ -152,10 +152,10 @@ Obj makeOr(Obj expr) {
 
 	List* cdr = CDR(GETLIST(seq));
 	Obj rest = 
-		LISTOBJ(makeList(NAMEOBJ(OR_KEY), cdr));
+		LISTOBJ(makeList(OROBJ, cdr));
 
 	List* ifTrans = 
-		makeList(NAMEOBJ(IF_KEY), 
+		makeList(IFOBJ, 
 			makeList(first, 
 				makeList(TRUEOBJ, 
 					makeList(rest, NULL))));
@@ -185,7 +185,7 @@ Obj lambdaBody(Obj expr) {
 
 Obj makeFunc(Obj params, Obj body, Obj env) {
 	List* list = 
-		makeList(NAMEOBJ(LAMBDA_KEY),
+		makeList(LAMBDAOBJ,
 			makeList(params,
 				makeList(body,
 					makeList(env, NULL))));
@@ -305,7 +305,7 @@ bool isCompound(Obj obj) {
 
 // clean this up!
 Obj applyPrimitive(Obj func, Obj arglist) {
-			debug_print("\napplying PRIMITIVE...\n");
+			debug_print("applying PRIMITIVE...");
 	List* list = GETLIST(arglist);
 
 	primType type = func.val.prim.type;
@@ -328,7 +328,7 @@ Obj applyPrimitive(Obj func, Obj arglist) {
 	}
 
 	else {
-				debug_print("apply_primitive: unknown primitive function type!\n");
+				debug_print("apply_primitive: unknown primitive function type!");
 		return DUMMYOBJ;
 	}
 }
