@@ -87,10 +87,10 @@ Obj lookup_in_frame(char* var, Frame* frame) { // helper for lookup
 
 /* adds new var/val binding to env
 (doesn't check for existing binding) */
-void defineVar(Obj var_obj, Obj val_obj, Obj* env_obj) {
+void defineVar(Obj var_obj, Obj val_obj, Obj env_obj) {
 
 	char* var = GETNAME(var_obj);
-	Env* env = (*env_obj).val.env;
+	Env* env = GETENV(env_obj);
 
 	Frame* frame = malloc(sizeof(Frame));
 	frame->key = var;

@@ -209,7 +209,7 @@ int main(void) {
 		restore(&cont);
 		restore(&env);
 		restore(&unev);
-		defineVar(unev, val, &env); // var, val, env
+		defineVar(unev, val, env); // var, val, env
 		// val = ASS_DEF_RETURN_VAL;
 		goto CONTINUE;
 

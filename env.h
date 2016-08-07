@@ -91,7 +91,7 @@ Obj lookup(Obj var_obj, Obj env_obj);
 
 /* modify env */
 
-void defineVar(Obj var_obj, Obj val_obj, Obj* env_obj);
+void defineVar(Obj var_obj, Obj val_obj, Obj env_obj);
 void setVar(Obj var_obj, Obj val_obj, Obj env_obj);
 
 /* constructors */
