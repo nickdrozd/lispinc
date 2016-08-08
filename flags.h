@@ -4,29 +4,27 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+#include "keywords.h"
+
 extern int DEBUG;
 extern int INFO;
 extern int STATS;
 extern int TAIL;
-extern int LIB;
 extern int STEP;
 
-// it would be nice if these didn't need newlines
-#define nlchar "\n"
+extern int LIB;
 
-#define _DEBUG ".debug"nlchar
-#define _INFO ".info"nlchar
-#define _STATS ".stats"nlchar
-#define _TAIL ".tail"nlchar
-#define _STEP ".step"nlchar
+/* flag names */
 
-#define _HELP ".help"nlchar
-#define _QUIT ".quit"nlchar
-
+#define DEBUG_NAME "DEBUG"
+#define INFO_NAME "INFO"
+#define STATS_NAME "STATS"
+#define TAIL_NAME "TAIL"
+#define STEP_NAME "STEP"
 
 /* flag manipulation */
 void toggle_val(int* flag);
-void switch_flag(char* flag_name);
+void switch_flag(char* flag_command);
 
 /* from read.c */
 int streq(char* str1, char* str2);

@@ -23,7 +23,21 @@
 
 #define DELAY_KEY "delay"
 
-/* non-flag user commands */
+/* user commands */
+
+// commands run by read
+// (it would be nice if these didn't need newlines)
+#define nlchar "\n"
+
+#define DEBUG_COMMAND ".debug"nlchar
+#define INFO_COMMAND ".info"nlchar
+#define STATS_COMMAND ".stats"nlchar
+#define TAIL_COMMAND ".tail"nlchar
+#define STEP_COMMAND ".step"nlchar
+
+#define HELP_COMMAND ".help"nlchar
+
+// commands run by main
 
 #define QUIT_COMMAND ".quit"
 

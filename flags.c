@@ -19,16 +19,16 @@ void toggle_val(int* flag) {
 	return;
 }
 
-void switch_flag(char* flag_name) {
+void switch_flag(char* flag_command) {
 			if (DEBUG) printf("%s\n", "switching flag...");
-	if (streq(flag_name, _DEBUG))
+	if (streq(flag_command, DEBUG_COMMAND))
 		toggle_val(&DEBUG);
-	else if (streq(flag_name, _INFO))
+	else if (streq(flag_command, INFO_COMMAND))
 		toggle_val(&INFO);
-	else if (streq(flag_name, _STATS))
+	else if (streq(flag_command, STATS_COMMAND))
 		toggle_val(&STATS);
-	else if (streq(flag_name, _TAIL))
+	else if (streq(flag_command, TAIL_COMMAND))
 		toggle_val(&TAIL);
-	else if (streq(flag_name, _STEP))
+	else if (streq(flag_command, STEP_COMMAND))
 		toggle_val(&STEP);
 }

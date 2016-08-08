@@ -38,13 +38,13 @@ void print_final_val(void) {
 }
 
 void print_registers(void) {
-	print_register(expr, "EXPR");
-	print_register(val, "VAL");
-	print_register(cont, "CONT");
-	print_register(func, "FUNC");
-	print_register(arglist, "ARGLIST");
-	print_register(unev, "UNEV");
-	print_register(env, "ENV");
+	print_register(expr, EXPR_NAME);
+	print_register(val, VAL_NAME);
+	print_register(cont, CONT_NAME);
+	print_register(func, FUNC_NAME);
+	print_register(arglist, ARGLIST_NAME);
+	print_register(unev, UNEV_NAME);
+	print_register(env, ENV_NAME);
 }
 
 void print_stack(void) {
@@ -248,11 +248,11 @@ void print_help(void) {
 void print_flags(void) {
 	NL;
 	printf("*** FLAGS ***");NL;
-	print_flag(INFO, "INFO");
-	print_flag(STEP, "STEP");
-	print_flag(STATS, "STATS");
-	print_flag(TAIL, "TAIL");
-	print_flag(DEBUG, "DEBUG");
+	print_flag(INFO, INFO_NAME);
+	print_flag(STEP, STEP_NAME);
+	print_flag(STATS, STATS_NAME);
+	print_flag(TAIL, TAIL_NAME);
+	print_flag(DEBUG, DEBUG_NAME);
 }
 
 void print_exit(void) {
