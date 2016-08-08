@@ -277,3 +277,12 @@ void debug_print(char* statement) {
 		NL;NL;
 	}
 }
+
+// is there a better way to include the register name?
+void debug_register(Obj reg, char* name) {
+	if (DEBUG ) {
+		NL;
+		printf("DEBUG -- register: %s", name); NL;
+		print_obj(reg); NL; NL;
+	}
+}

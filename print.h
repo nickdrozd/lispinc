@@ -1,10 +1,12 @@
 /*
 	PRINT
 
-	Some print functions, mostly used for debugging.
-	In general, the low-level print functions 
-	print_obj and print_list shouldn't be called
-	directly, debug_register being preferred.
+	Some of these print functions have to do with 
+	displaying information about the evaluator itself, 
+	and some print program information and greetings 
+	and that kind of things. A few are used specifically 
+	for debugging (they only do anything if the DEBUG 
+	flag is set).
 */
 
 /*
@@ -62,5 +64,6 @@ void print_flag(int flag, char* name);
 /* debugging */
 
 void debug_print(char* statement);
+void debug_register(Obj reg, char* name);
 
 #endif

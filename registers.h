@@ -1,17 +1,22 @@
+/*
+	REGISTERS
+
+	registers.c declares the evaluator's seven registers: 
+	EXPRession, VALue, CONTinue, FUNCtion, ARGumentLIST, 
+	UNEValuated, and ENVironment. It also provides a 
+	function to initialize the registers (as well as the 
+	stack) and a function to print the contents of a 
+	register.
+*/
+
 #ifndef REGISTERS_GUARD
 #define REGISTERS_GUARD
 
-#include <stdio.h>
-
 #include "objects.h"
 #include "stack.h"
-#include "print.h"
 
 void initialize(void);
-
 void initialize_registers(void);
-
-void debug_register(Obj reg, char* name);
 
 #define EXPR_NAME "EXPR"
 #define VAL_NAME "VAL"
