@@ -2,15 +2,12 @@
 
 int main(void) {
 			debug_print("starting main...");
-
 	print_intro();
-
 	base_env = makeBaseEnv();
 
 	START:
 				main_label = "START";
-		initialize_registers();
-		initialize_stack();
+		initialize();
 		env = ENVOBJ(base_env);
 				if (INFO) print_base_env();
 				if (INFO) print_info();
@@ -167,7 +164,7 @@ int main(void) {
 
 	/* ass, def */
 
-	#define ASS_DEF_RETURN_VAL MKOBJ(NAME, name, "ok")
+	#define ASS_DEF_RETURN_VAL DUMMYOBJ
 		
 	// leave ass/def val as return val?
 

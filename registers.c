@@ -21,12 +21,13 @@ void initialize_registers(void) {
 
 // is there a better way to include the register name?
 void debug_register(Obj reg, char* name) {
-	printf("\nDEBUG -- register: %s\n", name);
+	NL;
+	printf("DEBUG -- register: %s", name); NL;
 	print_obj(reg); NL; NL;
 }
 
-// void initialize(void) {
-// 	initialize_registers();
-// 	initialize_stack();
-// 	return;
-// }
+void initialize(void) {
+	initialize_registers();
+	initialize_stack();
+	return;
+}

@@ -4,9 +4,13 @@
 #include <stdio.h>
 
 #include "objects.h"
+#include "stack.h"
 #include "print.h"
 
+void initialize(void)
+
 void initialize_registers(void);
+
 void debug_register(Obj reg, char* name);
 
 #define EXPR_NAME "EXPR"
