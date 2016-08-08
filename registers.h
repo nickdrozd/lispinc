@@ -7,7 +7,7 @@
 #include "stack.h"
 #include "print.h"
 
-void initialize(void)
+void initialize(void);
 
 void initialize_registers(void);
 
