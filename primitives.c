@@ -72,6 +72,36 @@ int null_func(Obj obj) {
 
 objFunc null_ = null_func;
 
+/* primitive list functions */
+
+/* need to add another PRIM type to make these into 
+	primitives (a pain in the ass) */
+
+// obj cons_func(Obj car, Obj cdr) {
+// 	List* list;
+
+// 	if (GETTAG(obj) != LIST)
+// 		list = NULL;
+// 	else
+// 		list = CDR(GETLIST(cdr));
+
+// 	return LISTOBJ(makeList(car, list));
+// }
+
+// obj car_func(Obj obj) {
+// 	if (GETTAG(obj) != LIST)
+// 		return DUMMYOBJ;
+// 	else
+// 		return CAR(GETLIST(obj));
+// }
+
+// obj cdr_func(Obj obj) {
+// 	if (GETTAG(obj) != LIST)
+// 		return DUMMYOBJ;
+// 	else
+// 		return LISTOBJ(CDR(GETLIST(obj)));
+// }
+
 /* primitive arithmetic */
 
 int add_func(int a, int b) {
