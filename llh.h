@@ -6,12 +6,6 @@
 	is lambda expression. The idea is that in
 	a real register machine, these would be
 	implemented as primitive machine operations.
-
-	One function, adjoinArgs, turned out to be
-	bizarrely difficult to implement correctly 
-	and stalled the whole project for three days.
-	Several failed attempts have been preserved
-	at the end of the file.
 */
 
 #ifndef LLH_GUARD

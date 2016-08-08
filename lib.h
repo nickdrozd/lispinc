@@ -26,7 +26,12 @@
 	#defines are used instead of constants because 
 	apparently nothing can be initialized with anything 
 	except string literals and numbers.
+*/
 
+/*
+	TODO: It turns out that list operations implemented 
+	as lambda abstractions don't play along with quote. 
+	Make them primitives!
 */
 
 #ifndef LIB_GUARD
@@ -42,7 +47,5 @@ char* load_library(void);
 bool lib_loaded(void);
 
 void print_lib(void);
-
-extern char* library[];
 
 #endif

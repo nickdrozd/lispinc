@@ -1,3 +1,12 @@
+/*
+	FLAGS
+
+	Flags are used to indicate certain system settings. 
+	DEBUG, INFO, STATS, TAIL, and STEP are user-set, 
+	while LIB is used in the process of loading the 
+	library functions. 
+*/
+
 #ifndef FLAGS_GUARD
 #define FLAGS_GUARD
 
