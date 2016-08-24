@@ -92,16 +92,16 @@ int isSpecial(char* code) {
 
 int isFlag(char* code) {
 			if (DEBUG) printf("isFlag\n");
-	return streq(code, _DEBUG) ||  
-			streq(code, _INFO) || 
-			streq(code, _STATS) || 
-			streq(code, _TAIL) ||
-			streq(code, _STEP);
+	return streq(code, DEBUG_COMMAND) ||  
+			streq(code, INFO_COMMAND) || 
+			streq(code, STATS_COMMAND) || 
+			streq(code, TAIL_COMMAND) ||
+			streq(code, STEP_COMMAND);
 }
 
 int isHelp(char* code) {
 			if (DEBUG) printf("isHelp\n");
-	return streq(code, _HELP);
+	return streq(code, HELP_COMMAND);
 }
 
 // bool isQuit(char* code) {
