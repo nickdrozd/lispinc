@@ -180,15 +180,20 @@ body expressions; otherwise, explicit begins are needed
 for, e.g, iterative factorial */
 
 Obj lambdaBody(Obj expr) {
-	return CADDR(GETLIST(expr));
+	return LISTOBJ(CDDR(GETLIST(expr)));
 }
 
 Obj makeFunc(Obj params, Obj body, Obj env) {
+	// List* list = 
+	// 	makeList(LAMBDAOBJ,
+	// 		makeList(params,
+	// 			makeList(body,
+	// 				makeList(env, NULL))));
+
 	List* list = 
-		makeList(LAMBDAOBJ,
-			makeList(params,
-				makeList(body,
-					makeList(env, NULL))));
+		makeList(env,
+			makeList(params, 
+				makeList(body, NULL)));
 
 	Obj obj = LISTOBJ(list);
 	return obj;
@@ -226,12 +231,12 @@ Obj defVal(Obj expr) {
 
 /* function */
 
-Obj getArgs(Obj expr) {
-	return LISTOBJ(CDR(GETLIST(expr)));
-}
-
 Obj getFunc(Obj expr) {
 	return CAR(GETLIST(expr));
+}
+
+Obj getArgs(Obj expr) {
+	return LISTOBJ(CDR(GETLIST(expr)));
 }
 
 // -- empty_arglist macro
@@ -340,11 +345,11 @@ Obj funcParams(Obj obj) {
 }
 
 Obj funcBody(Obj obj) {
-	return LISTOBJ(CDDR(GETLIST(obj)));
+	return CADDR(GETLIST(obj));
 }
 
 Obj funcEnv(Obj obj) {
-	return CADDDR(GETLIST(obj));
+	return CAR(GETLIST(obj));
 }
 
 // extendEnv in env.c

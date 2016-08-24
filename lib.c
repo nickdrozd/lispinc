@@ -84,14 +84,13 @@
 #define fact_iter \
 	"("DEF_KEY" iterative_factorial \
 		("LAMBDA_KEY" (n) \
-			("BEGIN_KEY" \
-				("DEF_KEY" loop \
-					("LAMBDA_KEY" (count total) \
-						("IF_KEY" (zero? count) \
-							total \
-							(loop (sub1 count) \
-								(* total count))))) \
-				(loop n 1))))"
+			("DEF_KEY" loop \
+				("LAMBDA_KEY" (count total) \
+					("IF_KEY" (zero? count) \
+						total \
+						(loop (sub1 count) \
+							(* total count))))) \
+			(loop n 1)))"
 
 /* newlines are needed because of some quirk in the
 	parsing process (see read.c and parse.c) */
