@@ -31,7 +31,13 @@ void save(Obj reg) {
 	return;
 }
 
-void restore(Obj* reg) {
+/* use restore macro instead of _restore function to avoid
+having to give the pointer address of the argument 
+(see stack.h) */
+
+/* #define restore(reg) _restore(&reg); */
+
+void _restore(Obj* reg) {
 			if (DEBUG) printf("%s\n", "restore!");
 	*reg = stack->car;
 	List* temp = stack;

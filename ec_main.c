@@ -131,9 +131,9 @@ int main(void) {
 	IF_DECIDE:
 				main_label = "IF_DECIDE";
 				if (INFO) print_info();
-		restore(&cont);
-		restore(&env);
-		restore(&expr);
+		restore(cont);
+		restore(env);
+		restore(expr);
 		if (isTrue(val))
 			goto IF_THEN;
 		goto IF_ELSE;
@@ -182,9 +182,9 @@ int main(void) {
 	DID_ASS_VAL:
 				main_label = "DID_ASS_VAL";
 				if (INFO) print_info();
-		restore(&cont);
-		restore(&env);
-		restore(&unev);
+		restore(cont);
+		restore(env);
+		restore(unev);
 		setVar(unev, val, env); // var, val, env
 		// val = ASS_DEF_RETURN_VAL;
 		goto CONTINUE;
@@ -203,9 +203,9 @@ int main(void) {
 	DID_DEF_VAL:
 				main_label = "DID_DEF_VAL";
 				if (INFO) print_info();
-		restore(&cont);
-		restore(&env);
-		restore(&unev);
+		restore(cont);
+		restore(env);
+		restore(unev);
 		defineVar(unev, val, env); // var, val, env
 		// val = ASS_DEF_RETURN_VAL;
 		goto CONTINUE;
@@ -231,8 +231,8 @@ int main(void) {
 	DID_FUNC:
 				main_label = "DID_FUNC";
 				if (INFO) print_info();
-		restore(&unev); // the arguments
-		restore(&env);
+		restore(unev); // the arguments
+		restore(env);
 		arglist = empty_arglist; // #definition above
 		func = val;
 		if (noArgs(unev)) // (null? unev)
@@ -255,9 +255,9 @@ int main(void) {
 	ACC_ARG:
 				main_label = "ACC_ARG";
 				if (INFO) print_info();
-		restore(&unev);
-		restore(&env);
-		restore(&arglist);
+		restore(unev);
+		restore(env);
+		restore(arglist);
 		// append val to end of arglist
 		arglist = adjoinArg(val, arglist);
 		unev = restArgs(unev); // (cdr unev)
@@ -272,9 +272,9 @@ int main(void) {
 	DID_LAST_ARG:
 				main_label = "DID_LAST_ARG";
 				if (INFO) print_info();
-		restore(&arglist);
+		restore(arglist);
 		arglist = adjoinArg(val, arglist);
-		restore(&func);
+		restore(func);
 		goto APPLY;
 
 
@@ -292,7 +292,7 @@ int main(void) {
 				main_label = "APPLY_PRIMITIVE";
 				if (INFO) print_info();
 		val = applyPrimitive(func, arglist);
-		restore(&cont);
+		restore(cont);
 		goto CONTINUE;
 
 	// only place env is assigned a new value
@@ -323,15 +323,15 @@ int main(void) {
 	SEQ_CONT:
 				main_label = "SEQ_CONT";
 				if (INFO) print_info();
-		restore(&env);
-		restore(&unev);
+		restore(env);
+		restore(unev);
 		unev = restExps(unev);
 		goto SEQUENCE;
 
 	LAST_EXP:
 				main_label = "LAST_EXP";
 				if (INFO) print_info();
-		restore(&cont);
+		restore(cont);
 		goto EVAL;
 
 	/* alternatively, we could require that 
@@ -351,15 +351,15 @@ int main(void) {
 	ALT_SEQ_CONT:
 				main_label = "ALT_SEQ_CONT";
 				if (INFO) print_info();
-		restore(&env);
-		restore(&unev);
+		restore(env);
+		restore(unev);
 		unev = restExps(unev);
 		goto ALT_SEQUENCE;
 
 	SEQ_END:
 				main_label = "SEQ_END";
 				if (INFO) print_info();
-		restore(&cont);
+		restore(cont);
 		goto CONTINUE;
 
 

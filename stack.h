@@ -37,9 +37,12 @@
 
 /* stack.c */
 void save(Obj reg);
-void restore(Obj* reg);
+#define restore(reg) _restore(&reg)
+void _restore(Obj* reg);
+
 void clear_stack(void);
 void initialize_stack(void);
+
 void reset_stats(void);
 
 extern int save_count;
