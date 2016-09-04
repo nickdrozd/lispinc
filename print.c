@@ -5,6 +5,8 @@
 char* main_label;
 
 void print_info(void) {
+	if (LIB) return;
+
 	NL;NL;
 	printf("@ %s", main_label);NL;
 	PRDIV;
@@ -64,6 +66,8 @@ void print_stack(void) {
 }
 
 void print_base_env(void) {
+	if (LIB) return;
+	
 	NL;NL;
 	printf("base_env: %p", base_env);
 	NL;

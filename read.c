@@ -10,7 +10,7 @@ Obj read_code(void) {
 		return result;
 	}
 
-	if (LIB) toggle_val(&LIB);
+	if (LIB) toggle_LIB();
 
 	input_prompt();
 

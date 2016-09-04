@@ -1,14 +1,18 @@
 #include "flags.h"
 
 int DEBUG = 0;
-int INFO = 0;
-int STATS = 0;
+int INFO = 1;
+int STATS = 1;
 int STEP = 0;
 int TAIL = 1;
 
 int LIB = 1;
 
 /* flag manipulation */
+
+void toggle_LIB(void) {
+	toggle_val(&LIB);
+}
 
 void toggle_val(int* flag) {
 			if (DEBUG) printf("toggle_val: %d\n", *flag);

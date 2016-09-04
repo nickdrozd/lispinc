@@ -21,6 +21,8 @@ extern int STATS;
 extern int TAIL;
 extern int STEP;
 
+/* LIB keeps print functions from printing during
+library loading (see print.c) */
 extern int LIB;
 
 /* flag names */
@@ -32,10 +34,14 @@ extern int LIB;
 #define STEP_NAME "STEP"
 
 /* flag manipulation */
-void toggle_val(int* flag);
 void switch_flag(char* flag_command);
+void toggle_val(int* flag);
 
-/* from read.c */
+/* LIB has its own dedicated toggle function 
+to make read.c more readable */
+void toggle_LIB(void);
+
+/* from read.c (redundant declaration?) */
 int streq(char* str1, char* str2);
 
 #endif
