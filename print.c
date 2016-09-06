@@ -19,14 +19,21 @@ void print_info(void) {
 void print_stats(void) {
 	if (LIB) return;
 
-	printf("*** STATS ***\n");
+	printf("*** STATS ***");NL;
 	printf("Total number of saves: %d", save_count);NL;
 	printf("Maximum stack depth: %d", max_stack_depth);NL;
 	reset_stats();
 }
 
+/* reset_stats here because print_stats 
+isn't called unless STATS is on, whereas
+print_final_val is called unconditionally */
+ 
 void print_final_val(void) {
-	if (LIB) return;
+	if (LIB) {
+		reset_stats();
+		return;
+	}
 	
 	printf("\nVALUE: ");
 	print_obj(val);
