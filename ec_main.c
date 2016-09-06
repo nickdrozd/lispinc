@@ -10,7 +10,7 @@ int main(void) {
 		initialize();
 		env = ENVOBJ(base_env);
 				if (INFO) print_base_env();
-				if (INFO) print_info();
+				// if (INFO) print_info();
 		expr = read_code();
 				debug_print("ec_main -- code read!");
 		if (isQuit(expr)) 
@@ -219,23 +219,37 @@ int main(void) {
 				main_label = "FUNCTION";
 				if (INFO) print_info();
 		save(cont);
-		save(env);
 		unev = getArgs(expr);
-		save(unev);
 		expr = getFunc(expr);
+		if (isSimpleFunc(expr))
+			goto SIMPLE_FUNC;
+		save(env);
+		save(unev);
 		cont = LABELOBJ(_DID_FUNC);
 		goto EVAL;
-
-	#define empty_arglist MKOBJ(LIST, list, NULL)
 
 	DID_FUNC:
 				main_label = "DID_FUNC";
 				if (INFO) print_info();
 		restore(unev); // the arguments
 		restore(env);
-		arglist = empty_arglist; // #definition above
 		func = val;
-		if (noArgs(unev)) // (null? unev)
+		goto CHECK_NO_ARGS;
+
+	SIMPLE_FUNC:
+				main_label = "SIMPLE_FUNC";
+				if (INFO) print_info();
+		func = lookup(expr, env);
+		goto CHECK_NO_ARGS;
+
+	#define empty_arglist NULLOBJ
+
+	CHECK_NO_ARGS:
+				main_label = "CHECK_NO_ARGS";
+				if (INFO) print_info();
+		arglist = empty_arglist;
+		// special case avoids ARG_LOOP
+		if (noArgs(unev)) // the args
 			goto APPLY;
 		save(func);
 		goto ARG_LOOP;

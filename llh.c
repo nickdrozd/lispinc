@@ -235,8 +235,10 @@ Obj getFunc(Obj expr) {
 	return CAR(GETLIST(expr));
 }
 
+// expr is expression or function itself?
 bool isSimpleFunc(Obj expr) {
-	return isVar(getFunc(expr));
+	// return isVar(getFunc(expr));
+	return isVar(expr);
 }
 
 Obj getArgs(Obj expr) {
