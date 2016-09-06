@@ -235,6 +235,10 @@ Obj getFunc(Obj expr) {
 	return CAR(GETLIST(expr));
 }
 
+bool isSimpleFunc(Obj expr) {
+	return isVar(getFunc(expr));
+}
+
 Obj getArgs(Obj expr) {
 	return LISTOBJ(CDR(GETLIST(expr)));
 }
@@ -253,44 +257,28 @@ bool isLastArg(Obj expr) {
 	return CDR(GETLIST(expr)) == NULL;
 }
 
-/* adjoinArg (with its own helpers) */
-
-void appendObj(Obj obj, List** list) {
-	if (*list == NULL) {
-		*list = malloc(sizeof(List));
-		(*list)->car = obj;
-		(*list)->cdr = NULL;
-		return;
-	}
-	else appendObj(obj, &((*list)->cdr));
-}
-
-List* reverse(List* list) {
-	if (list == NULL)
-		return NULL;
-
-	Obj car = list->car;
-	List* cdr = list->cdr;
-	List* head = reverse(cdr);
-	appendObj(car, &head);
-	return head;
-}
-
-/*
-	adjoinArg conses val to the front of
-	arglist, then reverses the whole thing.
-	this isn't efficient, but it was
-	shockingly and insurmountably difficult
-	to do it more straighforwardly.
-*/
+/* adjoinArg walks down the whole length 
+of the arglist to append a value to the end. 
+This is less efficient than building the list 
+backwards and then reversing, but it makes 
+the info display easier to read. */
 
 Obj adjoinArg(Obj val, Obj arglist) {
 	List* args = GETLIST(arglist);
-	List* head = malloc(sizeof(List));
-	head->car = val;
-	head->cdr = args;
-	head = reverse(head);
-	return LISTOBJ(head);
+
+	if (!args)
+		return LISTOBJ(makeList(val,args));
+
+	List* pnr = args;
+	while (pnr->cdr) 
+		pnr = pnr->cdr;
+	
+	pnr->cdr = malloc(sizeof(List));
+	pnr = pnr->cdr;
+	pnr->car = val;
+	pnr->cdr = NULL;
+
+	return LISTOBJ(args);
 }
 
 Obj restArgs(Obj expr) {

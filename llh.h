@@ -64,6 +64,7 @@ Obj defVar(Obj expr);
 Obj defVal(Obj expr);
 
 Obj getArgs(Obj expr);
+bool isSimpleFunc(Obj expr);
 Obj getFunc(Obj expr);
 
 bool noArgs(Obj expr);
