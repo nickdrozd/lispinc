@@ -3,7 +3,8 @@ SRCS := $(wildcard *.c)
 OBJS := ${SRCS:.c=.o}
 HDRS := ${SRCS:.c=.h}
 
-CFLAGS += -Wall -std=c99
+CFLAGS += -std=c99 -Wall -Wextra -g
+# -pedantic -O3
 
 DEPS := objects.h keywords.h
 
