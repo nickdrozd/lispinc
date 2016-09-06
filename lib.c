@@ -34,7 +34,7 @@
 
 /* arithmetic operations */
 
-#define arith_count 8
+#define arith_count 10
 
 #define zero_ \
 	"("DEF_KEY" zero? \
@@ -92,6 +92,27 @@
 							(* total count))))) \
 			(loop n 1)))"
 
+#define fib_rec \
+	"("DEF_KEY" recursive_fibonacci \
+		("LAMBDA_KEY" (n) \
+			("IF_KEY" (or (= n 0) \
+					(= n 1)) \
+				n \
+				(+ (recursive_fibonacci (- n 1)) \
+					(recursive_fibonacci (- n 2))))))"
+
+#define fib_iter \
+	"("DEF_KEY" iterative_fibonacci \
+		("LAMBDA_KEY" (n) \
+			("DEF_KEY" loop \
+				("LAMBDA_KEY" (count a b) \
+					("IF_KEY" (zero? count) \
+						a \
+						(loop (sub1 count) \
+							b \
+							(+ a b))))) \
+			(loop n 0 1)))"
+
 /* newlines are needed because of some quirk in the
 	parsing process (see read.c and parse.c) */
 
@@ -108,7 +129,10 @@ char* library[] = {cons"\n",
 					 tetrahedral"\n", 
 					 supertetrahedral"\n", 
 					 fact_rec"\n", 
-					 fact_iter"\n"};
+					 fact_iter"\n",
+					 fib_rec"\n",
+					 fib_iter"\n",
+					};
 
 /* lib_len should match the length of library
 	(this has to be handled manually?) */
