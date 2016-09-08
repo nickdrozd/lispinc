@@ -1,10 +1,10 @@
 #include "parse.h"
 
-Obj process_code_text(char* expr) {
+Obj parse(char* expr) {
 	Token_list* tokens = tokenize(expr);
-	Obj parsed = parse(tokens);
+	Obj tokens_read = read_tokens(tokens);
 	// free_tokens(&tokens);
-	return parsed;
+	return tokens_read;
 }
 
 // TODO: special case for nonlist expr (???)
@@ -123,7 +123,7 @@ Token_list* tokenize(char* expr) {
 }	
 
 
-Obj parse(Token_list* tokens) {
+Obj read_tokens(Token_list* tokens) {
 			if (DEBUG) { printf("%s\n", "parsing..."); print_tokens(tokens); }
 
 	if (tokens == NULL) {
@@ -160,11 +160,11 @@ Obj parse(Token_list* tokens) {
 
 		// first item is an atom
 		if (first.id == SYM) { 
-			// wrap first (Token) in a Token_list to pass to parse
+			// wrap first (Token) in a Token_list to pass to read_tokens
 			Token_list dummy;
 			dummy.next = NULL;
 			dummy.token = first;
-			push(parse(&dummy), &result);
+			push(read_tokens(&dummy), &result);
 
 				// do we need this?
 			// if (remainder->next == NULL)
@@ -188,7 +188,7 @@ Obj parse(Token_list* tokens) {
 			}
 			remainder = tail->next;
 			tail->next = NULL;
-			push(parse(head), &result);
+			push(read_tokens(head), &result);
 		} 
 	}
 

@@ -82,9 +82,9 @@ struct Token_list {
 };
 
 // prototypes
-Obj process_code_text(char* expr);
+Obj parse(char* expr);
 Token_list* tokenize(char* expr);
-Obj parse(Token_list* tokens);
+Obj read_tokens(Token_list* tokens);
 
 void dock(Token_list** list);
 Token_list* slice_ends(Token_list** list);
