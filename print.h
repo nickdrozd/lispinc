@@ -26,6 +26,9 @@
 #include "registers.h"
 #include "stack.h"
 #include "env.h"
+#include "tally.h"
+
+#define TABNL_PRINT(X) TAB;printf(X);NL;
 
 #define NL printf("\n");
 #define TAB printf("\t");

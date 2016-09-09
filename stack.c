@@ -2,18 +2,6 @@
 
 List* stack;
 
-/* stat counters (see print.c) */
-
-int save_count = 0;
-int curr_stack_depth = 0;
-int max_stack_depth = 0;
-
-void reset_stats(void) {
-	save_count = 0;
-	curr_stack_depth = 0;
-	max_stack_depth = 0;
-}
-
 /* stack operations */
 
 void save(Obj reg) {

@@ -49,6 +49,8 @@ Obj lookup(Obj var_obj, Obj env_obj) {
 	char* var = GETNAME(var_obj);
 	Env* env = GETENV(env_obj);
 
+	lookup_count++;
+
 	return lookup_in_env(var, env);
 }
 
@@ -66,8 +68,10 @@ Obj lookup_in_env(char* var, Env* env) { // lookup in env
 
 	if (checkFrame.tag != DUMMY)
 		return checkFrame;
-	else
+	else {
+		envs_traversed++;
 		return lookup_in_env(var, env->enclosure);
+	}
 }
 
 Obj lookup_in_frame(char* var, Frame* frame) { // helper for lookup
@@ -79,8 +83,10 @@ Obj lookup_in_frame(char* var, Frame* frame) { // helper for lookup
 
 	if (strcmp(var, key) == 0)
 		return (frame->val);
-	else
+	else {
+		frames_traversed++;
 		return lookup_in_frame(var, frame->next);
+	}
 }
 
 /* modify env */

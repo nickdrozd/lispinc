@@ -22,6 +22,9 @@ void print_stats(void) {
 	printf("*** STATS ***");NL;
 	printf("Total number of saves: %d", save_count);NL;
 	printf("Maximum stack depth: %d", max_stack_depth);NL;
+	printf("Total number of lookups: %d", lookup_count);NL;
+	printf("Total envs traversed: %d", envs_traversed);NL;
+	printf("Total frames traversed: %d", frames_traversed);NL;
 	reset_stats();
 }
 
@@ -42,6 +45,7 @@ void print_final_val(void) {
 	if (!STATS)
 		reset_stats();
 	
+	// is this step needed?
 	if (STEP)
 		getchar();
 }
@@ -81,6 +85,7 @@ void print_base_env(void) {
 }
 
 void print_unbound(void) {
+	reset_stats();
 	NL;NL;
 	printf("UNBOUND VARIABLE: \"%s\"!", 
 							GETNAME(expr));
