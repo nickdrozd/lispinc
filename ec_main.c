@@ -47,6 +47,14 @@ int main(void) {
 			goto NUMBER;
 		if (isVar(expr))
 			goto VARIABLE;
+		if (isAss(expr))
+			goto ASSIGNMENT;
+		if (isDef(expr))
+			goto DEFINITION;
+		if (isSetCar(expr))
+			goto SET_CAR;
+		if (isSetCdr(expr))
+			goto SET_CDR;
 		if (isQuote(expr))
 			goto QUOTATION;
 		if (isBegin(expr))
@@ -61,10 +69,6 @@ int main(void) {
 			goto OR;
 		if (isLambda(expr))
 			goto LAMBDA;
-		if (isAss(expr))
-			goto ASSIGNMENT;
-		if (isDef(expr))
-			goto DEFINITION;
 		goto FUNCTION;
 
 
@@ -210,6 +214,17 @@ int main(void) {
 		// val = ASS_DEF_RETURN_VAL;
 		goto CONTINUE;
 
+	SET_CAR:
+				main_label = "SET_CAR";
+				if (INFO) print_info();
+		expr = makeSetCar(expr);
+		goto EVAL;
+
+	SET_CDR:
+				main_label = "SET_CDR";
+				if (INFO) print_info();
+		expr = makeSetCdr(expr);
+		goto EVAL;
 
 	/******************/
 

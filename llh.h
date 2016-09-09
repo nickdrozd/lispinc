@@ -63,6 +63,11 @@ bool isDef(Obj expr);
 Obj defVar(Obj expr);
 Obj defVal(Obj expr);
 
+bool isSetCar(Obj expr);
+Obj makeSetCar(Obj expr);
+bool isSetCdr(Obj expr);
+Obj makeSetCdr(Obj expr);
+
 Obj getArgs(Obj expr);
 bool isSimpleFunc(Obj expr);
 Obj getFunc(Obj expr);
