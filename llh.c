@@ -12,14 +12,20 @@ bool isQuit(Obj expr) {
 		cmpForm(GETNAME(expr), QUIT_COMMAND);
 }
 
-/* primitive types */
+/* numbers */
 
 bool isNum(Obj expr) {
 	return GETTAG(expr) == NUM;
 }
 
+/* variables */
+
 bool isVar(Obj expr) {
 	return GETTAG(expr) == NAME;
+}
+
+bool isUnbound(Obj expr) {
+	return GETTAG(expr) == DUMMY;
 }
 
 /* special forms */

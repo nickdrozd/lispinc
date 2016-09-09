@@ -23,7 +23,9 @@
 bool isQuit(Obj expr);
 
 bool isNum(Obj expr);
+
 bool isVar(Obj expr);
+bool isUnbound(Obj expr);
 
 char* specialForm(Obj expr);
 bool cmpForm(char* cand, char* form);

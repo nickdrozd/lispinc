@@ -83,7 +83,7 @@ int main(void) {
 				if (INFO) print_info();
 				debug_print(GETNAME(expr));
 		val = lookup(expr, env);
-		if (GETTAG(val) == DUMMY)
+		if (isUnbound(val))
 			goto UNBOUND;
 		goto CONTINUE;
 
@@ -255,6 +255,8 @@ int main(void) {
 				main_label = "SIMPLE_FUNC";
 				if (INFO) print_info();
 		func = lookup(expr, env);
+		if (isUnbound(func))
+			goto UNBOUND;
 		goto CHECK_NO_ARGS;
 
 	#define empty_arglist NULLOBJ
