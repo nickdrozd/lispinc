@@ -47,28 +47,28 @@ int main(void) {
 			goto NUMBER;
 		if (isVar(expr))
 			goto VARIABLE;
+		if (isIf(expr))
+			goto IF;
 		if (isLambda(expr))
 			goto LAMBDA;
 		if (isDef(expr))
 			goto DEFINITION;
 		if (isAss(expr))
 			goto ASSIGNMENT;
-		if (isIf(expr))
-			goto IF;
-		if (isDelay(expr))
-			goto DELAY;
 		if (isAnd(expr))
 			goto AND;
 		if (isOr(expr))
 			goto OR;
+		if (isBegin(expr))
+			goto BEGIN;
+		if (isQuote(expr))
+			goto QUOTATION;
+		if (isDelay(expr))
+			goto DELAY;
 		if (isSetCar(expr))
 			goto SET_CAR;
 		if (isSetCdr(expr))
 			goto SET_CDR;
-		if (isQuote(expr))
-			goto QUOTATION;
-		if (isBegin(expr))
-			goto BEGIN;
 		goto FUNCTION;
 
 
