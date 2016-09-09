@@ -287,17 +287,13 @@ Obj getFunc(Obj expr) {
 	return CAR(GETLIST(expr));
 }
 
-// expr is expression or function itself?
 bool isSimpleFunc(Obj expr) {
-	// return isVar(getFunc(expr));
 	return isVar(expr);
 }
 
 Obj getArgs(Obj expr) {
 	return LISTOBJ(CDR(GETLIST(expr)));
 }
-
-// -- empty_arglist macro
 
 bool noArgs(Obj expr) {
 	return GETLIST(expr) == NULL;
@@ -342,10 +338,12 @@ Obj restArgs(Obj expr) {
 /* apply */
 
 bool isPrimitive(Obj obj) {
+	// isPrimitive_count++;
 	return GETTAG(obj) == PRIM;
 }
 
 bool isCompound(Obj obj) {
+	// isCompound_count++;
 	return GETTAG(obj) == LIST;
 }
 
@@ -406,18 +404,14 @@ Obj restExps(Obj seq) {
 	return LISTOBJ(CDR(GETLIST(seq)));
 }
 
-// UGLY HACK
 bool isLastExp(Obj seq) {
 	List* next = CDR(GETLIST(seq));
-	return next == NULL || next->car.tag == ENV;
-	//return CDR(GETLIST(seq)) == NULL;
+	return next == NULL;
 }
 
-// UGLY HACK
 bool noExps(Obj seq) {
 	List* list = GETLIST(seq);
-	return GETLIST(seq) == NULL ||
-				list->car.tag == ENV;
+	return list == NULL;
 }
 
 
