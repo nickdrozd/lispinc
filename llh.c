@@ -39,6 +39,7 @@ bool cmpForm(char* cand, char* form) {
 }
 
 bool hasForm(Obj expr, char* form) {
+	form_check_count++;
 	return cmpForm(specialForm(expr), form);
 }
 
@@ -190,19 +191,12 @@ Obj lambdaBody(Obj expr) {
 }
 
 Obj makeFunc(Obj params, Obj body, Obj env) {
-	// List* list = 
-	// 	makeList(LAMBDAOBJ,
-	// 		makeList(params,
-	// 			makeList(body,
-	// 				makeList(env, NULL))));
-
 	List* list = 
 		makeList(env,
 			makeList(params, 
 				makeList(body, NULL)));
 
-	Obj obj = LISTOBJ(list);
-	return obj;
+	return LISTOBJ(list);
 }
 
 /* ass, def */

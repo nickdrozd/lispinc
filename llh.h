@@ -18,6 +18,7 @@
 #include "objects.h"
 #include "keywords.h"
 #include "flags.h"
+#include "tally.h"
 #include "print.h"
 
 bool isQuit(Obj expr);

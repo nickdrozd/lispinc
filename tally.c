@@ -12,16 +12,25 @@ int lookup_count = 0;
 int envs_traversed = 0;
 int frames_traversed = 0;
 
+/* llh stats */
+
+int form_check_count = 0;
+
+/* stat functions */
 
 void print_stats(void) {
 	if (LIB) return;
 
 	printf("*** STATS ***");NL;
+
 	printf("Total number of saves: %d", save_count);NL;
 	printf("Maximum stack depth: %d", max_stack_depth);NL;
+
 	printf("Total number of lookups: %d", lookup_count);NL;
 	printf("Total envs traversed: %d", envs_traversed);NL;
 	printf("Total frames traversed: %d", frames_traversed);NL;
+
+	printf("Total times special forms checked: %d\n", form_check_count);NL;
 	reset_stats();
 }
 
@@ -33,4 +42,6 @@ void reset_stats(void) {
 	lookup_count = 0;
 	envs_traversed = 0;
 	frames_traversed = 0;
+
+	form_check_count = 0;
 }

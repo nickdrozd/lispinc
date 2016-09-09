@@ -5,7 +5,9 @@
 
 #include "flags.h"
 
-void print_stats(void)
+#define NL printf("\n");
+
+void print_stats(void);
 void reset_stats(void);
 
 extern int save_count;
@@ -15,5 +17,7 @@ extern int max_stack_depth;
 extern int lookup_count;
 extern int envs_traversed;
 extern int frames_traversed;
+
+extern int form_check_count;
 
 #endif
