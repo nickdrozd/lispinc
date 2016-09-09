@@ -15,6 +15,8 @@ int frames_traversed = 0;
 /* llh stats */
 
 int form_check_count = 0;
+// int isPrimitive_count = 0;
+// int isCompound_count = 0;
 
 /* stat functions */
 
@@ -30,7 +32,10 @@ void print_stats(void) {
 	printf("Total envs traversed: %d", envs_traversed);NL;
 	printf("Total frames traversed: %d", frames_traversed);NL;
 
-	printf("Total times special forms checked: %d\n", form_check_count);NL;
+	printf("Total times special forms checked: %d", form_check_count);NL;
+	// printf("Total times isPrimitive called: %d", isPrimitive_count);NL;
+	// printf("Total times isCompound called: %d", isCompound_count);NL;
+
 	reset_stats();
 }
 
@@ -44,4 +49,6 @@ void reset_stats(void) {
 	frames_traversed = 0;
 
 	form_check_count = 0;
+	// isPrimitive_count = 0;
+	// isCompound_count = 0;
 }
