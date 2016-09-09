@@ -91,18 +91,35 @@ Obj lookup_in_frame(char* var, Frame* frame) { // helper for lookup
 
 /* modify env */
 
-/* adds new var/val binding to env
-(doesn't check for existing binding) */
+/* adds new var/val binding to env */
 void defineVar(Obj var_obj, Obj val_obj, Obj env_obj) {
 
 	char* var = GETNAME(var_obj);
 	Env* env = GETENV(env_obj);
 
-	Frame* frame = malloc(sizeof(Frame));
-	frame->key = var;
-	frame->val = val_obj;
-	frame->next = env->frame;
-	env->frame = frame;
+			if (DEBUG) printf("\nVAR: %s\n", var);
+
+	Frame* frame = env->frame;
+	char* key = frame->key;
+
+	while (frame->next) {
+				if (DEBUG) printf("%s\n", key);
+		if (strcmp(var, key) == 0) {
+			printf("variable already defined! -- defineVar\n");
+			return;
+		}
+		else {
+			frame = frame->next;
+			key = frame->key;
+		}
+	}
+			if (DEBUG) printf("%s\n", key);
+	Frame* newFrame = malloc(sizeof(Frame));
+	newFrame->key = var;
+	newFrame->val = val_obj;
+	newFrame->next = NULL;
+	frame->next = newFrame;
+			if (DEBUG) printf("new frame\n");
 	return;
 }
 
