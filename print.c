@@ -16,18 +16,6 @@ void print_info(void) {
 		getchar();
 }
 
-void print_stats(void) {
-	if (LIB) return;
-
-	printf("*** STATS ***");NL;
-	printf("Total number of saves: %d", save_count);NL;
-	printf("Maximum stack depth: %d", max_stack_depth);NL;
-	printf("Total number of lookups: %d", lookup_count);NL;
-	printf("Total envs traversed: %d", envs_traversed);NL;
-	printf("Total frames traversed: %d", frames_traversed);NL;
-	reset_stats();
-}
-
 /* reset_stats here because print_stats 
 isn't called unless STATS is on, whereas
 print_final_val is called unconditionally */
