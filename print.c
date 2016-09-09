@@ -35,7 +35,7 @@ void print_final_val(void) {
 		return;
 	}
 	
-	printf("\nVALUE: ");
+	NL;printf("VALUE: ");
 	print_obj(val);
 	NL;NL;
 
@@ -231,6 +231,9 @@ char* lookup_prim_name(Obj func_obj) {
 
 /* user interface printing */
 
+/* we could use macros to make these more concise, 
+but this way the code has a wysiwyg feel */
+
 void print_intro(void) {
 	NL;
 	printf("Welcome to lispinc!"); 
@@ -253,7 +256,10 @@ void print_help(void) {
 	TAB;printf("-- enter .stats to toggle stack stats mode");NL;
 	TAB;printf("-- enter .tail to toggle tail recursion mode (turning this off is really only of any interest in conjunction with stats mode)");NL;
 	TAB;printf("-- enter .debug to toggle debug mode");NL;
-	TAB;printf("-- enter .quit to quit");NL;NL;
+	TAB;printf("-- enter .quit to quit");NL;
+	TAB;printf("-- enter .repl to turn off info, stats, and step modes");NL;
+	TAB;printf("-- enter .demo to turn on info, stats, and step modes");NL;
+	NL;
 }
 
 void print_flags(void) {

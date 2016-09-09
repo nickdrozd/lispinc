@@ -36,6 +36,8 @@ extern int LIB;
 /* flag manipulation */
 void switch_flag(char* flag_command);
 void toggle_val(int* flag);
+void repl_switch(void);
+void demo_switch(void);
 
 /* LIB has its own dedicated toggle function 
 to make read.c more readable */

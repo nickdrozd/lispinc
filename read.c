@@ -6,7 +6,7 @@ Obj read_code(void) {
 
 	while (!lib_loaded()) {
 		char* lib_code = load_library();
-		Obj result = parse(lib_code);
+		Obj result = process_code_text(lib_code);
 		return result;
 	}
 
@@ -26,7 +26,7 @@ Obj read_code(void) {
 
 			if (DEBUG) printf("\nLISP CODE: %s\n", code);
 
-	Obj result = parse(code);
+	Obj result = process_code_text(code);
 	return result;
 }
 
@@ -90,13 +90,16 @@ int isSpecial(char* code) {
 	return isFlag(code) || isHelp(code); // || isQuit(code);
 }
 
+// inelegant
 int isFlag(char* code) {
 			if (DEBUG) printf("isFlag\n");
 	return streq(code, DEBUG_COMMAND) ||  
 			streq(code, INFO_COMMAND) || 
 			streq(code, STATS_COMMAND) || 
 			streq(code, TAIL_COMMAND) ||
-			streq(code, STEP_COMMAND);
+			streq(code, STEP_COMMAND) ||
+			streq(code, REPL_COMMAND) ||
+			streq(code, DEMO_COMMAND);
 }
 
 int isHelp(char* code) {

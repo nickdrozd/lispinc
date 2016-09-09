@@ -44,6 +44,9 @@
 #define DEF_KEY "define"
 #define ASS_KEY "set!"
 
+#define SETCAR_KEY "set-car!"
+#define SETCDR_KEY "set-cdr!"
+
 #define IF_KEY "if"
 #define AND_KEY "and"
 #define OR_KEY "or"
@@ -61,6 +64,8 @@
 #define STATS_COMMAND ".stats"nlchar
 #define TAIL_COMMAND ".tail"nlchar
 #define STEP_COMMAND ".step"nlchar
+#define REPL_COMMAND ".repl"nlchar
+#define DEMO_COMMAND ".demo"nlchar
 
 #define HELP_COMMAND ".help"nlchar
 
