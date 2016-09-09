@@ -48,6 +48,7 @@
 #include "stack.h"
 #include "llh.h"
 #include "print.h"
+#include "tally.h"
 #include "mem.h"
 
 #endif
