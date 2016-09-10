@@ -109,14 +109,18 @@ void print_obj(Obj obj) {
 		case LABEL:
 			print_label(GETLABEL(obj));
 			break;
+		case COMP:
+			printf("COMPILED: ");
+			print_label(GETCOMPLAB(obj));
+			break;
 		case DUMMY:
-			printf("%s ", "???");
+			printf("%s ", "DUMMY");
 			break;
 		case UNINIT:
 			printf("%s ", "***");
 			break;
 		case tag_count:
-			printf("%s ", "huh?");
+			printf("%s ", "tag_count...huh?");
 			break;
 	}
 	return;

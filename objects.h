@@ -55,7 +55,9 @@
 */
 
 /*
-	TODO: edit to include description of Prims
+	TODO: 
+		* describe Prim
+		* describe Comp
 */
 
 #ifndef OBJECTS_GUARD
@@ -73,6 +75,8 @@ typedef struct Prim Prim;
 typedef union primFunc primFunc;
 typedef int (*intFunc)(int, int);
 typedef int (*objFunc)(Obj);
+
+typedef struct Comp Comp;
 
 typedef struct Frame Frame;
 typedef struct Env Env;
@@ -112,15 +116,23 @@ struct Prim {
 	primFunc func;
 };
 
+/* compiled functions */
+
+struct Comp {
+	Env* env;
+	Label label;
+};
+
 /* objects */
 
 typedef enum {
 	NUM,
 	NAME,
 	LIST,
-	PRIM,
 	ENV,
 	LABEL,
+	PRIM,
+	COMP,
 	DUMMY,
 	UNINIT,
 	tag_count
@@ -130,9 +142,10 @@ union Val {
 	int num;
 	char* name;
 	List* list;
-	Prim prim;
 	Env* env;
 	Label label;
+	Prim prim;
+	Comp comp;
 	int dummy;
 	int uninit;
 };
@@ -175,14 +188,17 @@ struct Env {
 
 /* selectors */
 
+#define GETCOMPLAB(X) GETCOMP(X).label
+#define GETCOMPENV(X) GETCOMP(X).env
+
 #define GETTAG(X) X.tag
 #define GETNUM(X) X.val.num
 #define GETNAME(X) X.val.name
 #define GETLIST(X) X.val.list
-// getprim
+#define GETPRIM(X) X.val.prim
 #define GETENV(X) X.val.env
 #define GETLABEL(X) X.val.label
-
+#define GETCOMP(X) X.val.comp
 
 /* constructors */
 
@@ -192,6 +208,14 @@ struct Env {
 #define OBJFUNC(X) MKPRIM(OBJPRIM, objfunc, X)
 
 #define MKPRIM(TYPE,FUNCTYPE,FUNC) (Prim){.type = TYPE, .func = (primFunc){.FUNCTYPE = FUNC}}
+
+// Comp
+
+#define COMPENVOBJ(X) ENVOBJ(GETCOMPENV(X))
+#define COMPLABOBJ(X) LABELOBJ(GETCOMPLAB(X))
+
+	// takes envobj, not plain env
+#define MKCOMP(LABEL,ENV) (Comp){.label = LABEL, .env = GETENV(ENV)}
 
 // Obj
 
@@ -212,6 +236,7 @@ struct Env {
 #define NAMEOBJ(X) MKOBJ(NAME, name, X)
 #define LISTOBJ(X) MKOBJ(LIST, list, X)
 #define PRIMOBJ(X) MKOBJ(PRIM, prim, X)
+#define COMPOBJ(X) MKOBJ(COMP, comp, (X)) // parentheses needed?
 #define ENVOBJ(X) MKOBJ(ENV, env, X)
 #define LABELOBJ(X) MKOBJ(LABEL, label, X)
 #define DUMMYOBJ MKOBJ(DUMMY, dummy, 0)

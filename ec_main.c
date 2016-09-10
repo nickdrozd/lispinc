@@ -3,7 +3,12 @@
 int main(void) {
 			debug_print("starting main...");
 	print_intro();
+
 	base_env = makeBaseEnv();
+
+	// to be used with compiler
+	COMP_LABEL:
+
 
 	START:
 				main_label = "START";
@@ -316,8 +321,17 @@ int main(void) {
 				if (INFO) print_info();
 		if (isPrimitive(func))
 			goto APPLY_PRIMITIVE;
+		if (isCompiled(func))
+			goto APPLY_COMPILED;
 		if (isCompound(func))
 			goto APPLY_COMPOUND;
+
+	APPLY_COMPILED:
+				main_label = "APPLY_COMPILED";
+				if (INFO) print_info();
+		restore(cont);
+		val = COMPLABOBJ(func);
+		goto COMP_LABEL;
 
 	APPLY_PRIMITIVE:
 				main_label = "APPLY_PRIMITIVE";

@@ -347,6 +347,10 @@ bool isCompound(Obj obj) {
 	return GETTAG(obj) == LIST;
 }
 
+bool isCompiled(Obj obj) {
+	return GETTAG(obj) == COMP;
+}
+
 
 // clean this up!
 Obj applyPrimitive(Obj func, Obj arglist) {

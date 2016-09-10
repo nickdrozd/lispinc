@@ -83,6 +83,8 @@ Obj restArgs(Obj expr);
 
 bool isPrimitive(Obj obj);
 bool isCompound(Obj obj);
+bool isCompiled(Obj obj);
+
 Obj applyPrimitive(Obj func, Obj arglist);
 
 Obj funcParams(Obj obj);
