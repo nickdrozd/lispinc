@@ -1,3 +1,11 @@
+/* 
+	This code is compiler-generated! 
+	It may be ugly, but it sure is fast!
+	Can you figure out how it works?
+	
+	https://github.com/nickdrozd/Lisp-C-Compyler
+*/
+
 #define COMPILED_CODE_BODY \
 val = COMPOBJ(_ENTRY_1, env); \
 goto AFTER_LAMBDA_2; \

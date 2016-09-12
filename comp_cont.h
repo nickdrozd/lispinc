@@ -1,3 +1,9 @@
+/* 
+	This boring code is compiler-generated!
+	
+	https://github.com/nickdrozd/Lisp-C-Compyler
+*/
+
 #define COMP_CONT(REG) \
 if (GETLABEL(REG) == _ENTRY_1) \
 goto ENTRY_1; \

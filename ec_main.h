@@ -1,7 +1,6 @@
 /*
 	TODO:
 		-- get better memory management
-		-- double check labels in objects.h
 		-- documentation!
 */
 
@@ -52,6 +51,7 @@
 #include "tally.h"
 #include "mem.h"
 
+// compiled code (contained in giant macros)
 #include "comp_code.h"
 #include "comp_cont.h"
 
