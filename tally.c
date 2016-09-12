@@ -8,9 +8,9 @@ int max_stack_depth = 0;
 
 /* env stats */
 
-// int lookup_count = 0;
-// int envs_traversed = 0;
-// int frames_traversed = 0;
+int lookup_count = 0;
+int envs_traversed = 0;
+int frames_traversed = 0;
 
 /* llh stats */
 
@@ -40,9 +40,9 @@ void reset_stats(void) {
 	curr_stack_depth = 0;
 	max_stack_depth = 0;
 
-	// lookup_count = 0;
-	// envs_traversed = 0;
-	// frames_traversed = 0;
+	lookup_count = 0;
+	envs_traversed = 0;
+	frames_traversed = 0;
 
 	form_check_count = 0;
 }
