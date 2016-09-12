@@ -22,27 +22,6 @@ int main(void) {
 		cont = LABELOBJ(_DONE);
 		goto EVAL;
 
-	CONTINUE:
-				if (INFO) print_info("CONTINUE");
-		if (GETLABEL(cont) == _DONE)
-			goto DONE;
-		if (GETLABEL(cont) == _IF_DECIDE)
-			goto IF_DECIDE;
-		if (GETLABEL(cont) == _DID_ASS_VAL)
-			goto DID_ASS_VAL;
-		if (GETLABEL(cont) == _DID_DEF_VAL)
-			goto DID_DEF_VAL;
-		if (GETLABEL(cont) == _DID_FUNC)
-			goto DID_FUNC;
-		if (GETLABEL(cont) == _ACC_ARG)
-			goto ACC_ARG;
-		if (GETLABEL(cont) == _DID_LAST_ARG)
-			goto DID_LAST_ARG;
-		if (GETLABEL(cont) == _SEQ_CONT)
-			goto SEQ_CONT;
-		if (GETLABEL(cont) == _ALT_SEQ_CONT)
-			goto ALT_SEQ_CONT;
-
 	EVAL:
 				if (INFO) print_info("EVAL");
 		if (isNum(expr))
@@ -380,6 +359,30 @@ int main(void) {
 				free_memory();
 				print_exit();
 				return 0;
+
+
+	CONTINUE:
+				if (INFO) print_info("CONTINUE");
+		if (GETLABEL(cont) == _DONE)
+			goto DONE;
+		if (GETLABEL(cont) == _IF_DECIDE)
+			goto IF_DECIDE;
+		if (GETLABEL(cont) == _DID_ASS_VAL)
+			goto DID_ASS_VAL;
+		if (GETLABEL(cont) == _DID_DEF_VAL)
+			goto DID_DEF_VAL;
+		if (GETLABEL(cont) == _DID_FUNC)
+			goto DID_FUNC;
+		if (GETLABEL(cont) == _ACC_ARG)
+			goto ACC_ARG;
+		if (GETLABEL(cont) == _DID_LAST_ARG)
+			goto DID_LAST_ARG;
+		if (GETLABEL(cont) == _SEQ_CONT)
+			goto SEQ_CONT;
+		if (GETLABEL(cont) == _ALT_SEQ_CONT)
+			goto ALT_SEQ_CONT;
+
+
 }
 
 
