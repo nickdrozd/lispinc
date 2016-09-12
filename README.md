@@ -13,9 +13,15 @@ This will bring up the REPL. Besides code, a few user commands can be entered:
 * .step to toggle step mode (pauses between each step of the evaluator; useful in conjunction with info mode)
 * .debug to toggle debug mode
 * .tail to toggle tail recursion mode (turning this off is really only of any interest in conjunction with stats mode)
+* .demo turns on info, stats, and step modes
+* .repl turns off info, stats, and step modes
+
+The interpreter starts in info and stats modes.
 
 
 TODO
+
+* Update documentation to include compiler! (https://github.com/nickdrozd/Lisp-C-Compyler)
 
 * Variable-arity functions
 
