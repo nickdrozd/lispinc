@@ -2,13 +2,15 @@
 
 int main(void) {
 			debug_print("starting main...");
+
 	print_intro();
 
 	base_env = makeBaseEnv();
+	env = ENVOBJ(base_env);
 
-	// to be used with compiler
-	COMP_LABEL:
+	goto COMPILED_CODE;
 
+	/************************/
 
 	START:
 		initialize();
@@ -21,6 +23,8 @@ int main(void) {
 			goto QUIT;
 		cont = LABELOBJ(_DONE);
 		goto EVAL;
+
+	/************************/
 
 	EVAL:
 				if (INFO) print_info("EVAL");
@@ -360,9 +364,15 @@ int main(void) {
 				print_exit();
 				return 0;
 
+	/************************/
+
+	COMPILED_CODE:
+				if (INFO) print_info("COMPILED_CODE");
+		COMPILED_CODE_BODY;
 
 	CONTINUE:
 				if (INFO) print_info("CONTINUE");
+		// interpreter labels
 		if (GETLABEL(cont) == _DONE)
 			goto DONE;
 		if (GETLABEL(cont) == _IF_DECIDE)
@@ -382,19 +392,12 @@ int main(void) {
 		if (GETLABEL(cont) == _ALT_SEQ_CONT)
 			goto ALT_SEQ_CONT;
 
+		// compiler labels
+		COMP_CONT(cont);
+
+	COMP_LABEL:
+				if (INFO) print_info("COMP_LABEL");
+		COMP_CONT(val);
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 

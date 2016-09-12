@@ -43,6 +43,7 @@
 #include "objects.h"
 #include "flags.h"
 #include "read.h"
+#include "parse.h"
 #include "env.h"
 #include "registers.h"
 #include "stack.h"
@@ -50,5 +51,8 @@
 #include "print.h"
 #include "tally.h"
 #include "mem.h"
+
+#include "comp_code.h"
+#include "comp_cont.h"
 
 #endif
