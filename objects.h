@@ -81,6 +81,28 @@ typedef struct Comp Comp;
 typedef struct Frame Frame;
 typedef struct Env Env;
 
+/* there are more labels, 
+but these are the ones that 
+get saved and restored */
+
+typedef enum {
+	_DONE,
+	_IF_DECIDE,
+	_DID_ASS_VAL,
+	_DID_DEF_VAL,
+	_DID_FUNC,
+	_ACC_ARG,
+	_DID_LAST_ARG,
+	_SEQ_CONT,
+	_ALT_SEQ_CONT,
+
+	ALL_COMPILED_LABELS,
+
+	label_count
+} Label;
+
+
+
 /* primitive functions */
 
 typedef enum {
@@ -199,6 +221,8 @@ struct Env {
 
 	// takes envobj, not plain env
 #define MKCOMP(LABEL,ENV) (Comp){.label = LABEL, .env = GETENV(ENV)}
+#define COMPOBJ(LABEL,ENV) MKOBJ(COMP, comp, MKCOMP(LABEL,ENV)) // parentheses needed?
+
 
 // Obj
 
@@ -219,7 +243,7 @@ struct Env {
 #define NAMEOBJ(X) MKOBJ(NAME, name, X)
 #define LISTOBJ(X) MKOBJ(LIST, list, X)
 #define PRIMOBJ(X) MKOBJ(PRIM, prim, X)
-#define COMPOBJ(X) MKOBJ(COMP, comp, (X)) // parentheses needed?
+// #define COMPOBJ(X) MKOBJ(COMP, comp, (X)) // parentheses needed?
 #define ENVOBJ(X) MKOBJ(ENV, env, X)
 #define LABELOBJ(X) MKOBJ(LABEL, label, X)
 #define DUMMYOBJ MKOBJ(DUMMY, dummy, 0)
