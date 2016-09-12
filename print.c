@@ -2,9 +2,7 @@
 
 /* evaluator info printing */
 
-char* main_label;
-
-void print_info(void) {
+void print_info(char* main_label) {
 	if (LIB) return;
 
 	NL;NL;

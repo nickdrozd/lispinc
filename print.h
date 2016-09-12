@@ -35,9 +35,7 @@
 
 /* evaluator info printing */
 
-extern char* main_label;
-
-void print_info(void);
+void print_info(char* main_label);
 void print_final_val(void);
 void print_stats(void);
 
