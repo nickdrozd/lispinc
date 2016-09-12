@@ -108,8 +108,7 @@ void print_obj(Obj obj) {
 			print_label(GETLABEL(obj));
 			break;
 		case COMP:
-			printf("COMPILED: ");
-			print_label(GETCOMPLAB(obj));
+			printf("COMPILED FUNCTION");
 			break;
 		case DUMMY:
 			printf("%s ", "DUMMY");
