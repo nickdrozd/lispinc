@@ -6,6 +6,9 @@
 	https://github.com/nickdrozd/Lisp-C-Compyler
 */
 
+#ifndef COMP_CODE_GUARD
+#define COMP_CODE_GUARD
+
 #define COMPILED_CODE_BODY \
 val = COMPOBJ(_ENTRY_1, env); \
 goto AFTER_LAMBDA_2; \
@@ -19,8 +22,7 @@ val = NUMOBJ(0); \
 arglist = LISTOBJ(makeList(val, NULL)); \
 val = lookup(NAMEOBJ("n"), env); \
 arglist = LISTOBJ(makeList(val, GETLIST(arglist))); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_3; \
+if (isPrimitive(func)) goto PRIMITIVE_3; \
 COMPILED_4: \
 if (INFO) print_info("COMPILED_4"); \
 val = COMPLABOBJ(func); \
@@ -46,8 +48,7 @@ val = NUMOBJ(1); \
 arglist = LISTOBJ(makeList(val, NULL)); \
 val = lookup(NAMEOBJ("n"), env); \
 arglist = LISTOBJ(makeList(val, GETLIST(arglist))); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_8; \
+if (isPrimitive(func)) goto PRIMITIVE_8; \
 COMPILED_9: \
 if (INFO) print_info("COMPILED_9"); \
 val = COMPLABOBJ(func); \
@@ -73,8 +74,7 @@ val = NUMOBJ(1); \
 arglist = LISTOBJ(makeList(val, NULL)); \
 val = lookup(NAMEOBJ("n"), env); \
 arglist = LISTOBJ(makeList(val, GETLIST(arglist))); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_13; \
+if (isPrimitive(func)) goto PRIMITIVE_13; \
 COMPILED_14: \
 if (INFO) print_info("COMPILED_14"); \
 val = COMPLABOBJ(func); \
@@ -100,8 +100,7 @@ save(env); \
 func = lookup(NAMEOBJ("zero?"), env); \
 val = lookup(NAMEOBJ("n"), env); \
 arglist = LISTOBJ(makeList(val, NULL)); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_21; \
+if (isPrimitive(func)) goto PRIMITIVE_21; \
 COMPILED_22: \
 if (INFO) print_info("COMPILED_22"); \
 cont = LABELOBJ(_AFTER_CALL_23); \
@@ -114,8 +113,7 @@ AFTER_CALL_23: \
 if (INFO) print_info("AFTER_CALL_23"); \
 restore(env); \
 restore(cont); \
-if (isTrue(val)) \
-goto TRUE_BRANCH_18; \
+if (isTrue(val)) goto TRUE_BRANCH_18; \
 goto FALSE_BRANCH_19; \
 TRUE_BRANCH_18: \
 if (INFO) print_info("TRUE_BRANCH_18"); \
@@ -132,8 +130,7 @@ save(func); \
 func = lookup(NAMEOBJ("sub1"), env); \
 val = lookup(NAMEOBJ("n"), env); \
 arglist = LISTOBJ(makeList(val, NULL)); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_24; \
+if (isPrimitive(func)) goto PRIMITIVE_24; \
 COMPILED_25: \
 if (INFO) print_info("COMPILED_25"); \
 cont = LABELOBJ(_AFTER_CALL_26); \
@@ -146,8 +143,7 @@ AFTER_CALL_26: \
 if (INFO) print_info("AFTER_CALL_26"); \
 arglist = LISTOBJ(makeList(val, NULL)); \
 restore(func); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_27; \
+if (isPrimitive(func)) goto PRIMITIVE_27; \
 COMPILED_28: \
 if (INFO) print_info("COMPILED_28"); \
 cont = LABELOBJ(_AFTER_CALL_29); \
@@ -164,8 +160,7 @@ val = lookup(NAMEOBJ("n"), env); \
 arglist = LISTOBJ(makeList(val, GETLIST(arglist))); \
 restore(func); \
 restore(cont); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_30; \
+if (isPrimitive(func)) goto PRIMITIVE_30; \
 COMPILED_31: \
 if (INFO) print_info("COMPILED_31"); \
 val = COMPLABOBJ(func); \
@@ -193,8 +188,7 @@ save(env); \
 func = lookup(NAMEOBJ("zero?"), env); \
 val = lookup(NAMEOBJ("n"), env); \
 arglist = LISTOBJ(makeList(val, NULL)); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_38; \
+if (isPrimitive(func)) goto PRIMITIVE_38; \
 COMPILED_39: \
 if (INFO) print_info("COMPILED_39"); \
 cont = LABELOBJ(_AFTER_CALL_40); \
@@ -207,8 +201,7 @@ AFTER_CALL_40: \
 if (INFO) print_info("AFTER_CALL_40"); \
 restore(env); \
 restore(cont); \
-if (isTrue(val)) \
-goto TRUE_BRANCH_35; \
+if (isTrue(val)) goto TRUE_BRANCH_35; \
 goto FALSE_BRANCH_36; \
 TRUE_BRANCH_35: \
 if (INFO) print_info("TRUE_BRANCH_35"); \
@@ -225,8 +218,7 @@ save(func); \
 func = lookup(NAMEOBJ("sub1"), env); \
 val = lookup(NAMEOBJ("n"), env); \
 arglist = LISTOBJ(makeList(val, NULL)); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_44; \
+if (isPrimitive(func)) goto PRIMITIVE_44; \
 COMPILED_45: \
 if (INFO) print_info("COMPILED_45"); \
 cont = LABELOBJ(_AFTER_CALL_46); \
@@ -239,8 +231,7 @@ AFTER_CALL_46: \
 if (INFO) print_info("AFTER_CALL_46"); \
 arglist = LISTOBJ(makeList(val, NULL)); \
 restore(func); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_47; \
+if (isPrimitive(func)) goto PRIMITIVE_47; \
 COMPILED_48: \
 if (INFO) print_info("COMPILED_48"); \
 cont = LABELOBJ(_AFTER_CALL_49); \
@@ -257,8 +248,7 @@ save(arglist); \
 func = lookup(NAMEOBJ("recursive_triangular_compiled"), env); \
 val = lookup(NAMEOBJ("n"), env); \
 arglist = LISTOBJ(makeList(val, NULL)); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_41; \
+if (isPrimitive(func)) goto PRIMITIVE_41; \
 COMPILED_42: \
 if (INFO) print_info("COMPILED_42"); \
 cont = LABELOBJ(_AFTER_CALL_43); \
@@ -273,8 +263,7 @@ restore(arglist); \
 arglist = LISTOBJ(makeList(val, GETLIST(arglist))); \
 restore(func); \
 restore(cont); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_50; \
+if (isPrimitive(func)) goto PRIMITIVE_50; \
 COMPILED_51: \
 if (INFO) print_info("COMPILED_51"); \
 val = COMPLABOBJ(func); \
@@ -302,8 +291,7 @@ save(env); \
 func = lookup(NAMEOBJ("zero?"), env); \
 val = lookup(NAMEOBJ("n"), env); \
 arglist = LISTOBJ(makeList(val, NULL)); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_58; \
+if (isPrimitive(func)) goto PRIMITIVE_58; \
 COMPILED_59: \
 if (INFO) print_info("COMPILED_59"); \
 cont = LABELOBJ(_AFTER_CALL_60); \
@@ -316,8 +304,7 @@ AFTER_CALL_60: \
 if (INFO) print_info("AFTER_CALL_60"); \
 restore(env); \
 restore(cont); \
-if (isTrue(val)) \
-goto TRUE_BRANCH_55; \
+if (isTrue(val)) goto TRUE_BRANCH_55; \
 goto FALSE_BRANCH_56; \
 TRUE_BRANCH_55: \
 if (INFO) print_info("TRUE_BRANCH_55"); \
@@ -334,8 +321,7 @@ save(func); \
 func = lookup(NAMEOBJ("sub1"), env); \
 val = lookup(NAMEOBJ("n"), env); \
 arglist = LISTOBJ(makeList(val, NULL)); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_64; \
+if (isPrimitive(func)) goto PRIMITIVE_64; \
 COMPILED_65: \
 if (INFO) print_info("COMPILED_65"); \
 cont = LABELOBJ(_AFTER_CALL_66); \
@@ -348,8 +334,7 @@ AFTER_CALL_66: \
 if (INFO) print_info("AFTER_CALL_66"); \
 arglist = LISTOBJ(makeList(val, NULL)); \
 restore(func); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_67; \
+if (isPrimitive(func)) goto PRIMITIVE_67; \
 COMPILED_68: \
 if (INFO) print_info("COMPILED_68"); \
 cont = LABELOBJ(_AFTER_CALL_69); \
@@ -366,8 +351,7 @@ save(arglist); \
 func = lookup(NAMEOBJ("recursive_tetrahedral_compiled"), env); \
 val = lookup(NAMEOBJ("n"), env); \
 arglist = LISTOBJ(makeList(val, NULL)); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_61; \
+if (isPrimitive(func)) goto PRIMITIVE_61; \
 COMPILED_62: \
 if (INFO) print_info("COMPILED_62"); \
 cont = LABELOBJ(_AFTER_CALL_63); \
@@ -382,8 +366,7 @@ restore(arglist); \
 arglist = LISTOBJ(makeList(val, GETLIST(arglist))); \
 restore(func); \
 restore(cont); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_70; \
+if (isPrimitive(func)) goto PRIMITIVE_70; \
 COMPILED_71: \
 if (INFO) print_info("COMPILED_71"); \
 val = COMPLABOBJ(func); \
@@ -411,8 +394,7 @@ save(env); \
 func = lookup(NAMEOBJ("zero?"), env); \
 val = lookup(NAMEOBJ("n"), env); \
 arglist = LISTOBJ(makeList(val, NULL)); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_78; \
+if (isPrimitive(func)) goto PRIMITIVE_78; \
 COMPILED_79: \
 if (INFO) print_info("COMPILED_79"); \
 cont = LABELOBJ(_AFTER_CALL_80); \
@@ -425,8 +407,7 @@ AFTER_CALL_80: \
 if (INFO) print_info("AFTER_CALL_80"); \
 restore(env); \
 restore(cont); \
-if (isTrue(val)) \
-goto TRUE_BRANCH_75; \
+if (isTrue(val)) goto TRUE_BRANCH_75; \
 goto FALSE_BRANCH_76; \
 TRUE_BRANCH_75: \
 if (INFO) print_info("TRUE_BRANCH_75"); \
@@ -443,8 +424,7 @@ save(func); \
 func = lookup(NAMEOBJ("sub1"), env); \
 val = lookup(NAMEOBJ("n"), env); \
 arglist = LISTOBJ(makeList(val, NULL)); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_81; \
+if (isPrimitive(func)) goto PRIMITIVE_81; \
 COMPILED_82: \
 if (INFO) print_info("COMPILED_82"); \
 cont = LABELOBJ(_AFTER_CALL_83); \
@@ -457,8 +437,7 @@ AFTER_CALL_83: \
 if (INFO) print_info("AFTER_CALL_83"); \
 arglist = LISTOBJ(makeList(val, NULL)); \
 restore(func); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_84; \
+if (isPrimitive(func)) goto PRIMITIVE_84; \
 COMPILED_85: \
 if (INFO) print_info("COMPILED_85"); \
 cont = LABELOBJ(_AFTER_CALL_86); \
@@ -475,8 +454,7 @@ val = lookup(NAMEOBJ("n"), env); \
 arglist = LISTOBJ(makeList(val, GETLIST(arglist))); \
 restore(func); \
 restore(cont); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_87; \
+if (isPrimitive(func)) goto PRIMITIVE_87; \
 COMPILED_88: \
 if (INFO) print_info("COMPILED_88"); \
 val = COMPLABOBJ(func); \
@@ -511,8 +489,7 @@ save(env); \
 func = lookup(NAMEOBJ("zero?"), env); \
 val = lookup(NAMEOBJ("count"), env); \
 arglist = LISTOBJ(makeList(val, NULL)); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_97; \
+if (isPrimitive(func)) goto PRIMITIVE_97; \
 COMPILED_98: \
 if (INFO) print_info("COMPILED_98"); \
 cont = LABELOBJ(_AFTER_CALL_99); \
@@ -525,8 +502,7 @@ AFTER_CALL_99: \
 if (INFO) print_info("AFTER_CALL_99"); \
 restore(env); \
 restore(cont); \
-if (isTrue(val)) \
-goto TRUE_BRANCH_94; \
+if (isTrue(val)) goto TRUE_BRANCH_94; \
 goto FALSE_BRANCH_95; \
 TRUE_BRANCH_94: \
 if (INFO) print_info("TRUE_BRANCH_94"); \
@@ -543,8 +519,7 @@ val = lookup(NAMEOBJ("count"), env); \
 arglist = LISTOBJ(makeList(val, NULL)); \
 val = lookup(NAMEOBJ("total"), env); \
 arglist = LISTOBJ(makeList(val, GETLIST(arglist))); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_103; \
+if (isPrimitive(func)) goto PRIMITIVE_103; \
 COMPILED_104: \
 if (INFO) print_info("COMPILED_104"); \
 cont = LABELOBJ(_AFTER_CALL_105); \
@@ -561,8 +536,7 @@ save(arglist); \
 func = lookup(NAMEOBJ("sub1"), env); \
 val = lookup(NAMEOBJ("count"), env); \
 arglist = LISTOBJ(makeList(val, NULL)); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_100; \
+if (isPrimitive(func)) goto PRIMITIVE_100; \
 COMPILED_101: \
 if (INFO) print_info("COMPILED_101"); \
 cont = LABELOBJ(_AFTER_CALL_102); \
@@ -577,8 +551,7 @@ restore(arglist); \
 arglist = LISTOBJ(makeList(val, GETLIST(arglist))); \
 restore(func); \
 restore(cont); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_106; \
+if (isPrimitive(func)) goto PRIMITIVE_106; \
 COMPILED_107: \
 if (INFO) print_info("COMPILED_107"); \
 val = COMPLABOBJ(func); \
@@ -599,8 +572,7 @@ val = NUMOBJ(1); \
 arglist = LISTOBJ(makeList(val, NULL)); \
 val = lookup(NAMEOBJ("n"), env); \
 arglist = LISTOBJ(makeList(val, GETLIST(arglist))); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_109; \
+if (isPrimitive(func)) goto PRIMITIVE_109; \
 COMPILED_110: \
 if (INFO) print_info("COMPILED_110"); \
 val = COMPLABOBJ(func); \
@@ -629,8 +601,7 @@ val = NUMOBJ(0); \
 arglist = LISTOBJ(makeList(val, NULL)); \
 val = lookup(NAMEOBJ("n"), env); \
 arglist = LISTOBJ(makeList(val, GETLIST(arglist))); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_120; \
+if (isPrimitive(func)) goto PRIMITIVE_120; \
 COMPILED_121: \
 if (INFO) print_info("COMPILED_121"); \
 cont = LABELOBJ(_AFTER_CALL_122); \
@@ -642,8 +613,7 @@ val = applyPrimitive(func, arglist); \
 AFTER_CALL_122: \
 if (INFO) print_info("AFTER_CALL_122"); \
 restore(env); \
-if (isTrue(val)) \
-goto TRUE_BRANCH_117; \
+if (isTrue(val)) goto TRUE_BRANCH_117; \
 goto FALSE_BRANCH_118; \
 TRUE_BRANCH_117: \
 if (INFO) print_info("TRUE_BRANCH_117"); \
@@ -656,8 +626,7 @@ val = NUMOBJ(1); \
 arglist = LISTOBJ(makeList(val, NULL)); \
 val = lookup(NAMEOBJ("n"), env); \
 arglist = LISTOBJ(makeList(val, GETLIST(arglist))); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_126; \
+if (isPrimitive(func)) goto PRIMITIVE_126; \
 COMPILED_127: \
 if (INFO) print_info("COMPILED_127"); \
 cont = LABELOBJ(_AFTER_CALL_128); \
@@ -668,8 +637,7 @@ if (INFO) print_info("PRIMITIVE_126"); \
 val = applyPrimitive(func, arglist); \
 AFTER_CALL_128: \
 if (INFO) print_info("AFTER_CALL_128"); \
-if (isTrue(val)) \
-goto TRUE_BRANCH_123; \
+if (isTrue(val)) goto TRUE_BRANCH_123; \
 goto FALSE_BRANCH_124; \
 TRUE_BRANCH_123: \
 if (INFO) print_info("TRUE_BRANCH_123"); \
@@ -684,8 +652,7 @@ AFTER_IF_119: \
 if (INFO) print_info("AFTER_IF_119"); \
 restore(env); \
 restore(cont); \
-if (isTrue(val)) \
-goto TRUE_BRANCH_114; \
+if (isTrue(val)) goto TRUE_BRANCH_114; \
 goto FALSE_BRANCH_115; \
 TRUE_BRANCH_114: \
 if (INFO) print_info("TRUE_BRANCH_114"); \
@@ -704,8 +671,7 @@ val = NUMOBJ(2); \
 arglist = LISTOBJ(makeList(val, NULL)); \
 val = lookup(NAMEOBJ("n"), env); \
 arglist = LISTOBJ(makeList(val, GETLIST(arglist))); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_135; \
+if (isPrimitive(func)) goto PRIMITIVE_135; \
 COMPILED_136: \
 if (INFO) print_info("COMPILED_136"); \
 cont = LABELOBJ(_AFTER_CALL_137); \
@@ -718,8 +684,7 @@ AFTER_CALL_137: \
 if (INFO) print_info("AFTER_CALL_137"); \
 arglist = LISTOBJ(makeList(val, NULL)); \
 restore(func); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_138; \
+if (isPrimitive(func)) goto PRIMITIVE_138; \
 COMPILED_139: \
 if (INFO) print_info("COMPILED_139"); \
 cont = LABELOBJ(_AFTER_CALL_140); \
@@ -740,8 +705,7 @@ val = NUMOBJ(1); \
 arglist = LISTOBJ(makeList(val, NULL)); \
 val = lookup(NAMEOBJ("n"), env); \
 arglist = LISTOBJ(makeList(val, GETLIST(arglist))); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_129; \
+if (isPrimitive(func)) goto PRIMITIVE_129; \
 COMPILED_130: \
 if (INFO) print_info("COMPILED_130"); \
 cont = LABELOBJ(_AFTER_CALL_131); \
@@ -754,8 +718,7 @@ AFTER_CALL_131: \
 if (INFO) print_info("AFTER_CALL_131"); \
 arglist = LISTOBJ(makeList(val, NULL)); \
 restore(func); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_132; \
+if (isPrimitive(func)) goto PRIMITIVE_132; \
 COMPILED_133: \
 if (INFO) print_info("COMPILED_133"); \
 cont = LABELOBJ(_AFTER_CALL_134); \
@@ -770,8 +733,7 @@ restore(arglist); \
 arglist = LISTOBJ(makeList(val, GETLIST(arglist))); \
 restore(func); \
 restore(cont); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_141; \
+if (isPrimitive(func)) goto PRIMITIVE_141; \
 COMPILED_142: \
 if (INFO) print_info("COMPILED_142"); \
 val = COMPLABOBJ(func); \
@@ -806,8 +768,7 @@ save(env); \
 func = lookup(NAMEOBJ("zero?"), env); \
 val = lookup(NAMEOBJ("count"), env); \
 arglist = LISTOBJ(makeList(val, NULL)); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_151; \
+if (isPrimitive(func)) goto PRIMITIVE_151; \
 COMPILED_152: \
 if (INFO) print_info("COMPILED_152"); \
 cont = LABELOBJ(_AFTER_CALL_153); \
@@ -820,8 +781,7 @@ AFTER_CALL_153: \
 if (INFO) print_info("AFTER_CALL_153"); \
 restore(env); \
 restore(cont); \
-if (isTrue(val)) \
-goto TRUE_BRANCH_148; \
+if (isTrue(val)) goto TRUE_BRANCH_148; \
 goto FALSE_BRANCH_149; \
 TRUE_BRANCH_148: \
 if (INFO) print_info("TRUE_BRANCH_148"); \
@@ -838,8 +798,7 @@ val = lookup(NAMEOBJ("b"), env); \
 arglist = LISTOBJ(makeList(val, NULL)); \
 val = lookup(NAMEOBJ("a"), env); \
 arglist = LISTOBJ(makeList(val, GETLIST(arglist))); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_157; \
+if (isPrimitive(func)) goto PRIMITIVE_157; \
 COMPILED_158: \
 if (INFO) print_info("COMPILED_158"); \
 cont = LABELOBJ(_AFTER_CALL_159); \
@@ -858,8 +817,7 @@ save(arglist); \
 func = lookup(NAMEOBJ("sub1"), env); \
 val = lookup(NAMEOBJ("count"), env); \
 arglist = LISTOBJ(makeList(val, NULL)); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_154; \
+if (isPrimitive(func)) goto PRIMITIVE_154; \
 COMPILED_155: \
 if (INFO) print_info("COMPILED_155"); \
 cont = LABELOBJ(_AFTER_CALL_156); \
@@ -874,8 +832,7 @@ restore(arglist); \
 arglist = LISTOBJ(makeList(val, GETLIST(arglist))); \
 restore(func); \
 restore(cont); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_160; \
+if (isPrimitive(func)) goto PRIMITIVE_160; \
 COMPILED_161: \
 if (INFO) print_info("COMPILED_161"); \
 val = COMPLABOBJ(func); \
@@ -898,8 +855,7 @@ val = NUMOBJ(0); \
 arglist = LISTOBJ(makeList(val, GETLIST(arglist))); \
 val = lookup(NAMEOBJ("n"), env); \
 arglist = LISTOBJ(makeList(val, GETLIST(arglist))); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_163; \
+if (isPrimitive(func)) goto PRIMITIVE_163; \
 COMPILED_164: \
 if (INFO) print_info("COMPILED_164"); \
 val = COMPLABOBJ(func); \
@@ -936,8 +892,7 @@ val = lookup(NAMEOBJ("y"), env); \
 arglist = LISTOBJ(makeList(val, NULL)); \
 val = lookup(NAMEOBJ("x"), env); \
 arglist = LISTOBJ(makeList(val, GETLIST(arglist))); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_170; \
+if (isPrimitive(func)) goto PRIMITIVE_170; \
 COMPILED_171: \
 if (INFO) print_info("COMPILED_171"); \
 val = COMPLABOBJ(func); \
@@ -973,8 +928,7 @@ goto CONTINUE; \
 AFTER_LAMBDA_176: \
 if (INFO) print_info("AFTER_LAMBDA_176"); \
 arglist = LISTOBJ(makeList(val, NULL)); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_177; \
+if (isPrimitive(func)) goto PRIMITIVE_177; \
 COMPILED_178: \
 if (INFO) print_info("COMPILED_178"); \
 val = COMPLABOBJ(func); \
@@ -1008,8 +962,7 @@ goto CONTINUE; \
 AFTER_LAMBDA_183: \
 if (INFO) print_info("AFTER_LAMBDA_183"); \
 arglist = LISTOBJ(makeList(val, NULL)); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_184; \
+if (isPrimitive(func)) goto PRIMITIVE_184; \
 COMPILED_185: \
 if (INFO) print_info("COMPILED_185"); \
 val = COMPLABOBJ(func); \
@@ -1023,8 +976,7 @@ if (INFO) print_info("AFTER_CALL_186"); \
 AFTER_LAMBDA_181: \
 if (INFO) print_info("AFTER_LAMBDA_181"); \
 defineVar(NAMEOBJ("cdr"), val, env); \
-unev = parse("()\n"); \
-val = unev; \
+val = parse("()\n"); \
 defineVar(NAMEOBJ("nil"), val, env); \
 val = COMPOBJ(_ENTRY_187, env); \
 goto AFTER_LAMBDA_188; \
@@ -1038,8 +990,7 @@ save(env); \
 func = lookup(NAMEOBJ("null?"), env); \
 val = lookup(NAMEOBJ("s"), env); \
 arglist = LISTOBJ(makeList(val, NULL)); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_192; \
+if (isPrimitive(func)) goto PRIMITIVE_192; \
 COMPILED_193: \
 if (INFO) print_info("COMPILED_193"); \
 cont = LABELOBJ(_AFTER_CALL_194); \
@@ -1052,8 +1003,7 @@ AFTER_CALL_194: \
 if (INFO) print_info("AFTER_CALL_194"); \
 restore(env); \
 restore(cont); \
-if (isTrue(val)) \
-goto TRUE_BRANCH_189; \
+if (isTrue(val)) goto TRUE_BRANCH_189; \
 goto FALSE_BRANCH_190; \
 TRUE_BRANCH_189: \
 if (INFO) print_info("TRUE_BRANCH_189"); \
@@ -1069,8 +1019,7 @@ save(func); \
 func = lookup(NAMEOBJ("cdr"), env); \
 val = lookup(NAMEOBJ("s"), env); \
 arglist = LISTOBJ(makeList(val, NULL)); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_195; \
+if (isPrimitive(func)) goto PRIMITIVE_195; \
 COMPILED_196: \
 if (INFO) print_info("COMPILED_196"); \
 cont = LABELOBJ(_AFTER_CALL_197); \
@@ -1083,8 +1032,7 @@ AFTER_CALL_197: \
 if (INFO) print_info("AFTER_CALL_197"); \
 arglist = LISTOBJ(makeList(val, NULL)); \
 restore(func); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_198; \
+if (isPrimitive(func)) goto PRIMITIVE_198; \
 COMPILED_199: \
 if (INFO) print_info("COMPILED_199"); \
 cont = LABELOBJ(_AFTER_CALL_200); \
@@ -1098,8 +1046,7 @@ if (INFO) print_info("AFTER_CALL_200"); \
 arglist = LISTOBJ(makeList(val, NULL)); \
 restore(func); \
 restore(cont); \
-if (isPrimitive(func)) \
-goto PRIMITIVE_201; \
+if (isPrimitive(func)) goto PRIMITIVE_201; \
 COMPILED_202: \
 if (INFO) print_info("COMPILED_202"); \
 val = COMPLABOBJ(func); \
@@ -1115,4 +1062,6 @@ if (INFO) print_info("AFTER_IF_191"); \
 AFTER_LAMBDA_188: \
 if (INFO) print_info("AFTER_LAMBDA_188"); \
 defineVar(NAMEOBJ("length"), val, env); \
-goto DONE; 
+goto DONE;
+
+#endif
