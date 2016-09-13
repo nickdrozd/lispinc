@@ -92,7 +92,7 @@ typedef enum {
 	_DID_DEF_VAL,
 	_DID_FUNC,
 	_ACC_ARG,
-	_ADJOIN_ARG,
+	_DID_SIMPLE_ARG,
 	_DID_LAST_ARG,
 	_SEQ_CONT,
 	_ALT_SEQ_CONT,
