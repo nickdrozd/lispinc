@@ -152,6 +152,9 @@ void print_label(Label label) {
 		case _ACC_ARG:
 			printf("ACC_ARG ");
 			break;
+		case _ADJOIN_ARG:
+			printf("ADJOIN_ARG ");
+			break;
 		case _DID_LAST_ARG:
 			printf("DID_LAST_ARG ");
 			break;
