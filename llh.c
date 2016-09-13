@@ -15,12 +15,14 @@ bool isQuit(Obj expr) {
 /* numbers */
 
 bool isNum(Obj expr) {
+	form_check_count++;
 	return GETTAG(expr) == NUM;
 }
 
 /* variables */
 
 bool isVar(Obj expr) {
+	form_check_count++;
 	return GETTAG(expr) == NAME;
 }
 
