@@ -287,8 +287,8 @@ Obj getFunc(Obj expr) {
 	return CAR(GETLIST(expr));
 }
 
-bool isSimpleFunc(Obj expr) {
-	return isVar(expr);
+bool isSimple(Obj expr) {
+	return isVar(expr) || isNum(expr);
 }
 
 Obj getArgs(Obj expr) {

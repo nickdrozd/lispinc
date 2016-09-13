@@ -71,16 +71,20 @@ Obj makeSetCar(Obj expr);
 bool isSetCdr(Obj expr);
 Obj makeSetCdr(Obj expr);
 
+/* FUNCTION */
 Obj getArgs(Obj expr);
-bool isSimpleFunc(Obj expr);
 Obj getFunc(Obj expr);
-
 bool noArgs(Obj expr);
+
+bool isSimple(Obj expr);
+
+/* ARG_LOOP */
 Obj firstArg(Obj expr);
 bool isLastArg(Obj expr);
 Obj adjoinArg(Obj val, Obj arglist);
 Obj restArgs(Obj expr);
 
+/* APPLY */
 bool isPrimitive(Obj obj);
 bool isCompound(Obj obj);
 bool isCompiled(Obj obj);
@@ -91,6 +95,7 @@ Obj funcParams(Obj obj);
 Obj funcBody(Obj obj);
 Obj funcEnv(Obj obj);
 
+/* SEQUENCE */
 Obj firstExp(Obj seq);
 Obj restExps(Obj seq);
 bool isLastExp(Obj seq);
