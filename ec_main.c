@@ -201,7 +201,7 @@ int main(void) {
 		save(cont);
 		unev = getArgs(expr);
 		expr = getFunc(expr);
-		if (isSimpleFunc(expr))
+		if (isSimple(expr))
 			goto SIMPLE_FUNC;
 		save(env);
 		save(unev);
@@ -230,14 +230,21 @@ int main(void) {
 		// special case avoids ARG_LOOP
 		if (noArgs(unev)) // the args
 			goto APPLY;
+		// is this save always necessary?
 		save(func);
 		goto ARG_LOOP;
 
+	/* args */
+
 	ARG_LOOP:
 				if (INFO) print_info("ARG_LOOP");
+		expr = firstArg(unev);
+		// avoids at least one save
+		// if (isSimple(expr))
+		// 	goto SIMPLE_ARG;
 		save(arglist);
-		expr = firstArg(unev); // (car unev)
-		if (isLastArg(unev)) // (null? (cdr unev))
+		// special case avoids ACC_ARG (two saves)
+		if (isLastArg(unev))
 			goto LAST_ARG;
 		save(env);
 		save(unev);
@@ -249,10 +256,7 @@ int main(void) {
 		restore(unev);
 		restore(env);
 		restore(arglist);
-		// append val to end of arglist
-		arglist = adjoinArg(val, arglist);
-		unev = restArgs(unev); // (cdr unev)
-		goto ARG_LOOP;
+		goto ADJOIN_ARG;
 
 	LAST_ARG:
 				if (INFO) print_info("LAST_ARG");
@@ -262,7 +266,23 @@ int main(void) {
 	DID_LAST_ARG:
 				if (INFO) print_info("DID_LAST_ARG");
 		restore(arglist);
+		goto ADJOIN_ARG;
+		
+	SIMPLE_ARG:
+				if (INFO) print_info("SIMPLE_ARG");
+		cont = LABELOBJ(_ADJOIN_ARG);
+		goto EVAL;
+
+	ADJOIN_ARG:
+				if (INFO) print_info("ADJOIN_ARG");
 		arglist = adjoinArg(val, arglist);
+		if (isLastArg(unev))
+			goto RESTORE_FUNC;
+		unev = restArgs(unev);
+		goto ARG_LOOP;
+
+	RESTORE_FUNC:
+				if (INFO) print_info("RESTORE_FUNC");
 		restore(func);
 		goto APPLY;
 
@@ -385,6 +405,8 @@ int main(void) {
 			goto DID_FUNC;
 		if (GETLABEL(cont) == _ACC_ARG)
 			goto ACC_ARG;
+		if (GETLABEL(cont) == _ADJOIN_ARG)
+			goto ADJOIN_ARG;
 		if (GETLABEL(cont) == _DID_LAST_ARG)
 			goto DID_LAST_ARG;
 		if (GETLABEL(cont) == _SEQ_CONT)
