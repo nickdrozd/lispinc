@@ -201,6 +201,7 @@ int main(void) {
 		save(cont);
 		unev = getArgs(expr);
 		expr = getFunc(expr);
+		// avoids two saves
 		if (isSimple(expr))
 			goto SIMPLE_FUNC;
 		save(env);
@@ -210,7 +211,7 @@ int main(void) {
 
 	DID_FUNC:
 				if (INFO) print_info("DID_FUNC");
-		restore(unev); // the arguments
+		restore(unev);
 		restore(env);
 		func = val;
 		goto CHECK_NO_ARGS;
@@ -227,36 +228,39 @@ int main(void) {
 	CHECK_NO_ARGS:
 				if (INFO) print_info("CHECK_NO_ARGS");
 		arglist = empty_arglist;
-		// special case avoids ARG_LOOP
-		if (noArgs(unev)) // the args
+		// avoids ARG_LOOP
+		if (noArgs(unev)) 
 			goto APPLY;
-		// is this save always necessary?
+		/* is there an honest way to avoid this save? */
 		save(func);
 		goto ARG_LOOP;
 
-	/* args */
+	/* arguments:
+		* unev has args
+		* func and cont on stack */
 
 	ARG_LOOP:
 				if (INFO) print_info("ARG_LOOP");
-		expr = firstArg(unev);
-		// avoids at least one save
-		// if (isSimple(expr))
-		// 	goto SIMPLE_ARG;
 		save(arglist);
-		// special case avoids ACC_ARG (two saves)
-		if (isLastArg(unev))
+		expr = firstArg(unev); 
+		// avoids ACC_ARG (two saves)
+		if (isLastArg(unev)) 
 			goto LAST_ARG;
+		save(unev); // current and remaining args
+		if (isSimple(expr))
+			goto SIMPLE_ARG;
 		save(env);
-		save(unev);
 		cont = LABELOBJ(_ACC_ARG);
 		goto EVAL;
 
 	ACC_ARG:
 				if (INFO) print_info("ACC_ARG");
-		restore(unev);
 		restore(env);
+		restore(unev);
 		restore(arglist);
-		goto ADJOIN_ARG;
+		arglist = adjoinArg(val, arglist);
+		unev = restArgs(unev); 
+		goto ARG_LOOP;
 
 	LAST_ARG:
 				if (INFO) print_info("LAST_ARG");
@@ -266,25 +270,22 @@ int main(void) {
 	DID_LAST_ARG:
 				if (INFO) print_info("DID_LAST_ARG");
 		restore(arglist);
-		goto ADJOIN_ARG;
-		
-	SIMPLE_ARG:
-				if (INFO) print_info("SIMPLE_ARG");
-		cont = LABELOBJ(_ADJOIN_ARG);
-		goto EVAL;
-
-	ADJOIN_ARG:
-				if (INFO) print_info("ADJOIN_ARG");
 		arglist = adjoinArg(val, arglist);
-		if (isLastArg(unev))
-			goto RESTORE_FUNC;
-		unev = restArgs(unev);
-		goto ARG_LOOP;
-
-	RESTORE_FUNC:
-				if (INFO) print_info("RESTORE_FUNC");
 		restore(func);
 		goto APPLY;
+
+	SIMPLE_ARG:
+				if (INFO) print_info("SIMPLE_ARG");
+		cont = LABELOBJ(_DID_SIMPLE_ARG);
+		goto EVAL;
+
+	DID_SIMPLE_ARG:
+				if (INFO) print_info("DID_SIMPLE_ARG");
+		restore(unev);
+		restore(arglist);
+		arglist = adjoinArg(val, arglist);
+		unev = restArgs(unev);
+		goto ARG_LOOP;
 
 
 	/******************/
@@ -405,10 +406,10 @@ int main(void) {
 			goto DID_FUNC;
 		if (GETLABEL(cont) == _ACC_ARG)
 			goto ACC_ARG;
-		if (GETLABEL(cont) == _ADJOIN_ARG)
-			goto ADJOIN_ARG;
 		if (GETLABEL(cont) == _DID_LAST_ARG)
 			goto DID_LAST_ARG;
+		if (GETLABEL(cont) == _DID_SIMPLE_ARG)
+			goto DID_SIMPLE_ARG;
 		if (GETLABEL(cont) == _SEQ_CONT)
 			goto SEQ_CONT;
 		if (GETLABEL(cont) == _ALT_SEQ_CONT)
@@ -422,4 +423,3 @@ int main(void) {
 		COMP_CONT(val);
 
 }
-
