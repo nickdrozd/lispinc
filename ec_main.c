@@ -241,14 +241,17 @@ int main(void) {
 
 	ARG_LOOP:
 				if (INFO) print_info("ARG_LOOP");
-		save(arglist);
 		expr = firstArg(unev); 
+		if (isSimple(expr))
+			goto SIMPLE_ARG;
+		goto COMPOUND_ARG;
+
+	COMPOUND_ARG:
+		save(arglist);
 		// avoids ACC_ARG (two saves)
 		if (isLastArg(unev)) 
 			goto LAST_ARG;
 		save(unev); // current and remaining args
-		if (isSimple(expr))
-			goto SIMPLE_ARG;
 		save(env);
 		cont = LABELOBJ(_ACC_ARG);
 		goto EVAL;
@@ -271,8 +274,7 @@ int main(void) {
 				if (INFO) print_info("DID_LAST_ARG");
 		restore(arglist);
 		arglist = adjoinArg(val, arglist);
-		restore(func);
-		goto APPLY;
+		goto RESTORE_FUNC;
 
 	SIMPLE_ARG:
 				if (INFO) print_info("SIMPLE_ARG");
@@ -281,11 +283,16 @@ int main(void) {
 
 	DID_SIMPLE_ARG:
 				if (INFO) print_info("DID_SIMPLE_ARG");
-		restore(unev);
-		restore(arglist);
 		arglist = adjoinArg(val, arglist);
+		if (isLastArg(unev))
+			goto RESTORE_FUNC;
 		unev = restArgs(unev);
 		goto ARG_LOOP;
+
+	RESTORE_FUNC:
+				if (INFO) print_info("RESTORE_FUNC");
+		restore(func);
+		goto APPLY;
 
 
 	/******************/
