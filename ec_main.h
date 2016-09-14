@@ -35,10 +35,9 @@
 			all other registers may be destroyed
 */
 
-
 #ifndef EC_MAIN_GUARD
 #define EC_MAIN_GUARD
-		
+
 #include "objects.h"
 #include "flags.h"
 #include "read.h"
@@ -51,8 +50,7 @@
 #include "tally.h"
 #include "mem.h"
 
-// compiled code (contained in giant macros)
+/* compiled code (contained in giant macros) */
 #include "comp_code.h"
-#include "comp_cont.h"
 
 #endif

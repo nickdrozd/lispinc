@@ -63,7 +63,7 @@
 #ifndef OBJECTS_GUARD
 #define OBJECTS_GUARD
 
-#include "labels.h"
+#include "comp_code.h"
 
 /* typedefs */
 
@@ -98,6 +98,7 @@ typedef enum {
 	_SEQ_CONT,
 	_ALT_SEQ_CONT,
 
+	// giant macro included in comp_code.h
 	ALL_COMPILED_LABELS,
 
 	label_count
