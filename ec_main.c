@@ -231,7 +231,9 @@ int main(void) {
 		// avoids ARG_LOOP
 		if (noArgs(unev)) 
 			goto APPLY;
-		/* is there an honest way to avoid this save? */
+		// avoids saving func
+		if (noCompoundArgs(unev))
+			goto NO_COMPOUND_ARGS;
 		save(func);
 		goto ARG_LOOP;
 
@@ -247,6 +249,7 @@ int main(void) {
 		goto COMPOUND_ARG;
 
 	COMPOUND_ARG:
+				if (INFO) print_info("COMPOUND_ARG");
 		save(arglist);
 		// avoids ACC_ARG (two saves)
 		if (isLastArg(unev)) 
@@ -294,6 +297,18 @@ int main(void) {
 		restore(func);
 		goto APPLY;
 
+	NO_COMPOUND_ARGS:
+				if (INFO) print_info("NO_COMPOUND_ARGS");
+		cont = LABELOBJ(_REST_SIMPLE_ARGS);
+		expr = firstArg(unev);
+		goto EVAL; 
+		
+	REST_SIMPLE_ARGS:		
+		arglist = adjoinArg(val, arglist);
+		if (isLastArg(unev))
+			goto APPLY;
+		unev = restArgs(unev);
+		goto NO_COMPOUND_ARGS;
 
 	/******************/
 
@@ -417,6 +432,8 @@ int main(void) {
 			goto DID_LAST_ARG;
 		if (GETLABEL(cont) == _DID_SIMPLE_ARG)
 			goto DID_SIMPLE_ARG;
+		if (GETLABEL(cont) == _REST_SIMPLE_ARGS)
+			goto REST_SIMPLE_ARGS;
 		if (GETLABEL(cont) == _SEQ_CONT)
 			goto SEQ_CONT;
 		if (GETLABEL(cont) == _ALT_SEQ_CONT)
