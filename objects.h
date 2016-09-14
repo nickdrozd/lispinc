@@ -94,6 +94,7 @@ typedef enum {
 	_ACC_ARG,
 	_DID_SIMPLE_ARG,
 	_DID_LAST_ARG,
+	_REST_SIMPLE_ARGS,
 	_SEQ_CONT,
 	_ALT_SEQ_CONT,
 

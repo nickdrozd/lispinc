@@ -155,6 +155,9 @@ void print_label(Label label) {
 		case _DID_SIMPLE_ARG:
 			printf("DID_SIMPLE_ARG ");
 			break;
+		case _REST_SIMPLE_ARGS:
+			printf("REST_SIMPLE_ARGS ");
+			break;
 		case _DID_LAST_ARG:
 			printf("DID_LAST_ARG ");
 			break;
