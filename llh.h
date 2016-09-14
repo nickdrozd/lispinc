@@ -72,11 +72,12 @@ bool isSetCdr(Obj expr);
 Obj makeSetCdr(Obj expr);
 
 /* FUNCTION */
+bool isSimple(Obj expr);
+
 Obj getArgs(Obj expr);
 Obj getFunc(Obj expr);
 bool noArgs(Obj expr);
-
-bool isSimple(Obj expr);
+bool noCompoundArgs(Obj expr);
 
 /* ARG_LOOP */
 Obj firstArg(Obj expr);

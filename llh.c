@@ -301,6 +301,16 @@ bool noArgs(Obj expr) {
 	return GETLIST(expr) == NULL;
 }
 
+bool noCompoundArgs(Obj expr) {
+	if (noArgs(expr))
+		return true;
+	else {
+		List* list = GETLIST(expr);
+		return isSimple(CAR(list)) &&
+			noCompoundArgs(LISTOBJ(CDR(list)));
+	}
+}
+
 Obj firstArg(Obj expr) {
 	return CAR(GETLIST(expr));
 }
