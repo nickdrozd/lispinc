@@ -102,6 +102,7 @@ int main(void) {
 
 	IF:
 				if (INFO) print_info("IF");
+		// is there any way to get around these saves?
 		save(expr);
 		save(env);
 		save(cont);
@@ -225,13 +226,18 @@ int main(void) {
 
 	#define empty_arglist NULLOBJ
 
+	/* inelegantly many cases to check? */
+
 	CHECK_NO_ARGS:
 				if (INFO) print_info("CHECK_NO_ARGS");
 		arglist = empty_arglist;
 		// avoids ARG_LOOP
 		if (noArgs(unev)) 
 			goto APPLY;
-		// avoids saving func
+		/* is this dishonest? noCompoundArgs is a 
+		recursive function -- is that too complicated 
+		to be a primitive machine operation? is the C 
+		code doing too much work? */
 		if (noCompoundArgs(unev))
 			goto NO_COMPOUND_ARGS;
 		save(func);
@@ -244,6 +250,7 @@ int main(void) {
 	ARG_LOOP:
 				if (INFO) print_info("ARG_LOOP");
 		expr = firstArg(unev); 
+		// avoids saving arglist, env, unev
 		if (isSimple(expr))
 			goto SIMPLE_ARG;
 		goto COMPOUND_ARG;
@@ -251,7 +258,7 @@ int main(void) {
 	COMPOUND_ARG:
 				if (INFO) print_info("COMPOUND_ARG");
 		save(arglist);
-		// avoids ACC_ARG (two saves)
+		// avoids two saves
 		if (isLastArg(unev)) 
 			goto LAST_ARG;
 		save(unev); // current and remaining args
@@ -279,6 +286,8 @@ int main(void) {
 		arglist = adjoinArg(val, arglist);
 		goto RESTORE_FUNC;
 
+	/* no argument saves, but func needs to be restored */
+
 	SIMPLE_ARG:
 				if (INFO) print_info("SIMPLE_ARG");
 		cont = LABELOBJ(_DID_SIMPLE_ARG);
@@ -297,13 +306,16 @@ int main(void) {
 		restore(func);
 		goto APPLY;
 
+	/* no argument-related saves */
+
 	NO_COMPOUND_ARGS:
 				if (INFO) print_info("NO_COMPOUND_ARGS");
 		cont = LABELOBJ(_REST_SIMPLE_ARGS);
 		expr = firstArg(unev);
 		goto EVAL; 
 		
-	REST_SIMPLE_ARGS:		
+	REST_SIMPLE_ARGS:
+				if (INFO) print_info("REST_SIMPLE_ARGS");		
 		arglist = adjoinArg(val, arglist);
 		if (isLastArg(unev))
 			goto APPLY;
