@@ -183,8 +183,11 @@ struct Env {
 
 /* constructors and selectors */
 
-#define CAR(X) X->car
-#define CDR(X) X->cdr
+#define CONS(X,Y) LISTOBJ(makeList((X),(Y)))
+
+#define CAR(X) GETLIST((X))->car
+#define CDR(X) LISTOBJ(GETLIST((X))->cdr)
+
 #define CADR(X) CAR(CDR(X))
 #define CDDR(X) CDR(CDR(X))
 #define CADDR(X) CAR(CDDR(X))

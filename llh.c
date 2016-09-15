@@ -33,7 +33,7 @@ bool isUnbound(Obj expr) {
 /* special forms */
 
 char* specialForm(Obj expr) {
-	return GETNAME(CAR(GETLIST(expr)));
+	return GETNAME(CAR(expr));
 }
 
 bool cmpForm(char* cand, char* form) {
@@ -52,7 +52,7 @@ bool isQuote(Obj expr) {
 }
 
 Obj quotedText(Obj expr) {
-	return CADR(GETLIST(expr));
+	return CADR(expr);
 }
 
 /* begin */
@@ -62,7 +62,7 @@ bool isBegin(Obj expr) {
 }
 
 Obj beginActions(Obj expr) {
-	return LISTOBJ(CDR(GETLIST(expr)));
+	return CDR(expr);
 }
 
 /* delay */
@@ -72,7 +72,7 @@ bool isDelay(Obj expr) {
 }
 
 Obj delayExpr(Obj expr) {
-	return CADR(GETLIST(expr));
+	return CADR(expr);
 }
 
 Obj makeDelay(Obj expr) {
@@ -92,7 +92,7 @@ bool isIf(Obj expr) {
 }
 
 Obj ifTest(Obj expr) {
-	return CADR(GETLIST(expr));
+	return CADR(expr);
 }
 
 // is this right?
@@ -101,11 +101,11 @@ bool isTrue(Obj expr) {
 }
 
 Obj ifThen(Obj expr) {
-	return CADDR(GETLIST(expr));
+	return CADDR(expr);
 }
 
 Obj ifElse(Obj expr) {
-	return CADDDR(GETLIST(expr));
+	return CADDDR(expr);
 }
 
 /* other boolean macros */
@@ -119,7 +119,7 @@ bool isOr(Obj expr) {
 }
 
 Obj boolExps(Obj expr) {
-	return LISTOBJ(CDR(GETLIST(expr)));
+	return CDR(expr);
 }
 
 /* makeAnd and makeOr take and- and or-expressions and 
@@ -138,7 +138,7 @@ Obj makeAnd(Obj expr) {
 
 	Obj first = firstExp(seq);
 
-	List* cdr = CDR(GETLIST(seq));
+	List* cdr = GETLIST(seq)->cdr;
 	Obj rest = 
 		LISTOBJ(makeList(ANDOBJ, cdr));
 
@@ -159,7 +159,7 @@ Obj makeOr(Obj expr) {
 
 	Obj first = firstExp(seq);
 
-	List* cdr = CDR(GETLIST(seq));
+	List* cdr = GETLIST(seq)->cdr;
 	Obj rest = 
 		LISTOBJ(makeList(OROBJ, cdr));
 
@@ -180,7 +180,7 @@ bool isLambda(Obj expr) {
 }
 
 Obj lambdaParams(Obj expr) {
-	return CADR(GETLIST(expr));
+	return CADR(expr);
 }
 
 /* to allow for implicit begin blocks, change this
@@ -189,7 +189,7 @@ body expressions; otherwise, explicit begins are needed
 for, e.g, iterative factorial */
 
 Obj lambdaBody(Obj expr) {
-	return LISTOBJ(CDDR(GETLIST(expr)));
+	return CDDR(expr);
 }
 
 Obj makeFunc(Obj params, Obj body, Obj env) {
@@ -208,11 +208,11 @@ bool isAss(Obj expr) {
 }
 
 Obj assVar(Obj expr) {
-	return CADR(GETLIST(expr));
+	return CADR(expr);
 }
 
 Obj assVal(Obj expr) {
-	return CADDR(GETLIST(expr));
+	return CADDR(expr);
 }
 
 // -- setVar in env.c
@@ -222,11 +222,11 @@ bool isDef(Obj expr) {
 }
 
 Obj defVar(Obj expr) {
-	return CADR(GETLIST(expr));
+	return CADR(expr);
 }
 
 Obj defVal(Obj expr) {
-	return CADDR(GETLIST(expr));
+	return CADDR(expr);
 }
 
 // -- defineVar in env.c
@@ -286,7 +286,7 @@ Obj makeSetCdr(Obj expr) {
 /* function */
 
 Obj getFunc(Obj expr) {
-	return CAR(GETLIST(expr));
+	return CAR(expr);
 }
 
 bool isSimple(Obj expr) {
@@ -294,7 +294,7 @@ bool isSimple(Obj expr) {
 }
 
 Obj getArgs(Obj expr) {
-	return LISTOBJ(CDR(GETLIST(expr)));
+	return CDR(expr);
 }
 
 bool noArgs(Obj expr) {
@@ -306,17 +306,17 @@ bool noCompoundArgs(Obj expr) {
 		return true;
 	else {
 		List* list = GETLIST(expr);
-		return isSimple(CAR(list)) &&
-			noCompoundArgs(LISTOBJ(CDR(list)));
+		return isSimple(list->car) &&
+			noCompoundArgs(LISTOBJ(list->cdr));
 	}
 }
 
 Obj firstArg(Obj expr) {
-	return CAR(GETLIST(expr));
+	return CAR(expr);
 }
 
 bool isLastArg(Obj expr) {
-	return CDR(GETLIST(expr)) == NULL;
+	return GETLIST(expr)->cdr == NULL;
 }
 
 /* adjoinArg walks down the whole length 
@@ -344,7 +344,7 @@ Obj adjoinArg(Obj val, Obj arglist) {
 }
 
 Obj restArgs(Obj expr) {
-	return LISTOBJ(CDR(GETLIST(expr)));
+	return CDR(expr);
 }
 
 /* apply */
@@ -397,15 +397,15 @@ Obj applyPrimitive(Obj func, Obj arglist) {
 // make sure these coordinate with makeFunc
 
 Obj funcParams(Obj obj) {
-	return CADR(GETLIST(obj));
+	return CADR(obj);
 }
 
 Obj funcBody(Obj obj) {
-	return CADDR(GETLIST(obj));
+	return CADDR(obj);
 }
 
 Obj funcEnv(Obj obj) {
-	return CAR(GETLIST(obj));
+	return CAR(obj);
 }
 
 // extendEnv in env.c
@@ -413,15 +413,15 @@ Obj funcEnv(Obj obj) {
 /* sequence */
 
 Obj firstExp(Obj seq) {
-	return CAR(GETLIST(seq));
+	return CAR(seq);
 }
 
 Obj restExps(Obj seq) {
-	return LISTOBJ(CDR(GETLIST(seq)));
+	return CDR(seq);
 }
 
 bool isLastExp(Obj seq) {
-	List* next = CDR(GETLIST(seq));
+	List* next = GETLIST(seq)->cdr;
 	return next == NULL;
 }
 
