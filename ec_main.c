@@ -15,9 +15,9 @@ int main(void) {
 	START:
 		initialize();
 		env = ENVOBJ(base_env);
-				if (INFO) print_base_env();
-				// if (INFO) print_info("START");
 		expr = read_code();
+				print_base_env();
+				// print_info("START");
 				debug_print("ec_main -- code read!");
 		if (isQuit(expr)) 
 			goto QUIT;
@@ -27,7 +27,7 @@ int main(void) {
 	/************************/
 
 	EVAL:
-				if (INFO) print_info("EVAL");
+				print_info("EVAL");
 		if (isNum(expr))
 			goto NUMBER;
 		if (isVar(expr))
@@ -58,12 +58,12 @@ int main(void) {
 
 
 	NUMBER:
-				if (INFO) print_info("NUMBER");
+				print_info("NUMBER");
 		val = expr;
 		goto CONTINUE;
 
 	VARIABLE:
-				if (INFO) print_info("VARIABLE");
+				print_info("VARIABLE");
 				debug_print(GETNAME(expr));
 		val = lookup(expr, env);
 		if (isUnbound(val))
@@ -71,37 +71,35 @@ int main(void) {
 		goto CONTINUE;
 
 	UNBOUND:
-				if (INFO) print_info("UNBOUND");
-				print_unbound();
+				print_info("UNBOUND");
+		print_unbound();
 		goto START;
 
 	QUOTATION:
-				if (INFO) print_info("QUOTATION");
+				print_info("QUOTATION");
 		val = quotedText(expr);
 		goto CONTINUE;
 
 	BEGIN:
-				if (INFO) print_info("BEGIN");
+				print_info("BEGIN");
 		unev = beginActions(expr);
 		save(cont);
 		goto SEQUENCE;
 
 	DELAY:
-				if (INFO) print_info("DELAY");
+				print_info("DELAY");
 		expr = makeDelay(expr);
 		goto EVAL;
 
 	LAMBDA:
-				if (INFO) print_info("LAMBDA");
+				print_info("LAMBDA");
 		unev = lambdaParams(expr);
 		expr = lambdaBody(expr);
 		val = makeFunc(unev, expr, env);
 		goto CONTINUE;
 
-	/* if (and other boolean macros) */
-
 	IF:
-				if (INFO) print_info("IF");
+				print_info("IF");
 		// is there any way to get around these saves?
 		save(expr);
 		save(env);
@@ -111,7 +109,7 @@ int main(void) {
 		goto EVAL;
 
 	IF_DECIDE:
-				if (INFO) print_info("IF_DECIDE");
+				print_info("IF_DECIDE");
 		restore(cont);
 		restore(env);
 		restore(expr);
@@ -120,22 +118,22 @@ int main(void) {
 		goto IF_ELSE;
 
 	IF_THEN:
-				if (INFO) print_info("IF_THEN");
+				print_info("IF_THEN");
 		expr = ifThen(expr);
 		goto EVAL;
 
 	IF_ELSE:
-				if (INFO) print_info("IF_ELSE");
+				print_info("IF_ELSE");
 		expr = ifElse(expr);
 		goto EVAL;
 
 	AND:
-				if (INFO) print_info("AND");
+				print_info("AND");
 		expr = makeAnd(expr);
 		goto EVAL;
 
 	OR:
-				if (INFO) print_info("OR");
+				print_info("OR");
 		expr = makeOr(expr);
 		goto EVAL;
 
@@ -146,7 +144,7 @@ int main(void) {
 	// leave ass/def val as return val?
 
 	ASSIGNMENT:
-				if (INFO) print_info("ASSIGNMENT");
+				print_info("ASSIGNMENT");
 		unev = assVar(expr);
 		save(unev);
 		expr = assVal(expr);
@@ -156,7 +154,7 @@ int main(void) {
 		goto EVAL;
 
 	DID_ASS_VAL:
-				if (INFO) print_info("DID_ASS_VAL");
+				print_info("DID_ASS_VAL");
 		restore(cont);
 		restore(env);
 		restore(unev);
@@ -165,7 +163,7 @@ int main(void) {
 		goto CONTINUE;
 
 	DEFINITION:
-				if (INFO) print_info("DEFINITION");
+				print_info("DEFINITION");
 		unev = defVar(expr);
 		save(unev);
 		expr = defVal(expr);
@@ -175,7 +173,7 @@ int main(void) {
 		goto EVAL;
 
 	DID_DEF_VAL:
-				if (INFO) print_info("DID_DEF_VAL");
+				print_info("DID_DEF_VAL");
 		restore(cont);
 		restore(env);
 		restore(unev);
@@ -184,12 +182,12 @@ int main(void) {
 		goto CONTINUE;
 
 	SET_CAR:
-				if (INFO) print_info("SET_CAR");
+				print_info("SET_CAR");
 		expr = makeSetCar(expr);
 		goto EVAL;
 
 	SET_CDR:
-				if (INFO) print_info("SET_CDR");
+				print_info("SET_CDR");
 		expr = makeSetCdr(expr);
 		goto EVAL;
 
@@ -198,7 +196,7 @@ int main(void) {
 	/* function application */
 
 	FUNCTION:
-				if (INFO) print_info("FUNCTION");
+				print_info("FUNCTION");
 		save(cont);
 		unev = getArgs(expr);
 		expr = getFunc(expr);
@@ -211,14 +209,14 @@ int main(void) {
 		goto EVAL;
 
 	DID_FUNC:
-				if (INFO) print_info("DID_FUNC");
+				print_info("DID_FUNC");
 		restore(unev);
 		restore(env);
 		func = val;
 		goto CHECK_NO_ARGS;
 
 	SIMPLE_FUNC:
-				if (INFO) print_info("SIMPLE_FUNC");
+				print_info("SIMPLE_FUNC");
 		func = lookup(expr, env);
 		if (isUnbound(func))
 			goto UNBOUND;
@@ -229,12 +227,12 @@ int main(void) {
 	/* inelegantly many cases to check? */
 
 	CHECK_NO_ARGS:
-				if (INFO) print_info("CHECK_NO_ARGS");
+				print_info("CHECK_NO_ARGS");
 		arglist = empty_arglist;
 		// avoids ARG_LOOP
 		if (noArgs(unev)) 
 			goto APPLY;
-		/* is this dishonest? noCompoundArgs is a 
+		/* is this dishonest? noCompoundArgs is a (tail)
 		recursive function -- is that too complicated 
 		to be a primitive machine operation? is the C 
 		code doing too much work? */
@@ -248,7 +246,7 @@ int main(void) {
 		* func and cont on stack */
 
 	ARG_LOOP:
-				if (INFO) print_info("ARG_LOOP");
+				print_info("ARG_LOOP");
 		expr = firstArg(unev); 
 		// avoids saving arglist, env, unev
 		if (isSimple(expr))
@@ -256,7 +254,7 @@ int main(void) {
 		goto COMPOUND_ARG;
 
 	COMPOUND_ARG:
-				if (INFO) print_info("COMPOUND_ARG");
+				print_info("COMPOUND_ARG");
 		save(arglist);
 		// avoids two saves
 		if (isLastArg(unev)) 
@@ -267,7 +265,7 @@ int main(void) {
 		goto EVAL;
 
 	ACC_ARG:
-				if (INFO) print_info("ACC_ARG");
+				print_info("ACC_ARG");
 		restore(env);
 		restore(unev);
 		restore(arglist);
@@ -276,12 +274,12 @@ int main(void) {
 		goto ARG_LOOP;
 
 	LAST_ARG:
-				if (INFO) print_info("LAST_ARG");
+				print_info("LAST_ARG");
 		cont = LABELOBJ(_DID_LAST_ARG);
 		goto EVAL;
 
 	DID_LAST_ARG:
-				if (INFO) print_info("DID_LAST_ARG");
+				print_info("DID_LAST_ARG");
 		restore(arglist);
 		arglist = adjoinArg(val, arglist);
 		goto RESTORE_FUNC;
@@ -289,12 +287,12 @@ int main(void) {
 	/* no argument saves, but func needs to be restored */
 
 	SIMPLE_ARG:
-				if (INFO) print_info("SIMPLE_ARG");
+				print_info("SIMPLE_ARG");
 		cont = LABELOBJ(_DID_SIMPLE_ARG);
 		goto EVAL;
 
 	DID_SIMPLE_ARG:
-				if (INFO) print_info("DID_SIMPLE_ARG");
+				print_info("DID_SIMPLE_ARG");
 		arglist = adjoinArg(val, arglist);
 		if (isLastArg(unev))
 			goto RESTORE_FUNC;
@@ -302,20 +300,20 @@ int main(void) {
 		goto ARG_LOOP;
 
 	RESTORE_FUNC:
-				if (INFO) print_info("RESTORE_FUNC");
+				print_info("RESTORE_FUNC");
 		restore(func);
 		goto APPLY;
 
 	/* no argument-related saves */
 
 	NO_COMPOUND_ARGS:
-				if (INFO) print_info("NO_COMPOUND_ARGS");
+				print_info("NO_COMPOUND_ARGS");
 		cont = LABELOBJ(_REST_SIMPLE_ARGS);
 		expr = firstArg(unev);
 		goto EVAL; 
 		
 	REST_SIMPLE_ARGS:
-				if (INFO) print_info("REST_SIMPLE_ARGS");		
+				print_info("REST_SIMPLE_ARGS");		
 		arglist = adjoinArg(val, arglist);
 		if (isLastArg(unev))
 			goto APPLY;
@@ -325,7 +323,7 @@ int main(void) {
 	/******************/
 
 	APPLY:
-				if (INFO) print_info("APPLY");
+				print_info("APPLY");
 		if (isPrimitive(func))
 			goto APPLY_PRIMITIVE;
 		if (isCompiled(func))
@@ -334,20 +332,20 @@ int main(void) {
 			goto APPLY_COMPOUND;
 
 	APPLY_COMPILED:
-				if (INFO) print_info("APPLY_COMPILED");
+				print_info("APPLY_COMPILED");
 		restore(cont); // to maintain contract
 		val = COMPLABOBJ(func);
 		goto COMP_LABEL;
 
 	APPLY_PRIMITIVE:
-				if (INFO) print_info("APPLY_PRIMITIVE");
+				print_info("APPLY_PRIMITIVE");
 		val = applyPrimitive(func, arglist);
 		restore(cont);
 		goto CONTINUE;
 
 	// only place env is assigned a new value
 	APPLY_COMPOUND:
-				if (INFO) print_info("APPLY_COMPOUND");
+				print_info("APPLY_COMPOUND");
 		unev = funcParams(func);
 		env = funcEnv(func);
 		env = extendEnv(unev, arglist, env);
@@ -359,7 +357,7 @@ int main(void) {
 	/* tail recursion is implented in SEQUENCE */
 
 	SEQUENCE: // SEQUENCE never receives an empty list
-				if (INFO) print_info("SEQUENCE");
+				print_info("SEQUENCE");
 		expr = firstExp(unev);
 		if (isLastExp(unev))
 			goto LAST_EXP;
@@ -369,14 +367,14 @@ int main(void) {
 		goto EVAL;
 
 	SEQ_CONT:
-				if (INFO) print_info("SEQ_CONT");
+				print_info("SEQ_CONT");
 		restore(env);
 		restore(unev);
 		unev = restExps(unev);
 		goto SEQUENCE;
 
 	LAST_EXP:
-				if (INFO) print_info("LAST_EXP");
+				print_info("LAST_EXP");
 		restore(cont);
 		goto EVAL;
 
@@ -384,7 +382,7 @@ int main(void) {
 		the stack is always saved in full */
 
 	ALT_SEQUENCE:
-				if (INFO) print_info("ALT_SEQUENCE");
+				print_info("ALT_SEQUENCE");
 		if (noExps(unev))
 			goto SEQ_END;
 		expr = firstExp(unev);
@@ -394,14 +392,14 @@ int main(void) {
 		goto EVAL;
 
 	ALT_SEQ_CONT:
-				if (INFO) print_info("ALT_SEQ_CONT");
+				print_info("ALT_SEQ_CONT");
 		restore(env);
 		restore(unev);
 		unev = restExps(unev);
 		goto ALT_SEQUENCE;
 
 	SEQ_END:
-				if (INFO) print_info("SEQ_END");
+				print_info("SEQ_END");
 		restore(cont);
 		goto CONTINUE;
 
@@ -409,7 +407,7 @@ int main(void) {
 	/************************/
 
 	DONE:
-				if (INFO) print_info("DONE");
+				print_info("DONE");
 				print_final_val();
 				if (STATS) print_stats();
 		goto START;
@@ -422,11 +420,11 @@ int main(void) {
 	/************************/
 
 	COMPILED_CODE:
-				if (INFO) print_info("COMPILED_CODE");
+				print_info("COMPILED_CODE");
 		COMPILED_CODE_BODY;
 
 	CONTINUE:
-				if (INFO) print_info("CONTINUE");
+				print_info("CONTINUE");
 		// interpreter labels
 		if (GETLABEL(cont) == _DONE)
 			goto DONE;
@@ -455,7 +453,7 @@ int main(void) {
 		COMP_CONT(cont);
 
 	COMP_LABEL:
-				if (INFO) print_info("COMP_LABEL");
+				print_info("COMP_LABEL");
 		COMP_CONT(val);
 
 }

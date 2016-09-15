@@ -3,15 +3,18 @@
 /* evaluator info printing */
 
 void print_info(char* main_label) {
-	if (LIB) return;
+	if (!INFO || LIB) return;
 
-	NL;NL;
+	NL;
 	printf("@ %s", main_label);NL;
 	PRDIV;
 	print_registers();
 	print_stack();
 	if (STEP)
 		getchar();
+	NL;
+
+	return;
 }
 
 /* reset_stats here because print_stats 
@@ -24,7 +27,8 @@ void print_final_val(void) {
 		return;
 	}
 	
-	NL;printf("VALUE: ");
+	NL;
+	printf("VALUE: ");
 	print_obj(val);
 	NL;NL;
 
@@ -34,6 +38,8 @@ void print_final_val(void) {
 	// is this step needed?
 	if (STEP)
 		getchar();
+
+	return;
 }
 
 void print_registers(void) {
@@ -63,7 +69,7 @@ void print_stack(void) {
 }
 
 void print_base_env(void) {
-	if (LIB) return;
+	if (!INFO || LIB) return;
 	
 	NL;NL;
 	printf("base_env: %p", base_env);
@@ -74,7 +80,7 @@ void print_unbound(void) {
 	reset_stats();
 	NL;NL;
 	printf("UNBOUND VARIABLE: \"%s\"!", 
-							GETNAME(expr));
+				GETNAME(expr));
 	NL;
 }
 
