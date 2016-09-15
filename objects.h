@@ -183,7 +183,9 @@ struct Env {
 
 /* constructors and selectors */
 
-#define CONS(X,Y) LISTOBJ(makeList((X),(Y)))
+// cons two objects (second MUST BE listobj)
+// are all of these parens really needed?
+#define CONS(X,Y) LISTOBJ(makeList((X),((GETLIST((Y))))))
 
 #define CAR(X) GETLIST((X))->car
 #define CDR(X) LISTOBJ(GETLIST((X))->cdr)
