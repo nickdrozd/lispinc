@@ -25,9 +25,24 @@ Env* makeBaseEnv(void) {
 
 // returns new env obj with vars bound to vals
 Obj extendEnv(Obj vars_obj, Obj vals_obj, Obj base_env_obj) {
+	List* vars;
+	List* vals;
 
-	List* vars = GETLIST(vars_obj);
-	List* vals = GETLIST(vals_obj);
+	switch(GETTAG(vars_obj)) {
+		case LIST:
+			vars = GETLIST(vars_obj);
+			vals = GETLIST(vals_obj);
+			break;
+		case NAME:
+			vars = makeList(vars_obj, NULL);
+			vals = makeList(vals_obj, NULL);			
+			break;
+		default:
+			printf("\n%s\n", 
+				"UNKNOWN PARAMETER TYPE -- extendEnv");
+			return base_env_obj;		
+	}
+
 	Env* base_env = GETENV(base_env_obj);
 
 	Frame* frame = makeFrame(vars, vals);
