@@ -138,6 +138,7 @@ Obj cons_func(Obj car, Obj cdr) {
 	int isList = GETTAG(cdr) == LIST;
 
 	if (!isList) {
+		printf("%s\n", "Second arg not a list! Converting to one-item list...");
 		List* listcdr = makeList(cdr, NULL);
 		return LISTOBJ(makeList(car, listcdr));
 	}

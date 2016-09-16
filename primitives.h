@@ -12,6 +12,7 @@
 #ifndef PRIMITIVES_GUARD
 #define PRIMITIVES_GUARD
 
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "objects.h"
