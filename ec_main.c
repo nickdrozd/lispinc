@@ -331,15 +331,11 @@ int main(void) {
 		if (isCompound(func))
 			goto APPLY_COMPOUND;
 
-	APPLY_COMPILED:
-				print_info("APPLY_COMPILED");
-		restore(cont); // to maintain contract
-		val = COMPLABOBJ(func);
-		goto COMP_LABEL;
-
 	APPLY_PRIMITIVE:
 				print_info("APPLY_PRIMITIVE");
 		val = applyPrimitive(func, arglist);
+		if (isError(val))
+			goto START;
 		restore(cont);
 		goto CONTINUE;
 
@@ -353,6 +349,12 @@ int main(void) {
 		if (TAIL)
 			goto SEQUENCE;
 		goto ALT_SEQUENCE; 
+
+	APPLY_COMPILED:
+				print_info("APPLY_COMPILED");
+		restore(cont); // to maintain contract
+		val = COMPLABOBJ(func);
+		goto COMP_LABEL;
 
 	/* tail recursion is implented in SEQUENCE */
 
