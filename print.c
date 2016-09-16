@@ -88,6 +88,10 @@ void print_obj(Obj obj) {
 		case NAME:
 			printf("%s ", GETNAME(obj));
 			break;
+		case BOOL_:
+			printf("%s ", 
+				GETBOOL(obj) == 0 ? "#f" : "#t");
+			break;
 		case LIST:
 			printf("%s", "( ");
 			print_list(GETLIST(obj));

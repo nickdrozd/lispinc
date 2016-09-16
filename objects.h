@@ -139,6 +139,7 @@ struct Comp {
 typedef enum {
 	NUM,
 	NAME,
+	BOOL_,
 	LIST,
 	ENV,
 	LABEL,
@@ -153,6 +154,7 @@ typedef enum {
 union Val {
 	long num;
 	char* name;
+	int bool_;
 	List* list;
 	Env* env;
 	Label label;
@@ -212,6 +214,7 @@ struct Env {
 #define GETTAG(X) X.tag
 #define GETNUM(X) X.val.num
 #define GETNAME(X) X.val.name
+#define GETBOOL(X) X.val.bool_
 #define GETLIST(X) X.val.list
 #define GETPRIM(X) X.val.prim
 #define GETENV(X) X.val.env
@@ -258,13 +261,14 @@ struct Env {
 #define ZEROOBJ NUMOBJ(0)
 #define ONEOBJ NUMOBJ(1)
 
-#define TRUEOBJ NUMOBJ(1)
-#define FALSEOBJ NUMOBJ(0)
-		
+#define TRUEOBJ BOOLOBJ(1)
+#define FALSEOBJ BOOLOBJ(0)
+
 #define NULLOBJ LISTOBJ(NULL)
 
 #define NUMOBJ(X) MKOBJ(NUM, num, X)
 #define NAMEOBJ(X) MKOBJ(NAME, name, X)
+#define BOOLOBJ(X) MKOBJ(BOOL_, bool_, X)
 #define LISTOBJ(X) MKOBJ(LIST, list, X)
 #define ENVOBJ(X) MKOBJ(ENV, env, X)
 #define LABELOBJ(X) MKOBJ(LABEL, label, X)
