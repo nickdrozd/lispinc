@@ -6,7 +6,7 @@ Obj read_code(void) {
 
 	while (!lib_loaded()) {
 		char* lib_code = load_library();
-		Obj result = process_code_text(lib_code);
+		Obj result = parse(lib_code);
 		return result;
 	}
 
@@ -26,7 +26,7 @@ Obj read_code(void) {
 
 			if (DEBUG) printf("\nLISP CODE: %s\n", code);
 
-	Obj result = process_code_text(code);
+	Obj result = parse(code);
 	return result;
 }
 
