@@ -139,7 +139,7 @@ Obj read_tokens(Token_list* tokens) {
 		// if (DEBUG) printf("token: %s\n", token.text);
 		char* text = token.text;
 		if (isdigit(text[0])) 
-			obj = NUMOBJ(atoi(text));
+			obj = NUMOBJ(atol(text));
 		else 
 			obj = NAMEOBJ(text);
 		return obj;

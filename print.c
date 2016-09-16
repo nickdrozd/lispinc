@@ -94,7 +94,7 @@ void print_register(Obj reg, char* name) {
 void print_obj(Obj obj) {
 	switch(GETTAG(obj)) {
 		case NUM:
-			printf("%d ", GETNUM(obj));
+			printf("%ld ", GETNUM(obj));
 			break;
 		case NAME:
 			printf("%s ", GETNAME(obj));

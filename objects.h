@@ -151,7 +151,7 @@ typedef enum {
 } Tag;
 
 union Val {
-	int num;
+	long num;
 	char* name;
 	List* list;
 	Env* env;
