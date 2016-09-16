@@ -47,7 +47,6 @@ void print_unbound(void);
 
 void print_register(Obj reg, char* name);
 void print_label(Label label);
-char* lookup_prim_name(Obj func_obj);
 
 void print_obj(Obj obj);
 void print_list(List* list);

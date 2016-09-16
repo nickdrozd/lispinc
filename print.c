@@ -104,8 +104,8 @@ void print_obj(Obj obj) {
 			print_list(GETLIST(obj));
 			break;
 		case PRIM:
-			printf("__%s__ ", 
-				lookup_prim_name(obj));
+			printf("%s ", 
+				obj.val.prim.name);
 			break;
 		case ENV:
 			printf("%p ", GETENV(obj));
@@ -177,63 +177,6 @@ void print_label(Label label) {
 			printf("UNKNOWN LABEL ");
 	}
 }
-
-// TODO: clean this up!
-// (it used to look nice!)
-char* lookup_prim_name(Obj func_obj) {
-	// dispatch on primitive function type
-	primType type = func_obj.val.prim.type;
-
-	intFunc lookup_intfunc;
-	intFunc val_intfunc;
-
-	objFunc lookup_objfunc;
-	objFunc val_objfunc;
-
-	primType val_type;
-
-	if (type == INTPRIM) 
-		lookup_intfunc = func_obj.val.prim.func.intfunc;
-
-	else if (type == OBJPRIM) 
-		lookup_objfunc = func_obj.val.prim.func.objfunc;
-
-	Frame* frame = base_env->frame;
-	Obj val;
-	char* key;
-
-	while (frame) {
-
-		val = frame->val;
-
-		if (val.tag == PRIM) {
-			val_type = val.val.prim.type;
-
-			if (val_type == INTPRIM) {
-				val_intfunc = val.val.prim.func.intfunc;
-				key = frame->key;
-				if (lookup_intfunc == val_intfunc)
-					return key;
-			}
-
-			else if (val_type == OBJPRIM) {
-				val_objfunc = val.val.prim.func.objfunc;
-				key = frame->key;
-				if (lookup_objfunc == val_objfunc)
-					return key;
-			}
-
-			// val_func = val.val.prim;
-			// if (lookup_func == val_func)
-				// return key;
-		}
-
-		frame = frame->next;
-	}
-
-	return "unknown primitive function...";
-}
-
 
 /* user interface printing */
 
