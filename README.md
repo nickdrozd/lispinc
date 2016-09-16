@@ -29,7 +29,7 @@ TODO
 
 * Memory management is poor. The main culprits are the parsing functions and the environment functions. Figure out how to free that memory, ie figure out some kind of garbage collection. (Does anything in mem.c work?)
 
-* <del>There is rudimentary syntax checking, but any other error unceremoniously crashes the entire interpreter. Figure out an error-checking system (although as SICP says, "this is lots of work" and "this is a major project").<del> Actually, because of the way the object system was set up, this turned out to be a pretty simple addition!
+* <del>There is rudimentary syntax checking, but any other error unceremoniously crashes the entire interpreter. Figure out an error-checking system (although as SICP says, "this is lots of work" and "this is a major project").</del> Actually, because of the way the object system was set up, this turned out to be a pretty simple addition!
 
 * Add documentation to individual functions.
 
@@ -46,7 +46,7 @@ The second style of interpreter, which they call an *explicit-control evaluator*
 
 The book's penultimate exercise, Exercise 5.51, reads "Develop a rudimentary implementation of Scheme in C (or some other low-level language of your choice) by translating the explicit-control evaluator...into C. In order to run this code you will need to also provide appropriate storage-allocation routines and other run-time support".
 
- lispinc is just such a translation. Or is it an adaption? Actually, the program's main function (found in ec_main.c) is basically a literal translation of SICP's toy assembly code. Here is a comparison of the section of the interpreter that handles lambda expressions:
+ lispinc is just such a translation. In fact, the program's main function (found in ec_main.c) is basically a literal translation of SICP's toy assembly code. Here is a comparison of the section of the interpreter that handles lambda expressions:
 
  SICP (toy assembly):
 
