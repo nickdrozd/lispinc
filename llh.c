@@ -431,3 +431,8 @@ bool noExps(Obj seq) {
 	return list == NULL;
 }
 
+/* error-checking */
+
+bool isError(Obj obj) {
+	return GETTAG(obj) == ERROR;
+}

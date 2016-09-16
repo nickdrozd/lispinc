@@ -119,6 +119,9 @@ void print_obj(Obj obj) {
 		case DUMMY:
 			printf("%s ", "DUMMY");
 			break;
+		case ERROR:
+			printf("%s\n", "ERROR!!!");
+			break;
 		case UNINIT:
 			printf("%s ", "***");
 			break;

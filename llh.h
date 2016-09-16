@@ -102,4 +102,7 @@ Obj restExps(Obj seq);
 bool isLastExp(Obj seq);
 bool noExps(Obj seq);
 
+/* error-checking */
+bool isError(Obj obj);
+
 #endif
