@@ -16,7 +16,12 @@ bool isQuit(Obj expr) {
 
 bool isNum(Obj expr) {
 	form_check_count++;
-	return GETTAG(expr) == NUM;
+	return GETTAG(expr) == NUM || 
+		isBool(expr);
+}
+
+bool isBool(Obj expr) {
+	return GETTAG(expr) == BOOL_;
 }
 
 /* variables */
@@ -97,7 +102,14 @@ Obj ifTest(Obj expr) {
 
 // is this right?
 bool isTrue(Obj expr) {
-	return GETNUM(expr) != false;
+	switch (GETTAG(expr)) {
+		case NUM:
+			return GETNUM(expr) != false;
+		case BOOL_:
+			return GETBOOL(expr) != false;
+		default:
+			return true;
+	}
 }
 
 Obj ifThen(Obj expr) {

@@ -24,6 +24,7 @@
 bool isQuit(Obj expr);
 
 bool isNum(Obj expr);
+bool isBool(Obj expr);
 
 bool isVar(Obj expr);
 bool isUnbound(Obj expr);
