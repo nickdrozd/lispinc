@@ -145,6 +145,7 @@ typedef enum {
 	PRIM,
 	COMP,
 	DUMMY,
+	ERROR,
 	UNINIT,
 	tag_count
 } Tag;
@@ -158,6 +159,7 @@ union Val {
 	Prim prim;
 	Comp comp;
 	int dummy;
+	int error;
 	int uninit;
 };
 
@@ -263,6 +265,7 @@ struct Env {
 #define ENVOBJ(X) MKOBJ(ENV, env, X)
 #define LABELOBJ(X) MKOBJ(LABEL, label, X)
 #define DUMMYOBJ MKOBJ(DUMMY, dummy, 0)
+#define ERROROBJ MKOBJ(ERROR, error, 0)
 #define UNINITOBJ MKOBJ(UNINIT, uninit, 0)
 
 #define MKOBJ(TAG,VALTYPE,VAL) (Obj){.tag = TAG, .val = (Val){.VALTYPE = VAL}}
