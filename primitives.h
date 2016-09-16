@@ -18,100 +18,88 @@
 
 #include "objects.h"
 
-// extern List* primitive_vars(void);
-// extern List* primitive_vals(void);
-
-
-/* PRIMITIVE FUNCTION NAMES */
-
 /* primitive arithmetic functions */
-
-#define ADD_NAME "+"
-#define SUB_NAME "-"
-#define MUL_NAME "*"
-#define DIV_NAME "/"
-#define ADDONE_NAME "add1"
-#define SUBONE_NAME "sub1"
-
-#define EQ_NAME "=" 
-#define LT_NAME "<"
-#define GT_NAME ">"
-#define ISZERO_NAME "zero?"
-#define ISONE_NAME "one?"
-
-/* primitive type-check functions */
-
-#define NULL_NAME "null?"
-
-/* primitive list functions */
-
-#define CAR_NAME "car"
-#define CDR_NAME "cdr"
-#define CONS_NAME "cons"
-
-
-/* primtive function declarations */
+#define arith_len 6
 
 twoArgFunc add_;
+#define addprim TWOFUNC(add_, "+")
+
 twoArgFunc sub_;
+#define subprim TWOFUNC(sub_, "-")
+
 twoArgFunc mul_;
+#define mulprim TWOFUNC(mul_, "*")
+
 twoArgFunc div_;
+#define divprim TWOFUNC(div_, "/")
+
 oneArgFunc addone_;
+#define addoneprim ONEFUNC(addone_, "add1")
+
 oneArgFunc subone_;
+#define suboneprim ONEFUNC(subone_, "sub1")
+
+/* primitive boolean functions */
+#define bool_len 6
 
 twoArgFunc eq_;
+#define eqprim TWOFUNC(eq_, "=")
+
 twoArgFunc lt_;
+#define ltprim TWOFUNC(lt_, "<")
+
 twoArgFunc gt_;
+#define gtprim TWOFUNC(gt_, ">")
+
 oneArgFunc iszero_;
+#define iszeroprim ONEFUNC(iszero_, "zero?")
+
 oneArgFunc isone_;
+#define isoneprim ONEFUNC(isone_, "one?")
+
+twoArgFunc geneq_;
+#define geneqprim TWOFUNC(geneq_, "eq?")
+
+/* primitive type-check functions */
+#define type_len 1
 
 oneArgFunc null_;
+#define nullprim ONEFUNC(null_, "null?")
+
+/* primitive list functions */
+#define list_len 3
 
 oneArgFunc car_;
+#define carprim ONEFUNC(car_, "car")
+
 oneArgFunc cdr_;
+#define cdrprim ONEFUNC(cdr_, "cdr")
+
 twoArgFunc cons_;
-
-
-
-
-/* PRIMITIVE FUNCTIONS */
-
-#define addprim TWOFUNC(add_, ADD_NAME)
-#define subprim TWOFUNC(sub_, SUB_NAME)
-#define mulprim TWOFUNC(mul_, MUL_NAME)
-#define divprim TWOFUNC(div_, DIV_NAME)
-#define addoneprim ONEFUNC(addone_, ADDONE_NAME)
-#define suboneprim ONEFUNC(subone_, SUBONE_NAME)
-
-#define eqprim TWOFUNC(eq_, EQ_NAME)
-#define iszeroprim ONEFUNC(iszero_, ISZERO_NAME)
-#define isoneprim ONEFUNC(isone_, ISONE_NAME)
-
-#define nullprim ONEFUNC(null_, NULL_NAME)
-
-#define carprim ONEFUNC(car_, CAR_NAME)
-#define cdrprim ONEFUNC(cdr_, CDR_NAME)
-#define consprim TWOFUNC(cons_, CONS_NAME)
+#define consprim TWOFUNC(cons_, "cons")
 
 // make sure to keep these updated!!!
-#define arith_len 6
-#define bool_len 3
-#define type_len 1
-#define list_len 3
 
 #define PRIM_LEN (arith_len+bool_len+type_len+list_len)
 
 #define LIST_OF_PRIMITIVES { \
 addprim, subprim, mulprim, divprim, \
 addoneprim, suboneprim, \
-eqprim, iszeroprim, isoneprim, \
+eqprim, ltprim, gtprim, \
+iszeroprim, isoneprim, geneqprim, \
 nullprim, \
 carprim, cdrprim, consprim \
 }
+
+
 
 /* error checking */
 
 bool are_both_nums(Obj a, Obj b);
 void print_error_message(Tag tag);
+
+
+// from read.c
+int streq(char* str1, char* str2);
 
 #endif

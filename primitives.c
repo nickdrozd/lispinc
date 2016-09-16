@@ -156,12 +156,35 @@ Obj isone_func(Obj a) {
 	return eq_func(a, ONEOBJ);
 }
 
+Obj geneq_func(Obj a, Obj b) {
+	Tag tag_a = GETTAG(a);
+	Tag tag_b = GETTAG(b);
+
+	if (tag_a != tag_b)
+		return FALSEOBJ;
+
+	// else if a and be have the same type
+	switch(tag_a) {
+		case NUM:
+			return eq_func(a, b);
+		case NAME:
+			return BOOLOBJ(streq(GETNAME(a), GETNAME(b)));
+		case BOOL_:
+			return BOOLOBJ(GETBOOL(a) == GETBOOL(b));
+		case LIST:
+			// pointers to the same list
+			return BOOLOBJ(GETLIST(a) == GETLIST(b));
+		default:
+			return FALSEOBJ;
+	}
+}
+
 twoArgFunc eq_ = eq_func;
 twoArgFunc lt_ = lt_func;
 twoArgFunc gt_ = gt_func;
 oneArgFunc iszero_ = iszero_func;
 oneArgFunc isone_ = isone_func;
-
+twoArgFunc geneq_ = geneq_func;
 
 /* error-checking */
 
@@ -186,5 +209,5 @@ void print_error_message(Tag tag) {
 			break;
 	}
 
-	printf("%s operation error!\n", operation_type);
+	printf("%s operation error! Oops!\n", operation_type);
 }
