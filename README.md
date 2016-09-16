@@ -23,13 +23,13 @@ TODO
 
 * Update documentation to include compiler! (https://github.com/nickdrozd/Lisp-C-Compyler)
 
-* Variable-arity functions
+* <del>Variable-arity functions</del> Done!
 
 * Reader macros (' for quotation and ` for quasiquotation, for instance)
 
 * Memory management is poor. The main culprits are the parsing functions and the environment functions. Figure out how to free that memory, ie figure out some kind of garbage collection. (Does anything in mem.c work?)
 
-* There is rudimentary syntax checking, but any other error unceremoniously crashes the entire interpreter. Figure out an error-checking system (although as SICP says, "this is lots of work" and "this is a major project").
+* <del>There is rudimentary syntax checking, but any other error unceremoniously crashes the entire interpreter. Figure out an error-checking system (although as SICP says, "this is lots of work" and "this is a major project").<del> Actually, because of the way the object system was set up, this turned out to be a pretty simple addition!
 
 * Add documentation to individual functions.
 
