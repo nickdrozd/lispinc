@@ -16,17 +16,7 @@
 
 #include "objects.h"
 
-List* primitive_vars(void);
-List* primitive_vals(void);
-
-/* primitive arithmetic functions */
-
-#define PRIM_NULL "null?"
-
-#define PRIM_ADD "+"
-#define PRIM_SUB "-"
-#define PRIM_MUL "*"
-#define PRIM_DIV "/"
-#define PRIM_EQ "=" 
+extern List* primitive_vars(void);
+extern List* primitive_vals(void);
 
 #endif

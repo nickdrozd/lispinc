@@ -1,5 +1,15 @@
 #include "primitives.h"
 
+/* primitive arithmetic functions */
+
+#define PRIM_NULL_NAME "null?"
+
+#define PRIM_ADD_NAME "+"
+#define PRIM_SUB_NAME "-"
+#define PRIM_MUL_NAME "*"
+#define PRIM_DIV_NAME "/"
+#define PRIM_EQ_NAME "=" 
+
 twoArgFunc add_;
 twoArgFunc sub_;
 twoArgFunc mul_;
@@ -13,16 +23,16 @@ oneArgFunc null_;
 List* primitive_vars(void) {
 
 	List* prim_arith_vars = 
-		makeList(NAMEOBJ(PRIM_ADD), 
-			makeList(NAMEOBJ(PRIM_SUB), 
-				makeList(NAMEOBJ(PRIM_MUL), 
-					makeList(NAMEOBJ(PRIM_DIV), 
-						makeList(NAMEOBJ(PRIM_EQ), NULL)))));
+		makeList(NAMEOBJ(PRIM_ADD_NAME), 
+			makeList(NAMEOBJ(PRIM_SUB_NAME), 
+				makeList(NAMEOBJ(PRIM_MUL_NAME), 
+					makeList(NAMEOBJ(PRIM_DIV_NAME), 
+						makeList(NAMEOBJ(PRIM_EQ_NAME), NULL)))));
 
 	// List* vars = prim_arith_vars;
 
 	List* vars =
-		makeList(NAMEOBJ(PRIM_NULL), 
+		makeList(NAMEOBJ(PRIM_NULL_NAME), 
 			prim_arith_vars);
 
 	return vars;
@@ -32,13 +42,13 @@ List* primitive_vars(void) {
 
 List* primitive_vals(void) {
 
-	Prim addprim = TWOFUNC(add_);
-	Prim subprim = TWOFUNC(sub_);
-	Prim mulprim = TWOFUNC(mul_);
-	Prim divprim = TWOFUNC(div_);
-	Prim eqprim = TWOFUNC(eq_);
+	Prim addprim = TWOFUNC(add_, PRIM_ADD_NAME);
+	Prim subprim = TWOFUNC(sub_, PRIM_SUB_NAME);
+	Prim mulprim = TWOFUNC(mul_, PRIM_MUL_NAME);
+	Prim divprim = TWOFUNC(div_, PRIM_DIV_NAME);
+	Prim eqprim = TWOFUNC(eq_, PRIM_EQ_NAME);
 
-	Prim nullprim = ONEFUNC(null_);
+	Prim nullprim = ONEFUNC(null_, PRIM_NULL_NAME);
 
 	List* prim_arith_vals = 
 		makeList(PRIMOBJ(addprim), 
