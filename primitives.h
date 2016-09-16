@@ -61,10 +61,19 @@ twoArgFunc geneq_;
 #define geneqprim TWOFUNC(geneq_, "eq?")
 
 /* primitive type-check functions */
-#define type_len 1
+#define type_len 4
 
 oneArgFunc null_;
 #define nullprim ONEFUNC(null_, "null?")
+
+oneArgFunc isnumber_;
+#define isnumberprim ONEFUNC(isnumber_, "number?")
+
+oneArgFunc islist_;
+#define islistprim ONEFUNC(islist_, "list?")
+
+oneArgFunc isbool_;
+#define isboolprim ONEFUNC(isbool_, "boolean?")
 
 /* primitive list functions */
 #define list_len 3
@@ -87,7 +96,7 @@ addprim, subprim, mulprim, divprim, \
 addoneprim, suboneprim, \
 eqprim, ltprim, gtprim, \
 iszeroprim, isoneprim, geneqprim, \
-nullprim, \
+nullprim, isnumberprim, islistprim, isboolprim, \
 carprim, cdrprim, consprim \
 }
 

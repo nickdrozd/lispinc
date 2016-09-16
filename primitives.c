@@ -4,6 +4,24 @@
 
 /* primitive type-checking */
 
+Obj isnumber_func(Obj obj) {
+	return BOOLOBJ(GETTAG(obj) == NUM);
+}
+
+oneArgFunc isnumber_ = isnumber_func;
+
+Obj islist_func(Obj obj) {
+	return BOOLOBJ(GETTAG(obj) == LIST);
+}
+
+oneArgFunc islist_ = islist_func;
+
+Obj isbool_func(Obj obj) {
+	return BOOLOBJ(GETTAG(obj) == BOOL_);
+}
+
+oneArgFunc isbool_ = isbool_func;
+
 // null? returns false for non-list objects
 Obj null_func(Obj obj) {
 	bool isList = GETTAG(obj) == LIST;
