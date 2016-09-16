@@ -99,6 +99,7 @@ void setVar(Obj var_obj, Obj val_obj, Obj env_obj);
 
 Frame* zipFrame(List* vars, List* vals);
 Env* makeEnv(Frame* frame, Env* enclosure);
+Frame* makeFrame(char* key, Obj val);
 
 #endif
 

@@ -168,13 +168,6 @@ void setVar(Obj var_obj, Obj val_obj, Obj env_obj) {
 
 /* constructors */
 
-Env* makeEnv(Frame* frame, Env* enclosure) {
-	Env* env = malloc(sizeof(Env));
-	env->frame = frame;
-	env->enclosure = enclosure;
-	return env;
-}
-
 Frame* zipFrame(List* vars, List* vals) {
 	if (vars == NULL)
 		return NULL;
@@ -182,13 +175,24 @@ Frame* zipFrame(List* vars, List* vals) {
 	char* key = GETNAME(vars->car);
 	Obj val = vals->car;
 
-	Frame* frame = malloc(sizeof(Frame));
-
-	frame->key = key;
-	frame->val = val;
+	Frame* frame = makeFrame(key, val);
 
 	frame->next = zipFrame(vars->cdr, vals->cdr);
 
+	return frame;
+}
+
+Env* makeEnv(Frame* frame, Env* enclosure) {
+	Env* env = malloc(sizeof(Env));
+	env->frame = frame;
+	env->enclosure = enclosure;
+	return env;
+}
+
+Frame* makeFrame(char* key, Obj val) {
+	Frame* frame = malloc(sizeof(Frame));
+	frame->key = key;
+	frame->val = val;
 	return frame;
 }
 
