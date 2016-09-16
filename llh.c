@@ -360,39 +360,40 @@ bool isCompound(Obj obj) {
 }
 
 bool isCompiled(Obj obj) {
+	// isCompiled_count++;
 	return GETTAG(obj) == COMP;
 }
 
-
-// clean this up!
+/* if new primitives are added, applyPrimitive 
+can be extended in an obvious way */
 Obj applyPrimitive(Obj func, Obj arglist) {
-			debug_print("applying PRIMITIVE...");
-	List* list = GETLIST(arglist);
+	Prim prim = func.val.prim;
 
-	primType type = func.val.prim.type;
+	primFunc primfunc = prim.func;
+	argCount argcount = prim.count;
 
-	if (type == INTPRIM) {
-		int arg1 = list->car.val.num;
-		int arg2 = list->cdr->car.val.num;
-				// if (INFO) printf("arg1: %d\narg2: %d\n\n", arg1, arg2);
-		intFunc prim = func.val.prim.func.intfunc;
-		int result = (*prim)(arg1, arg2);
-		return NUMOBJ(result);
+	if (argcount == NIL) {
+		nilArgFunc nilfunc = primfunc.nil;
+		return nilfunc();
 	}
 	
-	else if (type == OBJPRIM) {
-		Obj arg = list->car;
-				// if (INFO) ;
-		objFunc prim = func.val.prim.func.objfunc;
-		int result = (*prim)(arg);
-		return NUMOBJ(result);
+	Obj arg1 = CAR(arglist);
+
+	if (argcount == ONE) {
+		oneArgFunc onefunc = primfunc.one;
+		return onefunc(arg1);
 	}
 
-	else {
-				debug_print("apply_primitive: unknown primitive function type!");
-		return DUMMYOBJ;
+	Obj arg2 = CADR(arglist);
+
+	if (argcount == TWO) {
+		twoArgFunc twofunc = primfunc.two;
+		return twofunc(arg1, arg2);
 	}
+
+	return DUMMYOBJ;
 }
+
 
 // make sure these coordinate with makeFunc
 
@@ -430,26 +431,3 @@ bool noExps(Obj seq) {
 	return list == NULL;
 }
 
-
-
-/* the old version of applyPrimitive, before adding 
-	the PRIM type that made everything messy */
-
-// bool isPrimitive(Obj obj) {
-// 	return GETTAG(obj) == FUNC;
-// }
-
-// bool isCompound(Obj obj) {
-// 	return GETTAG(obj) == LIST;
-// }
-
-// Obj applyPrimitive(Obj func, Obj arglist) {
-// 			if (INFO) printf("%s\n", "applying PRIMITIVE...");
-// 	List* list = GETLIST(arglist);
-// 	int arg1 = list->car.val.num;
-// 	int arg2 = list->cdr->car.val.num;
-// 			if (INFO) printf("arg1: %d\narg2: %d\n\n", arg1, arg2);
-// 	intFunc prim = func.val.func;
-// 	int result = (*prim)(arg1, arg2);
-// 	return NUMOBJ(result);
-// }
