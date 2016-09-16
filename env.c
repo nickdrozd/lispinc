@@ -9,16 +9,25 @@ Env* base_env;
 
 // returns pointer to base_env
 Env* makeBaseEnv(void) {
+	Prim primitives[] = LIST_OF_PRIMITIVES;
 
-	List* prim_vars = primitive_vars();
-	List* prim_vals = primitive_vals();
+	Frame* next_frame = NULL;
+	Frame* prim_frame;
+	Prim prim;
+	Obj val;
+	char* key;
 
-	Frame* primitives = zipFrame(prim_vars, prim_vals);
+	// cons together primitives back to front
+	for (int i = PRIM_LEN - 1; i >= 0; i--) {
+		prim = primitives[i];
+		val = PRIMOBJ(prim);
+		key = prim.name;
+		prim_frame = makeFrame(key, val);
+		prim_frame->next = next_frame;
+		next_frame = prim_frame;
+	}
 
-	Env* env = makeEnv(primitives, NULL);
-
-	// memory management
-	append_to_envs(env);
+	Env* env = makeEnv(prim_frame, NULL);
 
 	return env;
 }
@@ -28,6 +37,8 @@ Obj extendEnv(Obj vars_obj, Obj vals_obj, Obj base_env_obj) {
 	List* vars;
 	List* vals;
 
+	/* switch allows for variable-arity functions, 
+	eg ((lambda s s) 4 5 6) */
 	switch(GETTAG(vars_obj)) {
 		case LIST:
 			vars = GETLIST(vars_obj);

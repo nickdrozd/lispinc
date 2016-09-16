@@ -1,115 +1,5 @@
 #include "primitives.h"
 
-/* PRIMITIVE FUNCTION NAMES */
-
-/* primitive arithmetic functions */
-
-#define ADD_NAME "+"
-#define SUB_NAME "-"
-#define MUL_NAME "*"
-#define DIV_NAME "/"
-#define ADDONE_NAME "add1"
-#define SUBONE_NAME "sub1"
-
-#define EQ_NAME "=" 
-#define LT_NAME "<"
-#define GT_NAME ">"
-#define ISZERO_NAME "zero?"
-#define ISONE_NAME "one?"
-
-/* primitive type-check functions */
-
-#define NULL_NAME "null?"
-
-/* primitive list functions */
-
-#define CAR_NAME "car"
-#define CDR_NAME "cdr"
-#define CONS_NAME "cons"
-
-/* PRIMITIVE FUNCTIONS FRAMES */
-
-/* primitive names */
-
-#define NAMELIST(name,list) makeList(NAMEOBJ(name),list)
-
-List* primitive_vars(void) {
-
-	List* arith_vars = 
-		NAMELIST(ADD_NAME, NAMELIST(SUB_NAME, 
-			NAMELIST(MUL_NAME, NAMELIST(DIV_NAME, 
-				NAMELIST(EQ_NAME, NULL)))));
-
-	List* otherarith_vars = 
-		NAMELIST(ISZERO_NAME, NAMELIST(ISONE_NAME, 
-			NAMELIST(ADDONE_NAME, NAMELIST(SUBONE_NAME, 
-				arith_vars))));
-
-	List* type_vars = 
-		NAMELIST(NULL_NAME, otherarith_vars);
-
-	List* list_vars = 
-		NAMELIST(CAR_NAME, NAMELIST(CDR_NAME, 
-			NAMELIST(CONS_NAME, type_vars)));
-
-	return list_vars;
-}
-
-/* primitive values */
-
-#define PRIMLIST(prim,list) makeList(PRIMOBJ(prim), list)
-
-List* primitive_vals(void) {
-	/* these have to be declared inside a function
-	(something about initializing nonconstants) */
-
-	Prim addprim = TWOFUNC(add_, ADD_NAME);
-	Prim subprim = TWOFUNC(sub_, SUB_NAME);
-	Prim mulprim = TWOFUNC(mul_, MUL_NAME);
-	Prim divprim = TWOFUNC(div_, DIV_NAME);
-	Prim addoneprim = ONEFUNC(addone_, ADDONE_NAME);
-	Prim suboneprim = ONEFUNC(subone_, SUBONE_NAME);
-
-	Prim eqprim = TWOFUNC(eq_, EQ_NAME);
-	Prim iszeroprim = ONEFUNC(iszero_, ISZERO_NAME);
-	Prim isoneprim = ONEFUNC(isone_, ISONE_NAME);
-	Prim nullprim = ONEFUNC(null_, NULL_NAME);
-
-
-	Prim carprim = ONEFUNC(car_, CAR_NAME);
-	Prim cdrprim = ONEFUNC(cdr_, CDR_NAME);
-	Prim consprim = TWOFUNC(cons_, CONS_NAME);
-
-	List* arith_vals = 
-		PRIMLIST(addprim, PRIMLIST(subprim,
-			PRIMLIST(mulprim, PRIMLIST(divprim, 
-				PRIMLIST(eqprim, NULL)))));
-
-	// List* arith_vals = 
-	// 	makeList(PRIMOBJ(addprim), 
-	// 		makeList(PRIMOBJ(subprim), 
-	// 			makeList(PRIMOBJ(mulprim), 
-	// 				makeList(PRIMOBJ(divprim), 
-	// 					makeList(PRIMOBJ(eqprim), NULL)))));
-
-	List* otherarith_vals = 
-		PRIMLIST(iszeroprim, PRIMLIST(isoneprim, 
-			PRIMLIST(addoneprim, PRIMLIST(suboneprim, 
-				arith_vals))));
-
-	List* type_vals = 
-		makeList(PRIMOBJ(nullprim),
-			otherarith_vals);
-
-	List* list_vals = 
-		makeList(PRIMOBJ(carprim),
-			makeList(PRIMOBJ(cdrprim),
-				makeList(PRIMOBJ(consprim),
-					type_vals)));
-
-	return list_vals;
-}
-
 /* PRIMITIVE FUNCTIONS DEFINED */
 
 /* primitive type-checking */
@@ -277,7 +167,8 @@ oneArgFunc isone_ = isone_func;
 
 // error-checking helper
 bool are_both_nums(Obj a, Obj b) {
-	return isNum(a) && isNum(b);
+	return GETTAG(a) == NUM && 
+		GETTAG(b) == NUM;
 }
 
 void print_error_message(Tag tag) {
