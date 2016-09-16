@@ -73,8 +73,9 @@ typedef struct List List;
 
 typedef struct Prim Prim;
 typedef union primFunc primFunc;
-typedef int (*intFunc)(int, int);
-typedef int (*objFunc)(Obj);
+typedef Obj (*nilArgFunc) (void);
+typedef Obj (*oneArgFunc)(Obj);
+typedef Obj (*twoArgFunc)(Obj, Obj);
 
 typedef struct Comp Comp;
 
@@ -105,22 +106,23 @@ typedef enum {
 } Label;
 
 
-
 /* primitive functions */
 
 typedef enum {
-	INTPRIM,
-	OBJPRIM,
-	primType_count
-} primType;
+	NIL,
+	ONE,
+	TWO,
+	argCount_count
+} argCount;
 
 union primFunc {
-	intFunc intfunc;
-	objFunc objfunc;
+	nilArgFunc nil;
+	oneArgFunc one;
+	twoArgFunc two;
 };
 
 struct Prim {
-	primType type;
+	argCount count;
 	primFunc func;
 };
 
@@ -217,10 +219,11 @@ struct Env {
 
 // Prim
 
-#define INTFUNC(X) MKPRIM(INTPRIM,intfunc, X)
-#define OBJFUNC(X) MKPRIM(OBJPRIM, objfunc, X)
+#define NILFUNC(X) MKPRIM(NIL, nil, X)
+#define ONEFUNC(X) MKPRIM(ONE, one, X)
+#define TWOFUNC(X) MKPRIM(TWO, two, X)
 
-#define MKPRIM(TYPE,FUNCTYPE,FUNC) (Prim){.type = TYPE, .func = (primFunc){.FUNCTYPE = FUNC}}
+#define MKPRIM(COUNT,FUNCTYPE,FUNC) (Prim){.count = COUNT, .func = (primFunc){.FUNCTYPE = FUNC}}
 
 // Comp
 

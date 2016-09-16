@@ -1,12 +1,12 @@
 #include "primitives.h"
 
-intFunc add_;
-intFunc sub_;
-intFunc mul_;
-intFunc div_;
-intFunc eq_;
+twoArgFunc add_;
+twoArgFunc sub_;
+twoArgFunc mul_;
+twoArgFunc div_;
+twoArgFunc eq_;
 
-objFunc null_;
+oneArgFunc null_;
 
 /* primitive names */
 
@@ -32,13 +32,13 @@ List* primitive_vars(void) {
 
 List* primitive_vals(void) {
 
-	Prim addprim = INTFUNC(add_);
-	Prim subprim = INTFUNC(sub_);
-	Prim mulprim = INTFUNC(mul_);
-	Prim divprim = INTFUNC(div_);
-	Prim eqprim = INTFUNC(eq_);
+	Prim addprim = TWOFUNC(add_);
+	Prim subprim = TWOFUNC(sub_);
+	Prim mulprim = TWOFUNC(mul_);
+	Prim divprim = TWOFUNC(div_);
+	Prim eqprim = TWOFUNC(eq_);
 
-	Prim nullprim = OBJFUNC(null_);
+	Prim nullprim = ONEFUNC(null_);
 
 	List* prim_arith_vals = 
 		makeList(PRIMOBJ(addprim), 
@@ -59,76 +59,60 @@ List* primitive_vals(void) {
 /* primitive type-checking */
 
 // null? returns false for non-list objects
-int null_func(Obj obj) {
+Obj null_func(Obj obj) {
 	int isList = GETTAG(obj) == LIST;
 
 	if (!isList)
-		return isList;
+		return NUMOBJ(isList);
 
 	int isNull = GETLIST(obj) == NULL;
 
-	return isNull;
+	return NUMOBJ(isNull);
 }
 
-objFunc null_ = null_func;
+oneArgFunc null_ = null_func;
 
-/* primitive list functions */
+/* primitive list functions 
+(not to be confused with the list 
+macros found in objects.h!) */
 
-/* need to add another PRIM type to make these into 
-	primitives (a pain in the ass) */
+Obj car(Obj obj) {
+	return GETLIST(obj)->car;
+}
 
-// obj cons_func(Obj car, Obj cdr) {
-// 	List* list;
+Obj cdr(Obj obj) {
+	return LISTOBJ(GETLIST(obj)->cdr);
+}
 
-// 	if (GETTAG(obj) != LIST)
-// 		list = NULL;
-// 	else
-// 		list = CDR(GETLIST(cdr));
-
-// 	return LISTOBJ(makeList(car, list));
-// }
-
-// obj car_func(Obj obj) {
-// 	if (GETTAG(obj) != LIST)
-// 		return DUMMYOBJ;
-// 	else
-// 		return CAR(GETLIST(obj));
-// }
-
-// obj cdr_func(Obj obj) {
-// 	if (GETTAG(obj) != LIST)
-// 		return DUMMYOBJ;
-// 	else
-// 		return LISTOBJ(CDR(GETLIST(obj)));
-// }
+// second object MUST BE list
+Obj cons(Obj car, Obj cdr) {
+	return LISTOBJ(makeList(car, GETLIST(cdr)));
+}
 
 /* primitive arithmetic */
 
-int add_func(int a, int b) {
-	return a + b;
+Obj add_func(Obj a, Obj b) {
+	return NUMOBJ(GETNUM(a) + GETNUM(b));
 }
 
-int sub_func(int a, int b) {
-	return a - b;
+Obj sub_func(Obj a, Obj b) {
+	return NUMOBJ(GETNUM(a) - GETNUM(b));
 }
 
-int mul_func(int a, int b) {
-	return a * b;
+Obj mul_func(Obj a, Obj b) {
+	return NUMOBJ(GETNUM(a) * GETNUM(b));
 }
 
-int div_func(int a, int b) {
-	return a / b; // floor division
+Obj div_func(Obj a, Obj b) { // floor division
+	return NUMOBJ(GETNUM(a) / GETNUM(b));
 }
 
-int eq_func(int a, int b) {
-	if (a == b)
-		return 1;
-	else
-		return 0;
+Obj eq_func(Obj a, Obj b) {
+	return NUMOBJ(GETNUM(a) == GETNUM(b));
 }
 
-intFunc add_ = add_func;
-intFunc sub_ = sub_func;
-intFunc mul_ = mul_func;
-intFunc div_ = div_func;
-intFunc eq_ = eq_func;
+twoArgFunc add_ = add_func;
+twoArgFunc sub_ = sub_func;
+twoArgFunc mul_ = mul_func;
+twoArgFunc div_ = div_func;
+twoArgFunc eq_ = eq_func;
