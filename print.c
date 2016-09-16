@@ -16,25 +16,15 @@ void print_info(char* main_label) {
 
 	return;
 }
-
-/* reset_stats here because print_stats 
-isn't called unless STATS is on, whereas
-print_final_val is called unconditionally */
  
 void print_final_val(void) {
-	if (LIB) {
-		reset_stats();
-		return;
-	}
+	if (LIB) return;
 	
 	NL;
 	printf("VALUE: ");
 	print_obj(val);
 	NL;NL;
 
-	if (!STATS)
-		reset_stats();
-	
 	// is this step needed?
 	if (STEP)
 		getchar();
@@ -77,16 +67,9 @@ void print_base_env(void) {
 }
 
 void print_unbound(void) {
-	reset_stats();
 	NL;NL;
 	printf("UNBOUND VARIABLE: \"%s\"!", 
 				GETNAME(expr));
-	NL;
-}
-
-void print_error(void) {
-	NL;
-	printf("ERROR! OOPS!");
 	NL;
 }
 

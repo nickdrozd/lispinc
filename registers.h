@@ -14,6 +14,7 @@
 
 #include "objects.h"
 #include "stack.h"
+#include "tally.h"
 
 void initialize(void);
 void initialize_registers(void);

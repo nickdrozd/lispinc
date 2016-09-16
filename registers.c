@@ -9,6 +9,7 @@ Obj unev;
 Obj env;
 
 void initialize(void) {
+	reset_stats();
 	initialize_registers();
 	initialize_stack();
 	return;

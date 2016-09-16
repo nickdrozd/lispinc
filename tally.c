@@ -31,8 +31,6 @@ void print_stats(void) {
 	// printf("Total frames traversed: %d", frames_traversed);NL;
 
 	printf("Total syntax checks: %d", form_check_count);NL;
-
-	reset_stats();
 }
 
 void reset_stats(void) {
