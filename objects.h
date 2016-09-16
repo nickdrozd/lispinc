@@ -124,6 +124,7 @@ union primFunc {
 struct Prim {
 	argCount count;
 	primFunc func;
+	char* name;
 };
 
 /* compiled functions */
@@ -219,11 +220,17 @@ struct Env {
 
 // Prim
 
-#define NILFUNC(X) MKPRIM(NIL, nil, X)
-#define ONEFUNC(X) MKPRIM(ONE, one, X)
-#define TWOFUNC(X) MKPRIM(TWO, two, X)
+#define NILFUNC(FUNC,NAME) MKPRIM(NIL, nil, FUNC, NAME)
+#define ONEFUNC(FUNC,NAME) MKPRIM(ONE, one, FUNC, NAME)
+#define TWOFUNC(FUNC,NAME) MKPRIM(TWO, two, FUNC, NAME)
 
-#define MKPRIM(COUNT,FUNCTYPE,FUNC) (Prim){.count = COUNT, .func = (primFunc){.FUNCTYPE = FUNC}}
+#define MKPRIM(COUNT,FUNCTYPE,FUNC,NAME) (Prim){ \
+		.count = COUNT, \
+		.func = (primFunc){.FUNCTYPE = FUNC}, \
+		.name = NAME }
+
+#define PRIMOBJ(X) MKOBJ(PRIM, prim, X)
+
 
 // Comp
 
@@ -253,8 +260,6 @@ struct Env {
 #define NUMOBJ(X) MKOBJ(NUM, num, X)
 #define NAMEOBJ(X) MKOBJ(NAME, name, X)
 #define LISTOBJ(X) MKOBJ(LIST, list, X)
-#define PRIMOBJ(X) MKOBJ(PRIM, prim, X)
-// #define COMPOBJ(X) MKOBJ(COMP, comp, (X)) // parentheses needed?
 #define ENVOBJ(X) MKOBJ(ENV, env, X)
 #define LABELOBJ(X) MKOBJ(LABEL, label, X)
 #define DUMMYOBJ MKOBJ(DUMMY, dummy, 0)
