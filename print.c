@@ -84,6 +84,12 @@ void print_unbound(void) {
 	NL;
 }
 
+void print_error(void) {
+	NL;
+	printf("ERROR! OOPS!");
+	NL;
+}
+
 /* info helpers */
 
 void print_register(Obj reg, char* name) {

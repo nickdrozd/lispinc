@@ -44,6 +44,7 @@ void print_registers(void);
 
 void print_base_env(void);
 void print_unbound(void);
+void print_error(void);
 
 void print_register(Obj reg, char* name);
 void print_label(Label label);
