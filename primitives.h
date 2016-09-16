@@ -19,4 +19,18 @@
 extern List* primitive_vars(void);
 extern List* primitive_vals(void);
 
+/* primtive functions declarations */
+
+twoArgFunc add_;
+twoArgFunc sub_;
+twoArgFunc mul_;
+twoArgFunc div_;
+twoArgFunc eq_;
+
+oneArgFunc null_;
+
+oneArgFunc car_;
+oneArgFunc cdr_;
+twoArgFunc cons_;
+
 #endif

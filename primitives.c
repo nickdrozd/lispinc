@@ -1,70 +1,90 @@
 #include "primitives.h"
 
+/* PRIMITIVE FUNCTION NAMES */
+
 /* primitive arithmetic functions */
 
-#define PRIM_NULL_NAME "null?"
+#define ADD_NAME "+"
+#define SUB_NAME "-"
+#define MUL_NAME "*"
+#define DIV_NAME "/"
+#define EQ_NAME "=" 
 
-#define PRIM_ADD_NAME "+"
-#define PRIM_SUB_NAME "-"
-#define PRIM_MUL_NAME "*"
-#define PRIM_DIV_NAME "/"
-#define PRIM_EQ_NAME "=" 
+/* primitive type-check functions */
 
-twoArgFunc add_;
-twoArgFunc sub_;
-twoArgFunc mul_;
-twoArgFunc div_;
-twoArgFunc eq_;
+#define NULL_NAME "null?"
 
-oneArgFunc null_;
+/* primitive list functions */
+
+#define CAR_NAME "car"
+#define CDR_NAME "cdr"
+#define CONS_NAME "cons"
+
+/* PRIMITIVE FUNCTIONS FRAMES */
 
 /* primitive names */
 
 List* primitive_vars(void) {
 
-	List* prim_arith_vars = 
-		makeList(NAMEOBJ(PRIM_ADD_NAME), 
-			makeList(NAMEOBJ(PRIM_SUB_NAME), 
-				makeList(NAMEOBJ(PRIM_MUL_NAME), 
-					makeList(NAMEOBJ(PRIM_DIV_NAME), 
-						makeList(NAMEOBJ(PRIM_EQ_NAME), NULL)))));
+	List* arith_vars = 
+		makeList(NAMEOBJ(ADD_NAME), 
+			makeList(NAMEOBJ(SUB_NAME), 
+				makeList(NAMEOBJ(MUL_NAME), 
+					makeList(NAMEOBJ(DIV_NAME), 
+						makeList(NAMEOBJ(EQ_NAME), NULL)))));
 
-	// List* vars = prim_arith_vars;
+	List* type_vars =
+		makeList(NAMEOBJ(NULL_NAME), 
+			arith_vars);
 
-	List* vars =
-		makeList(NAMEOBJ(PRIM_NULL_NAME), 
-			prim_arith_vars);
+	List* list_vars = 
+		makeList(NAMEOBJ(CAR_NAME),
+			makeList(NAMEOBJ(CDR_NAME),
+				makeList(NAMEOBJ(CONS_NAME), 
+					type_vars)));
 
-	return vars;
+	return list_vars;
 }
 
 /* primitive values */
 
 List* primitive_vals(void) {
+	/* these have to be declared inside a function
+	(something about initializing nonconstants) */
 
-	Prim addprim = TWOFUNC(add_, PRIM_ADD_NAME);
-	Prim subprim = TWOFUNC(sub_, PRIM_SUB_NAME);
-	Prim mulprim = TWOFUNC(mul_, PRIM_MUL_NAME);
-	Prim divprim = TWOFUNC(div_, PRIM_DIV_NAME);
-	Prim eqprim = TWOFUNC(eq_, PRIM_EQ_NAME);
+	Prim addprim = TWOFUNC(add_, ADD_NAME);
+	Prim subprim = TWOFUNC(sub_, SUB_NAME);
+	Prim mulprim = TWOFUNC(mul_, MUL_NAME);
+	Prim divprim = TWOFUNC(div_, DIV_NAME);
+	Prim eqprim = TWOFUNC(eq_, EQ_NAME);
 
-	Prim nullprim = ONEFUNC(null_, PRIM_NULL_NAME);
+	Prim nullprim = ONEFUNC(null_, NULL_NAME);
 
-	List* prim_arith_vals = 
+	Prim carprim = ONEFUNC(car_, CAR_NAME);
+	Prim cdrprim = ONEFUNC(cdr_, CDR_NAME);
+	Prim consprim = TWOFUNC(cons_, CONS_NAME);
+
+	List* arith_vals = 
 		makeList(PRIMOBJ(addprim), 
 			makeList(PRIMOBJ(subprim), 
 				makeList(PRIMOBJ(mulprim), 
 					makeList(PRIMOBJ(divprim), 
 						makeList(PRIMOBJ(eqprim), NULL)))));
 
-	// List* vals = prim_arith_vals;
-
-	List* vals = 
+	List* type_vals = 
 		makeList(PRIMOBJ(nullprim),
-			prim_arith_vals);
+			arith_vals);
 
-	return vals;
+	List* list_vals = 
+		makeList(PRIMOBJ(carprim),
+			makeList(PRIMOBJ(cdrprim),
+				makeList(PRIMOBJ(consprim),
+					type_vals)));
+
+	return list_vals;
 }
+
+/* PRIMITIVE FUNCTIONS DEFINED */
 
 /* primitive type-checking */
 
@@ -86,18 +106,48 @@ oneArgFunc null_ = null_func;
 (not to be confused with the list 
 macros found in objects.h!) */
 
-Obj car(Obj obj) {
-	return GETLIST(obj)->car;
+/* car and cdr both do simple error-checking */
+
+Obj car_func(Obj obj) {
+	int isList = GETTAG(obj) == LIST;
+	if (!isList) return DUMMYOBJ;
+
+	List* list = GETLIST(obj);
+
+	if (list == NULL)
+		return DUMMYOBJ;
+	else
+		return GETLIST(obj)->car;
 }
 
-Obj cdr(Obj obj) {
-	return LISTOBJ(GETLIST(obj)->cdr);
+Obj cdr_func(Obj obj) {
+	int isList = GETTAG(obj) == LIST;
+	if (!isList) return DUMMYOBJ;
+
+	List* list = GETLIST(obj);
+
+	if (list == NULL)
+		return DUMMYOBJ;
+	else
+		return LISTOBJ(GETLIST(obj)->cdr);
 }
 
-// second object MUST BE list
-Obj cons(Obj car, Obj cdr) {
-	return LISTOBJ(makeList(car, GETLIST(cdr)));
+/* second object MUST BE list. if it isn't 
+a list, it will be coerced to a one-item list */
+Obj cons_func(Obj car, Obj cdr) {
+	int isList = GETTAG(cdr) == LIST;
+
+	if (!isList) {
+		List* listcdr = makeList(cdr, NULL);
+		return LISTOBJ(makeList(car, listcdr));
+	}
+	else
+		return LISTOBJ(makeList(car, GETLIST(cdr)));
 }
+
+oneArgFunc car_ = car_func;
+oneArgFunc cdr_ = cdr_func;
+twoArgFunc cons_ = cons_func;
 
 /* primitive arithmetic */
 
