@@ -109,27 +109,34 @@ macros found in objects.h!) */
 /* car and cdr both do simple error-checking */
 
 Obj car_func(Obj obj) {
-	int isList = GETTAG(obj) == LIST;
-	if (!isList) return ERROROBJ;
+	if (!(GETTAG(obj) == LIST)) {
+		print_error_message(LIST);
+		return ERROROBJ;
+	}
 
 	List* list = GETLIST(obj);
 
-	if (list == NULL)
+	if (list == NULL) {
+		print_error_message(LIST);
 		return ERROROBJ;
+	}
 	else
-		return GETLIST(obj)->car;
+		return list->car;
 }
 
 Obj cdr_func(Obj obj) {
-	int isList = GETTAG(obj) == LIST;
-	if (!isList) return ERROROBJ;
+	if (!(GETTAG(obj) == LIST)) {
+		print_error_message(LIST);
+		return ERROROBJ;
+	}
 
 	List* list = GETLIST(obj);
 
+	// cdr of empty list is empty list
 	if (list == NULL)
-		return ERROROBJ;
+		return NULLOBJ;
 	else
-		return LISTOBJ(GETLIST(obj)->cdr);
+		return LISTOBJ(list->cdr);
 }
 
 /* second object MUST BE list. if it isn't 
@@ -153,22 +160,42 @@ twoArgFunc cons_ = cons_func;
 /* primitive arithmetic */
 
 Obj add_func(Obj a, Obj b) {
+	if (!are_both_nums(a,b)) {
+		print_error_message(NUM);
+		return ERROROBJ;
+	}
 	return NUMOBJ(GETNUM(a) + GETNUM(b));
 }
 
 Obj sub_func(Obj a, Obj b) {
+	if (!are_both_nums(a,b)) {
+		print_error_message(NUM);
+		return ERROROBJ;
+	}
 	return NUMOBJ(GETNUM(a) - GETNUM(b));
 }
 
 Obj mul_func(Obj a, Obj b) {
+	if (!are_both_nums(a,b)) {
+		print_error_message(NUM);
+		return ERROROBJ;
+	}
 	return NUMOBJ(GETNUM(a) * GETNUM(b));
 }
 
 Obj div_func(Obj a, Obj b) { // floor division
+	if (!are_both_nums(a,b)) {
+		print_error_message(NUM);
+		return ERROROBJ;
+	}
 	return NUMOBJ(GETNUM(a) / GETNUM(b));
 }
 
 Obj eq_func(Obj a, Obj b) {
+	if (!are_both_nums(a,b)) {
+		print_error_message(NUM);
+		return ERROROBJ;
+	}
 	return NUMOBJ(GETNUM(a) == GETNUM(b));
 }
 
@@ -177,3 +204,29 @@ twoArgFunc sub_ = sub_func;
 twoArgFunc mul_ = mul_func;
 twoArgFunc div_ = div_func;
 twoArgFunc eq_ = eq_func;
+
+/* error-checking */
+
+// error-checking helper
+int are_both_nums(Obj a, Obj b) {
+	return GETTAG(a) == NUM &&
+		GETTAG(b) == NUM;
+}
+
+void print_error_message(Tag tag) {
+	char* operation_type;
+
+	switch(tag) {
+		case NUM:
+			operation_type = "Arithmetic";
+			break;
+		case LIST:
+			operation_type = "List";
+			break;
+		default:
+			operation_type = "???";
+			break;
+	}
+
+	printf("%s operation error!\n", operation_type);
+}

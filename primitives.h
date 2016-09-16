@@ -34,4 +34,9 @@ oneArgFunc car_;
 oneArgFunc cdr_;
 twoArgFunc cons_;
 
+/* error checking */
+
+int are_both_nums(Obj a, Obj b);
+void print_error_message(Tag tag);
+
 #endif
