@@ -13,7 +13,7 @@ Env* makeBaseEnv(void) {
 	List* prim_vars = primitive_vars();
 	List* prim_vals = primitive_vals();
 
-	Frame* primitives = makeFrame(prim_vars, prim_vals);
+	Frame* primitives = zipFrame(prim_vars, prim_vals);
 
 	Env* env = makeEnv(primitives, NULL);
 
@@ -45,7 +45,7 @@ Obj extendEnv(Obj vars_obj, Obj vals_obj, Obj base_env_obj) {
 
 	Env* base_env = GETENV(base_env_obj);
 
-	Frame* frame = makeFrame(vars, vals);
+	Frame* frame = zipFrame(vars, vals);
 	Env* ext_env = makeEnv(frame, base_env);
 
 	// memory management
@@ -175,20 +175,19 @@ Env* makeEnv(Frame* frame, Env* enclosure) {
 	return env;
 }
 
-// zip-like
-Frame* makeFrame(List* vars, List* vals) {
+Frame* zipFrame(List* vars, List* vals) {
 	if (vars == NULL)
 		return NULL;
 
-	char* key = GETNAME(CAR(vars));
-	Obj val = CAR(vals);
+	char* key = GETNAME(vars->car);
+	Obj val = vals->car;
 
 	Frame* frame = malloc(sizeof(Frame));
 
 	frame->key = key;
 	frame->val = val;
 
-	frame->next = makeFrame(vars->cdr, vals->cdr);
+	frame->next = zipFrame(vars->cdr, vals->cdr);
 
 	return frame;
 }

@@ -97,7 +97,7 @@ void setVar(Obj var_obj, Obj val_obj, Obj env_obj);
 
 /* constructors */
 
-Frame* makeFrame(List* vars, List* vals);
+Frame* zipFrame(List* vars, List* vals);
 Env* makeEnv(Frame* frame, Env* enclosure);
 
 #endif
