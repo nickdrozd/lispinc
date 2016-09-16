@@ -10,6 +10,11 @@
 #define DIV_NAME "/"
 #define EQ_NAME "=" 
 
+#define ISZERO_NAME "zero?"
+#define ISONE_NAME "one?"
+#define ADDONE_NAME "add1"
+#define SUBONE_NAME "sub1"
+
 /* primitive type-check functions */
 
 #define NULL_NAME "null?"
@@ -24,29 +29,33 @@
 
 /* primitive names */
 
+#define NAMELIST(name,list) makeList(NAMEOBJ(name),list)
+
 List* primitive_vars(void) {
 
 	List* arith_vars = 
-		makeList(NAMEOBJ(ADD_NAME), 
-			makeList(NAMEOBJ(SUB_NAME), 
-				makeList(NAMEOBJ(MUL_NAME), 
-					makeList(NAMEOBJ(DIV_NAME), 
-						makeList(NAMEOBJ(EQ_NAME), NULL)))));
+		NAMELIST(ADD_NAME, NAMELIST(SUB_NAME, 
+			NAMELIST(MUL_NAME, NAMELIST(DIV_NAME, 
+				NAMELIST(EQ_NAME, NULL)))));
 
-	List* type_vars =
-		makeList(NAMEOBJ(NULL_NAME), 
-			arith_vars);
+	List* otherarith_vars = 
+		NAMELIST(ISZERO_NAME, NAMELIST(ISONE_NAME, 
+			NAMELIST(ADDONE_NAME, NAMELIST(SUBONE_NAME, 
+				arith_vars))));
+
+	List* type_vars = 
+		NAMELIST(NULL_NAME, otherarith_vars);
 
 	List* list_vars = 
-		makeList(NAMEOBJ(CAR_NAME),
-			makeList(NAMEOBJ(CDR_NAME),
-				makeList(NAMEOBJ(CONS_NAME), 
-					type_vars)));
+		NAMELIST(CAR_NAME, NAMELIST(CDR_NAME, 
+			NAMELIST(CONS_NAME, type_vars)));
 
 	return list_vars;
 }
 
 /* primitive values */
+
+#define PRIMLIST(prim,list) makeList(PRIMOBJ(prim), list)
 
 List* primitive_vals(void) {
 	/* these have to be declared inside a function
@@ -58,6 +67,11 @@ List* primitive_vals(void) {
 	Prim divprim = TWOFUNC(div_, DIV_NAME);
 	Prim eqprim = TWOFUNC(eq_, EQ_NAME);
 
+	Prim iszeroprim = ONEFUNC(iszero_, ISZERO_NAME);
+	Prim isoneprim = ONEFUNC(isone_, ISONE_NAME);
+	Prim addoneprim = ONEFUNC(addone_, ADDONE_NAME);
+	Prim suboneprim = ONEFUNC(subone_, SUBONE_NAME);
+
 	Prim nullprim = ONEFUNC(null_, NULL_NAME);
 
 	Prim carprim = ONEFUNC(car_, CAR_NAME);
@@ -65,15 +79,25 @@ List* primitive_vals(void) {
 	Prim consprim = TWOFUNC(cons_, CONS_NAME);
 
 	List* arith_vals = 
-		makeList(PRIMOBJ(addprim), 
-			makeList(PRIMOBJ(subprim), 
-				makeList(PRIMOBJ(mulprim), 
-					makeList(PRIMOBJ(divprim), 
-						makeList(PRIMOBJ(eqprim), NULL)))));
+		PRIMLIST(addprim, PRIMLIST(subprim,
+			PRIMLIST(mulprim, PRIMLIST(divprim, 
+				PRIMLIST(eqprim, NULL)))));
+
+	// List* arith_vals = 
+	// 	makeList(PRIMOBJ(addprim), 
+	// 		makeList(PRIMOBJ(subprim), 
+	// 			makeList(PRIMOBJ(mulprim), 
+	// 				makeList(PRIMOBJ(divprim), 
+	// 					makeList(PRIMOBJ(eqprim), NULL)))));
+
+	List* otherarith_vals = 
+		PRIMLIST(iszeroprim, PRIMLIST(isoneprim, 
+			PRIMLIST(addoneprim, PRIMLIST(suboneprim, 
+				arith_vals))));
 
 	List* type_vals = 
 		makeList(PRIMOBJ(nullprim),
-			arith_vals);
+			otherarith_vals);
 
 	List* list_vals = 
 		makeList(PRIMOBJ(carprim),
@@ -204,6 +228,29 @@ twoArgFunc sub_ = sub_func;
 twoArgFunc mul_ = mul_func;
 twoArgFunc div_ = div_func;
 twoArgFunc eq_ = eq_func;
+
+/* other arithmetic functions */
+
+Obj iszero_func(Obj a) {
+	return eq_func(a, ZEROOBJ);
+}
+
+Obj isone_func(Obj a) {
+	return eq_func(a, ONEOBJ);
+}
+
+Obj addone_func(Obj a) {
+	return add_func(a, ONEOBJ);
+}
+
+Obj subone_func(Obj a) {
+	return sub_func(a, ONEOBJ);
+}
+
+oneArgFunc iszero_ = iszero_func;
+oneArgFunc isone_ = isone_func;
+oneArgFunc addone_ = addone_func;
+oneArgFunc subone_ = subone_func;
 
 /* error-checking */
 

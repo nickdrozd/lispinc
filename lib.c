@@ -1,88 +1,37 @@
 #include "lib.h"
 
-/* list operations */
-
-#define list_count 5
-
-#define cons \
-	"("DEF_KEY" cons \
-		("LAMBDA_KEY" (x y) \
-			("LAMBDA_KEY" (s) \
-				(s x y))))"
-
-#define car \
-	"("DEF_KEY" car \
-		("LAMBDA_KEY" (p) \
-			(p ("LAMBDA_KEY" (x y) \
-					x))))"
-
-#define cdr \
-	"("DEF_KEY" cdr \
-		("LAMBDA_KEY" (p) \
-			(p ("LAMBDA_KEY" (x y) \
-					y))))"
-
-#define nil \
-	"("DEF_KEY" nil ("QUOTE_KEY" ()))"
-
-#define length \
-	"("DEF_KEY" length \
-		("LAMBDA_KEY" (s) \
-			("IF_KEY" (null? s) \
-				0 \
-				(add1 (length (cdr s))))))"
-
-/* arithmetic operations */
-
-#define arith_count 10
-
-#define zero_ \
-	"("DEF_KEY" zero? \
-		("LAMBDA_KEY" (n) \
-			(= n 0)))"
-
-#define add1 \
-	"("DEF_KEY" add1 \
-		("LAMBDA_KEY" (n) \
-			(+ n 1)))"
-
-#define sub1 \
-	"("DEF_KEY" sub1 \
-		("LAMBDA_KEY" (n) \
-			(- n 1)))"
-
 #define triangular \
-	"("DEF_KEY" triangular \
+	"("DEF_KEY" recursive_triangular_interpreted \
 		("LAMBDA_KEY" (n) \
 			("IF_KEY" (zero? n) \
 				0 \
-				(+ n (triangular (sub1 n))))))"
+				(+ n (recursive_triangular_interpreted (sub1 n))))))"
 
 #define tetrahedral \
-	"("DEF_KEY" tetrahedral \
+	"("DEF_KEY" recursive_tetrahedral_interpreted \
 		("LAMBDA_KEY" (n) \
 			("IF_KEY" (zero? n) \
 				0 \
-				(+ (triangular n) \
-					(tetrahedral (sub1 n))))))"
+				(+ (recursive_triangular_interpreted n) \
+					(recursive_tetrahedral_interpreted (sub1 n))))))"
 
 #define supertetrahedral \
-	"("DEF_KEY" supertetrahedral \
+	"("DEF_KEY" recursive_supertetrahedral_interpreted \
 		("LAMBDA_KEY" (n) \
 			("IF_KEY" (zero? n) \
 				0 \
-				(+ (tetrahedral n) \
-					(supertetrahedral (sub1 n))))))"
+				(+ (recursive_tetrahedral_interpreted n) \
+					(recursive_supertetrahedral_interpreted (sub1 n))))))"
 
 #define fact_rec \
-	"("DEF_KEY" recursive_factorial \
+	"("DEF_KEY" recursive_factorial_interpreted \
 		("LAMBDA_KEY" (n) \
 			("IF_KEY" (zero? n) \
 				1 \
-				(* n (recursive_factorial (sub1 n))))))"
+				(* n (recursive_factorial_interpreted (sub1 n))))))"
 
 #define fact_iter \
-	"("DEF_KEY" iterative_factorial \
+	"("DEF_KEY" iterative_factorial_interpreted \
 		("LAMBDA_KEY" (n) \
 			("DEF_KEY" loop \
 				("LAMBDA_KEY" (count total) \
@@ -93,16 +42,16 @@
 			(loop n 1)))"
 
 #define fib_rec \
-	"("DEF_KEY" recursive_fibonacci \
+	"("DEF_KEY" recursive_fibonacci_interpreted \
 		("LAMBDA_KEY" (n) \
-			("IF_KEY" (or (= n 0) \
-					(= n 1)) \
+			("IF_KEY" (or (zero? n) \
+					(one? n)) \
 				n \
-				(+ (recursive_fibonacci (- n 1)) \
-					(recursive_fibonacci (- n 2))))))"
+				(+ (recursive_fibonacci_interpreted (- n 1)) \
+					(recursive_fibonacci_interpreted (- n 2))))))"
 
 #define fib_iter \
-	"("DEF_KEY" iterative_fibonacci \
+	"("DEF_KEY" iterative_fibonacci_interpreted \
 		("LAMBDA_KEY" (n) \
 			("DEF_KEY" loop \
 				("LAMBDA_KEY" (count a b) \
@@ -116,28 +65,20 @@
 /* newlines are needed because of some quirk in the
 	parsing process (see read.c and parse.c) */
 
-char* library[] = {cons"\n",
-					 car"\n", 
-					 cdr"\n", 
-					 nil"\n", 
-					 length"\n",
-					 
-					 zero_"\n",
-					 add1"\n", 
-					 sub1"\n", 
-					 triangular"\n", 
-					 tetrahedral"\n", 
-					 supertetrahedral"\n", 
-					 fact_rec"\n", 
-					 fact_iter"\n",
-					 fib_rec"\n",
-					 fib_iter"\n",
-					};
+char* library[] = {
+	 triangular"\n", 
+	 tetrahedral"\n", 
+	 supertetrahedral"\n", 
+	 fact_rec"\n", 
+	 fact_iter"\n",
+	 fib_rec"\n",
+	 fib_iter"\n",
+	};
 
 /* lib_len should match the length of library
 	(this has to be handled manually?) */
 
-int lib_len = list_count + arith_count;
+int lib_len = 7;
 
 
 /* library loading */

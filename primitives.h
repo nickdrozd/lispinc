@@ -20,13 +20,18 @@
 extern List* primitive_vars(void);
 extern List* primitive_vals(void);
 
-/* primtive functions declarations */
+/* primtive function declarations */
 
 twoArgFunc add_;
 twoArgFunc sub_;
 twoArgFunc mul_;
 twoArgFunc div_;
 twoArgFunc eq_;
+
+oneArgFunc iszero_;
+oneArgFunc isone_;
+oneArgFunc addone_;
+oneArgFunc subone_;
 
 oneArgFunc null_;
 
