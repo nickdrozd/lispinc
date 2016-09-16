@@ -63,7 +63,7 @@
 #ifndef OBJECTS_GUARD
 #define OBJECTS_GUARD
 
-#include "comp_code.h"
+// #include "comp_code.h"
 
 /* typedefs */
 
@@ -255,8 +255,12 @@ struct Env {
 #define ANDOBJ NAMEOBJ(AND_KEY)
 #define OROBJ NAMEOBJ(OR_KEY)
 
+#define ZEROOBJ NUMOBJ(0)
+#define ONEOBJ NUMOBJ(1)
+
 #define TRUEOBJ NUMOBJ(1)
 #define FALSEOBJ NUMOBJ(0)
+		
 #define NULLOBJ LISTOBJ(NULL)
 
 #define NUMOBJ(X) MKOBJ(NUM, num, X)
