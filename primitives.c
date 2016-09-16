@@ -110,24 +110,24 @@ macros found in objects.h!) */
 
 Obj car_func(Obj obj) {
 	int isList = GETTAG(obj) == LIST;
-	if (!isList) return DUMMYOBJ;
+	if (!isList) return ERROROBJ;
 
 	List* list = GETLIST(obj);
 
 	if (list == NULL)
-		return DUMMYOBJ;
+		return ERROROBJ;
 	else
 		return GETLIST(obj)->car;
 }
 
 Obj cdr_func(Obj obj) {
 	int isList = GETTAG(obj) == LIST;
-	if (!isList) return DUMMYOBJ;
+	if (!isList) return ERROROBJ;
 
 	List* list = GETLIST(obj);
 
 	if (list == NULL)
-		return DUMMYOBJ;
+		return ERROROBJ;
 	else
 		return LISTOBJ(GETLIST(obj)->cdr);
 }
