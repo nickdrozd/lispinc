@@ -8,12 +8,14 @@
 #define SUB_NAME "-"
 #define MUL_NAME "*"
 #define DIV_NAME "/"
-#define EQ_NAME "=" 
-
-#define ISZERO_NAME "zero?"
-#define ISONE_NAME "one?"
 #define ADDONE_NAME "add1"
 #define SUBONE_NAME "sub1"
+
+#define EQ_NAME "=" 
+#define LT_NAME "<"
+#define GT_NAME ">"
+#define ISZERO_NAME "zero?"
+#define ISONE_NAME "one?"
 
 /* primitive type-check functions */
 
@@ -65,14 +67,14 @@ List* primitive_vals(void) {
 	Prim subprim = TWOFUNC(sub_, SUB_NAME);
 	Prim mulprim = TWOFUNC(mul_, MUL_NAME);
 	Prim divprim = TWOFUNC(div_, DIV_NAME);
-	Prim eqprim = TWOFUNC(eq_, EQ_NAME);
-
-	Prim iszeroprim = ONEFUNC(iszero_, ISZERO_NAME);
-	Prim isoneprim = ONEFUNC(isone_, ISONE_NAME);
 	Prim addoneprim = ONEFUNC(addone_, ADDONE_NAME);
 	Prim suboneprim = ONEFUNC(subone_, SUBONE_NAME);
 
+	Prim eqprim = TWOFUNC(eq_, EQ_NAME);
+	Prim iszeroprim = ONEFUNC(iszero_, ISZERO_NAME);
+	Prim isoneprim = ONEFUNC(isone_, ISONE_NAME);
 	Prim nullprim = ONEFUNC(null_, NULL_NAME);
+
 
 	Prim carprim = ONEFUNC(car_, CAR_NAME);
 	Prim cdrprim = ONEFUNC(cdr_, CDR_NAME);
@@ -114,14 +116,13 @@ List* primitive_vals(void) {
 
 // null? returns false for non-list objects
 Obj null_func(Obj obj) {
-	int isList = GETTAG(obj) == LIST;
+	bool isList = GETTAG(obj) == LIST;
 
-	if (!isList)
-		return NUMOBJ(isList);
+	if (!isList) return FALSEOBJ;
 
-	int isNull = GETLIST(obj) == NULL;
+	bool isNull = GETLIST(obj) == NULL;
 
-	return NUMOBJ(isNull);
+	return BOOLOBJ(isNull);
 }
 
 oneArgFunc null_ = null_func;
@@ -215,21 +216,47 @@ Obj div_func(Obj a, Obj b) { // floor division
 	return NUMOBJ(GETNUM(a) / GETNUM(b));
 }
 
-Obj eq_func(Obj a, Obj b) {
-	if (!are_both_nums(a,b)) {
-		print_error_message(NUM);
-		return ERROROBJ;
-	}
-	return NUMOBJ(GETNUM(a) == GETNUM(b));
+Obj addone_func(Obj a) {
+	return add_func(a, ONEOBJ);
+}
+
+Obj subone_func(Obj a) {
+	return sub_func(a, ONEOBJ);
 }
 
 twoArgFunc add_ = add_func;
 twoArgFunc sub_ = sub_func;
 twoArgFunc mul_ = mul_func;
 twoArgFunc div_ = div_func;
-twoArgFunc eq_ = eq_func;
+oneArgFunc addone_ = addone_func;
+oneArgFunc subone_ = subone_func;
 
-/* other arithmetic functions */
+
+/* boolean functions */
+
+Obj eq_func(Obj a, Obj b) {
+	if (!are_both_nums(a,b)) {
+		print_error_message(NUM);
+		return ERROROBJ;
+	}
+	return BOOLOBJ(GETNUM(a) == GETNUM(b));
+}
+
+Obj lt_func(Obj a, Obj b) {
+	if (!are_both_nums(a,b)) {
+		print_error_message(NUM);
+		return ERROROBJ;
+	}
+	return BOOLOBJ(GETNUM(a) < GETNUM(b));
+}
+
+Obj gt_func(Obj a, Obj b) {
+	if (!are_both_nums(a,b)) {
+		print_error_message(NUM);
+		return ERROROBJ;
+	}
+	return BOOLOBJ(GETNUM(a) > GETNUM(b));
+}
 
 Obj iszero_func(Obj a) {
 	return eq_func(a, ZEROOBJ);
@@ -239,25 +266,18 @@ Obj isone_func(Obj a) {
 	return eq_func(a, ONEOBJ);
 }
 
-Obj addone_func(Obj a) {
-	return add_func(a, ONEOBJ);
-}
-
-Obj subone_func(Obj a) {
-	return sub_func(a, ONEOBJ);
-}
-
+twoArgFunc eq_ = eq_func;
+twoArgFunc lt_ = lt_func;
+twoArgFunc gt_ = gt_func;
 oneArgFunc iszero_ = iszero_func;
 oneArgFunc isone_ = isone_func;
-oneArgFunc addone_ = addone_func;
-oneArgFunc subone_ = subone_func;
+
 
 /* error-checking */
 
 // error-checking helper
-int are_both_nums(Obj a, Obj b) {
-	return GETTAG(a) == NUM &&
-		GETTAG(b) == NUM;
+bool are_both_nums(Obj a, Obj b) {
+	return isNum(a) && isNum(b);
 }
 
 void print_error_message(Tag tag) {

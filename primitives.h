@@ -14,8 +14,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include "objects.h"
+#include "llh.h"
 
 extern List* primitive_vars(void);
 extern List* primitive_vals(void);
@@ -26,12 +28,14 @@ twoArgFunc add_;
 twoArgFunc sub_;
 twoArgFunc mul_;
 twoArgFunc div_;
-twoArgFunc eq_;
-
-oneArgFunc iszero_;
-oneArgFunc isone_;
 oneArgFunc addone_;
 oneArgFunc subone_;
+
+twoArgFunc eq_;
+twoArgFunc lt_;
+twoArgFunc gt_;
+oneArgFunc iszero_;
+oneArgFunc isone_;
 
 oneArgFunc null_;
 
@@ -41,7 +45,7 @@ twoArgFunc cons_;
 
 /* error checking */
 
-int are_both_nums(Obj a, Obj b);
+bool are_both_nums(Obj a, Obj b);
 void print_error_message(Tag tag);
 
 #endif
