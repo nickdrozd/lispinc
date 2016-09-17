@@ -22,13 +22,13 @@
 #define arith_len 6
 
 twoArgFunc add_;
-#define addprim TWOFUNC(add_, "+")
+#define addprim TWOFUNC(add_, "__+__")
 
 twoArgFunc sub_;
 #define subprim TWOFUNC(sub_, "-")
 
 twoArgFunc mul_;
-#define mulprim TWOFUNC(mul_, "*")
+#define mulprim TWOFUNC(mul_, "__*__")
 
 twoArgFunc div_;
 #define divprim TWOFUNC(div_, "/")
@@ -43,7 +43,7 @@ oneArgFunc subone_;
 #define bool_len 6
 
 twoArgFunc eq_;
-#define eqprim TWOFUNC(eq_, "=")
+#define eqprim TWOFUNC(eq_, "__=__")
 
 twoArgFunc lt_;
 #define ltprim TWOFUNC(lt_, "<")
