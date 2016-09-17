@@ -43,7 +43,7 @@ oneArgFunc subone_;
 #define bool_len 6
 
 twoArgFunc eq_;
-#define eqprim TWOFUNC(eq_, "__=__")
+#define eqprim TWOFUNC(eq_, "=")
 
 twoArgFunc lt_;
 #define ltprim TWOFUNC(lt_, "<")
