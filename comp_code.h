@@ -640,11 +640,11 @@ restore(env); \
 restore(cont); \
 if (isTrue(val)) goto TRUE_BRANCH_142; \
 FALSE_BRANCH_143: print_info("FALSE_BRANCH_143"); \
-func = lookup(NAMEOBJ("__+__"), env); \
+func = lookup(NAMEOBJ("__*__"), env); \
 save(cont); \
 save(func); \
 save(env); \
-func = lookup(NAMEOBJ("recursive_triangular_compiled"), env); \
+func = lookup(NAMEOBJ("recursive_factorial_compiled"), env); \
 save(func); \
 func = lookup(NAMEOBJ("sub1"), env); \
 val = lookup(NAMEOBJ("n"), env); \
@@ -696,275 +696,273 @@ val = applyPrimitive(func, arglist); \
 goto CONTINUE; \
 AFTER_CALL_160: print_info("AFTER_CALL_160"); \
 TRUE_BRANCH_142: print_info("TRUE_BRANCH_142"); \
-val = NUMOBJ(0); \
+val = NUMOBJ(1); \
 goto CONTINUE; \
 AFTER_IF_144: print_info("AFTER_IF_144"); \
 AFTER_LAMBDA_141: print_info("AFTER_LAMBDA_141"); \
-defineVar(NAMEOBJ("recursive_triangular_compiled"), val, env); \
+defineVar(NAMEOBJ("recursive_factorial_compiled"), val, env); \
 val = COMPOBJ(_ENTRY_161, env); \
 goto AFTER_LAMBDA_162; \
 ENTRY_161: print_info("ENTRY_161"); \
 env = COMPENVOBJ(func); \
 unev = parse("(n)\n"); \
 env = extendEnv(unev, arglist, env); \
+val = COMPOBJ(_ENTRY_163, env); \
+goto AFTER_LAMBDA_164; \
+ENTRY_163: print_info("ENTRY_163"); \
+env = COMPENVOBJ(func); \
+unev = parse("(count total)\n"); \
+env = extendEnv(unev, arglist, env); \
 save(cont); \
 save(env); \
 func = lookup(NAMEOBJ("zero?"), env); \
-val = lookup(NAMEOBJ("n"), env); \
+val = lookup(NAMEOBJ("count"), env); \
 arglist = CONS(val, NULLOBJ); \
-if (isPrimitive(func)) goto PRIMITIVE_166; \
-if (isCompound(func)) goto COMPOUND_167; \
-COMPILED_168: print_info("COMPILED_168"); \
-cont = LABELOBJ(_AFTER_CALL_169); \
+if (isPrimitive(func)) goto PRIMITIVE_168; \
+if (isCompound(func)) goto COMPOUND_169; \
+COMPILED_170: print_info("COMPILED_170"); \
+cont = LABELOBJ(_AFTER_CALL_171); \
 val = COMPLABOBJ(func); \
 goto COMP_LABEL; \
-COMPOUND_167: print_info("COMPOUND_167"); \
-cont = LABELOBJ(_AFTER_CALL_169); \
+COMPOUND_169: print_info("COMPOUND_169"); \
+cont = LABELOBJ(_AFTER_CALL_171); \
 save(cont); \
 goto APPLY_COMPOUND; \
-PRIMITIVE_166: print_info("PRIMITIVE_166"); \
+PRIMITIVE_168: print_info("PRIMITIVE_168"); \
 val = applyPrimitive(func, arglist); \
-AFTER_CALL_169: print_info("AFTER_CALL_169"); \
+AFTER_CALL_171: print_info("AFTER_CALL_171"); \
 restore(env); \
 restore(cont); \
-if (isTrue(val)) goto TRUE_BRANCH_163; \
-FALSE_BRANCH_164: print_info("FALSE_BRANCH_164"); \
-func = lookup(NAMEOBJ("__+__"), env); \
+if (isTrue(val)) goto TRUE_BRANCH_165; \
+FALSE_BRANCH_166: print_info("FALSE_BRANCH_166"); \
+func = lookup(NAMEOBJ("loop"), env); \
 save(cont); \
 save(func); \
 save(env); \
-func = lookup(NAMEOBJ("recursive_tetrahedral_compiled"), env); \
-save(func); \
-func = lookup(NAMEOBJ("sub1"), env); \
-val = lookup(NAMEOBJ("n"), env); \
+func = lookup(NAMEOBJ("__*__"), env); \
+val = lookup(NAMEOBJ("count"), env); \
 arglist = CONS(val, NULLOBJ); \
-if (isPrimitive(func)) goto PRIMITIVE_174; \
-if (isCompound(func)) goto COMPOUND_175; \
-COMPILED_176: print_info("COMPILED_176"); \
-cont = LABELOBJ(_AFTER_CALL_177); \
+val = lookup(NAMEOBJ("total"), env); \
+arglist = CONS(val, arglist); \
+if (isPrimitive(func)) goto PRIMITIVE_176; \
+if (isCompound(func)) goto COMPOUND_177; \
+COMPILED_178: print_info("COMPILED_178"); \
+cont = LABELOBJ(_AFTER_CALL_179); \
 val = COMPLABOBJ(func); \
 goto COMP_LABEL; \
-COMPOUND_175: print_info("COMPOUND_175"); \
-cont = LABELOBJ(_AFTER_CALL_177); \
+COMPOUND_177: print_info("COMPOUND_177"); \
+cont = LABELOBJ(_AFTER_CALL_179); \
 save(cont); \
 goto APPLY_COMPOUND; \
-PRIMITIVE_174: print_info("PRIMITIVE_174"); \
+PRIMITIVE_176: print_info("PRIMITIVE_176"); \
 val = applyPrimitive(func, arglist); \
-AFTER_CALL_177: print_info("AFTER_CALL_177"); \
-arglist = CONS(val, NULLOBJ); \
-restore(func); \
-if (isPrimitive(func)) goto PRIMITIVE_178; \
-if (isCompound(func)) goto COMPOUND_179; \
-COMPILED_180: print_info("COMPILED_180"); \
-cont = LABELOBJ(_AFTER_CALL_181); \
-val = COMPLABOBJ(func); \
-goto COMP_LABEL; \
-COMPOUND_179: print_info("COMPOUND_179"); \
-cont = LABELOBJ(_AFTER_CALL_181); \
-save(cont); \
-goto APPLY_COMPOUND; \
-PRIMITIVE_178: print_info("PRIMITIVE_178"); \
-val = applyPrimitive(func, arglist); \
-AFTER_CALL_181: print_info("AFTER_CALL_181"); \
+AFTER_CALL_179: print_info("AFTER_CALL_179"); \
 arglist = CONS(val, NULLOBJ); \
 restore(env); \
 save(arglist); \
-func = lookup(NAMEOBJ("recursive_triangular_compiled"), env); \
-val = lookup(NAMEOBJ("n"), env); \
+func = lookup(NAMEOBJ("sub1"), env); \
+val = lookup(NAMEOBJ("count"), env); \
 arglist = CONS(val, NULLOBJ); \
-if (isPrimitive(func)) goto PRIMITIVE_170; \
-if (isCompound(func)) goto COMPOUND_171; \
-COMPILED_172: print_info("COMPILED_172"); \
-cont = LABELOBJ(_AFTER_CALL_173); \
+if (isPrimitive(func)) goto PRIMITIVE_172; \
+if (isCompound(func)) goto COMPOUND_173; \
+COMPILED_174: print_info("COMPILED_174"); \
+cont = LABELOBJ(_AFTER_CALL_175); \
 val = COMPLABOBJ(func); \
 goto COMP_LABEL; \
-COMPOUND_171: print_info("COMPOUND_171"); \
-cont = LABELOBJ(_AFTER_CALL_173); \
+COMPOUND_173: print_info("COMPOUND_173"); \
+cont = LABELOBJ(_AFTER_CALL_175); \
 save(cont); \
 goto APPLY_COMPOUND; \
-PRIMITIVE_170: print_info("PRIMITIVE_170"); \
+PRIMITIVE_172: print_info("PRIMITIVE_172"); \
 val = applyPrimitive(func, arglist); \
-AFTER_CALL_173: print_info("AFTER_CALL_173"); \
+AFTER_CALL_175: print_info("AFTER_CALL_175"); \
 restore(arglist); \
 arglist = CONS(val, arglist); \
 restore(func); \
 restore(cont); \
-if (isPrimitive(func)) goto PRIMITIVE_182; \
-if (isCompound(func)) goto COMPOUND_183; \
-COMPILED_184: print_info("COMPILED_184"); \
+if (isPrimitive(func)) goto PRIMITIVE_180; \
+if (isCompound(func)) goto COMPOUND_181; \
+COMPILED_182: print_info("COMPILED_182"); \
 val = COMPLABOBJ(func); \
 goto COMP_LABEL; \
-COMPOUND_183: print_info("COMPOUND_183"); \
+COMPOUND_181: print_info("COMPOUND_181"); \
 save(cont); \
 goto APPLY_COMPOUND; \
-PRIMITIVE_182: print_info("PRIMITIVE_182"); \
+PRIMITIVE_180: print_info("PRIMITIVE_180"); \
 val = applyPrimitive(func, arglist); \
 goto CONTINUE; \
-AFTER_CALL_185: print_info("AFTER_CALL_185"); \
-TRUE_BRANCH_163: print_info("TRUE_BRANCH_163"); \
-val = NUMOBJ(0); \
+AFTER_CALL_183: print_info("AFTER_CALL_183"); \
+TRUE_BRANCH_165: print_info("TRUE_BRANCH_165"); \
+val = lookup(NAMEOBJ("total"), env); \
 goto CONTINUE; \
-AFTER_IF_165: print_info("AFTER_IF_165"); \
+AFTER_IF_167: print_info("AFTER_IF_167"); \
+AFTER_LAMBDA_164: print_info("AFTER_LAMBDA_164"); \
+defineVar(NAMEOBJ("loop"), val, env); \
+func = lookup(NAMEOBJ("loop"), env); \
+val = NUMOBJ(1); \
+arglist = CONS(val, NULLOBJ); \
+val = lookup(NAMEOBJ("n"), env); \
+arglist = CONS(val, arglist); \
+if (isPrimitive(func)) goto PRIMITIVE_184; \
+if (isCompound(func)) goto COMPOUND_185; \
+COMPILED_186: print_info("COMPILED_186"); \
+val = COMPLABOBJ(func); \
+goto COMP_LABEL; \
+COMPOUND_185: print_info("COMPOUND_185"); \
+save(cont); \
+goto APPLY_COMPOUND; \
+PRIMITIVE_184: print_info("PRIMITIVE_184"); \
+val = applyPrimitive(func, arglist); \
+goto CONTINUE; \
+AFTER_CALL_187: print_info("AFTER_CALL_187"); \
 AFTER_LAMBDA_162: print_info("AFTER_LAMBDA_162"); \
-defineVar(NAMEOBJ("recursive_tetrahedral_compiled"), val, env); \
-val = COMPOBJ(_ENTRY_186, env); \
-goto AFTER_LAMBDA_187; \
-ENTRY_186: print_info("ENTRY_186"); \
+defineVar(NAMEOBJ("iterative_factorial_compiled"), val, env); \
+val = COMPOBJ(_ENTRY_188, env); \
+goto AFTER_LAMBDA_189; \
+ENTRY_188: print_info("ENTRY_188"); \
 env = COMPENVOBJ(func); \
 unev = parse("(n)\n"); \
 env = extendEnv(unev, arglist, env); \
 save(cont); \
 save(env); \
-func = lookup(NAMEOBJ("zero?"), env); \
-val = lookup(NAMEOBJ("n"), env); \
+func = lookup(NAMEOBJ("<"), env); \
+val = NUMOBJ(2); \
 arglist = CONS(val, NULLOBJ); \
-if (isPrimitive(func)) goto PRIMITIVE_191; \
-if (isCompound(func)) goto COMPOUND_192; \
-COMPILED_193: print_info("COMPILED_193"); \
-cont = LABELOBJ(_AFTER_CALL_194); \
+val = lookup(NAMEOBJ("n"), env); \
+arglist = CONS(val, arglist); \
+if (isPrimitive(func)) goto PRIMITIVE_193; \
+if (isCompound(func)) goto COMPOUND_194; \
+COMPILED_195: print_info("COMPILED_195"); \
+cont = LABELOBJ(_AFTER_CALL_196); \
 val = COMPLABOBJ(func); \
 goto COMP_LABEL; \
-COMPOUND_192: print_info("COMPOUND_192"); \
-cont = LABELOBJ(_AFTER_CALL_194); \
+COMPOUND_194: print_info("COMPOUND_194"); \
+cont = LABELOBJ(_AFTER_CALL_196); \
 save(cont); \
 goto APPLY_COMPOUND; \
-PRIMITIVE_191: print_info("PRIMITIVE_191"); \
+PRIMITIVE_193: print_info("PRIMITIVE_193"); \
 val = applyPrimitive(func, arglist); \
-AFTER_CALL_194: print_info("AFTER_CALL_194"); \
+AFTER_CALL_196: print_info("AFTER_CALL_196"); \
 restore(env); \
 restore(cont); \
-if (isTrue(val)) goto TRUE_BRANCH_188; \
-FALSE_BRANCH_189: print_info("FALSE_BRANCH_189"); \
+if (isTrue(val)) goto TRUE_BRANCH_190; \
+FALSE_BRANCH_191: print_info("FALSE_BRANCH_191"); \
 func = lookup(NAMEOBJ("__+__"), env); \
 save(cont); \
 save(func); \
 save(env); \
-func = lookup(NAMEOBJ("recursive_supertetrahedral_compiled"), env); \
+func = lookup(NAMEOBJ("recursive_fibonacci_compiled"), env); \
 save(func); \
-func = lookup(NAMEOBJ("sub1"), env); \
-val = lookup(NAMEOBJ("n"), env); \
+func = lookup(NAMEOBJ("-"), env); \
+val = NUMOBJ(2); \
 arglist = CONS(val, NULLOBJ); \
-if (isPrimitive(func)) goto PRIMITIVE_199; \
-if (isCompound(func)) goto COMPOUND_200; \
-COMPILED_201: print_info("COMPILED_201"); \
-cont = LABELOBJ(_AFTER_CALL_202); \
+val = lookup(NAMEOBJ("n"), env); \
+arglist = CONS(val, arglist); \
+if (isPrimitive(func)) goto PRIMITIVE_205; \
+if (isCompound(func)) goto COMPOUND_206; \
+COMPILED_207: print_info("COMPILED_207"); \
+cont = LABELOBJ(_AFTER_CALL_208); \
 val = COMPLABOBJ(func); \
 goto COMP_LABEL; \
-COMPOUND_200: print_info("COMPOUND_200"); \
-cont = LABELOBJ(_AFTER_CALL_202); \
+COMPOUND_206: print_info("COMPOUND_206"); \
+cont = LABELOBJ(_AFTER_CALL_208); \
 save(cont); \
 goto APPLY_COMPOUND; \
-PRIMITIVE_199: print_info("PRIMITIVE_199"); \
+PRIMITIVE_205: print_info("PRIMITIVE_205"); \
 val = applyPrimitive(func, arglist); \
-AFTER_CALL_202: print_info("AFTER_CALL_202"); \
+AFTER_CALL_208: print_info("AFTER_CALL_208"); \
 arglist = CONS(val, NULLOBJ); \
 restore(func); \
-if (isPrimitive(func)) goto PRIMITIVE_203; \
-if (isCompound(func)) goto COMPOUND_204; \
-COMPILED_205: print_info("COMPILED_205"); \
-cont = LABELOBJ(_AFTER_CALL_206); \
+if (isPrimitive(func)) goto PRIMITIVE_209; \
+if (isCompound(func)) goto COMPOUND_210; \
+COMPILED_211: print_info("COMPILED_211"); \
+cont = LABELOBJ(_AFTER_CALL_212); \
 val = COMPLABOBJ(func); \
 goto COMP_LABEL; \
-COMPOUND_204: print_info("COMPOUND_204"); \
-cont = LABELOBJ(_AFTER_CALL_206); \
+COMPOUND_210: print_info("COMPOUND_210"); \
+cont = LABELOBJ(_AFTER_CALL_212); \
 save(cont); \
 goto APPLY_COMPOUND; \
-PRIMITIVE_203: print_info("PRIMITIVE_203"); \
+PRIMITIVE_209: print_info("PRIMITIVE_209"); \
 val = applyPrimitive(func, arglist); \
-AFTER_CALL_206: print_info("AFTER_CALL_206"); \
+AFTER_CALL_212: print_info("AFTER_CALL_212"); \
 arglist = CONS(val, NULLOBJ); \
 restore(env); \
 save(arglist); \
-func = lookup(NAMEOBJ("recursive_tetrahedral_compiled"), env); \
-val = lookup(NAMEOBJ("n"), env); \
+func = lookup(NAMEOBJ("recursive_fibonacci_compiled"), env); \
+save(func); \
+func = lookup(NAMEOBJ("-"), env); \
+val = NUMOBJ(1); \
 arglist = CONS(val, NULLOBJ); \
-if (isPrimitive(func)) goto PRIMITIVE_195; \
-if (isCompound(func)) goto COMPOUND_196; \
-COMPILED_197: print_info("COMPILED_197"); \
-cont = LABELOBJ(_AFTER_CALL_198); \
+val = lookup(NAMEOBJ("n"), env); \
+arglist = CONS(val, arglist); \
+if (isPrimitive(func)) goto PRIMITIVE_197; \
+if (isCompound(func)) goto COMPOUND_198; \
+COMPILED_199: print_info("COMPILED_199"); \
+cont = LABELOBJ(_AFTER_CALL_200); \
 val = COMPLABOBJ(func); \
 goto COMP_LABEL; \
-COMPOUND_196: print_info("COMPOUND_196"); \
-cont = LABELOBJ(_AFTER_CALL_198); \
+COMPOUND_198: print_info("COMPOUND_198"); \
+cont = LABELOBJ(_AFTER_CALL_200); \
 save(cont); \
 goto APPLY_COMPOUND; \
-PRIMITIVE_195: print_info("PRIMITIVE_195"); \
+PRIMITIVE_197: print_info("PRIMITIVE_197"); \
 val = applyPrimitive(func, arglist); \
-AFTER_CALL_198: print_info("AFTER_CALL_198"); \
+AFTER_CALL_200: print_info("AFTER_CALL_200"); \
+arglist = CONS(val, NULLOBJ); \
+restore(func); \
+if (isPrimitive(func)) goto PRIMITIVE_201; \
+if (isCompound(func)) goto COMPOUND_202; \
+COMPILED_203: print_info("COMPILED_203"); \
+cont = LABELOBJ(_AFTER_CALL_204); \
+val = COMPLABOBJ(func); \
+goto COMP_LABEL; \
+COMPOUND_202: print_info("COMPOUND_202"); \
+cont = LABELOBJ(_AFTER_CALL_204); \
+save(cont); \
+goto APPLY_COMPOUND; \
+PRIMITIVE_201: print_info("PRIMITIVE_201"); \
+val = applyPrimitive(func, arglist); \
+AFTER_CALL_204: print_info("AFTER_CALL_204"); \
 restore(arglist); \
 arglist = CONS(val, arglist); \
 restore(func); \
 restore(cont); \
-if (isPrimitive(func)) goto PRIMITIVE_207; \
-if (isCompound(func)) goto COMPOUND_208; \
-COMPILED_209: print_info("COMPILED_209"); \
+if (isPrimitive(func)) goto PRIMITIVE_213; \
+if (isCompound(func)) goto COMPOUND_214; \
+COMPILED_215: print_info("COMPILED_215"); \
 val = COMPLABOBJ(func); \
 goto COMP_LABEL; \
-COMPOUND_208: print_info("COMPOUND_208"); \
+COMPOUND_214: print_info("COMPOUND_214"); \
 save(cont); \
 goto APPLY_COMPOUND; \
-PRIMITIVE_207: print_info("PRIMITIVE_207"); \
+PRIMITIVE_213: print_info("PRIMITIVE_213"); \
 val = applyPrimitive(func, arglist); \
 goto CONTINUE; \
-AFTER_CALL_210: print_info("AFTER_CALL_210"); \
-TRUE_BRANCH_188: print_info("TRUE_BRANCH_188"); \
-val = NUMOBJ(0); \
+AFTER_CALL_216: print_info("AFTER_CALL_216"); \
+TRUE_BRANCH_190: print_info("TRUE_BRANCH_190"); \
+val = lookup(NAMEOBJ("n"), env); \
 goto CONTINUE; \
-AFTER_IF_190: print_info("AFTER_IF_190"); \
-AFTER_LAMBDA_187: print_info("AFTER_LAMBDA_187"); \
-defineVar(NAMEOBJ("recursive_supertetrahedral_compiled"), val, env); \
-val = COMPOBJ(_ENTRY_211, env); \
-goto AFTER_LAMBDA_212; \
-ENTRY_211: print_info("ENTRY_211"); \
+AFTER_IF_192: print_info("AFTER_IF_192"); \
+AFTER_LAMBDA_189: print_info("AFTER_LAMBDA_189"); \
+defineVar(NAMEOBJ("recursive_fibonacci_compiled"), val, env); \
+val = COMPOBJ(_ENTRY_217, env); \
+goto AFTER_LAMBDA_218; \
+ENTRY_217: print_info("ENTRY_217"); \
 env = COMPENVOBJ(func); \
 unev = parse("(n)\n"); \
+env = extendEnv(unev, arglist, env); \
+val = COMPOBJ(_ENTRY_219, env); \
+goto AFTER_LAMBDA_220; \
+ENTRY_219: print_info("ENTRY_219"); \
+env = COMPENVOBJ(func); \
+unev = parse("(count a b)\n"); \
 env = extendEnv(unev, arglist, env); \
 save(cont); \
 save(env); \
 func = lookup(NAMEOBJ("zero?"), env); \
-val = lookup(NAMEOBJ("n"), env); \
+val = lookup(NAMEOBJ("count"), env); \
 arglist = CONS(val, NULLOBJ); \
-if (isPrimitive(func)) goto PRIMITIVE_216; \
-if (isCompound(func)) goto COMPOUND_217; \
-COMPILED_218: print_info("COMPILED_218"); \
-cont = LABELOBJ(_AFTER_CALL_219); \
-val = COMPLABOBJ(func); \
-goto COMP_LABEL; \
-COMPOUND_217: print_info("COMPOUND_217"); \
-cont = LABELOBJ(_AFTER_CALL_219); \
-save(cont); \
-goto APPLY_COMPOUND; \
-PRIMITIVE_216: print_info("PRIMITIVE_216"); \
-val = applyPrimitive(func, arglist); \
-AFTER_CALL_219: print_info("AFTER_CALL_219"); \
-restore(env); \
-restore(cont); \
-if (isTrue(val)) goto TRUE_BRANCH_213; \
-FALSE_BRANCH_214: print_info("FALSE_BRANCH_214"); \
-func = lookup(NAMEOBJ("*"), env); \
-save(cont); \
-save(func); \
-save(env); \
-func = lookup(NAMEOBJ("recursive_factorial_compiled"), env); \
-save(func); \
-func = lookup(NAMEOBJ("sub1"), env); \
-val = lookup(NAMEOBJ("n"), env); \
-arglist = CONS(val, NULLOBJ); \
-if (isPrimitive(func)) goto PRIMITIVE_220; \
-if (isCompound(func)) goto COMPOUND_221; \
-COMPILED_222: print_info("COMPILED_222"); \
-cont = LABELOBJ(_AFTER_CALL_223); \
-val = COMPLABOBJ(func); \
-goto COMP_LABEL; \
-COMPOUND_221: print_info("COMPOUND_221"); \
-cont = LABELOBJ(_AFTER_CALL_223); \
-save(cont); \
-goto APPLY_COMPOUND; \
-PRIMITIVE_220: print_info("PRIMITIVE_220"); \
-val = applyPrimitive(func, arglist); \
-AFTER_CALL_223: print_info("AFTER_CALL_223"); \
-arglist = CONS(val, NULLOBJ); \
-restore(func); \
 if (isPrimitive(func)) goto PRIMITIVE_224; \
 if (isCompound(func)) goto COMPOUND_225; \
 COMPILED_226: print_info("COMPILED_226"); \
@@ -978,373 +976,74 @@ goto APPLY_COMPOUND; \
 PRIMITIVE_224: print_info("PRIMITIVE_224"); \
 val = applyPrimitive(func, arglist); \
 AFTER_CALL_227: print_info("AFTER_CALL_227"); \
+restore(env); \
+restore(cont); \
+if (isTrue(val)) goto TRUE_BRANCH_221; \
+FALSE_BRANCH_222: print_info("FALSE_BRANCH_222"); \
+func = lookup(NAMEOBJ("loop"), env); \
+save(cont); \
+save(func); \
+save(env); \
+func = lookup(NAMEOBJ("__+__"), env); \
+val = lookup(NAMEOBJ("b"), env); \
+arglist = CONS(val, NULLOBJ); \
+val = lookup(NAMEOBJ("a"), env); \
+arglist = CONS(val, arglist); \
+if (isPrimitive(func)) goto PRIMITIVE_232; \
+if (isCompound(func)) goto COMPOUND_233; \
+COMPILED_234: print_info("COMPILED_234"); \
+cont = LABELOBJ(_AFTER_CALL_235); \
+val = COMPLABOBJ(func); \
+goto COMP_LABEL; \
+COMPOUND_233: print_info("COMPOUND_233"); \
+cont = LABELOBJ(_AFTER_CALL_235); \
+save(cont); \
+goto APPLY_COMPOUND; \
+PRIMITIVE_232: print_info("PRIMITIVE_232"); \
+val = applyPrimitive(func, arglist); \
+AFTER_CALL_235: print_info("AFTER_CALL_235"); \
 arglist = CONS(val, NULLOBJ); \
 restore(env); \
-val = lookup(NAMEOBJ("n"), env); \
+val = lookup(NAMEOBJ("b"), env); \
 arglist = CONS(val, arglist); \
-restore(func); \
-restore(cont); \
+save(arglist); \
+func = lookup(NAMEOBJ("sub1"), env); \
+val = lookup(NAMEOBJ("count"), env); \
+arglist = CONS(val, NULLOBJ); \
 if (isPrimitive(func)) goto PRIMITIVE_228; \
 if (isCompound(func)) goto COMPOUND_229; \
 COMPILED_230: print_info("COMPILED_230"); \
+cont = LABELOBJ(_AFTER_CALL_231); \
 val = COMPLABOBJ(func); \
 goto COMP_LABEL; \
 COMPOUND_229: print_info("COMPOUND_229"); \
+cont = LABELOBJ(_AFTER_CALL_231); \
 save(cont); \
 goto APPLY_COMPOUND; \
 PRIMITIVE_228: print_info("PRIMITIVE_228"); \
 val = applyPrimitive(func, arglist); \
-goto CONTINUE; \
 AFTER_CALL_231: print_info("AFTER_CALL_231"); \
-TRUE_BRANCH_213: print_info("TRUE_BRANCH_213"); \
-val = NUMOBJ(1); \
-goto CONTINUE; \
-AFTER_IF_215: print_info("AFTER_IF_215"); \
-AFTER_LAMBDA_212: print_info("AFTER_LAMBDA_212"); \
-defineVar(NAMEOBJ("recursive_factorial_compiled"), val, env); \
-val = COMPOBJ(_ENTRY_232, env); \
-goto AFTER_LAMBDA_233; \
-ENTRY_232: print_info("ENTRY_232"); \
-env = COMPENVOBJ(func); \
-unev = parse("(n)\n"); \
-env = extendEnv(unev, arglist, env); \
-val = COMPOBJ(_ENTRY_234, env); \
-goto AFTER_LAMBDA_235; \
-ENTRY_234: print_info("ENTRY_234"); \
-env = COMPENVOBJ(func); \
-unev = parse("(count total)\n"); \
-env = extendEnv(unev, arglist, env); \
-save(cont); \
-save(env); \
-func = lookup(NAMEOBJ("zero?"), env); \
-val = lookup(NAMEOBJ("count"), env); \
-arglist = CONS(val, NULLOBJ); \
-if (isPrimitive(func)) goto PRIMITIVE_239; \
-if (isCompound(func)) goto COMPOUND_240; \
-COMPILED_241: print_info("COMPILED_241"); \
-cont = LABELOBJ(_AFTER_CALL_242); \
-val = COMPLABOBJ(func); \
-goto COMP_LABEL; \
-COMPOUND_240: print_info("COMPOUND_240"); \
-cont = LABELOBJ(_AFTER_CALL_242); \
-save(cont); \
-goto APPLY_COMPOUND; \
-PRIMITIVE_239: print_info("PRIMITIVE_239"); \
-val = applyPrimitive(func, arglist); \
-AFTER_CALL_242: print_info("AFTER_CALL_242"); \
-restore(env); \
-restore(cont); \
-if (isTrue(val)) goto TRUE_BRANCH_236; \
-FALSE_BRANCH_237: print_info("FALSE_BRANCH_237"); \
-func = lookup(NAMEOBJ("loop"), env); \
-save(cont); \
-save(func); \
-save(env); \
-func = lookup(NAMEOBJ("*"), env); \
-val = lookup(NAMEOBJ("count"), env); \
-arglist = CONS(val, NULLOBJ); \
-val = lookup(NAMEOBJ("total"), env); \
-arglist = CONS(val, arglist); \
-if (isPrimitive(func)) goto PRIMITIVE_247; \
-if (isCompound(func)) goto COMPOUND_248; \
-COMPILED_249: print_info("COMPILED_249"); \
-cont = LABELOBJ(_AFTER_CALL_250); \
-val = COMPLABOBJ(func); \
-goto COMP_LABEL; \
-COMPOUND_248: print_info("COMPOUND_248"); \
-cont = LABELOBJ(_AFTER_CALL_250); \
-save(cont); \
-goto APPLY_COMPOUND; \
-PRIMITIVE_247: print_info("PRIMITIVE_247"); \
-val = applyPrimitive(func, arglist); \
-AFTER_CALL_250: print_info("AFTER_CALL_250"); \
-arglist = CONS(val, NULLOBJ); \
-restore(env); \
-save(arglist); \
-func = lookup(NAMEOBJ("sub1"), env); \
-val = lookup(NAMEOBJ("count"), env); \
-arglist = CONS(val, NULLOBJ); \
-if (isPrimitive(func)) goto PRIMITIVE_243; \
-if (isCompound(func)) goto COMPOUND_244; \
-COMPILED_245: print_info("COMPILED_245"); \
-cont = LABELOBJ(_AFTER_CALL_246); \
-val = COMPLABOBJ(func); \
-goto COMP_LABEL; \
-COMPOUND_244: print_info("COMPOUND_244"); \
-cont = LABELOBJ(_AFTER_CALL_246); \
-save(cont); \
-goto APPLY_COMPOUND; \
-PRIMITIVE_243: print_info("PRIMITIVE_243"); \
-val = applyPrimitive(func, arglist); \
-AFTER_CALL_246: print_info("AFTER_CALL_246"); \
 restore(arglist); \
 arglist = CONS(val, arglist); \
 restore(func); \
 restore(cont); \
-if (isPrimitive(func)) goto PRIMITIVE_251; \
-if (isCompound(func)) goto COMPOUND_252; \
-COMPILED_253: print_info("COMPILED_253"); \
+if (isPrimitive(func)) goto PRIMITIVE_236; \
+if (isCompound(func)) goto COMPOUND_237; \
+COMPILED_238: print_info("COMPILED_238"); \
 val = COMPLABOBJ(func); \
 goto COMP_LABEL; \
-COMPOUND_252: print_info("COMPOUND_252"); \
+COMPOUND_237: print_info("COMPOUND_237"); \
 save(cont); \
 goto APPLY_COMPOUND; \
-PRIMITIVE_251: print_info("PRIMITIVE_251"); \
+PRIMITIVE_236: print_info("PRIMITIVE_236"); \
 val = applyPrimitive(func, arglist); \
 goto CONTINUE; \
-AFTER_CALL_254: print_info("AFTER_CALL_254"); \
-TRUE_BRANCH_236: print_info("TRUE_BRANCH_236"); \
-val = lookup(NAMEOBJ("total"), env); \
-goto CONTINUE; \
-AFTER_IF_238: print_info("AFTER_IF_238"); \
-AFTER_LAMBDA_235: print_info("AFTER_LAMBDA_235"); \
-defineVar(NAMEOBJ("loop"), val, env); \
-func = lookup(NAMEOBJ("loop"), env); \
-val = NUMOBJ(1); \
-arglist = CONS(val, NULLOBJ); \
-val = lookup(NAMEOBJ("n"), env); \
-arglist = CONS(val, arglist); \
-if (isPrimitive(func)) goto PRIMITIVE_255; \
-if (isCompound(func)) goto COMPOUND_256; \
-COMPILED_257: print_info("COMPILED_257"); \
-val = COMPLABOBJ(func); \
-goto COMP_LABEL; \
-COMPOUND_256: print_info("COMPOUND_256"); \
-save(cont); \
-goto APPLY_COMPOUND; \
-PRIMITIVE_255: print_info("PRIMITIVE_255"); \
-val = applyPrimitive(func, arglist); \
-goto CONTINUE; \
-AFTER_CALL_258: print_info("AFTER_CALL_258"); \
-AFTER_LAMBDA_233: print_info("AFTER_LAMBDA_233"); \
-defineVar(NAMEOBJ("iterative_factorial_compiled"), val, env); \
-val = COMPOBJ(_ENTRY_259, env); \
-goto AFTER_LAMBDA_260; \
-ENTRY_259: print_info("ENTRY_259"); \
-env = COMPENVOBJ(func); \
-unev = parse("(n)\n"); \
-env = extendEnv(unev, arglist, env); \
-save(cont); \
-save(env); \
-func = lookup(NAMEOBJ("<"), env); \
-val = NUMOBJ(2); \
-arglist = CONS(val, NULLOBJ); \
-val = lookup(NAMEOBJ("n"), env); \
-arglist = CONS(val, arglist); \
-if (isPrimitive(func)) goto PRIMITIVE_264; \
-if (isCompound(func)) goto COMPOUND_265; \
-COMPILED_266: print_info("COMPILED_266"); \
-cont = LABELOBJ(_AFTER_CALL_267); \
-val = COMPLABOBJ(func); \
-goto COMP_LABEL; \
-COMPOUND_265: print_info("COMPOUND_265"); \
-cont = LABELOBJ(_AFTER_CALL_267); \
-save(cont); \
-goto APPLY_COMPOUND; \
-PRIMITIVE_264: print_info("PRIMITIVE_264"); \
-val = applyPrimitive(func, arglist); \
-AFTER_CALL_267: print_info("AFTER_CALL_267"); \
-restore(env); \
-restore(cont); \
-if (isTrue(val)) goto TRUE_BRANCH_261; \
-FALSE_BRANCH_262: print_info("FALSE_BRANCH_262"); \
-func = lookup(NAMEOBJ("__+__"), env); \
-save(cont); \
-save(func); \
-save(env); \
-func = lookup(NAMEOBJ("recursive_fibonacci_compiled"), env); \
-save(func); \
-func = lookup(NAMEOBJ("-"), env); \
-val = NUMOBJ(2); \
-arglist = CONS(val, NULLOBJ); \
-val = lookup(NAMEOBJ("n"), env); \
-arglist = CONS(val, arglist); \
-if (isPrimitive(func)) goto PRIMITIVE_276; \
-if (isCompound(func)) goto COMPOUND_277; \
-COMPILED_278: print_info("COMPILED_278"); \
-cont = LABELOBJ(_AFTER_CALL_279); \
-val = COMPLABOBJ(func); \
-goto COMP_LABEL; \
-COMPOUND_277: print_info("COMPOUND_277"); \
-cont = LABELOBJ(_AFTER_CALL_279); \
-save(cont); \
-goto APPLY_COMPOUND; \
-PRIMITIVE_276: print_info("PRIMITIVE_276"); \
-val = applyPrimitive(func, arglist); \
-AFTER_CALL_279: print_info("AFTER_CALL_279"); \
-arglist = CONS(val, NULLOBJ); \
-restore(func); \
-if (isPrimitive(func)) goto PRIMITIVE_280; \
-if (isCompound(func)) goto COMPOUND_281; \
-COMPILED_282: print_info("COMPILED_282"); \
-cont = LABELOBJ(_AFTER_CALL_283); \
-val = COMPLABOBJ(func); \
-goto COMP_LABEL; \
-COMPOUND_281: print_info("COMPOUND_281"); \
-cont = LABELOBJ(_AFTER_CALL_283); \
-save(cont); \
-goto APPLY_COMPOUND; \
-PRIMITIVE_280: print_info("PRIMITIVE_280"); \
-val = applyPrimitive(func, arglist); \
-AFTER_CALL_283: print_info("AFTER_CALL_283"); \
-arglist = CONS(val, NULLOBJ); \
-restore(env); \
-save(arglist); \
-func = lookup(NAMEOBJ("recursive_fibonacci_compiled"), env); \
-save(func); \
-func = lookup(NAMEOBJ("-"), env); \
-val = NUMOBJ(1); \
-arglist = CONS(val, NULLOBJ); \
-val = lookup(NAMEOBJ("n"), env); \
-arglist = CONS(val, arglist); \
-if (isPrimitive(func)) goto PRIMITIVE_268; \
-if (isCompound(func)) goto COMPOUND_269; \
-COMPILED_270: print_info("COMPILED_270"); \
-cont = LABELOBJ(_AFTER_CALL_271); \
-val = COMPLABOBJ(func); \
-goto COMP_LABEL; \
-COMPOUND_269: print_info("COMPOUND_269"); \
-cont = LABELOBJ(_AFTER_CALL_271); \
-save(cont); \
-goto APPLY_COMPOUND; \
-PRIMITIVE_268: print_info("PRIMITIVE_268"); \
-val = applyPrimitive(func, arglist); \
-AFTER_CALL_271: print_info("AFTER_CALL_271"); \
-arglist = CONS(val, NULLOBJ); \
-restore(func); \
-if (isPrimitive(func)) goto PRIMITIVE_272; \
-if (isCompound(func)) goto COMPOUND_273; \
-COMPILED_274: print_info("COMPILED_274"); \
-cont = LABELOBJ(_AFTER_CALL_275); \
-val = COMPLABOBJ(func); \
-goto COMP_LABEL; \
-COMPOUND_273: print_info("COMPOUND_273"); \
-cont = LABELOBJ(_AFTER_CALL_275); \
-save(cont); \
-goto APPLY_COMPOUND; \
-PRIMITIVE_272: print_info("PRIMITIVE_272"); \
-val = applyPrimitive(func, arglist); \
-AFTER_CALL_275: print_info("AFTER_CALL_275"); \
-restore(arglist); \
-arglist = CONS(val, arglist); \
-restore(func); \
-restore(cont); \
-if (isPrimitive(func)) goto PRIMITIVE_284; \
-if (isCompound(func)) goto COMPOUND_285; \
-COMPILED_286: print_info("COMPILED_286"); \
-val = COMPLABOBJ(func); \
-goto COMP_LABEL; \
-COMPOUND_285: print_info("COMPOUND_285"); \
-save(cont); \
-goto APPLY_COMPOUND; \
-PRIMITIVE_284: print_info("PRIMITIVE_284"); \
-val = applyPrimitive(func, arglist); \
-goto CONTINUE; \
-AFTER_CALL_287: print_info("AFTER_CALL_287"); \
-TRUE_BRANCH_261: print_info("TRUE_BRANCH_261"); \
-val = lookup(NAMEOBJ("n"), env); \
-goto CONTINUE; \
-AFTER_IF_263: print_info("AFTER_IF_263"); \
-AFTER_LAMBDA_260: print_info("AFTER_LAMBDA_260"); \
-defineVar(NAMEOBJ("recursive_fibonacci_compiled"), val, env); \
-val = COMPOBJ(_ENTRY_288, env); \
-goto AFTER_LAMBDA_289; \
-ENTRY_288: print_info("ENTRY_288"); \
-env = COMPENVOBJ(func); \
-unev = parse("(n)\n"); \
-env = extendEnv(unev, arglist, env); \
-val = COMPOBJ(_ENTRY_290, env); \
-goto AFTER_LAMBDA_291; \
-ENTRY_290: print_info("ENTRY_290"); \
-env = COMPENVOBJ(func); \
-unev = parse("(count a b)\n"); \
-env = extendEnv(unev, arglist, env); \
-save(cont); \
-save(env); \
-func = lookup(NAMEOBJ("zero?"), env); \
-val = lookup(NAMEOBJ("count"), env); \
-arglist = CONS(val, NULLOBJ); \
-if (isPrimitive(func)) goto PRIMITIVE_295; \
-if (isCompound(func)) goto COMPOUND_296; \
-COMPILED_297: print_info("COMPILED_297"); \
-cont = LABELOBJ(_AFTER_CALL_298); \
-val = COMPLABOBJ(func); \
-goto COMP_LABEL; \
-COMPOUND_296: print_info("COMPOUND_296"); \
-cont = LABELOBJ(_AFTER_CALL_298); \
-save(cont); \
-goto APPLY_COMPOUND; \
-PRIMITIVE_295: print_info("PRIMITIVE_295"); \
-val = applyPrimitive(func, arglist); \
-AFTER_CALL_298: print_info("AFTER_CALL_298"); \
-restore(env); \
-restore(cont); \
-if (isTrue(val)) goto TRUE_BRANCH_292; \
-FALSE_BRANCH_293: print_info("FALSE_BRANCH_293"); \
-func = lookup(NAMEOBJ("loop"), env); \
-save(cont); \
-save(func); \
-save(env); \
-func = lookup(NAMEOBJ("__+__"), env); \
-val = lookup(NAMEOBJ("b"), env); \
-arglist = CONS(val, NULLOBJ); \
-val = lookup(NAMEOBJ("a"), env); \
-arglist = CONS(val, arglist); \
-if (isPrimitive(func)) goto PRIMITIVE_303; \
-if (isCompound(func)) goto COMPOUND_304; \
-COMPILED_305: print_info("COMPILED_305"); \
-cont = LABELOBJ(_AFTER_CALL_306); \
-val = COMPLABOBJ(func); \
-goto COMP_LABEL; \
-COMPOUND_304: print_info("COMPOUND_304"); \
-cont = LABELOBJ(_AFTER_CALL_306); \
-save(cont); \
-goto APPLY_COMPOUND; \
-PRIMITIVE_303: print_info("PRIMITIVE_303"); \
-val = applyPrimitive(func, arglist); \
-AFTER_CALL_306: print_info("AFTER_CALL_306"); \
-arglist = CONS(val, NULLOBJ); \
-restore(env); \
-val = lookup(NAMEOBJ("b"), env); \
-arglist = CONS(val, arglist); \
-save(arglist); \
-func = lookup(NAMEOBJ("sub1"), env); \
-val = lookup(NAMEOBJ("count"), env); \
-arglist = CONS(val, NULLOBJ); \
-if (isPrimitive(func)) goto PRIMITIVE_299; \
-if (isCompound(func)) goto COMPOUND_300; \
-COMPILED_301: print_info("COMPILED_301"); \
-cont = LABELOBJ(_AFTER_CALL_302); \
-val = COMPLABOBJ(func); \
-goto COMP_LABEL; \
-COMPOUND_300: print_info("COMPOUND_300"); \
-cont = LABELOBJ(_AFTER_CALL_302); \
-save(cont); \
-goto APPLY_COMPOUND; \
-PRIMITIVE_299: print_info("PRIMITIVE_299"); \
-val = applyPrimitive(func, arglist); \
-AFTER_CALL_302: print_info("AFTER_CALL_302"); \
-restore(arglist); \
-arglist = CONS(val, arglist); \
-restore(func); \
-restore(cont); \
-if (isPrimitive(func)) goto PRIMITIVE_307; \
-if (isCompound(func)) goto COMPOUND_308; \
-COMPILED_309: print_info("COMPILED_309"); \
-val = COMPLABOBJ(func); \
-goto COMP_LABEL; \
-COMPOUND_308: print_info("COMPOUND_308"); \
-save(cont); \
-goto APPLY_COMPOUND; \
-PRIMITIVE_307: print_info("PRIMITIVE_307"); \
-val = applyPrimitive(func, arglist); \
-goto CONTINUE; \
-AFTER_CALL_310: print_info("AFTER_CALL_310"); \
-TRUE_BRANCH_292: print_info("TRUE_BRANCH_292"); \
+AFTER_CALL_239: print_info("AFTER_CALL_239"); \
+TRUE_BRANCH_221: print_info("TRUE_BRANCH_221"); \
 val = lookup(NAMEOBJ("a"), env); \
 goto CONTINUE; \
-AFTER_IF_294: print_info("AFTER_IF_294"); \
-AFTER_LAMBDA_291: print_info("AFTER_LAMBDA_291"); \
+AFTER_IF_223: print_info("AFTER_IF_223"); \
+AFTER_LAMBDA_220: print_info("AFTER_LAMBDA_220"); \
 defineVar(NAMEOBJ("loop"), val, env); \
 func = lookup(NAMEOBJ("loop"), env); \
 val = NUMOBJ(1); \
@@ -1353,19 +1052,19 @@ val = NUMOBJ(0); \
 arglist = CONS(val, arglist); \
 val = lookup(NAMEOBJ("n"), env); \
 arglist = CONS(val, arglist); \
-if (isPrimitive(func)) goto PRIMITIVE_311; \
-if (isCompound(func)) goto COMPOUND_312; \
-COMPILED_313: print_info("COMPILED_313"); \
+if (isPrimitive(func)) goto PRIMITIVE_240; \
+if (isCompound(func)) goto COMPOUND_241; \
+COMPILED_242: print_info("COMPILED_242"); \
 val = COMPLABOBJ(func); \
 goto COMP_LABEL; \
-COMPOUND_312: print_info("COMPOUND_312"); \
+COMPOUND_241: print_info("COMPOUND_241"); \
 save(cont); \
 goto APPLY_COMPOUND; \
-PRIMITIVE_311: print_info("PRIMITIVE_311"); \
+PRIMITIVE_240: print_info("PRIMITIVE_240"); \
 val = applyPrimitive(func, arglist); \
 goto CONTINUE; \
-AFTER_CALL_314: print_info("AFTER_CALL_314"); \
-AFTER_LAMBDA_289: print_info("AFTER_LAMBDA_289"); \
+AFTER_CALL_243: print_info("AFTER_CALL_243"); \
+AFTER_LAMBDA_218: print_info("AFTER_LAMBDA_218"); \
 defineVar(NAMEOBJ("iterative_fibonacci_compiled"), val, env); \
 val = lookup(NAMEOBJ("iterative_factorial_compiled"), env); \
 defineVar(NAMEOBJ("factorial"), val, env); \
@@ -1536,67 +1235,67 @@ if (GETLABEL(REG) == _COMPILED_159) goto COMPILED_159; \
 if (GETLABEL(REG) == _AFTER_CALL_160) goto AFTER_CALL_160; \
 if (GETLABEL(REG) == _ENTRY_161) goto ENTRY_161; \
 if (GETLABEL(REG) == _AFTER_LAMBDA_162) goto AFTER_LAMBDA_162; \
-if (GETLABEL(REG) == _TRUE_BRANCH_163) goto TRUE_BRANCH_163; \
-if (GETLABEL(REG) == _FALSE_BRANCH_164) goto FALSE_BRANCH_164; \
-if (GETLABEL(REG) == _AFTER_IF_165) goto AFTER_IF_165; \
-if (GETLABEL(REG) == _PRIMITIVE_166) goto PRIMITIVE_166; \
-if (GETLABEL(REG) == _COMPOUND_167) goto COMPOUND_167; \
-if (GETLABEL(REG) == _COMPILED_168) goto COMPILED_168; \
-if (GETLABEL(REG) == _AFTER_CALL_169) goto AFTER_CALL_169; \
-if (GETLABEL(REG) == _PRIMITIVE_170) goto PRIMITIVE_170; \
-if (GETLABEL(REG) == _COMPOUND_171) goto COMPOUND_171; \
-if (GETLABEL(REG) == _COMPILED_172) goto COMPILED_172; \
-if (GETLABEL(REG) == _AFTER_CALL_173) goto AFTER_CALL_173; \
-if (GETLABEL(REG) == _PRIMITIVE_174) goto PRIMITIVE_174; \
-if (GETLABEL(REG) == _COMPOUND_175) goto COMPOUND_175; \
-if (GETLABEL(REG) == _COMPILED_176) goto COMPILED_176; \
-if (GETLABEL(REG) == _AFTER_CALL_177) goto AFTER_CALL_177; \
-if (GETLABEL(REG) == _PRIMITIVE_178) goto PRIMITIVE_178; \
-if (GETLABEL(REG) == _COMPOUND_179) goto COMPOUND_179; \
-if (GETLABEL(REG) == _COMPILED_180) goto COMPILED_180; \
-if (GETLABEL(REG) == _AFTER_CALL_181) goto AFTER_CALL_181; \
-if (GETLABEL(REG) == _PRIMITIVE_182) goto PRIMITIVE_182; \
-if (GETLABEL(REG) == _COMPOUND_183) goto COMPOUND_183; \
-if (GETLABEL(REG) == _COMPILED_184) goto COMPILED_184; \
-if (GETLABEL(REG) == _AFTER_CALL_185) goto AFTER_CALL_185; \
-if (GETLABEL(REG) == _ENTRY_186) goto ENTRY_186; \
-if (GETLABEL(REG) == _AFTER_LAMBDA_187) goto AFTER_LAMBDA_187; \
-if (GETLABEL(REG) == _TRUE_BRANCH_188) goto TRUE_BRANCH_188; \
-if (GETLABEL(REG) == _FALSE_BRANCH_189) goto FALSE_BRANCH_189; \
-if (GETLABEL(REG) == _AFTER_IF_190) goto AFTER_IF_190; \
-if (GETLABEL(REG) == _PRIMITIVE_191) goto PRIMITIVE_191; \
-if (GETLABEL(REG) == _COMPOUND_192) goto COMPOUND_192; \
-if (GETLABEL(REG) == _COMPILED_193) goto COMPILED_193; \
-if (GETLABEL(REG) == _AFTER_CALL_194) goto AFTER_CALL_194; \
-if (GETLABEL(REG) == _PRIMITIVE_195) goto PRIMITIVE_195; \
-if (GETLABEL(REG) == _COMPOUND_196) goto COMPOUND_196; \
-if (GETLABEL(REG) == _COMPILED_197) goto COMPILED_197; \
-if (GETLABEL(REG) == _AFTER_CALL_198) goto AFTER_CALL_198; \
-if (GETLABEL(REG) == _PRIMITIVE_199) goto PRIMITIVE_199; \
-if (GETLABEL(REG) == _COMPOUND_200) goto COMPOUND_200; \
-if (GETLABEL(REG) == _COMPILED_201) goto COMPILED_201; \
-if (GETLABEL(REG) == _AFTER_CALL_202) goto AFTER_CALL_202; \
-if (GETLABEL(REG) == _PRIMITIVE_203) goto PRIMITIVE_203; \
-if (GETLABEL(REG) == _COMPOUND_204) goto COMPOUND_204; \
-if (GETLABEL(REG) == _COMPILED_205) goto COMPILED_205; \
-if (GETLABEL(REG) == _AFTER_CALL_206) goto AFTER_CALL_206; \
-if (GETLABEL(REG) == _PRIMITIVE_207) goto PRIMITIVE_207; \
-if (GETLABEL(REG) == _COMPOUND_208) goto COMPOUND_208; \
-if (GETLABEL(REG) == _COMPILED_209) goto COMPILED_209; \
-if (GETLABEL(REG) == _AFTER_CALL_210) goto AFTER_CALL_210; \
-if (GETLABEL(REG) == _ENTRY_211) goto ENTRY_211; \
-if (GETLABEL(REG) == _AFTER_LAMBDA_212) goto AFTER_LAMBDA_212; \
-if (GETLABEL(REG) == _TRUE_BRANCH_213) goto TRUE_BRANCH_213; \
-if (GETLABEL(REG) == _FALSE_BRANCH_214) goto FALSE_BRANCH_214; \
-if (GETLABEL(REG) == _AFTER_IF_215) goto AFTER_IF_215; \
-if (GETLABEL(REG) == _PRIMITIVE_216) goto PRIMITIVE_216; \
-if (GETLABEL(REG) == _COMPOUND_217) goto COMPOUND_217; \
-if (GETLABEL(REG) == _COMPILED_218) goto COMPILED_218; \
-if (GETLABEL(REG) == _AFTER_CALL_219) goto AFTER_CALL_219; \
-if (GETLABEL(REG) == _PRIMITIVE_220) goto PRIMITIVE_220; \
-if (GETLABEL(REG) == _COMPOUND_221) goto COMPOUND_221; \
-if (GETLABEL(REG) == _COMPILED_222) goto COMPILED_222; \
-if (GETLABEL(REG) == _AFTER_CALL_223) goto AFTER_CALL_223; \
+if (GETLABEL(REG) == _ENTRY_163) goto ENTRY_163; \
+if (GETLABEL(REG) == _AFTER_LAMBDA_164) goto AFTER_LAMBDA_164; \
+if (GETLABEL(REG) == _TRUE_BRANCH_165) goto TRUE_BRANCH_165; \
+if (GETLABEL(REG) == _FALSE_BRANCH_166) goto FALSE_BRANCH_166; \
+if (GETLABEL(REG) == _AFTER_IF_167) goto AFTER_IF_167; \
+if (GETLABEL(REG) == _PRIMITIVE_168) goto PRIMITIVE_168; \
+if (GETLABEL(REG) == _COMPOUND_169) goto COMPOUND_169; \
+if (GETLABEL(REG) == _COMPILED_170) goto COMPILED_170; \
+if (GETLABEL(REG) == _AFTER_CALL_171) goto AFTER_CALL_171; \
+if (GETLABEL(REG) == _PRIMITIVE_172) goto PRIMITIVE_172; \
+if (GETLABEL(REG) == _COMPOUND_173) goto COMPOUND_173; \
+if (GETLABEL(REG) == _COMPILED_174) goto COMPILED_174; \
+if (GETLABEL(REG) == _AFTER_CALL_175) goto AFTER_CALL_175; \
+if (GETLABEL(REG) == _PRIMITIVE_176) goto PRIMITIVE_176; \
+if (GETLABEL(REG) == _COMPOUND_177) goto COMPOUND_177; \
+if (GETLABEL(REG) == _COMPILED_178) goto COMPILED_178; \
+if (GETLABEL(REG) == _AFTER_CALL_179) goto AFTER_CALL_179; \
+if (GETLABEL(REG) == _PRIMITIVE_180) goto PRIMITIVE_180; \
+if (GETLABEL(REG) == _COMPOUND_181) goto COMPOUND_181; \
+if (GETLABEL(REG) == _COMPILED_182) goto COMPILED_182; \
+if (GETLABEL(REG) == _AFTER_CALL_183) goto AFTER_CALL_183; \
+if (GETLABEL(REG) == _PRIMITIVE_184) goto PRIMITIVE_184; \
+if (GETLABEL(REG) == _COMPOUND_185) goto COMPOUND_185; \
+if (GETLABEL(REG) == _COMPILED_186) goto COMPILED_186; \
+if (GETLABEL(REG) == _AFTER_CALL_187) goto AFTER_CALL_187; \
+if (GETLABEL(REG) == _ENTRY_188) goto ENTRY_188; \
+if (GETLABEL(REG) == _AFTER_LAMBDA_189) goto AFTER_LAMBDA_189; \
+if (GETLABEL(REG) == _TRUE_BRANCH_190) goto TRUE_BRANCH_190; \
+if (GETLABEL(REG) == _FALSE_BRANCH_191) goto FALSE_BRANCH_191; \
+if (GETLABEL(REG) == _AFTER_IF_192) goto AFTER_IF_192; \
+if (GETLABEL(REG) == _PRIMITIVE_193) goto PRIMITIVE_193; \
+if (GETLABEL(REG) == _COMPOUND_194) goto COMPOUND_194; \
+if (GETLABEL(REG) == _COMPILED_195) goto COMPILED_195; \
+if (GETLABEL(REG) == _AFTER_CALL_196) goto AFTER_CALL_196; \
+if (GETLABEL(REG) == _PRIMITIVE_197) goto PRIMITIVE_197; \
+if (GETLABEL(REG) == _COMPOUND_198) goto COMPOUND_198; \
+if (GETLABEL(REG) == _COMPILED_199) goto COMPILED_199; \
+if (GETLABEL(REG) == _AFTER_CALL_200) goto AFTER_CALL_200; \
+if (GETLABEL(REG) == _PRIMITIVE_201) goto PRIMITIVE_201; \
+if (GETLABEL(REG) == _COMPOUND_202) goto COMPOUND_202; \
+if (GETLABEL(REG) == _COMPILED_203) goto COMPILED_203; \
+if (GETLABEL(REG) == _AFTER_CALL_204) goto AFTER_CALL_204; \
+if (GETLABEL(REG) == _PRIMITIVE_205) goto PRIMITIVE_205; \
+if (GETLABEL(REG) == _COMPOUND_206) goto COMPOUND_206; \
+if (GETLABEL(REG) == _COMPILED_207) goto COMPILED_207; \
+if (GETLABEL(REG) == _AFTER_CALL_208) goto AFTER_CALL_208; \
+if (GETLABEL(REG) == _PRIMITIVE_209) goto PRIMITIVE_209; \
+if (GETLABEL(REG) == _COMPOUND_210) goto COMPOUND_210; \
+if (GETLABEL(REG) == _COMPILED_211) goto COMPILED_211; \
+if (GETLABEL(REG) == _AFTER_CALL_212) goto AFTER_CALL_212; \
+if (GETLABEL(REG) == _PRIMITIVE_213) goto PRIMITIVE_213; \
+if (GETLABEL(REG) == _COMPOUND_214) goto COMPOUND_214; \
+if (GETLABEL(REG) == _COMPILED_215) goto COMPILED_215; \
+if (GETLABEL(REG) == _AFTER_CALL_216) goto AFTER_CALL_216; \
+if (GETLABEL(REG) == _ENTRY_217) goto ENTRY_217; \
+if (GETLABEL(REG) == _AFTER_LAMBDA_218) goto AFTER_LAMBDA_218; \
+if (GETLABEL(REG) == _ENTRY_219) goto ENTRY_219; \
+if (GETLABEL(REG) == _AFTER_LAMBDA_220) goto AFTER_LAMBDA_220; \
+if (GETLABEL(REG) == _TRUE_BRANCH_221) goto TRUE_BRANCH_221; \
+if (GETLABEL(REG) == _FALSE_BRANCH_222) goto FALSE_BRANCH_222; \
+if (GETLABEL(REG) == _AFTER_IF_223) goto AFTER_IF_223; \
 if (GETLABEL(REG) == _PRIMITIVE_224) goto PRIMITIVE_224; \
 if (GETLABEL(REG) == _COMPOUND_225) goto COMPOUND_225; \
 if (GETLABEL(REG) == _COMPILED_226) goto COMPILED_226; \
@@ -1605,89 +1304,18 @@ if (GETLABEL(REG) == _PRIMITIVE_228) goto PRIMITIVE_228; \
 if (GETLABEL(REG) == _COMPOUND_229) goto COMPOUND_229; \
 if (GETLABEL(REG) == _COMPILED_230) goto COMPILED_230; \
 if (GETLABEL(REG) == _AFTER_CALL_231) goto AFTER_CALL_231; \
-if (GETLABEL(REG) == _ENTRY_232) goto ENTRY_232; \
-if (GETLABEL(REG) == _AFTER_LAMBDA_233) goto AFTER_LAMBDA_233; \
-if (GETLABEL(REG) == _ENTRY_234) goto ENTRY_234; \
-if (GETLABEL(REG) == _AFTER_LAMBDA_235) goto AFTER_LAMBDA_235; \
-if (GETLABEL(REG) == _TRUE_BRANCH_236) goto TRUE_BRANCH_236; \
-if (GETLABEL(REG) == _FALSE_BRANCH_237) goto FALSE_BRANCH_237; \
-if (GETLABEL(REG) == _AFTER_IF_238) goto AFTER_IF_238; \
-if (GETLABEL(REG) == _PRIMITIVE_239) goto PRIMITIVE_239; \
-if (GETLABEL(REG) == _COMPOUND_240) goto COMPOUND_240; \
-if (GETLABEL(REG) == _COMPILED_241) goto COMPILED_241; \
-if (GETLABEL(REG) == _AFTER_CALL_242) goto AFTER_CALL_242; \
-if (GETLABEL(REG) == _PRIMITIVE_243) goto PRIMITIVE_243; \
-if (GETLABEL(REG) == _COMPOUND_244) goto COMPOUND_244; \
-if (GETLABEL(REG) == _COMPILED_245) goto COMPILED_245; \
-if (GETLABEL(REG) == _AFTER_CALL_246) goto AFTER_CALL_246; \
-if (GETLABEL(REG) == _PRIMITIVE_247) goto PRIMITIVE_247; \
-if (GETLABEL(REG) == _COMPOUND_248) goto COMPOUND_248; \
-if (GETLABEL(REG) == _COMPILED_249) goto COMPILED_249; \
-if (GETLABEL(REG) == _AFTER_CALL_250) goto AFTER_CALL_250; \
-if (GETLABEL(REG) == _PRIMITIVE_251) goto PRIMITIVE_251; \
-if (GETLABEL(REG) == _COMPOUND_252) goto COMPOUND_252; \
-if (GETLABEL(REG) == _COMPILED_253) goto COMPILED_253; \
-if (GETLABEL(REG) == _AFTER_CALL_254) goto AFTER_CALL_254; \
-if (GETLABEL(REG) == _PRIMITIVE_255) goto PRIMITIVE_255; \
-if (GETLABEL(REG) == _COMPOUND_256) goto COMPOUND_256; \
-if (GETLABEL(REG) == _COMPILED_257) goto COMPILED_257; \
-if (GETLABEL(REG) == _AFTER_CALL_258) goto AFTER_CALL_258; \
-if (GETLABEL(REG) == _ENTRY_259) goto ENTRY_259; \
-if (GETLABEL(REG) == _AFTER_LAMBDA_260) goto AFTER_LAMBDA_260; \
-if (GETLABEL(REG) == _TRUE_BRANCH_261) goto TRUE_BRANCH_261; \
-if (GETLABEL(REG) == _FALSE_BRANCH_262) goto FALSE_BRANCH_262; \
-if (GETLABEL(REG) == _AFTER_IF_263) goto AFTER_IF_263; \
-if (GETLABEL(REG) == _PRIMITIVE_264) goto PRIMITIVE_264; \
-if (GETLABEL(REG) == _COMPOUND_265) goto COMPOUND_265; \
-if (GETLABEL(REG) == _COMPILED_266) goto COMPILED_266; \
-if (GETLABEL(REG) == _AFTER_CALL_267) goto AFTER_CALL_267; \
-if (GETLABEL(REG) == _PRIMITIVE_268) goto PRIMITIVE_268; \
-if (GETLABEL(REG) == _COMPOUND_269) goto COMPOUND_269; \
-if (GETLABEL(REG) == _COMPILED_270) goto COMPILED_270; \
-if (GETLABEL(REG) == _AFTER_CALL_271) goto AFTER_CALL_271; \
-if (GETLABEL(REG) == _PRIMITIVE_272) goto PRIMITIVE_272; \
-if (GETLABEL(REG) == _COMPOUND_273) goto COMPOUND_273; \
-if (GETLABEL(REG) == _COMPILED_274) goto COMPILED_274; \
-if (GETLABEL(REG) == _AFTER_CALL_275) goto AFTER_CALL_275; \
-if (GETLABEL(REG) == _PRIMITIVE_276) goto PRIMITIVE_276; \
-if (GETLABEL(REG) == _COMPOUND_277) goto COMPOUND_277; \
-if (GETLABEL(REG) == _COMPILED_278) goto COMPILED_278; \
-if (GETLABEL(REG) == _AFTER_CALL_279) goto AFTER_CALL_279; \
-if (GETLABEL(REG) == _PRIMITIVE_280) goto PRIMITIVE_280; \
-if (GETLABEL(REG) == _COMPOUND_281) goto COMPOUND_281; \
-if (GETLABEL(REG) == _COMPILED_282) goto COMPILED_282; \
-if (GETLABEL(REG) == _AFTER_CALL_283) goto AFTER_CALL_283; \
-if (GETLABEL(REG) == _PRIMITIVE_284) goto PRIMITIVE_284; \
-if (GETLABEL(REG) == _COMPOUND_285) goto COMPOUND_285; \
-if (GETLABEL(REG) == _COMPILED_286) goto COMPILED_286; \
-if (GETLABEL(REG) == _AFTER_CALL_287) goto AFTER_CALL_287; \
-if (GETLABEL(REG) == _ENTRY_288) goto ENTRY_288; \
-if (GETLABEL(REG) == _AFTER_LAMBDA_289) goto AFTER_LAMBDA_289; \
-if (GETLABEL(REG) == _ENTRY_290) goto ENTRY_290; \
-if (GETLABEL(REG) == _AFTER_LAMBDA_291) goto AFTER_LAMBDA_291; \
-if (GETLABEL(REG) == _TRUE_BRANCH_292) goto TRUE_BRANCH_292; \
-if (GETLABEL(REG) == _FALSE_BRANCH_293) goto FALSE_BRANCH_293; \
-if (GETLABEL(REG) == _AFTER_IF_294) goto AFTER_IF_294; \
-if (GETLABEL(REG) == _PRIMITIVE_295) goto PRIMITIVE_295; \
-if (GETLABEL(REG) == _COMPOUND_296) goto COMPOUND_296; \
-if (GETLABEL(REG) == _COMPILED_297) goto COMPILED_297; \
-if (GETLABEL(REG) == _AFTER_CALL_298) goto AFTER_CALL_298; \
-if (GETLABEL(REG) == _PRIMITIVE_299) goto PRIMITIVE_299; \
-if (GETLABEL(REG) == _COMPOUND_300) goto COMPOUND_300; \
-if (GETLABEL(REG) == _COMPILED_301) goto COMPILED_301; \
-if (GETLABEL(REG) == _AFTER_CALL_302) goto AFTER_CALL_302; \
-if (GETLABEL(REG) == _PRIMITIVE_303) goto PRIMITIVE_303; \
-if (GETLABEL(REG) == _COMPOUND_304) goto COMPOUND_304; \
-if (GETLABEL(REG) == _COMPILED_305) goto COMPILED_305; \
-if (GETLABEL(REG) == _AFTER_CALL_306) goto AFTER_CALL_306; \
-if (GETLABEL(REG) == _PRIMITIVE_307) goto PRIMITIVE_307; \
-if (GETLABEL(REG) == _COMPOUND_308) goto COMPOUND_308; \
-if (GETLABEL(REG) == _COMPILED_309) goto COMPILED_309; \
-if (GETLABEL(REG) == _AFTER_CALL_310) goto AFTER_CALL_310; \
-if (GETLABEL(REG) == _PRIMITIVE_311) goto PRIMITIVE_311; \
-if (GETLABEL(REG) == _COMPOUND_312) goto COMPOUND_312; \
-if (GETLABEL(REG) == _COMPILED_313) goto COMPILED_313; \
-if (GETLABEL(REG) == _AFTER_CALL_314) goto AFTER_CALL_314;
+if (GETLABEL(REG) == _PRIMITIVE_232) goto PRIMITIVE_232; \
+if (GETLABEL(REG) == _COMPOUND_233) goto COMPOUND_233; \
+if (GETLABEL(REG) == _COMPILED_234) goto COMPILED_234; \
+if (GETLABEL(REG) == _AFTER_CALL_235) goto AFTER_CALL_235; \
+if (GETLABEL(REG) == _PRIMITIVE_236) goto PRIMITIVE_236; \
+if (GETLABEL(REG) == _COMPOUND_237) goto COMPOUND_237; \
+if (GETLABEL(REG) == _COMPILED_238) goto COMPILED_238; \
+if (GETLABEL(REG) == _AFTER_CALL_239) goto AFTER_CALL_239; \
+if (GETLABEL(REG) == _PRIMITIVE_240) goto PRIMITIVE_240; \
+if (GETLABEL(REG) == _COMPOUND_241) goto COMPOUND_241; \
+if (GETLABEL(REG) == _COMPILED_242) goto COMPILED_242; \
+if (GETLABEL(REG) == _AFTER_CALL_243) goto AFTER_CALL_243;
 
 #define ALL_COMPILED_LABELS \
 _ENTRY_1, \
@@ -1852,67 +1480,67 @@ _COMPILED_159, \
 _AFTER_CALL_160, \
 _ENTRY_161, \
 _AFTER_LAMBDA_162, \
-_TRUE_BRANCH_163, \
-_FALSE_BRANCH_164, \
-_AFTER_IF_165, \
-_PRIMITIVE_166, \
-_COMPOUND_167, \
-_COMPILED_168, \
-_AFTER_CALL_169, \
-_PRIMITIVE_170, \
-_COMPOUND_171, \
-_COMPILED_172, \
-_AFTER_CALL_173, \
-_PRIMITIVE_174, \
-_COMPOUND_175, \
-_COMPILED_176, \
-_AFTER_CALL_177, \
-_PRIMITIVE_178, \
-_COMPOUND_179, \
-_COMPILED_180, \
-_AFTER_CALL_181, \
-_PRIMITIVE_182, \
-_COMPOUND_183, \
-_COMPILED_184, \
-_AFTER_CALL_185, \
-_ENTRY_186, \
-_AFTER_LAMBDA_187, \
-_TRUE_BRANCH_188, \
-_FALSE_BRANCH_189, \
-_AFTER_IF_190, \
-_PRIMITIVE_191, \
-_COMPOUND_192, \
-_COMPILED_193, \
-_AFTER_CALL_194, \
-_PRIMITIVE_195, \
-_COMPOUND_196, \
-_COMPILED_197, \
-_AFTER_CALL_198, \
-_PRIMITIVE_199, \
-_COMPOUND_200, \
-_COMPILED_201, \
-_AFTER_CALL_202, \
-_PRIMITIVE_203, \
-_COMPOUND_204, \
-_COMPILED_205, \
-_AFTER_CALL_206, \
-_PRIMITIVE_207, \
-_COMPOUND_208, \
-_COMPILED_209, \
-_AFTER_CALL_210, \
-_ENTRY_211, \
-_AFTER_LAMBDA_212, \
-_TRUE_BRANCH_213, \
-_FALSE_BRANCH_214, \
-_AFTER_IF_215, \
-_PRIMITIVE_216, \
-_COMPOUND_217, \
-_COMPILED_218, \
-_AFTER_CALL_219, \
-_PRIMITIVE_220, \
-_COMPOUND_221, \
-_COMPILED_222, \
-_AFTER_CALL_223, \
+_ENTRY_163, \
+_AFTER_LAMBDA_164, \
+_TRUE_BRANCH_165, \
+_FALSE_BRANCH_166, \
+_AFTER_IF_167, \
+_PRIMITIVE_168, \
+_COMPOUND_169, \
+_COMPILED_170, \
+_AFTER_CALL_171, \
+_PRIMITIVE_172, \
+_COMPOUND_173, \
+_COMPILED_174, \
+_AFTER_CALL_175, \
+_PRIMITIVE_176, \
+_COMPOUND_177, \
+_COMPILED_178, \
+_AFTER_CALL_179, \
+_PRIMITIVE_180, \
+_COMPOUND_181, \
+_COMPILED_182, \
+_AFTER_CALL_183, \
+_PRIMITIVE_184, \
+_COMPOUND_185, \
+_COMPILED_186, \
+_AFTER_CALL_187, \
+_ENTRY_188, \
+_AFTER_LAMBDA_189, \
+_TRUE_BRANCH_190, \
+_FALSE_BRANCH_191, \
+_AFTER_IF_192, \
+_PRIMITIVE_193, \
+_COMPOUND_194, \
+_COMPILED_195, \
+_AFTER_CALL_196, \
+_PRIMITIVE_197, \
+_COMPOUND_198, \
+_COMPILED_199, \
+_AFTER_CALL_200, \
+_PRIMITIVE_201, \
+_COMPOUND_202, \
+_COMPILED_203, \
+_AFTER_CALL_204, \
+_PRIMITIVE_205, \
+_COMPOUND_206, \
+_COMPILED_207, \
+_AFTER_CALL_208, \
+_PRIMITIVE_209, \
+_COMPOUND_210, \
+_COMPILED_211, \
+_AFTER_CALL_212, \
+_PRIMITIVE_213, \
+_COMPOUND_214, \
+_COMPILED_215, \
+_AFTER_CALL_216, \
+_ENTRY_217, \
+_AFTER_LAMBDA_218, \
+_ENTRY_219, \
+_AFTER_LAMBDA_220, \
+_TRUE_BRANCH_221, \
+_FALSE_BRANCH_222, \
+_AFTER_IF_223, \
 _PRIMITIVE_224, \
 _COMPOUND_225, \
 _COMPILED_226, \
@@ -1921,88 +1549,17 @@ _PRIMITIVE_228, \
 _COMPOUND_229, \
 _COMPILED_230, \
 _AFTER_CALL_231, \
-_ENTRY_232, \
-_AFTER_LAMBDA_233, \
-_ENTRY_234, \
-_AFTER_LAMBDA_235, \
-_TRUE_BRANCH_236, \
-_FALSE_BRANCH_237, \
-_AFTER_IF_238, \
-_PRIMITIVE_239, \
-_COMPOUND_240, \
-_COMPILED_241, \
-_AFTER_CALL_242, \
-_PRIMITIVE_243, \
-_COMPOUND_244, \
-_COMPILED_245, \
-_AFTER_CALL_246, \
-_PRIMITIVE_247, \
-_COMPOUND_248, \
-_COMPILED_249, \
-_AFTER_CALL_250, \
-_PRIMITIVE_251, \
-_COMPOUND_252, \
-_COMPILED_253, \
-_AFTER_CALL_254, \
-_PRIMITIVE_255, \
-_COMPOUND_256, \
-_COMPILED_257, \
-_AFTER_CALL_258, \
-_ENTRY_259, \
-_AFTER_LAMBDA_260, \
-_TRUE_BRANCH_261, \
-_FALSE_BRANCH_262, \
-_AFTER_IF_263, \
-_PRIMITIVE_264, \
-_COMPOUND_265, \
-_COMPILED_266, \
-_AFTER_CALL_267, \
-_PRIMITIVE_268, \
-_COMPOUND_269, \
-_COMPILED_270, \
-_AFTER_CALL_271, \
-_PRIMITIVE_272, \
-_COMPOUND_273, \
-_COMPILED_274, \
-_AFTER_CALL_275, \
-_PRIMITIVE_276, \
-_COMPOUND_277, \
-_COMPILED_278, \
-_AFTER_CALL_279, \
-_PRIMITIVE_280, \
-_COMPOUND_281, \
-_COMPILED_282, \
-_AFTER_CALL_283, \
-_PRIMITIVE_284, \
-_COMPOUND_285, \
-_COMPILED_286, \
-_AFTER_CALL_287, \
-_ENTRY_288, \
-_AFTER_LAMBDA_289, \
-_ENTRY_290, \
-_AFTER_LAMBDA_291, \
-_TRUE_BRANCH_292, \
-_FALSE_BRANCH_293, \
-_AFTER_IF_294, \
-_PRIMITIVE_295, \
-_COMPOUND_296, \
-_COMPILED_297, \
-_AFTER_CALL_298, \
-_PRIMITIVE_299, \
-_COMPOUND_300, \
-_COMPILED_301, \
-_AFTER_CALL_302, \
-_PRIMITIVE_303, \
-_COMPOUND_304, \
-_COMPILED_305, \
-_AFTER_CALL_306, \
-_PRIMITIVE_307, \
-_COMPOUND_308, \
-_COMPILED_309, \
-_AFTER_CALL_310, \
-_PRIMITIVE_311, \
-_COMPOUND_312, \
-_COMPILED_313, \
-_AFTER_CALL_314
+_PRIMITIVE_232, \
+_COMPOUND_233, \
+_COMPILED_234, \
+_AFTER_CALL_235, \
+_PRIMITIVE_236, \
+_COMPOUND_237, \
+_COMPILED_238, \
+_AFTER_CALL_239, \
+_PRIMITIVE_240, \
+_COMPOUND_241, \
+_COMPILED_242, \
+_AFTER_CALL_243
 
 #endif
