@@ -80,7 +80,7 @@ Obj delayExpr(Obj expr) {
 	return CADR(expr);
 }
 
-Obj makeDelay(Obj expr) {
+Obj transformDelay(Obj expr) {
 	List* list = 
 		makeList(LAMBDAOBJ,
 			makeList(NULLOBJ, 
@@ -134,7 +134,7 @@ Obj boolExps(Obj expr) {
 	return CDR(expr);
 }
 
-/* makeAnd and makeOr take and- and or-expressions and 
+/* transformAnd and transformOr take and- and or-expressions and 
 transform them into if-expressions. For example, the 
 expression (and a b c d) is transformed into 
 (if a (and b c d) false), and the expression 
@@ -142,7 +142,7 @@ expression (and a b c d) is transformed into
 This is not a very efficient way to implement boolean 
 expression, but it is the easiest way */
 
-Obj makeAnd(Obj expr) {
+Obj transformAnd(Obj expr) {
 	Obj seq = boolExps(expr);
 
 	if (noExps(seq))
@@ -163,7 +163,7 @@ Obj makeAnd(Obj expr) {
 	return LISTOBJ(ifTrans);
 }
 
-Obj makeOr(Obj expr) {
+Obj transformOr(Obj expr) {
 	Obj seq = boolExps(expr);
 
 	if (noExps(seq))
@@ -215,20 +215,6 @@ Obj makeFunc(Obj params, Obj body, Obj env) {
 
 /* ass, def */
 
-bool isAss(Obj expr) {
-	return hasForm(expr, ASS_KEY);
-}
-
-Obj assVar(Obj expr) {
-	return CADR(expr);
-}
-
-Obj assVal(Obj expr) {
-	return CADDR(expr);
-}
-
-// -- setVar in env.c
-
 bool isDef(Obj expr) {
 	return hasForm(expr, DEF_KEY);
 }
@@ -241,7 +227,17 @@ Obj defVal(Obj expr) {
 	return CADDR(expr);
 }
 
-// -- defineVar in env.c
+bool isAss(Obj expr) {
+	return hasForm(expr, ASS_KEY);
+}
+
+Obj assVar(Obj expr) {
+	return CADR(expr);
+}
+
+Obj assVal(Obj expr) {
+	return CADDR(expr);
+}
 
 /* set-car! and set-cdr! */
 
@@ -249,7 +245,7 @@ bool isSetCar(Obj expr) {
 	return hasForm(expr, SETCAR_KEY);
 }
 
-Obj makeSetCar(Obj expr) {
+Obj transformSetCar(Obj expr) {
 	Obj var = assVar(expr);
 	Obj carVal = assVal(expr);
 
@@ -274,7 +270,7 @@ bool isSetCdr(Obj expr) {
 	return hasForm(expr, SETCDR_KEY);
 }
 
-Obj makeSetCdr(Obj expr) {
+Obj transformSetCdr(Obj expr) {
 	Obj var = assVar(expr);
 	Obj cdrVal = assVal(expr);
 

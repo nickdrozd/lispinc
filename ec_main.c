@@ -88,7 +88,7 @@ int main(void) {
 
 	DELAY:
 				print_info("DELAY");
-		expr = makeDelay(expr);
+		expr = transformDelay(expr);
 		goto EVAL;
 
 	LAMBDA:
@@ -129,12 +129,12 @@ int main(void) {
 
 	AND:
 				print_info("AND");
-		expr = makeAnd(expr);
+		expr = transformAnd(expr);
 		goto EVAL;
 
 	OR:
 				print_info("OR");
-		expr = makeOr(expr);
+		expr = transformOr(expr);
 		goto EVAL;
 
 	/* ass, def */
@@ -142,25 +142,6 @@ int main(void) {
 	#define ASS_DEF_RETURN_VAL DUMMYOBJ
 		
 	// leave ass/def val as return val?
-
-	ASSIGNMENT:
-				print_info("ASSIGNMENT");
-		unev = assVar(expr);
-		save(unev);
-		expr = assVal(expr);
-		save(env);
-		save(cont);
-		cont = LABELOBJ(_DID_ASS_VAL);
-		goto EVAL;
-
-	DID_ASS_VAL:
-				print_info("DID_ASS_VAL");
-		restore(cont);
-		restore(env);
-		restore(unev);
-		setVar(unev, val, env); // var, val, env
-		// val = ASS_DEF_RETURN_VAL;
-		goto CONTINUE;
 
 	DEFINITION:
 				print_info("DEFINITION");
@@ -181,14 +162,33 @@ int main(void) {
 		// val = ASS_DEF_RETURN_VAL;
 		goto CONTINUE;
 
+	ASSIGNMENT:
+				print_info("ASSIGNMENT");
+		unev = assVar(expr);
+		save(unev);
+		expr = assVal(expr);
+		save(env);
+		save(cont);
+		cont = LABELOBJ(_DID_ASS_VAL);
+		goto EVAL;
+
+	DID_ASS_VAL:
+				print_info("DID_ASS_VAL");
+		restore(cont);
+		restore(env);
+		restore(unev);
+		setVar(unev, val, env); // var, val, env
+		// val = ASS_DEF_RETURN_VAL;
+		goto CONTINUE;
+
 	SET_CAR:
 				print_info("SET_CAR");
-		expr = makeSetCar(expr);
+		expr = transformSetCar(expr);
 		goto EVAL;
 
 	SET_CDR:
 				print_info("SET_CDR");
-		expr = makeSetCdr(expr);
+		expr = transformSetCdr(expr);
 		goto EVAL;
 
 	/******************/

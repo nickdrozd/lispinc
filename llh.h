@@ -41,7 +41,7 @@ Obj beginActions(Obj expr);
 
 bool isDelay(Obj expr);
 Obj delayExpr(Obj expr);
-Obj makeDelay(Obj expr);
+Obj transformDelay(Obj expr);
 
 bool isIf(Obj expr);
 Obj ifTest(Obj expr);
@@ -52,8 +52,8 @@ Obj ifElse(Obj expr);
 bool isAnd(Obj expr);
 bool isOr(Obj expr);
 Obj boolExps(Obj expr);
-Obj makeAnd(Obj seq);
-Obj makeOr(Obj seq);
+Obj transformAnd(Obj seq);
+Obj transformOr(Obj seq);
 
 bool isLambda(Obj expr);
 Obj lambdaParams(Obj expr);
@@ -68,9 +68,9 @@ Obj defVar(Obj expr);
 Obj defVal(Obj expr);
 
 bool isSetCar(Obj expr);
-Obj makeSetCar(Obj expr);
+Obj transformSetCar(Obj expr);
 bool isSetCdr(Obj expr);
-Obj makeSetCdr(Obj expr);
+Obj transformSetCdr(Obj expr);
 
 /* FUNCTION */
 bool isSimple(Obj expr);
