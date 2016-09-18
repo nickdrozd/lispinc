@@ -145,6 +145,8 @@ int main(void) {
 
 	DEFINITION:
 				print_info("DEFINITION");
+		if (isSugarDef(expr))
+			expr = transformSugarDef(expr);
 		unev = defVar(expr);
 		save(unev);
 		expr = defVal(expr);

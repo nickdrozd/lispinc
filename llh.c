@@ -219,6 +219,28 @@ bool isDef(Obj expr) {
 	return hasForm(expr, DEF_KEY);
 }
 
+bool isSugarDef(Obj expr) {
+	return GETTAG(CADR(expr)) == LIST;
+}
+
+Obj transformSugarDef(Obj expr) {
+	Obj funcArgs = CADR(expr);
+	Obj func = CAR(funcArgs);
+	Obj args = CDR(funcArgs);
+	Obj body = CDDR(expr);
+
+	Obj lambdaExpr = 
+		CONS(LAMBDAOBJ, 
+			CONS(args, body));
+
+	Obj transformed = 
+		CONS(DEFOBJ, 
+			CONS(func, 
+				CONS(lambdaExpr, NULLOBJ)));
+
+	return transformed;
+}
+
 Obj defVar(Obj expr) {
 	return CADR(expr);
 }

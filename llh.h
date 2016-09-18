@@ -60,12 +60,15 @@ Obj lambdaParams(Obj expr);
 Obj lambdaBody(Obj expr);
 Obj makeFunc(Obj params, Obj body, Obj env);
 
-bool isAss(Obj expr);
-Obj assVar(Obj expr);
-Obj assVal(Obj expr);
 bool isDef(Obj expr);
 Obj defVar(Obj expr);
 Obj defVal(Obj expr);
+bool isSugarDef(Obj expr);
+Obj transformSugarDef(Obj expr);
+
+bool isAss(Obj expr);
+Obj assVar(Obj expr);
+Obj assVal(Obj expr);
 
 bool isSetCar(Obj expr);
 Obj transformSetCar(Obj expr);
