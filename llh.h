@@ -94,8 +94,6 @@ bool isPrimitive(Obj obj);
 bool isCompound(Obj obj);
 bool isCompiled(Obj obj);
 
-Obj applyPrimitive(Obj func, Obj arglist);
-
 Obj funcParams(Obj obj);
 Obj funcBody(Obj obj);
 Obj funcEnv(Obj obj);

@@ -22,6 +22,8 @@
 #include "objects.h"
 #include "keywords.h"
 
+Obj applyPrimitive(Obj func, Obj arglist);
+
 /* primitive arithmetic functions */
 #define arith_len 6
 

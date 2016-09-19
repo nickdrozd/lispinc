@@ -1,5 +1,36 @@
 #include "primitives.h"
 
+/* if new primitives are added, applyPrimitive 
+can be extended in an obvious way */
+Obj applyPrimitive(Obj func, Obj arglist) {
+	Prim prim = func.val.prim;
+
+	primFunc primfunc = prim.func;
+	argCount argcount = prim.count;
+
+	if (argcount == NIL) {
+		nilArgFunc nilfunc = primfunc.nil;
+		return nilfunc();
+	}
+	
+	Obj arg1 = CAR(arglist);
+
+	if (argcount == ONE) {
+		oneArgFunc onefunc = primfunc.one;
+		return onefunc(arg1);
+	}
+
+	Obj arg2 = CADR(arglist);
+
+	if (argcount == TWO) {
+		twoArgFunc twofunc = primfunc.two;
+		return twofunc(arg1, arg2);
+	}
+
+	return DUMMYOBJ;
+}
+
+
 /* PRIMITIVE FUNCTIONS DEFINED */
 
 /* primitive type-checking */

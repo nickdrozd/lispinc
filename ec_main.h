@@ -45,6 +45,7 @@
 #include "env.h"
 #include "registers.h"
 #include "stack.h"
+#include "primitives.h"
 #include "llh.h"
 #include "print.h"
 #include "tally.h"
