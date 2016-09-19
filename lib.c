@@ -5,14 +5,14 @@
 		("LAMBDA_KEY" (n) \
 			("IF_KEY" (zero? n) \
 				0 \
-				(+ n (recursive_triangular_interpreted (sub1 n))))))"
+				("ADD_NAME" n (recursive_triangular_interpreted (sub1 n))))))"
 
 #define tetrahedral \
 	"("DEF_KEY" recursive_tetrahedral_interpreted \
 		("LAMBDA_KEY" (n) \
 			("IF_KEY" (zero? n) \
 				0 \
-				(+ (recursive_triangular_interpreted n) \
+				("ADD_NAME" (recursive_triangular_interpreted n) \
 					(recursive_tetrahedral_interpreted (sub1 n))))))"
 
 #define supertetrahedral \
@@ -20,7 +20,7 @@
 		("LAMBDA_KEY" (n) \
 			("IF_KEY" (zero? n) \
 				0 \
-				(+ (recursive_tetrahedral_interpreted n) \
+				("ADD_NAME" (recursive_tetrahedral_interpreted n) \
 					(recursive_supertetrahedral_interpreted (sub1 n))))))"
 
 #define fact_rec \
@@ -28,7 +28,7 @@
 		("LAMBDA_KEY" (n) \
 			("IF_KEY" (zero? n) \
 				1 \
-				(* n (recursive_factorial_interpreted (sub1 n))))))"
+				("MUL_NAME" n (recursive_factorial_interpreted (sub1 n))))))"
 
 #define fact_iter \
 	"("DEF_KEY" iterative_factorial_interpreted \
@@ -38,16 +38,15 @@
 					("IF_KEY" (zero? count) \
 						total \
 						(loop (sub1 count) \
-							(* total count))))) \
+							("MUL_NAME" total count))))) \
 			(loop n 1)))"
 
 #define fib_rec \
 	"("DEF_KEY" recursive_fibonacci_interpreted \
 		("LAMBDA_KEY" (n) \
-			("IF_KEY" (or (zero? n) \
-					(one? n)) \
+			("IF_KEY" (< n 2) \
 				n \
-				(+ (recursive_fibonacci_interpreted (- n 1)) \
+				("ADD_NAME" (recursive_fibonacci_interpreted (- n 1)) \
 					(recursive_fibonacci_interpreted (- n 2))))))"
 
 #define fib_iter \
@@ -59,7 +58,7 @@
 						a \
 						(loop (sub1 count) \
 							b \
-							(+ a b))))) \
+							("ADD_NAME" a b))))) \
 			(loop n 0 1)))"
 
 /* newlines are needed because of some quirk in the
