@@ -3,6 +3,7 @@
 /* evaluator info printing */
 
 void print_info(char* main_label) {
+	labels_passed_count++;
 	if (!INFO || LIB) return;
 
 	NL;
@@ -13,8 +14,6 @@ void print_info(char* main_label) {
 	if (STEP)
 		getchar();
 	NL;
-
-	labels_passed_count++;
 
 	return;
 }
