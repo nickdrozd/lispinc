@@ -7,6 +7,9 @@
 	these functions and then passes them to env.c, 
 	where they are zipped together to create the frame 
 	of the base_env.
+
+	TODO:
+		* primitive names should be moved to keywords.h
 */
 
 #ifndef PRIMITIVES_GUARD
@@ -17,18 +20,19 @@
 #include <stdbool.h>
 
 #include "objects.h"
+#include "keywords.h"
 
 /* primitive arithmetic functions */
 #define arith_len 6
 
 twoArgFunc add_;
-#define addprim TWOFUNC(add_, "__+__")
+#define addprim TWOFUNC(add_, ADD_NAME)
 
 twoArgFunc sub_;
 #define subprim TWOFUNC(sub_, "-")
 
 twoArgFunc mul_;
-#define mulprim TWOFUNC(mul_, "__*__")
+#define mulprim TWOFUNC(mul_, MUL_NAME)
 
 twoArgFunc div_;
 #define divprim TWOFUNC(div_, "/")

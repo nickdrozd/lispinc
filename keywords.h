@@ -53,6 +53,12 @@
 
 #define DELAY_KEY "delay"
 
+/* primitives */
+
+#define ADD_NAME "_+_"
+#define MUL_NAME "_*_"
+
+
 /* user commands */
 
 // commands run by read
