@@ -26,7 +26,7 @@
 #define fact_rec \
 	"("DEF_KEY" recursive_factorial_interpreted \
 		("LAMBDA_KEY" (n) \
-			("IF_KEY" (zero? n) \
+			("IF_KEY" (< n 2) \
 				1 \
 				("MUL_NAME" n (recursive_factorial_interpreted (sub1 n))))))"
 
@@ -35,7 +35,7 @@
 		("LAMBDA_KEY" (n) \
 			("DEF_KEY" loop \
 				("LAMBDA_KEY" (count total) \
-					("IF_KEY" (zero? count) \
+					("IF_KEY" (< count 2) \
 						total \
 						(loop (sub1 count) \
 							("MUL_NAME" total count))))) \

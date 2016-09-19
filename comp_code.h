@@ -621,9 +621,11 @@ ENTRY_125: print_info("ENTRY_125"); \
 env = COMPENVOBJ(func); \
 unev = parse("(n)\n"); \
 env = extendEnv(unev, arglist, env); \
-func = lookup(NAMEOBJ("zero?"), env); \
-val = lookup(NAMEOBJ("n"), env); \
+func = lookup(NAMEOBJ("<"), env); \
+val = NUMOBJ(2); \
 arglist = CONS(val, NULLOBJ); \
+val = lookup(NAMEOBJ("n"), env); \
+arglist = CONS(val, arglist); \
 val = applyPrimitive(func, arglist); \
 if (isTrue(val)) goto TRUE_BRANCH_127; \
 FALSE_BRANCH_128: print_info("FALSE_BRANCH_128"); \
@@ -678,9 +680,11 @@ ENTRY_136: print_info("ENTRY_136"); \
 env = COMPENVOBJ(func); \
 unev = parse("(count total)\n"); \
 env = extendEnv(unev, arglist, env); \
-func = lookup(NAMEOBJ("zero?"), env); \
-val = lookup(NAMEOBJ("count"), env); \
+func = lookup(NAMEOBJ("<"), env); \
+val = NUMOBJ(2); \
 arglist = CONS(val, NULLOBJ); \
+val = lookup(NAMEOBJ("count"), env); \
+arglist = CONS(val, arglist); \
 val = applyPrimitive(func, arglist); \
 if (isTrue(val)) goto TRUE_BRANCH_138; \
 FALSE_BRANCH_139: print_info("FALSE_BRANCH_139"); \
@@ -829,7 +833,7 @@ ENTRY_164: print_info("ENTRY_164"); \
 env = COMPENVOBJ(func); \
 unev = parse("(count a b)\n"); \
 env = extendEnv(unev, arglist, env); \
-func = lookup(NAMEOBJ("zero?"), env); \
+func = lookup(NAMEOBJ("one?"), env); \
 val = lookup(NAMEOBJ("count"), env); \
 arglist = CONS(val, NULLOBJ); \
 val = applyPrimitive(func, arglist); \
@@ -867,7 +871,7 @@ val = applyPrimitive(func, arglist); \
 goto CONTINUE; \
 AFTER_CALL_172: print_info("AFTER_CALL_172"); \
 TRUE_BRANCH_166: print_info("TRUE_BRANCH_166"); \
-val = lookup(NAMEOBJ("a"), env); \
+val = lookup(NAMEOBJ("b"), env); \
 goto CONTINUE; \
 AFTER_IF_168: print_info("AFTER_IF_168"); \
 AFTER_LAMBDA_165: print_info("AFTER_LAMBDA_165"); \
