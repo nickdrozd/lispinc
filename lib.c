@@ -54,8 +54,8 @@
 		("LAMBDA_KEY" (n) \
 			("DEF_KEY" loop \
 				("LAMBDA_KEY" (count a b) \
-					("IF_KEY" (zero? count) \
-						a \
+					("IF_KEY" (one? count) \
+						b \
 						(loop (sub1 count) \
 							b \
 							("ADD_NAME" a b))))) \
