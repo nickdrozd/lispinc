@@ -72,6 +72,40 @@ Obj cdr_func(Obj obj) {
 		return LISTOBJ(list->cdr);
 }
 
+Obj cadr_func(Obj obj) {
+	return car_func(cdr_func(obj));
+}
+
+Obj cddr_func(Obj obj) {
+	return cdr_func(cdr_func(obj));
+}
+
+Obj cdadr_func(Obj obj) {
+	return cdr_func(cadr_func(obj));
+}
+
+Obj caddr_func(Obj obj) {
+	return car_func(cddr_func(obj));
+}
+
+Obj cdddr_func(Obj obj) {
+	return cdr_func(cddr_func(obj));
+}
+
+Obj cadddr_func(Obj obj) {
+	return car_func(cdddr_func(obj));
+}
+
+// is there a faster way to do this?
+oneArgFunc car_ = car_func;
+oneArgFunc cdr_ = cdr_func;
+oneArgFunc cadr_ = cadr_func;
+oneArgFunc cddr_ = cddr_func;
+oneArgFunc cdadr_ = cdadr_func;
+oneArgFunc caddr_ = caddr_func;
+oneArgFunc cdddr_ = cdddr_func;
+oneArgFunc cadddr_ = cadddr_func;
+
 /* second object MUST BE list. if it isn't 
 a list, it will be coerced to a one-item list */
 Obj cons_func(Obj car, Obj cdr) {
@@ -86,8 +120,6 @@ Obj cons_func(Obj car, Obj cdr) {
 		return LISTOBJ(makeList(car, GETLIST(cdr)));
 }
 
-oneArgFunc car_ = car_func;
-oneArgFunc cdr_ = cdr_func;
 twoArgFunc cons_ = cons_func;
 
 /* primitive arithmetic */

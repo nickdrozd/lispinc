@@ -84,7 +84,10 @@ oneArgFunc isbool_;
 #define isboolprim ONEFUNC(isbool_, "boolean?")
 
 /* primitive list functions */
-#define list_len 3
+#define list_len 9
+
+twoArgFunc cons_;
+#define consprim TWOFUNC(cons_, "cons")
 
 oneArgFunc car_;
 #define carprim ONEFUNC(car_, "car")
@@ -92,8 +95,23 @@ oneArgFunc car_;
 oneArgFunc cdr_;
 #define cdrprim ONEFUNC(cdr_, "cdr")
 
-twoArgFunc cons_;
-#define consprim TWOFUNC(cons_, "cons")
+oneArgFunc cadr_;
+#define cadrprim ONEFUNC(cadr_, "cadr")
+
+oneArgFunc cddr_;
+#define cddrprim ONEFUNC(cddr_, "cddr")
+
+oneArgFunc cdadr_;
+#define cdadrprim ONEFUNC(cdadr_, "cdadr")
+
+oneArgFunc caddr_;
+#define caddrprim ONEFUNC(caddr_, "caddr")
+
+oneArgFunc cdddr_;
+#define cdddrprim ONEFUNC(cdddr_, "cdddr")
+
+oneArgFunc cadddr_;
+#define cadddrprim ONEFUNC(cadddr_, "cadddr")
 
 /* I/O */
 #define io_len 2
@@ -116,6 +134,8 @@ eqprim, ltprim, gtprim, \
 iszeroprim, isoneprim, geneqprim, \
 nullprim, isnumberprim, islistprim, isboolprim, \
 carprim, cdrprim, consprim, \
+cadrprim, cddrprim, cdadrprim, \
+caddrprim, cdddrprim, cadddrprim, \
 readprim, displayprim, \
 }
 
