@@ -1,36 +1,5 @@
 #include "primitives.h"
 
-/* if new primitives are added, applyPrimitive 
-can be extended in an obvious way */
-Obj applyPrimitive(Obj func, Obj arglist) {
-	Prim prim = func.val.prim;
-
-	primFunc primfunc = prim.func;
-	argCount argcount = prim.count;
-
-	if (argcount == NIL) {
-		nilArgFunc nilfunc = primfunc.nil;
-		return nilfunc();
-	}
-	
-	Obj arg1 = CAR(arglist);
-
-	if (argcount == ONE) {
-		oneArgFunc onefunc = primfunc.one;
-		return onefunc(arg1);
-	}
-
-	Obj arg2 = CADR(arglist);
-
-	if (argcount == TWO) {
-		twoArgFunc twofunc = primfunc.two;
-		return twofunc(arg1, arg2);
-	}
-
-	return DUMMYOBJ;
-}
-
-
 /* PRIMITIVE FUNCTIONS DEFINED */
 
 /* primitive type-checking */
@@ -235,6 +204,33 @@ oneArgFunc iszero_ = iszero_func;
 oneArgFunc isone_ = isone_func;
 twoArgFunc geneq_ = geneq_func;
 
+/* I/O */
+
+Obj read_func(void) {
+	printf("%s\n", "READ: ");
+	get_input();
+
+	if (isIrregular(code)) {
+		if (badSyntax(code))
+			printf("Bad syntax! Try again!\n");
+		read_func();
+	}
+
+	return parse(code);
+}
+
+nilArgFunc read_ = read_func;
+
+Obj display_func(Obj obj) {
+	printf("%s\n", "DISPLAY: ");
+	print_obj(obj); 
+	getchar();
+	return obj;
+}
+
+oneArgFunc display_ = display_func;
+
+
 /* error-checking */
 
 // error-checking helper
@@ -260,3 +256,36 @@ void print_error_message(Tag tag) {
 
 	printf("%s operation error! Oops!\n", operation_type);
 }
+
+/* primitive application */
+
+/* if new primitives are added, applyPrimitive 
+can be extended in an obvious way */
+Obj applyPrimitive(Obj func, Obj arglist) {
+	Prim prim = func.val.prim;
+
+	primFunc primfunc = prim.func;
+	argCount argcount = prim.count;
+
+	if (argcount == NIL) {
+		nilArgFunc nilfunc = primfunc.nil;
+		return nilfunc();
+	}
+	
+	Obj arg1 = CAR(arglist);
+
+	if (argcount == ONE) {
+		oneArgFunc onefunc = primfunc.one;
+		return onefunc(arg1);
+	}
+
+	Obj arg2 = CADR(arglist);
+
+	if (argcount == TWO) {
+		twoArgFunc twofunc = primfunc.two;
+		return twofunc(arg1, arg2);
+	}
+
+	return DUMMYOBJ;
+}
+

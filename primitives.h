@@ -21,6 +21,8 @@
 
 #include "objects.h"
 #include "keywords.h"
+#include "read.h"
+#include "print.h"
 
 Obj applyPrimitive(Obj func, Obj arglist);
 
@@ -93,9 +95,19 @@ oneArgFunc cdr_;
 twoArgFunc cons_;
 #define consprim TWOFUNC(cons_, "cons")
 
+/* I/O */
+#define io_len 2
+
+nilArgFunc read_;
+#define readprim NILFUNC(read_, "read")
+
+oneArgFunc display_;
+#define displayprim ONEFUNC(display_, "display")
+
 // make sure to keep these updated!!!
 
-#define PRIM_LEN (arith_len+bool_len+type_len+list_len)
+#define PRIM_LEN (arith_len + bool_len + \
+				type_len + list_len + io_len)
 
 #define LIST_OF_PRIMITIVES { \
 addprim, subprim, mulprim, divprim, \
@@ -103,7 +115,8 @@ addoneprim, suboneprim, \
 eqprim, ltprim, gtprim, \
 iszeroprim, isoneprim, geneqprim, \
 nullprim, isnumberprim, islistprim, isboolprim, \
-carprim, cdrprim, consprim \
+carprim, cdrprim, consprim, \
+readprim, displayprim, \
 }
 
 
