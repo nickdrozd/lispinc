@@ -20,4 +20,6 @@ extern int frames_traversed;
 
 extern int form_check_count;
 
+extern int labels_passed_count;
+
 #endif

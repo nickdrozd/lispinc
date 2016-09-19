@@ -14,6 +14,8 @@ void print_info(char* main_label) {
 		getchar();
 	NL;
 
+	labels_passed_count++;
+
 	return;
 }
  

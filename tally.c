@@ -16,6 +16,10 @@ int frames_traversed = 0;
 
 int form_check_count = 0;
 
+/* label stats */
+
+int labels_passed_count = 0;
+
 /* stat functions */
 
 void print_stats(void) {
@@ -31,6 +35,8 @@ void print_stats(void) {
 	// printf("Total frames traversed: %d", frames_traversed);NL;
 
 	printf("Total syntax checks: %d", form_check_count);NL;
+
+	printf("Total labels passed: %d", labels_passed_count);NL;
 }
 
 void reset_stats(void) {
@@ -43,4 +49,6 @@ void reset_stats(void) {
 	frames_traversed = 0;
 
 	form_check_count = 0;
+
+	labels_passed_count = 0;
 }
