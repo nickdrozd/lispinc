@@ -33,6 +33,8 @@
 
 Obj read_code(void);
 
+extern char code[];
+
 /* input prompt */
 void input_prompt(void);
 
