@@ -169,7 +169,7 @@ applynilprim, applyoneprim, applytwoprim, \
 /* error checking */
 
 bool are_both_nums(Obj a, Obj b);
-void print_error_message(Tag tag);
+void print_error_message(Tag tag, char* source);
 
 
 // from read.c

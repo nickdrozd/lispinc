@@ -49,14 +49,14 @@ macros found in objects.h!) */
 
 Obj car_func(Obj obj) {
 	if (!(GETTAG(obj) == LIST)) {
-		print_error_message(LIST);
+		print_error_message(LIST, "car");
 		return ERROROBJ;
 	}
 
 	List* list = GETLIST(obj);
 
 	if (list == NULL) {
-		print_error_message(LIST);
+		print_error_message(LIST, "car");
 		return ERROROBJ;
 	}
 	else
@@ -65,7 +65,7 @@ Obj car_func(Obj obj) {
 
 Obj cdr_func(Obj obj) {
 	if (!(GETTAG(obj) == LIST)) {
-		print_error_message(LIST);
+		print_error_message(LIST, "cdr");
 		return ERROROBJ;
 	}
 
@@ -132,7 +132,7 @@ twoArgFunc cons_ = cons_func;
 
 Obj add_func(Obj a, Obj b) {
 	if (!are_both_nums(a,b)) {
-		print_error_message(NUM);
+		print_error_message(NUM, ADD_NAME);
 		return ERROROBJ;
 	}
 	return NUMOBJ(GETNUM(a) + GETNUM(b));
@@ -140,7 +140,7 @@ Obj add_func(Obj a, Obj b) {
 
 Obj sub_func(Obj a, Obj b) {
 	if (!are_both_nums(a,b)) {
-		print_error_message(NUM);
+		print_error_message(NUM, "-");
 		return ERROROBJ;
 	}
 	return NUMOBJ(GETNUM(a) - GETNUM(b));
@@ -148,7 +148,7 @@ Obj sub_func(Obj a, Obj b) {
 
 Obj mul_func(Obj a, Obj b) {
 	if (!are_both_nums(a,b)) {
-		print_error_message(NUM);
+		print_error_message(NUM, MUL_NAME);
 		return ERROROBJ;
 	}
 	return NUMOBJ(GETNUM(a) * GETNUM(b));
@@ -156,7 +156,7 @@ Obj mul_func(Obj a, Obj b) {
 
 Obj div_func(Obj a, Obj b) { // floor division
 	if (!are_both_nums(a,b)) {
-		print_error_message(NUM);
+		print_error_message(NUM, "/");
 		return ERROROBJ;
 	}
 	return NUMOBJ(GETNUM(a) / GETNUM(b));
@@ -182,7 +182,7 @@ oneArgFunc subone_ = subone_func;
 
 Obj eq_func(Obj a, Obj b) {
 	if (!are_both_nums(a,b)) {
-		print_error_message(NUM);
+		print_error_message(NUM, "=");
 		return ERROROBJ;
 	}
 	return BOOLOBJ(GETNUM(a) == GETNUM(b));
@@ -190,7 +190,7 @@ Obj eq_func(Obj a, Obj b) {
 
 Obj lt_func(Obj a, Obj b) {
 	if (!are_both_nums(a,b)) {
-		print_error_message(NUM);
+		print_error_message(NUM, "<");
 		return ERROROBJ;
 	}
 	return BOOLOBJ(GETNUM(a) < GETNUM(b));
@@ -198,7 +198,7 @@ Obj lt_func(Obj a, Obj b) {
 
 Obj gt_func(Obj a, Obj b) {
 	if (!are_both_nums(a,b)) {
-		print_error_message(NUM);
+		print_error_message(NUM, ">");
 		return ERROROBJ;
 	}
 	return BOOLOBJ(GETNUM(a) > GETNUM(b));
@@ -245,7 +245,7 @@ twoArgFunc geneq_ = geneq_func;
 /* I/O */
 
 Obj read_func(void) {
-	printf("%s\n", "READ: ");
+	// printf("%s\n", "READ: ");
 	get_input();
 
 	if (isIrregular(code)) {
@@ -260,7 +260,7 @@ Obj read_func(void) {
 nilArgFunc read_ = read_func;
 
 Obj display_func(Obj obj) {
-	printf("DISPLAY: ");
+	// printf("DISPLAY: ");
 	print_obj(obj);
 	if (INFO) getchar();
 
@@ -274,7 +274,7 @@ Obj newline_func(void) {
 	return DUMMYOBJ;
 }
 
-nilArgFunc newline_ newline_func;
+nilArgFunc newline_ = newline_func;
 
 Obj error_func(void) {
 	printf("Error? Uh-oh!\n");
@@ -291,7 +291,7 @@ bool are_both_nums(Obj a, Obj b) {
 		GETTAG(b) == NUM;
 }
 
-void print_error_message(Tag tag) {
+void print_error_message(Tag tag, char* source) {
 	char* operation_type;
 
 	switch(tag) {
@@ -306,7 +306,8 @@ void print_error_message(Tag tag) {
 			break;
 	}
 
-	printf("%s operation error! Oops!\n", operation_type);
+	printf("%s operation error from *%s*! Oops!\n", 
+				operation_type, source);
 }
 
 /* primitive application */
@@ -340,10 +341,21 @@ Obj applyPrimitive(Obj func, Obj arglist) {
 
 	return DUMMYOBJ;
 }
-/*
-Obj apply_nil_func() {
-	return applyPrimitive
+
+Obj apply_nil_func(Obj func, Obj arglist) {
+	return applyPrimitive(func, arglist);
 }
 
-Obj 
-*/
+twoArgFunc apply_nil_ = apply_nil_func;
+
+Obj apply_one_func(Obj func, Obj arglist) {
+	return applyPrimitive(func, arglist);
+}
+
+twoArgFunc apply_one_ = apply_one_func;
+
+Obj apply_two_func(Obj func, Obj arglist) {
+	return applyPrimitive(func, arglist);
+}
+
+twoArgFunc apply_two_ = apply_two_func;
