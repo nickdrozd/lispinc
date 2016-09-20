@@ -118,7 +118,7 @@ oneArgFunc cadddr_;
 #define cadddrprim ONEFUNC(cadddr_, "cadddr")
 
 /* I/O */
-#define io_len 3
+#define io_len 4
 
 nilArgFunc read_;
 #define readprim NILFUNC(read_, "read")
@@ -132,10 +132,23 @@ nilArgFunc newline_;
 nilArgFunc error_;
 #define errorprim NILFUNC(error_, "error")
 
+/* primitive application */
+#define prim_app_len 3
+
+twoArgFunc apply_nil_;
+#define applynilprim TWOFUNC(apply_nil_, "applyNilFunc")
+
+twoArgFunc apply_one_;
+#define applyoneprim TWOFUNC(apply_one_, "applyOneFunc")
+
+twoArgFunc apply_two_;
+#define applytwoprim TWOFUNC(apply_two_, "applyTwoFunc")
+
+
 // make sure to keep these updated!!!
 
-#define PRIM_LEN (arith_len + bool_len + \
-				type_len + list_len + io_len)
+#define PRIM_LEN (arith_len + bool_len + type_len + \
+				list_len + io_len + prim_app_len)
 
 #define LIST_OF_PRIMITIVES { \
 addprim, subprim, mulprim, divprim, \
@@ -147,7 +160,8 @@ isboolprim, issymbolprim, \
 carprim, cdrprim, consprim, \
 cadrprim, cddrprim, cdadrprim, \
 caddrprim, cdddrprim, cadddrprim, \
-readprim, displayprim, errorprim, \
+readprim, displayprim, errorprim, newlineprim, \
+applynilprim, applyoneprim, applytwoprim, \
 }
 
 
