@@ -11,7 +11,13 @@ Env* base_env;
 Env* makeBaseEnv(void) {
 	Prim primitives[] = LIST_OF_PRIMITIVES;
 
-	Frame* next_frame = NULL;
+	Frame* falseFrame = makeFrame(FALSE_NAME, FALSEOBJ);
+	falseFrame->next = NULL;
+
+	Frame* trueFrame = makeFrame(TRUE_NAME, TRUEOBJ);
+	trueFrame->next = falseFrame;
+
+	Frame* next_frame = trueFrame;
 	Frame* prim_frame;
 	Prim prim;
 	Obj val;

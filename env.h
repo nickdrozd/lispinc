@@ -73,6 +73,7 @@
 #include "objects.h"
 #include "flags.h"
 #include "primitives.h"
+#include "keywords.h"
 #include "tally.h"
 #include "mem.h"
 
