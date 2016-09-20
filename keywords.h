@@ -58,6 +58,8 @@
 #define ADD_NAME "_+_"
 #define MUL_NAME "_*_"
 
+#define TRUE_NAME "#t"
+#define FALSE_NAME "#f"
 
 /* user commands */
 
