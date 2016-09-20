@@ -22,6 +22,12 @@ Obj isbool_func(Obj obj) {
 
 oneArgFunc isbool_ = isbool_func;
 
+Obj issymbol_func(Obj obj) {
+	return BOOLOBJ(GETTAG(obj) == NAME);
+}
+
+oneArgFunc issymbol_ = issymbol_func;
+
 // null? returns false for non-list objects
 Obj null_func(Obj obj) {
 	bool isList = GETTAG(obj) == LIST;
@@ -254,14 +260,28 @@ Obj read_func(void) {
 nilArgFunc read_ = read_func;
 
 Obj display_func(Obj obj) {
-	printf("%s\n", "DISPLAY: ");
-	print_obj(obj); 
-	getchar();
+	printf("DISPLAY: ");
+	print_obj(obj);
+	if (INFO) getchar();
+
 	return obj;
 }
 
 oneArgFunc display_ = display_func;
 
+Obj newline_func(void) {
+	printf("\n");
+	return DUMMYOBJ;
+}
+
+nilArgFunc newline_ newline_func;
+
+Obj error_func(void) {
+	printf("Error? Uh-oh!\n");
+	return ERROROBJ;
+}
+
+nilArgFunc error_ = error_func;
 
 /* error-checking */
 
@@ -320,4 +340,10 @@ Obj applyPrimitive(Obj func, Obj arglist) {
 
 	return DUMMYOBJ;
 }
+/*
+Obj apply_nil_func() {
+	return applyPrimitive
+}
 
+Obj 
+*/

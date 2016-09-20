@@ -23,6 +23,7 @@
 #include "keywords.h"
 #include "read.h"
 #include "print.h"
+#include "flags.h"
 
 Obj applyPrimitive(Obj func, Obj arglist);
 
@@ -69,7 +70,7 @@ twoArgFunc geneq_;
 #define geneqprim TWOFUNC(geneq_, "eq?")
 
 /* primitive type-check functions */
-#define type_len 4
+#define type_len 5
 
 oneArgFunc null_;
 #define nullprim ONEFUNC(null_, "null?")
@@ -82,6 +83,9 @@ oneArgFunc islist_;
 
 oneArgFunc isbool_;
 #define isboolprim ONEFUNC(isbool_, "boolean?")
+
+oneArgFunc issymbol_;
+#define issymbolprim ONEFUNC(issymbol_, "symbol?")
 
 /* primitive list functions */
 #define list_len 9
@@ -114,13 +118,19 @@ oneArgFunc cadddr_;
 #define cadddrprim ONEFUNC(cadddr_, "cadddr")
 
 /* I/O */
-#define io_len 2
+#define io_len 3
 
 nilArgFunc read_;
 #define readprim NILFUNC(read_, "read")
 
 oneArgFunc display_;
 #define displayprim ONEFUNC(display_, "display")
+
+nilArgFunc newline_;
+#define newlineprim NILFUNC(newline_, "newline")
+
+nilArgFunc error_;
+#define errorprim NILFUNC(error_, "error")
 
 // make sure to keep these updated!!!
 
@@ -132,11 +142,12 @@ addprim, subprim, mulprim, divprim, \
 addoneprim, suboneprim, \
 eqprim, ltprim, gtprim, \
 iszeroprim, isoneprim, geneqprim, \
-nullprim, isnumberprim, islistprim, isboolprim, \
+nullprim, isnumberprim, islistprim, \
+isboolprim, issymbolprim, \
 carprim, cdrprim, consprim, \
 cadrprim, cddrprim, cdadrprim, \
 caddrprim, cdddrprim, cadddrprim, \
-readprim, displayprim, \
+readprim, displayprim, errorprim, \
 }
 
 
