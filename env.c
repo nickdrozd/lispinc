@@ -56,7 +56,7 @@ Obj extendEnv(Obj vars_obj, Obj vals_obj, Obj base_env_obj) {
 			break;
 		default:
 			printf("\n%s\n", 
-				"UNKNOWN PARAMETER TYPE -- extendEnv");
+				"extendEnv -- Unknown parameter type! Returning env unextended...");
 			return base_env_obj;		
 	}
 
@@ -91,7 +91,7 @@ Obj lookup(Obj var_obj, Obj env_obj) {
 Obj lookup_in_env(char* var, Env* env) { // lookup in env
 			if (DEBUG) printf("%s\n", "looking up in env...");
 	if (env == NULL) {
-			if (DEBUG) printf("%s\n", "null env, returning DUMMY");
+			printf("lookup -- %s isn't there! Returning DUMMY...\n", var);
 		return DUMMYOBJ;
 	}
 
@@ -137,7 +137,7 @@ void defineVar(Obj var_obj, Obj val_obj, Obj env_obj) {
 	while (frame->next) {
 				if (DEBUG) printf("%s\n", key);
 		if (strcmp(var, key) == 0) {
-			printf("variable already defined! -- defineVar\n");
+			printf("defineVar -- variable %s already defined!\n", var);
 			return;
 		}
 		else {
@@ -162,7 +162,7 @@ void setVar(Obj var_obj, Obj val_obj, Obj env_obj) {
 	Env* env = GETENV(env_obj);
 
 	if (env == NULL) {
-		printf("unbound variable -- setVar\n");
+		printf("setVar -- variable %s unbound!\n", var);
 		return;
 	}
 
