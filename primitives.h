@@ -88,7 +88,7 @@ oneArgFunc issymbol_;
 #define issymbolprim ONEFUNC(issymbol_, "symbol?")
 
 /* primitive list functions */
-#define list_len 9
+#define list_len 11
 
 twoArgFunc cons_;
 #define consprim TWOFUNC(cons_, "cons")
@@ -98,6 +98,12 @@ oneArgFunc car_;
 
 oneArgFunc cdr_;
 #define cdrprim ONEFUNC(cdr_, "cdr")
+
+twoArgFunc setcar_;
+#define setcarprim TWOFUNC(setcar_, "set-car!")
+
+twoArgFunc setcdr_;
+#define setcdrprim TWOFUNC(setcar_, "set-cdr!")
 
 oneArgFunc cadr_;
 #define cadrprim ONEFUNC(cadr_, "cadr")
@@ -158,6 +164,7 @@ iszeroprim, isoneprim, geneqprim, \
 nullprim, isnumberprim, islistprim, \
 isboolprim, issymbolprim, \
 carprim, cdrprim, consprim, \
+setcarprim, setcdrprim, \
 cadrprim, cddrprim, cdadrprim, \
 caddrprim, cdddrprim, cadddrprim, \
 readprim, displayprim, errorprim, newlineprim, \

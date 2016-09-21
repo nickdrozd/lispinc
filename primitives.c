@@ -78,6 +78,43 @@ Obj cdr_func(Obj obj) {
 		return LISTOBJ(list->cdr);
 }
 
+Obj setcar_func(Obj obj, Obj carval) {
+	if (GETTAG(obj) != LIST) {
+		print_error_message(LIST, "set-car!");
+		return ERROROBJ;
+	}
+
+	List* list = GETLIST(obj);
+
+	if (list == NULL) {
+		print_error_message(LIST, "set-car!");
+		return ERROROBJ;
+	}
+	else {
+		list->car = carval;
+		return LISTOBJ(list);
+	}
+}
+
+Obj setcdr_func(Obj obj, Obj cdrval) {
+	if (GETTAG(obj) != LIST || 
+			GETTAG(cdrval) == LIST) {
+		print_error_message(LIST, "set-cdr!");
+		return ERROROBJ;
+	}
+
+	List* list = GETLIST(obj);
+
+	if (list == NULL) {
+		print_error_message(LIST, "set-cdr!");
+		return ERROROBJ;
+	}
+	else {
+		list->cdr = GETLIST(cdrval);
+		return LISTOBJ(list);
+	}
+}
+
 Obj cadr_func(Obj obj) {
 	return car_func(cdr_func(obj));
 }
@@ -105,6 +142,10 @@ Obj cadddr_func(Obj obj) {
 // is there a faster way to do this?
 oneArgFunc car_ = car_func;
 oneArgFunc cdr_ = cdr_func;
+
+twoArgFunc setcar_ = setcar_func;
+twoArgFunc setcdr_ = setcdr_func;
+
 oneArgFunc cadr_ = cadr_func;
 oneArgFunc cddr_ = cddr_func;
 oneArgFunc cdadr_ = cdadr_func;
