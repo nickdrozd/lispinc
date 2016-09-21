@@ -261,58 +261,6 @@ Obj assVal(Obj expr) {
 	return CADDR(expr);
 }
 
-/* set-car! and set-cdr! */
-
-bool isSetCar(Obj expr) {
-	return hasForm(expr, SETCAR_KEY);
-}
-
-Obj transformSetCar(Obj expr) {
-	Obj var = assVar(expr);
-	Obj carVal = assVal(expr);
-
-	Obj cdrVal = 
-		LISTOBJ(makeList(NAMEOBJ("cdr"),
-					makeList(var, NULL)));
-
-	List* newVal =
-		makeList(NAMEOBJ("cons"),
-			makeList(carVal,
-				makeList(cdrVal, NULL)));
-
-	List* newExpr = 
-		makeList(ASSOBJ,
-			makeList(var,
-				makeList(LISTOBJ(newVal), NULL)));
-
-	return LISTOBJ(newExpr); 
-}
-
-bool isSetCdr(Obj expr) {
-	return hasForm(expr, SETCDR_KEY);
-}
-
-Obj transformSetCdr(Obj expr) {
-	Obj var = assVar(expr);
-	Obj cdrVal = assVal(expr);
-
-	Obj carVal = 
-		LISTOBJ(makeList(NAMEOBJ("car"),
-					makeList(var, NULL)));
-
-	List* newVal =
-		makeList(NAMEOBJ("cons"),
-			makeList(carVal,
-				makeList(cdrVal, NULL)));
-
-	List* newExpr = 
-		makeList(ASSOBJ,
-			makeList(var,
-				makeList(LISTOBJ(newVal), NULL)));
-
-	return LISTOBJ(newExpr); 
-}
-
 /* function */
 
 Obj getFunc(Obj expr) {

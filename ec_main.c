@@ -50,10 +50,6 @@ int main(void) {
 			goto QUOTATION;
 		if (isDelay(expr))
 			goto DELAY;
-		if (isSetCar(expr))
-			goto SET_CAR;
-		if (isSetCdr(expr))
-			goto SET_CDR;
 		goto FUNCTION;
 
 
@@ -182,16 +178,6 @@ int main(void) {
 		setVar(unev, val, env); // var, val, env
 		// val = ASS_DEF_RETURN_VAL;
 		goto CONTINUE;
-
-	SET_CAR:
-				print_info("SET_CAR");
-		expr = transformSetCar(expr);
-		goto EVAL;
-
-	SET_CDR:
-				print_info("SET_CDR");
-		expr = transformSetCdr(expr);
-		goto EVAL;
 
 	/******************/
 

@@ -70,11 +70,6 @@ bool isAss(Obj expr);
 Obj assVar(Obj expr);
 Obj assVal(Obj expr);
 
-bool isSetCar(Obj expr);
-Obj transformSetCar(Obj expr);
-bool isSetCdr(Obj expr);
-Obj transformSetCdr(Obj expr);
-
 /* FUNCTION */
 bool isSimple(Obj expr);
 
