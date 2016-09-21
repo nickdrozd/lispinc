@@ -221,6 +221,14 @@ oneArgFunc subone_ = subone_func;
 
 /* boolean functions */
 
+// (not 0) and (not '()) return #t -- desirable?
+Obj not_func(Obj expr) {
+	if (GETBOOL(expr) != 0)
+		return FALSEOBJ;
+	else
+		return TRUEOBJ;
+}
+
 Obj eq_func(Obj a, Obj b) {
 	if (!are_both_nums(a,b)) {
 		print_error_message(NUM, "=");
@@ -276,6 +284,7 @@ Obj geneq_func(Obj a, Obj b) {
 	}
 }
 
+oneArgFunc not_ = not_func;
 twoArgFunc eq_ = eq_func;
 twoArgFunc lt_ = lt_func;
 twoArgFunc gt_ = gt_func;

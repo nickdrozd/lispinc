@@ -49,7 +49,10 @@ oneArgFunc subone_;
 #define suboneprim ONEFUNC(subone_, "sub1")
 
 /* primitive boolean functions */
-#define bool_len 6
+#define bool_len 7
+
+oneArgFunc not_;
+#define notprim ONEFUNC(not_, "not")
 
 twoArgFunc eq_;
 #define eqprim TWOFUNC(eq_, "=")
@@ -159,7 +162,7 @@ twoArgFunc apply_two_;
 #define LIST_OF_PRIMITIVES { \
 addprim, subprim, mulprim, divprim, \
 addoneprim, suboneprim, \
-eqprim, ltprim, gtprim, \
+notprim, eqprim, ltprim, gtprim, \
 iszeroprim, isoneprim, geneqprim, \
 nullprim, isnumberprim, islistprim, \
 isboolprim, issymbolprim, \
