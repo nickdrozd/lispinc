@@ -98,7 +98,7 @@ Obj setcar_func(Obj obj, Obj carval) {
 
 Obj setcdr_func(Obj obj, Obj cdrval) {
 	if (GETTAG(obj) != LIST || 
-			GETTAG(cdrval) == LIST) {
+			GETTAG(cdrval) != LIST) {
 		print_error_message(LIST, "set-cdr!");
 		return ERROROBJ;
 	}

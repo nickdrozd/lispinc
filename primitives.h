@@ -106,7 +106,7 @@ twoArgFunc setcar_;
 #define setcarprim TWOFUNC(setcar_, "set-car!")
 
 twoArgFunc setcdr_;
-#define setcdrprim TWOFUNC(setcar_, "set-cdr!")
+#define setcdrprim TWOFUNC(setcdr_, "set-cdr!")
 
 oneArgFunc cadr_;
 #define cadrprim ONEFUNC(cadr_, "cadr")
