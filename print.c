@@ -209,6 +209,8 @@ void print_help(void) {
 }
 
 void print_flags(void) {
+	if (!INFO) return;
+	
 	NL;
 	printf("*** FLAGS ***");NL;
 	print_flag(INFO, INFO_NAME);
