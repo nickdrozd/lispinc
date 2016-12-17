@@ -49,6 +49,8 @@ int main(void) {
 	/************************/
 
 	EVAL:
+		// move number and quote here?
+		// macros too
 		save(env);
 		save(cont);
 		cont = LABELOBJ(_EXECUTE);
@@ -110,6 +112,9 @@ int main(void) {
 		goto CONTINUE; // CONTINUE???
 
 
+
+
+
 	DEFINITION:
 				print_info("DEFINITION");
 		if (isSugarDef(expr))
@@ -128,9 +133,92 @@ int main(void) {
 		val = makeDefExec(unev, val);
 		goto CONTINUE;
 
-	// ASSIGNMENT:
+	ASSIGNMENT:
 
-	// ASS_VAL_ANALYZED:
+	ASS_VAL_ANALYZED:
+
+
+	// do IF in arg_loop / acc_arg style
+	IF:
+		save(cont); // ???
+		arglist = empty_arglist;
+		save(arglist);
+		save(expr);
+		expr = ifTest(expr);
+		cont = LABELOBJ(_IF_TEST_ANALYZED);
+		goto ANALYZE;
+
+	IF_TEST_ANALYZED:
+		restore(expr);
+		restore(arglist);
+		arglist = adjoinArg(val, arglist);
+		save(arglist);
+		save(expr);
+		expr = ifThen(expr);
+		cont = LABELOBJ(_IF_THEN_ANALYZED);
+		goto ANALYZE;
+
+	IF_THEN_ANALYZED:
+		restore(expr);
+		restore(arglist);
+		arglist = adjoinArg(val, arglist);
+		save(arglist);
+		save(expr); // not needed?
+		expr = ifElse(expr);
+		cont = LABELOBJ(_IF_ELSE_ANALYZED);
+		goto ANALYZE;
+
+	IF_ELSE_ANALYZED:
+		restore(expr); // not needed?
+		restore(arglist);
+		arglist = adjoinArg(val, arglist);
+		val = makeIfExec(arglist);
+		goto CONTINUE;
+
+
+
+
+
+
+
+
+
+
+
+
+
+	IF_ANALYZED:
+
+
+
+
+
+
+
+
+
+
+	BEGIN:
+
+
+	FUNCTION:
+
+
+
+
+	// Macros
+
+	DELAY:
+
+	AND:
+
+	OR:
+
+
+
+
+	SEQUENCE:
+
 
 
 
@@ -196,7 +284,9 @@ int main(void) {
 
 
 
+	QUIT:
 
+	CONTINUE:
 
-
+	COMPILED_CODE:
 }
