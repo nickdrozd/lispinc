@@ -7,12 +7,12 @@ void print_info(char* main_label) {
     if (!INFO || LIB) return;
 
     NL;
-    printf("@ %s", main_label);NL;
+    printf("@ %s", main_label);
+    NL;
     PRDIV;
     print_registers();
     print_stack();
-    if (STEP)
-        getchar();
+    if (STEP) getchar();
     NL;
 
     return;
@@ -24,11 +24,11 @@ void print_final_val(void) {
     NL;
     printf("VALUE: ");
     print_obj(val);
-    NL;NL;
+    NL;
+    NL;
 
     // is this step needed?
-    if (STEP)
-        getchar();
+    if (STEP) getchar();
 
     return;
 }
@@ -48,11 +48,12 @@ void print_stack(void) {
     // printf("%s\n", "printing stack...");
     List* temp = stack;
     int count = 0;
-    if (!temp)
-        printf("%s\n", "-- EMPTY STACK --");
+    if (!temp) printf("%s\n", "-- EMPTY STACK --");
     while (temp) {
-        printf("-- STACK ENTRY %d --", count);NL;
-        print_obj(temp->car); NL;
+        printf("-- STACK ENTRY %d --", count);
+        NL;
+        print_obj(temp->car);
+        NL;
         temp = temp->cdr;
         count++;
     }
@@ -62,15 +63,16 @@ void print_stack(void) {
 void print_base_env(void) {
     if (!INFO || LIB) return;
 
-    NL;NL;
+    NL;
+    NL;
     printf("base_env: %p", base_env);
     NL;
 }
 
 void print_unbound(void) {
-    NL;NL;
-    printf("UNBOUND VARIABLE: \"%s\"!",
-                GETNAME(expr));
+    NL;
+    NL;
+    printf("UNBOUND VARIABLE: \"%s\"!", GETNAME(expr));
     NL;
 }
 
@@ -78,11 +80,12 @@ void print_unbound(void) {
 
 void print_register(Obj reg, char* name) {
     printf("-- %s -- \n", name);
-    print_obj(reg); NL;
+    print_obj(reg);
+    NL;
 }
 
 void print_obj(Obj obj) {
-    switch(GETTAG(obj)) {
+    switch (GETTAG(obj)) {
         case NUM:
             printf("%ld ", GETNUM(obj));
             break;
@@ -90,16 +93,14 @@ void print_obj(Obj obj) {
             printf("%s ", GETNAME(obj));
             break;
         case BOOL_:
-            printf("%s ",
-                GETBOOL(obj) == 0 ? "#f" : "#t");
+            printf("%s ", GETBOOL(obj) == 0 ? "#f" : "#t");
             break;
         case LIST:
             printf("%s", "( ");
             print_list(GETLIST(obj));
             break;
         case PRIM:
-            printf("%s ",
-                obj.val.prim.name);
+            printf("%s ", obj.val.prim.name);
             break;
         case ENV:
             printf("%p ", GETENV(obj));
@@ -136,7 +137,7 @@ void print_list(List* list) {
 }
 
 void print_label(Label label) {
-    switch(label) {
+    switch (label) {
         case _DONE:
             printf("DONE ");
             break;
@@ -183,28 +184,53 @@ but this way the code has a wysiwyg feel */
 void print_intro(void) {
     NL;
     printf("Welcome to lispinc!");
-    NL;NL;
+    NL;
+    NL;
     printf("Nick Drozd, 2016");
     NL;
     printf("github.com/nickdrozd/lispinc");
-    NL;NL;
+    NL;
+    NL;
     printf("Enter .help for help and enter .quit to quit.");
-    NL;NL;
+    NL;
+    NL;
     printf("Now, the time has come for you to lispinc...for your life!");
-    NL;NL;
+    NL;
+    NL;
 }
 
 void print_help(void) {
     NL;
-    printf("*** HELP ***");NL;
-    TAB;printf("-- enter .info to toggle evaluator info mode");NL;
-    TAB;printf("-- enter .step to toggle step mode (pauses between each step of the evaluator in info mode)");NL;
-    TAB;printf("-- enter .stats to toggle stack stats mode");NL;
-    TAB;printf("-- enter .tail to toggle tail recursion mode (turning this off is really only of any interest in conjunction with stats mode)");NL;
-    TAB;printf("-- enter .debug to toggle debug mode");NL;
-    TAB;printf("-- enter .quit to quit");NL;
-    TAB;printf("-- enter .repl to turn off info, stats, and step modes");NL;
-    TAB;printf("-- enter .demo to turn on info, stats, and step modes");NL;
+    printf("*** HELP ***");
+    NL;
+    TAB;
+    printf("-- enter .info to toggle evaluator info mode");
+    NL;
+    TAB;
+    printf(
+        "-- enter .step to toggle step mode (pauses between each step of the "
+        "evaluator in info mode)");
+    NL;
+    TAB;
+    printf("-- enter .stats to toggle stack stats mode");
+    NL;
+    TAB;
+    printf(
+        "-- enter .tail to toggle tail recursion mode (turning this off is "
+        "really only of any interest in conjunction with stats mode)");
+    NL;
+    TAB;
+    printf("-- enter .debug to toggle debug mode");
+    NL;
+    TAB;
+    printf("-- enter .quit to quit");
+    NL;
+    TAB;
+    printf("-- enter .repl to turn off info, stats, and step modes");
+    NL;
+    TAB;
+    printf("-- enter .demo to turn on info, stats, and step modes");
+    NL;
     NL;
 }
 
@@ -212,7 +238,8 @@ void print_flags(void) {
     if (!INFO) return;
 
     NL;
-    printf("*** FLAGS ***");NL;
+    printf("*** FLAGS ***");
+    NL;
     print_flag(INFO, INFO_NAME);
     print_flag(STEP, STEP_NAME);
     print_flag(STATS, STATS_NAME);
@@ -223,31 +250,39 @@ void print_flags(void) {
 void print_exit(void) {
     NL;
     printf("exiting lispinc...");
-    NL; NL;
+    NL;
+    NL;
     printf("Byeeeeee!");
-    NL; NL;
+    NL;
+    NL;
 }
 
 void print_flag(int flag, char* name) {
-    TAB;printf("%s  :%s", name, flag ? "ON" : "OFF");NL;
+    TAB;
+    printf("%s  :%s", name, flag ? "ON" : "OFF");
+    NL;
 }
-
 
 /* debugging */
 
 void debug_print(char* statement) {
     if (DEBUG) {
-        NL;NL;
+        NL;
+        NL;
         printf("DEBUG: %s", statement);
-        NL;NL;
+        NL;
+        NL;
     }
 }
 
 // is there a better way to include the register name?
 void debug_register(Obj reg, char* name) {
-    if (DEBUG ) {
+    if (DEBUG) {
         NL;
-        printf("DEBUG -- register: %s", name); NL;
-        print_obj(reg); NL; NL;
+        printf("DEBUG -- register: %s", name);
+        NL;
+        print_obj(reg);
+        NL;
+        NL;
     }
 }

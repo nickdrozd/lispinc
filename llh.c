@@ -8,21 +8,17 @@
     just by the read function. */
 
 bool isQuit(Obj expr) {
-    return GETTAG(expr) == NAME &&
-        cmpForm(GETNAME(expr), QUIT_COMMAND);
+    return GETTAG(expr) == NAME && cmpForm(GETNAME(expr), QUIT_COMMAND);
 }
 
 /* numbers */
 
 bool isNum(Obj expr) {
     form_check_count++;
-    return GETTAG(expr) == NUM ||
-        isBool(expr);
+    return GETTAG(expr) == NUM || isBool(expr);
 }
 
-bool isBool(Obj expr) {
-    return GETTAG(expr) == BOOL_;
-}
+bool isBool(Obj expr) { return GETTAG(expr) == BOOL_; }
 
 /* variables */
 
@@ -31,19 +27,13 @@ bool isVar(Obj expr) {
     return GETTAG(expr) == NAME;
 }
 
-bool isUnbound(Obj expr) {
-    return GETTAG(expr) == DUMMY;
-}
+bool isUnbound(Obj expr) { return GETTAG(expr) == DUMMY; }
 
 /* special forms */
 
-char* specialForm(Obj expr) {
-    return GETNAME(CAR(expr));
-}
+char* specialForm(Obj expr) { return GETNAME(CAR(expr)); }
 
-bool cmpForm(char* cand, char* form) {
-    return strcmp(cand, form) == 0;
-}
+bool cmpForm(char* cand, char* form) { return strcmp(cand, form) == 0; }
 
 bool hasForm(Obj expr, char* form) {
     form_check_count++;
@@ -52,39 +42,25 @@ bool hasForm(Obj expr, char* form) {
 
 /* quotation */
 
-bool isQuote(Obj expr) {
-    return hasForm(expr, QUOTE_KEY);
-}
+bool isQuote(Obj expr) { return hasForm(expr, QUOTE_KEY); }
 
-Obj quotedText(Obj expr) {
-    return CADR(expr);
-}
+Obj quotedText(Obj expr) { return CADR(expr); }
 
 /* begin */
 
-bool isBegin(Obj expr) {
-    return hasForm(expr, BEGIN_KEY);
-}
+bool isBegin(Obj expr) { return hasForm(expr, BEGIN_KEY); }
 
-Obj beginActions(Obj expr) {
-    return CDR(expr);
-}
+Obj beginActions(Obj expr) { return CDR(expr); }
 
 /* delay */
 
-bool isDelay(Obj expr) {
-    return hasForm(expr, DELAY_KEY);
-}
+bool isDelay(Obj expr) { return hasForm(expr, DELAY_KEY); }
 
-Obj delayExpr(Obj expr) {
-    return CADR(expr);
-}
+Obj delayExpr(Obj expr) { return CADR(expr); }
 
 Obj transformDelay(Obj expr) {
     List* list =
-        makeList(LAMBDAOBJ,
-            makeList(NULLOBJ,
-                makeList(delayExpr(expr), NULL)));
+        makeList(LAMBDAOBJ, makeList(NULLOBJ, makeList(delayExpr(expr), NULL)));
 
     Obj obj = LISTOBJ(list);
     return obj;
@@ -92,13 +68,9 @@ Obj transformDelay(Obj expr) {
 
 /* if */
 
-bool isIf(Obj expr) {
-    return hasForm(expr, IF_KEY);
-}
+bool isIf(Obj expr) { return hasForm(expr, IF_KEY); }
 
-Obj ifTest(Obj expr) {
-    return CADR(expr);
-}
+Obj ifTest(Obj expr) { return CADR(expr); }
 
 // is this right?
 bool isTrue(Obj expr) {
@@ -112,27 +84,17 @@ bool isTrue(Obj expr) {
     }
 }
 
-Obj ifThen(Obj expr) {
-    return CADDR(expr);
-}
+Obj ifThen(Obj expr) { return CADDR(expr); }
 
-Obj ifElse(Obj expr) {
-    return CADDDR(expr);
-}
+Obj ifElse(Obj expr) { return CADDDR(expr); }
 
 /* other boolean macros */
 
-bool isAnd(Obj expr) {
-    return hasForm(expr, AND_KEY);
-}
+bool isAnd(Obj expr) { return hasForm(expr, AND_KEY); }
 
-bool isOr(Obj expr) {
-    return hasForm(expr, OR_KEY);
-}
+bool isOr(Obj expr) { return hasForm(expr, OR_KEY); }
 
-Obj boolExps(Obj expr) {
-    return CDR(expr);
-}
+Obj boolExps(Obj expr) { return CDR(expr); }
 
 /* transformAnd and transformOr take and- and or-expressions and
 transform them into if-expressions. For example, the
@@ -145,20 +107,15 @@ expression, but it is the easiest way */
 Obj transformAnd(Obj expr) {
     Obj seq = boolExps(expr);
 
-    if (noExps(seq))
-        return TRUEOBJ;
+    if (noExps(seq)) return TRUEOBJ;
 
     Obj first = firstExp(seq);
 
     List* cdr = GETLIST(seq)->cdr;
-    Obj rest =
-        LISTOBJ(makeList(ANDOBJ, cdr));
+    Obj rest = LISTOBJ(makeList(ANDOBJ, cdr));
 
-    List* ifTrans =
-        makeList(IFOBJ,
-            makeList(first,
-                makeList(rest,
-                    makeList(FALSEOBJ, NULL))));
+    List* ifTrans = makeList(
+        IFOBJ, makeList(first, makeList(rest, makeList(FALSEOBJ, NULL))));
 
     return LISTOBJ(ifTrans);
 }
@@ -166,62 +123,43 @@ Obj transformAnd(Obj expr) {
 Obj transformOr(Obj expr) {
     Obj seq = boolExps(expr);
 
-    if (noExps(seq))
-        return FALSEOBJ;
+    if (noExps(seq)) return FALSEOBJ;
 
     Obj first = firstExp(seq);
 
     List* cdr = GETLIST(seq)->cdr;
-    Obj rest =
-        LISTOBJ(makeList(OROBJ, cdr));
+    Obj rest = LISTOBJ(makeList(OROBJ, cdr));
 
-    List* ifTrans =
-        makeList(IFOBJ,
-            makeList(first,
-                makeList(TRUEOBJ,
-                    makeList(rest, NULL))));
+    List* ifTrans = makeList(
+        IFOBJ, makeList(first, makeList(TRUEOBJ, makeList(rest, NULL))));
 
     return LISTOBJ(ifTrans);
 }
 
-
 /* lambda */
 
-bool isLambda(Obj expr) {
-    return hasForm(expr, LAMBDA_KEY);
-}
+bool isLambda(Obj expr) { return hasForm(expr, LAMBDA_KEY); }
 
-Obj lambdaParams(Obj expr) {
-    return CADR(expr);
-}
+Obj lambdaParams(Obj expr) { return CADR(expr); }
 
 /* to allow for implicit begin blocks, change this
 and some other functions to provide for a list of
 body expressions; otherwise, explicit begins are needed
 for, e.g, iterative factorial */
 
-Obj lambdaBody(Obj expr) {
-    return CDDR(expr);
-}
+Obj lambdaBody(Obj expr) { return CDDR(expr); }
 
 Obj makeFunc(Obj params, Obj body, Obj env) {
-    List* list =
-        makeList(env,
-            makeList(params,
-                makeList(body, NULL)));
+    List* list = makeList(env, makeList(params, makeList(body, NULL)));
 
     return LISTOBJ(list);
 }
 
 /* ass, def */
 
-bool isDef(Obj expr) {
-    return hasForm(expr, DEF_KEY);
-}
+bool isDef(Obj expr) { return hasForm(expr, DEF_KEY); }
 
-bool isSugarDef(Obj expr) {
-    return GETTAG(CADR(expr)) == LIST;
-}
+bool isSugarDef(Obj expr) { return GETTAG(CADR(expr)) == LIST; }
 
 Obj transformSugarDef(Obj expr) {
     Obj funcArgs = CADR(expr);
@@ -229,73 +167,45 @@ Obj transformSugarDef(Obj expr) {
     Obj args = CDR(funcArgs);
     Obj body = CDDR(expr);
 
-    Obj lambdaExpr =
-        CONS(LAMBDAOBJ,
-            CONS(args, body));
+    Obj lambdaExpr = CONS(LAMBDAOBJ, CONS(args, body));
 
-    Obj transformed =
-        CONS(DEFOBJ,
-            CONS(func,
-                CONS(lambdaExpr, NULLOBJ)));
+    Obj transformed = CONS(DEFOBJ, CONS(func, CONS(lambdaExpr, NULLOBJ)));
 
     return transformed;
 }
 
-Obj defVar(Obj expr) {
-    return CADR(expr);
-}
+Obj defVar(Obj expr) { return CADR(expr); }
 
-Obj defVal(Obj expr) {
-    return CADDR(expr);
-}
+Obj defVal(Obj expr) { return CADDR(expr); }
 
-bool isAss(Obj expr) {
-    return hasForm(expr, ASS_KEY);
-}
+bool isAss(Obj expr) { return hasForm(expr, ASS_KEY); }
 
-Obj assVar(Obj expr) {
-    return CADR(expr);
-}
+Obj assVar(Obj expr) { return CADR(expr); }
 
-Obj assVal(Obj expr) {
-    return CADDR(expr);
-}
+Obj assVal(Obj expr) { return CADDR(expr); }
 
 /* function */
 
-Obj getFunc(Obj expr) {
-    return CAR(expr);
-}
+Obj getFunc(Obj expr) { return CAR(expr); }
 
-bool isSimple(Obj expr) {
-    return isVar(expr) || isNum(expr);
-}
+bool isSimple(Obj expr) { return isVar(expr) || isNum(expr); }
 
-Obj getArgs(Obj expr) {
-    return CDR(expr);
-}
+Obj getArgs(Obj expr) { return CDR(expr); }
 
-bool noArgs(Obj expr) {
-    return GETLIST(expr) == NULL;
-}
+bool noArgs(Obj expr) { return GETLIST(expr) == NULL; }
 
 bool noCompoundArgs(Obj expr) {
     if (noArgs(expr))
         return true;
     else {
         List* list = GETLIST(expr);
-        return isSimple(list->car) &&
-            noCompoundArgs(LISTOBJ(list->cdr));
+        return isSimple(list->car) && noCompoundArgs(LISTOBJ(list->cdr));
     }
 }
 
-Obj firstArg(Obj expr) {
-    return CAR(expr);
-}
+Obj firstArg(Obj expr) { return CAR(expr); }
 
-bool isLastArg(Obj expr) {
-    return GETLIST(expr)->cdr == NULL;
-}
+bool isLastArg(Obj expr) { return GETLIST(expr)->cdr == NULL; }
 
 /* adjoinArg walks down the whole length
 of the arglist to append a value to the end.
@@ -306,12 +216,10 @@ the info display easier to read. */
 Obj adjoinArg(Obj val, Obj arglist) {
     List* args = GETLIST(arglist);
 
-    if (!args)
-        return LISTOBJ(makeList(val,args));
+    if (!args) return LISTOBJ(makeList(val, args));
 
     List* pnr = args;
-    while (pnr->cdr)
-        pnr = pnr->cdr;
+    while (pnr->cdr) pnr = pnr->cdr;
 
     pnr->cdr = malloc(sizeof(List));
     pnr = pnr->cdr;
@@ -321,9 +229,7 @@ Obj adjoinArg(Obj val, Obj arglist) {
     return LISTOBJ(args);
 }
 
-Obj restArgs(Obj expr) {
-    return CDR(expr);
-}
+Obj restArgs(Obj expr) { return CDR(expr); }
 
 /* apply */
 
@@ -342,30 +248,19 @@ bool isCompiled(Obj obj) {
     return GETTAG(obj) == COMP;
 }
 
-
 // make sure these coordinate with makeFunc
 
-Obj funcParams(Obj obj) {
-    return CADR(obj);
-}
+Obj funcParams(Obj obj) { return CADR(obj); }
 
-Obj funcBody(Obj obj) {
-    return CADDR(obj);
-}
+Obj funcBody(Obj obj) { return CADDR(obj); }
 
-Obj funcEnv(Obj obj) {
-    return CAR(obj);
-}
+Obj funcEnv(Obj obj) { return CAR(obj); }
 
 /* sequence */
 
-Obj firstExp(Obj seq) {
-    return CAR(seq);
-}
+Obj firstExp(Obj seq) { return CAR(seq); }
 
-Obj restExps(Obj seq) {
-    return CDR(seq);
-}
+Obj restExps(Obj seq) { return CDR(seq); }
 
 bool isLastExp(Obj seq) {
     List* next = GETLIST(seq)->cdr;
@@ -379,6 +274,4 @@ bool noExps(Obj seq) {
 
 /* error-checking */
 
-bool isError(Obj obj) {
-    return GETTAG(obj) == ERROR;
-}
+bool isError(Obj obj) { return GETTAG(obj) == ERROR; }

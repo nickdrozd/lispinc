@@ -1,25 +1,24 @@
 /*
     Low-Level Helpers
 
-    These functions perform mostly boring
-    tasks like determing whether an expression
-    is lambda expression. The idea is that in
-    a real register machine, these would be
-    implemented as primitive machine operations.
+    These functions perform mostly boring tasks like determing whether
+    an expression is lambda expression. The idea is that in a real
+    register machine, these would be implemented as primitive machine
+    operations.
 */
 
 #ifndef LLH_GUARD
 #define LLH_GUARD
 
-#include <stdlib.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include <string.h>
 
-#include "objects.h"
-#include "keywords.h"
 #include "flags.h"
-#include "tally.h"
+#include "keywords.h"
+#include "objects.h"
 #include "print.h"
+#include "tally.h"
 
 bool isQuit(Obj expr);
 

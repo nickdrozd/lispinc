@@ -25,18 +25,23 @@ int labels_passed_count = 0;
 void print_stats(void) {
     if (LIB) return;
 
-    printf("*** STATS ***");NL;
+    printf("*** STATS ***");
+    NL;
 
-    printf("Total number of saves: %d", save_count);NL;
-    printf("Maximum stack depth: %d", max_stack_depth);NL;
+    printf("Total number of saves: %d", save_count);
+    NL;
+    printf("Maximum stack depth: %d", max_stack_depth);
+    NL;
 
     // printf("Total number of lookups: %d", lookup_count);NL;
     // printf("Total envs traversed: %d", envs_traversed);NL;
     // printf("Total frames traversed: %d", frames_traversed);NL;
 
-    printf("Total syntax checks: %d", form_check_count);NL;
+    printf("Total syntax checks: %d", form_check_count);
+    NL;
 
-    printf("Total labels passed: %d", labels_passed_count);NL;
+    printf("Total labels passed: %d", labels_passed_count);
+    NL;
 }
 
 void reset_stats(void) {

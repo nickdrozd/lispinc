@@ -7,9 +7,13 @@ Obj parse(char* expr) {
     return tokens_read;
 }
 
+// clang-format flushes goto labels to the left
+// clang-format off
+
 // TODO: special case for nonlist expr (???)
 Token_list* tokenize(char* expr) {
-            if (DEBUG) printf("%s\n", "tokenizing...");
+    if (DEBUG) printf("%s\n", "tokenizing...");
+
     State state = READY;
 
     int length = strlen(expr);
@@ -18,7 +22,7 @@ Token_list* tokenize(char* expr) {
     int i = 0;
     char c;
 
-    Token_list* tokens = malloc(sizeof(Token_list)); // initialize to NULL?
+    Token_list* tokens = malloc(sizeof(Token_list));  // initialize to NULL?
     Token_list* tail = tokens;
     tail->next = NULL;
 
@@ -34,9 +38,8 @@ Token_list* tokenize(char* expr) {
 
     START:
         if (i >= length) {
-            if (state == SYMBOL) {
-                goto END_TEXT;
-            }
+            if (state == SYMBOL) goto END_TEXT;
+
             goto DONE;
         }
 
@@ -44,21 +47,17 @@ Token_list* tokenize(char* expr) {
 
         // TODO: special case for nonlist expr (???)
 
-        if (OPENPAREN(c))
-            goto OPEN;
-        if (CLOSEPAREN(c))
-            goto CLOSE;
-        if (WHITESPACE(c))
-            goto SEPARATOR;
+        if (OPENPAREN(c)) goto OPEN;
+        if (CLOSEPAREN(c)) goto CLOSE;
+        if (WHITESPACE(c)) goto SEPARATOR;
 
-        /* default case is any other char
-        so no other if clause is needed? */
-        // if (isalnum(c))
-            goto TEXT;
+        // default case is any other char so no other if clause is
+        // needed? if (isalnum(c))?
+        goto TEXT;
 
-    OPEN://printf("%d @ %s\n", state, "OPEN");
-        if (state == SYMBOL)
-            goto END_TEXT;
+    OPEN:  //printf("%d @ %s\n", state, "OPEN");
+        if (state == SYMBOL) goto END_TEXT;
+
         tail->token.start = i;
         tail->token.end = i + 1;
         tail->token.id = OP;
@@ -67,11 +66,12 @@ Token_list* tokenize(char* expr) {
         tail = tail->next;
         tail->next = NULL;
         i++;
+
         goto START;
 
-    CLOSE://printf("%d @ %s\n", state, "CLOSE");
-        if (state == SYMBOL)
-            goto END_TEXT;
+    CLOSE:  //printf("%d @ %s\n", state, "CLOSE");
+        if (state == SYMBOL) goto END_TEXT;
+
         tail->token.start = i;
         tail->token.end = i + 1;
         tail->token.id = CP;
@@ -83,12 +83,14 @@ Token_list* tokenize(char* expr) {
             tail->next = NULL;
         }
         i++;
+
         goto START;
 
-    SEPARATOR://printf("%d @ %s\n", state, "SEPARATOR");
-        if (state == SYMBOL)
-            goto END_TEXT;
+    SEPARATOR:  //printf("%d @ %s\n", state, "SEPARATOR");
+        if (state == SYMBOL) goto END_TEXT;
+
         i++;
+
         goto START;
 
     TEXT://printf("%d @ %s\n", state, "TEXT");
@@ -98,9 +100,10 @@ Token_list* tokenize(char* expr) {
             tail->token.start = i;
         }
         i++;
+
         goto START;
 
-    END_TEXT://printf("%d @ %s\n", state, "END_TEXT");
+    END_TEXT:  //printf("%d @ %s\n", state, "END_TEXT");
         tail->token.end = i;
         start = tail->token.start;
         end = tail->token.end;
@@ -115,16 +118,22 @@ Token_list* tokenize(char* expr) {
             tail->next = NULL;
         }
         state = READY;
+
         goto START;
 
     DONE:
-                if (DEBUG) print_tokens(tokens);
+        if (DEBUG) print_tokens(tokens);
+
         return tokens;
 }
 
+// clang-format on
 
 Obj read_tokens(Token_list* tokens) {
-            if (DEBUG) { printf("%s\n", "parsing..."); print_tokens(tokens); }
+    if (DEBUG) {
+        printf("%s\n", "parsing...");
+        print_tokens(tokens);
+    }
 
     if (tokens == NULL) {
         printf("%s\n", "no tokens -- read_from_tokens");
@@ -138,10 +147,13 @@ Obj read_tokens(Token_list* tokens) {
     if (token.id == SYM) {
         // if (DEBUG) printf("token: %s\n", token.text);
         char* text = token.text;
-        if (isdigit(text[0]))
+
+        if (isdigit(text[0])) {
             obj = NUMOBJ(atol(text));
-        else
+        } else {
             obj = NAMEOBJ(text);
+        }
+
         return obj;
     }
 
@@ -166,11 +178,11 @@ Obj read_tokens(Token_list* tokens) {
             dummy.token = first;
             push(read_tokens(&dummy), &result);
 
-                // do we need this?
+            // do we need this?
             // if (remainder->next == NULL)
             //  return result;
             // else
-                remainder = remainder->next;
+            remainder = remainder->next;
         }
 
         // first item is a list
@@ -179,12 +191,10 @@ Obj read_tokens(Token_list* tokens) {
             cp = 0;
             head = remainder;
             tail = remainder;
-            while (op > cp) { // this will terminate if code is wellformed
+            while (op > cp) {  // this will terminate if code is wellformed
                 tail = tail->next;
-                if (tail->token.id == OP)
-                    op++;
-                if (tail->token.id == CP)
-                    cp++;
+                if (tail->token.id == OP) op++;
+                if (tail->token.id == CP) cp++;
             }
             remainder = tail->next;
             tail->next = NULL;
@@ -201,12 +211,12 @@ Obj read_tokens(Token_list* tokens) {
     return obj;
 }
 
-
 /* list manipulation */
 
 // token list
 void dock(Token_list** list) {
-    if (*list == NULL) return;
+    if (*list == NULL)
+        return;
 
     else if ((*list)->next == NULL) {
         free(*list);
@@ -214,7 +224,8 @@ void dock(Token_list** list) {
         return;
     }
 
-    else dock(&((*list)->next));
+    else
+        dock(&((*list)->next));
 }
 
 Token_list* slice_ends(Token_list** list) {
@@ -234,7 +245,8 @@ void push(Obj obj, List** list) {
         return;
     }
 
-    else push(obj, &((*list)->cdr));
+    else
+        push(obj, &((*list)->cdr));
 }
 
 /* for debugging */
@@ -255,10 +267,9 @@ void print_tokens(Token_list* tokens) {
 /* memory management */
 
 void free_tokens(Token_list** list) {
-            if (DEBUG) printf("freeing tokens...\n");
+    if (DEBUG) printf("freeing tokens...\n");
 
-    if (*list == NULL)
-        return;
+    if (*list == NULL) return;
 
     Token_list* temp = *list;
     *list = (*list)->next;

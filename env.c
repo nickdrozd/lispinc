@@ -45,7 +45,7 @@ Obj extendEnv(Obj vars_obj, Obj vals_obj, Obj base_env_obj) {
 
     /* switch allows for variable-arity functions,
     eg ((lambda s s) 4 5 6) */
-    switch(GETTAG(vars_obj)) {
+    switch (GETTAG(vars_obj)) {
         case LIST:
             vars = GETLIST(vars_obj);
             vals = GETLIST(vals_obj);
@@ -56,7 +56,8 @@ Obj extendEnv(Obj vars_obj, Obj vals_obj, Obj base_env_obj) {
             break;
         default:
             printf("\n%s\n",
-                "extendEnv -- Unknown parameter type! Returning env unextended...");
+                   "extendEnv -- Unknown parameter type! "
+                   "Returning env unextended...");
             return base_env_obj;
     }
 
@@ -71,12 +72,11 @@ Obj extendEnv(Obj vars_obj, Obj vals_obj, Obj base_env_obj) {
     return ENVOBJ(ext_env);
 }
 
-
 /* lookup */
 
 // returns val bound to var in env
 Obj lookup(Obj var_obj, Obj env_obj) {
-            if (DEBUG) printf("looking up \"%s\"\n", GETNAME(var_obj));
+    if (DEBUG) printf("looking up \"%s\"\n", GETNAME(var_obj));
 
     char* var = GETNAME(var_obj);
     Env* env = GETENV(env_obj);
@@ -88,10 +88,11 @@ Obj lookup(Obj var_obj, Obj env_obj) {
 
 // lookup helpers
 
-Obj lookup_in_env(char* var, Env* env) { // lookup in env
-            if (DEBUG) printf("%s\n", "looking up in env...");
+Obj lookup_in_env(char* var, Env* env) {  // lookup in env
+    if (DEBUG) printf("%s\n", "looking up in env...");
+
     if (env == NULL) {
-            printf("lookup -- %s isn't there! Returning DUMMY...\n", var);
+        printf("lookup -- %s isn't there! Returning DUMMY...\n", var);
         return DUMMYOBJ;
     }
 
@@ -106,10 +107,10 @@ Obj lookup_in_env(char* var, Env* env) { // lookup in env
     }
 }
 
-Obj lookup_in_frame(char* var, Frame* frame) { // helper for lookup
-            if (DEBUG) printf("%s\n", "looking up in frame...");
-    if (frame == NULL)
-        return DUMMYOBJ;
+Obj lookup_in_frame(char* var, Frame* frame) {  // helper for lookup
+    if (DEBUG) printf("%s\n", "looking up in frame...");
+
+    if (frame == NULL) return DUMMYOBJ;
 
     char* key = frame->key;
 
@@ -125,39 +126,40 @@ Obj lookup_in_frame(char* var, Frame* frame) { // helper for lookup
 
 /* adds new var/val binding to env */
 void defineVar(Obj var_obj, Obj val_obj, Obj env_obj) {
-
     char* var = GETNAME(var_obj);
     Env* env = GETENV(env_obj);
 
-            if (DEBUG) printf("\nVAR: %s\n", var);
+    if (DEBUG) printf("\nVAR: %s\n", var);
 
     Frame* frame = env->frame;
     char* key = frame->key;
 
     while (frame->next) {
-                if (DEBUG) printf("%s\n", key);
+        if (DEBUG) printf("%s\n", key);
         if (strcmp(var, key) == 0) {
             printf("defineVar -- variable %s already defined!\n", var);
             return;
-        }
-        else {
+        } else {
             frame = frame->next;
             key = frame->key;
         }
     }
-            if (DEBUG) printf("%s\n", key);
+
+    if (DEBUG) printf("%s\n", key);
+
     Frame* newFrame = malloc(sizeof(Frame));
     newFrame->key = var;
     newFrame->val = val_obj;
     newFrame->next = NULL;
     frame->next = newFrame;
-            if (DEBUG) printf("new frame\n");
+
+    if (DEBUG) printf("new frame\n");
+
     return;
 }
 
 // sets first occurence of var to val
 void setVar(Obj var_obj, Obj val_obj, Obj env_obj) {
-
     char* var = GETNAME(var_obj);
     Env* env = GETENV(env_obj);
 
@@ -169,7 +171,6 @@ void setVar(Obj var_obj, Obj val_obj, Obj env_obj) {
     Frame* frame = env->frame;
 
     while (frame != NULL) {
-
         if (strcmp(var, frame->key) == 0) {
             frame->val = val_obj;
             return;
@@ -186,8 +187,7 @@ void setVar(Obj var_obj, Obj val_obj, Obj env_obj) {
 /* constructors */
 
 Frame* zipFrame(List* vars, List* vals) {
-    if (vars == NULL)
-        return NULL;
+    if (vars == NULL) return NULL;
 
     char* key = GETNAME(vars->car);
     Obj val = vals->car;

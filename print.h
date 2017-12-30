@@ -1,11 +1,10 @@
 /*
     PRINT
 
-    Some of these print functions have to do with
-    displaying information about the evaluator itself,
-    and some print program information and greetings
-    and that kind of things. A few are used specifically
-    for debugging (they only do anything if the DEBUG
+    Some of these print functions have to do with displaying
+    information about the evaluator itself, and some print program
+    information and greetings and that kind of things. A few are used
+    specifically for debugging (they only do anything if the DEBUG
     flag is set).
 */
 
@@ -20,15 +19,18 @@
 
 #include <stdio.h>
 
+#include "env.h"
+#include "flags.h"
 #include "keywords.h"
 #include "objects.h"
-#include "flags.h"
 #include "registers.h"
 #include "stack.h"
-#include "env.h"
 #include "tally.h"
 
-#define TABNL_PRINT(X) TAB;printf(X);NL;
+#define TABNL_PRINT(X)                                                         \
+    TAB;                                                                       \
+    printf(X);                                                                 \
+    NL;
 
 #define NL printf("\n");
 #define TAB printf("\t");

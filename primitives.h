@@ -1,12 +1,10 @@
 /*
     PRIMITIVES
 
-    Primitive functions operate on actual C objects
-    (like numbers and lists). primitives.c creates
-    a list of the functions and list of the names of
-    these functions and then passes them to env.c,
-    where they are zipped together to create the frame
-    of the base_env.
+    Primitive functions operate on actual C objects (like numbers and
+    lists). primitives.c creates a list of the functions and list of
+    the names of these functions and then passes them to env.c, where
+    they are zipped together to create the frame of the base_env.
 
     TODO:
         * primitive names should be moved to keywords.h
@@ -15,15 +13,15 @@
 #ifndef PRIMITIVES_GUARD
 #define PRIMITIVES_GUARD
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 
-#include "objects.h"
-#include "keywords.h"
-#include "read.h"
-#include "print.h"
 #include "flags.h"
+#include "keywords.h"
+#include "objects.h"
+#include "print.h"
+#include "read.h"
 
 Obj applyPrimitive(Obj func, Obj arglist);
 
@@ -153,34 +151,26 @@ twoArgFunc apply_one_;
 twoArgFunc apply_two_;
 #define applytwoprim TWOFUNC(apply_two_, "applyTwoFunc")
 
-
 // make sure to keep these updated!!!
 
-#define PRIM_LEN (arith_len + bool_len + type_len + \
-                list_len + io_len + prim_app_len)
+#define LIST_OF_PRIMITIVES                                                     \
+    {                                                                          \
+        addprim, subprim, mulprim, divprim, addoneprim, suboneprim, notprim,   \
+            eqprim, ltprim, gtprim, iszeroprim, isoneprim, geneqprim,          \
+            nullprim, isnumberprim, islistprim, isboolprim, issymbolprim,      \
+            carprim, cdrprim, consprim, setcarprim, setcdrprim, cadrprim,      \
+            cddrprim, cdadrprim, caddrprim, cdddrprim, cadddrprim, readprim,   \
+            displayprim, errorprim, newlineprim, applynilprim, applyoneprim,   \
+            applytwoprim,                                                      \
+    }
 
-#define LIST_OF_PRIMITIVES { \
-addprim, subprim, mulprim, divprim, \
-addoneprim, suboneprim, \
-notprim, eqprim, ltprim, gtprim, \
-iszeroprim, isoneprim, geneqprim, \
-nullprim, isnumberprim, islistprim, \
-isboolprim, issymbolprim, \
-carprim, cdrprim, consprim, \
-setcarprim, setcdrprim, \
-cadrprim, cddrprim, cdadrprim, \
-caddrprim, cdddrprim, cadddrprim, \
-readprim, displayprim, errorprim, newlineprim, \
-applynilprim, applyoneprim, applytwoprim, \
-}
-
-
+#define PRIM_LEN                                                               \
+    (arith_len + bool_len + type_len + list_len + io_len + prim_app_len)
 
 /* error checking */
 
 bool are_both_nums(Obj a, Obj b);
 void print_error_message(Tag tag, char* source);
-
 
 // from read.c
 int streq(char* str1, char* str2);

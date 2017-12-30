@@ -1,12 +1,10 @@
 /*
     READ
 
-    read.c handles input. It doesn't do anything
-    terribly interesting or exotic. Input is taken
-    from fgets. If the input is a user command,
-    then command is executed. Otherwise, the input
-    (presumed to be Lisp code) is passed to the
-    functions in parse.c.
+    read.c handles input. It doesn't do anything terribly interesting
+    or exotic. Input is taken from fgets. If the input is a user
+    command, then command is executed. Otherwise, the input (presumed
+    to be Lisp code) is passed to the functions in parse.c.
 */
 
 /*
@@ -20,15 +18,15 @@
 #ifndef READ_GUARD
 #define READ_GUARD
 
-#include <stdio.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include <string.h>
 
-#include "objects.h"
-#include "keywords.h"
 #include "flags.h"
-#include "parse.h"
+#include "keywords.h"
 #include "lib.h"
+#include "objects.h"
+#include "parse.h"
 #include "print.h"
 
 Obj read_code(void);

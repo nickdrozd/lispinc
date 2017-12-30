@@ -1,5 +1,8 @@
 #include "lib.h"
 
+// clang-format doesn't understand these library functions
+// clang-format off
+
 #define triangular \
     "("DEF_KEY" recursive_triangular_interpreted \
         ("LAMBDA_KEY" (n) \
@@ -13,7 +16,7 @@
             ("IF_KEY" (zero? n) \
                 0 \
                 ("ADD_NAME" (recursive_triangular_interpreted n) \
-                    (recursive_tetrahedral_interpreted (sub1 n))))))"
+                            (recursive_tetrahedral_interpreted (sub1 n))))))"
 
 #define supertetrahedral \
     "("DEF_KEY" recursive_supertetrahedral_interpreted \
@@ -21,7 +24,7 @@
             ("IF_KEY" (zero? n) \
                 0 \
                 ("ADD_NAME" (recursive_tetrahedral_interpreted n) \
-                    (recursive_supertetrahedral_interpreted (sub1 n))))))"
+                            (recursive_supertetrahedral_interpreted (sub1 n))))))"
 
 #define fact_rec \
     "("DEF_KEY" recursive_factorial_interpreted \
@@ -38,7 +41,7 @@
                     ("IF_KEY" (< count 2) \
                         total \
                         (loop (sub1 count) \
-                            ("MUL_NAME" total count))))) \
+                              ("MUL_NAME" total count))))) \
             (loop n 1)))"
 
 #define fib_rec \
@@ -47,7 +50,7 @@
             ("IF_KEY" (< n 2) \
                 n \
                 ("ADD_NAME" (recursive_fibonacci_interpreted (- n 1)) \
-                    (recursive_fibonacci_interpreted (- n 2))))))"
+                            (recursive_fibonacci_interpreted (- n 2))))))"
 
 #define fib_iter \
     "("DEF_KEY" iterative_fibonacci_interpreted \
@@ -57,37 +60,40 @@
                     ("IF_KEY" (one? count) \
                         b \
                         (loop (sub1 count) \
-                            b \
-                            ("ADD_NAME" a b))))) \
+                              b \
+                              ("ADD_NAME" a b))))) \
             (loop n 0 1)))"
 
-/* newlines are needed because of some quirk in the
-    parsing process (see read.c and parse.c) */
+/*
+   newlines are needed because of some quirk in the parsing process
+   (see read.c and parse.c)
+ */
 
 char* library[] = {
-     triangular"\n",
-     tetrahedral"\n",
-     supertetrahedral"\n",
-     fact_rec"\n",
-     fact_iter"\n",
-     fib_rec"\n",
-     fib_iter"\n",
-    };
+    fact_rec "\n", fact_iter "\n", fib_rec "\n", fib_iter "\n",
+    triangular "\n", tetrahedral "\n", supertetrahedral "\n",
+};
 
-/* lib_len should match the length of library
-    (this has to be handled manually?) */
+// clang-format on
+
+/*
+   lib_len should match the length of library
+   (this has to be handled manually?)
+ */
 
 int lib_len = 7;
-
 
 /* library loading */
 
 int lib_counter = 0;
 
 char* load_library(void) {
-            if (DEBUG) print_lib();
+    if (DEBUG) print_lib();
+
     char* lib_entry = library[lib_counter];
+
     lib_counter++;
+
     return lib_entry;
 }
 
@@ -96,6 +102,4 @@ void print_lib(void) {
     printf("loading library entry: %s\n", lib_entry);
 }
 
-bool lib_loaded(void) {
-    return lib_counter >= lib_len;
-}
+bool lib_loaded(void) { return lib_counter >= lib_len; }

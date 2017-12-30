@@ -38,18 +38,18 @@
 #ifndef EC_MAIN_GUARD
 #define EC_MAIN_GUARD
 
-#include "objects.h"
-#include "flags.h"
-#include "read.h"
-#include "parse.h"
 #include "env.h"
+#include "flags.h"
+#include "llh.h"
+#include "mem.h"
+#include "objects.h"
+#include "parse.h"
+#include "primitives.h"
+#include "print.h"
+#include "read.h"
 #include "registers.h"
 #include "stack.h"
-#include "primitives.h"
-#include "llh.h"
-#include "print.h"
 #include "tally.h"
-#include "mem.h"
 
 /* compiled code (contained in giant macros) */
 #include "comp_code.h"

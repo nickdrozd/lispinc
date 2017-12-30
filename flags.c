@@ -12,7 +12,8 @@ int LIB = 1;
 
 // inelegant
 void switch_flag(char* flag_command) {
-            if (DEBUG) printf("%s\n", "switching flag...");
+    if (DEBUG) printf("%s\n", "switching flag...");
+
     if (streq(flag_command, DEBUG_COMMAND))
         toggle_val(&DEBUG);
     else if (streq(flag_command, INFO_COMMAND))
@@ -29,15 +30,15 @@ void switch_flag(char* flag_command) {
         demo_switch();
 }
 
-void toggle_LIB(void) {
-    toggle_val(&LIB);
-}
+void toggle_LIB(void) { toggle_val(&LIB); }
 
 void toggle_val(int* flag) {
-            if (DEBUG) printf("toggle_val: %d\n", *flag);
+    if (DEBUG) printf("toggle_val: %d\n", *flag);
+
     *flag = 1 - *flag;
-            // self-referential debugging statement?
-            if (DEBUG) printf("toggled! %d\n", *flag);
+
+    // self-referential debugging statement?
+    if (DEBUG) printf("toggled! %d\n", *flag);
 
     return;
 }

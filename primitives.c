@@ -4,27 +4,19 @@
 
 /* primitive type-checking */
 
-Obj isnumber_func(Obj obj) {
-    return BOOLOBJ(GETTAG(obj) == NUM);
-}
+Obj isnumber_func(Obj obj) { return BOOLOBJ(GETTAG(obj) == NUM); }
 
 oneArgFunc isnumber_ = isnumber_func;
 
-Obj islist_func(Obj obj) {
-    return BOOLOBJ(GETTAG(obj) == LIST);
-}
+Obj islist_func(Obj obj) { return BOOLOBJ(GETTAG(obj) == LIST); }
 
 oneArgFunc islist_ = islist_func;
 
-Obj isbool_func(Obj obj) {
-    return BOOLOBJ(GETTAG(obj) == BOOL_);
-}
+Obj isbool_func(Obj obj) { return BOOLOBJ(GETTAG(obj) == BOOL_); }
 
 oneArgFunc isbool_ = isbool_func;
 
-Obj issymbol_func(Obj obj) {
-    return BOOLOBJ(GETTAG(obj) == NAME);
-}
+Obj issymbol_func(Obj obj) { return BOOLOBJ(GETTAG(obj) == NAME); }
 
 oneArgFunc issymbol_ = issymbol_func;
 
@@ -58,8 +50,7 @@ Obj car_func(Obj obj) {
     if (list == NULL) {
         print_error_message(LIST, "car");
         return ERROROBJ;
-    }
-    else
+    } else
         return list->car;
 }
 
@@ -89,16 +80,14 @@ Obj setcar_func(Obj obj, Obj carval) {
     if (list == NULL) {
         print_error_message(LIST, "set-car!");
         return ERROROBJ;
-    }
-    else {
+    } else {
         list->car = carval;
         return LISTOBJ(list);
     }
 }
 
 Obj setcdr_func(Obj obj, Obj cdrval) {
-    if (GETTAG(obj) != LIST ||
-            GETTAG(cdrval) != LIST) {
+    if (GETTAG(obj) != LIST || GETTAG(cdrval) != LIST) {
         print_error_message(LIST, "set-cdr!");
         return ERROROBJ;
     }
@@ -108,36 +97,23 @@ Obj setcdr_func(Obj obj, Obj cdrval) {
     if (list == NULL) {
         print_error_message(LIST, "set-cdr!");
         return ERROROBJ;
-    }
-    else {
+    } else {
         list->cdr = GETLIST(cdrval);
         return LISTOBJ(list);
     }
 }
 
-Obj cadr_func(Obj obj) {
-    return car_func(cdr_func(obj));
-}
+Obj cadr_func(Obj obj) { return car_func(cdr_func(obj)); }
 
-Obj cddr_func(Obj obj) {
-    return cdr_func(cdr_func(obj));
-}
+Obj cddr_func(Obj obj) { return cdr_func(cdr_func(obj)); }
 
-Obj cdadr_func(Obj obj) {
-    return cdr_func(cadr_func(obj));
-}
+Obj cdadr_func(Obj obj) { return cdr_func(cadr_func(obj)); }
 
-Obj caddr_func(Obj obj) {
-    return car_func(cddr_func(obj));
-}
+Obj caddr_func(Obj obj) { return car_func(cddr_func(obj)); }
 
-Obj cdddr_func(Obj obj) {
-    return cdr_func(cddr_func(obj));
-}
+Obj cdddr_func(Obj obj) { return cdr_func(cddr_func(obj)); }
 
-Obj cadddr_func(Obj obj) {
-    return car_func(cdddr_func(obj));
-}
+Obj cadddr_func(Obj obj) { return car_func(cdddr_func(obj)); }
 
 // is there a faster way to do this?
 oneArgFunc car_ = car_func;
@@ -162,8 +138,7 @@ Obj cons_func(Obj car, Obj cdr) {
         printf("%s\n", "Second arg not a list! Converting to one-item list...");
         List* listcdr = makeList(cdr, NULL);
         return LISTOBJ(makeList(car, listcdr));
-    }
-    else
+    } else
         return LISTOBJ(makeList(car, GETLIST(cdr)));
 }
 
@@ -172,7 +147,7 @@ twoArgFunc cons_ = cons_func;
 /* primitive arithmetic */
 
 Obj add_func(Obj a, Obj b) {
-    if (!are_both_nums(a,b)) {
+    if (!are_both_nums(a, b)) {
         print_error_message(NUM, ADD_NAME);
         return ERROROBJ;
     }
@@ -180,7 +155,7 @@ Obj add_func(Obj a, Obj b) {
 }
 
 Obj sub_func(Obj a, Obj b) {
-    if (!are_both_nums(a,b)) {
+    if (!are_both_nums(a, b)) {
         print_error_message(NUM, "-");
         return ERROROBJ;
     }
@@ -188,28 +163,24 @@ Obj sub_func(Obj a, Obj b) {
 }
 
 Obj mul_func(Obj a, Obj b) {
-    if (!are_both_nums(a,b)) {
+    if (!are_both_nums(a, b)) {
         print_error_message(NUM, MUL_NAME);
         return ERROROBJ;
     }
     return NUMOBJ(GETNUM(a) * GETNUM(b));
 }
 
-Obj div_func(Obj a, Obj b) { // floor division
-    if (!are_both_nums(a,b)) {
+Obj div_func(Obj a, Obj b) {  // floor division
+    if (!are_both_nums(a, b)) {
         print_error_message(NUM, "/");
         return ERROROBJ;
     }
     return NUMOBJ(GETNUM(a) / GETNUM(b));
 }
 
-Obj addone_func(Obj a) {
-    return add_func(a, ONEOBJ);
-}
+Obj addone_func(Obj a) { return add_func(a, ONEOBJ); }
 
-Obj subone_func(Obj a) {
-    return sub_func(a, ONEOBJ);
-}
+Obj subone_func(Obj a) { return sub_func(a, ONEOBJ); }
 
 twoArgFunc add_ = add_func;
 twoArgFunc sub_ = sub_func;
@@ -217,7 +188,6 @@ twoArgFunc mul_ = mul_func;
 twoArgFunc div_ = div_func;
 oneArgFunc addone_ = addone_func;
 oneArgFunc subone_ = subone_func;
-
 
 /* boolean functions */
 
@@ -230,7 +200,7 @@ Obj not_func(Obj expr) {
 }
 
 Obj eq_func(Obj a, Obj b) {
-    if (!are_both_nums(a,b)) {
+    if (!are_both_nums(a, b)) {
         print_error_message(NUM, "=");
         return ERROROBJ;
     }
@@ -238,7 +208,7 @@ Obj eq_func(Obj a, Obj b) {
 }
 
 Obj lt_func(Obj a, Obj b) {
-    if (!are_both_nums(a,b)) {
+    if (!are_both_nums(a, b)) {
         print_error_message(NUM, "<");
         return ERROROBJ;
     }
@@ -246,30 +216,25 @@ Obj lt_func(Obj a, Obj b) {
 }
 
 Obj gt_func(Obj a, Obj b) {
-    if (!are_both_nums(a,b)) {
+    if (!are_both_nums(a, b)) {
         print_error_message(NUM, ">");
         return ERROROBJ;
     }
     return BOOLOBJ(GETNUM(a) > GETNUM(b));
 }
 
-Obj iszero_func(Obj a) {
-    return eq_func(a, ZEROOBJ);
-}
+Obj iszero_func(Obj a) { return eq_func(a, ZEROOBJ); }
 
-Obj isone_func(Obj a) {
-    return eq_func(a, ONEOBJ);
-}
+Obj isone_func(Obj a) { return eq_func(a, ONEOBJ); }
 
 Obj geneq_func(Obj a, Obj b) {
     Tag tag_a = GETTAG(a);
     Tag tag_b = GETTAG(b);
 
-    if (tag_a != tag_b)
-        return FALSEOBJ;
+    if (tag_a != tag_b) return FALSEOBJ;
 
     // else if a and be have the same type
-    switch(tag_a) {
+    switch (tag_a) {
         case NUM:
             return eq_func(a, b);
         case NAME:
@@ -299,8 +264,7 @@ Obj read_func(void) {
     get_input();
 
     if (isIrregular(code)) {
-        if (badSyntax(code))
-            printf("Bad syntax! Try again!\n");
+        if (badSyntax(code)) printf("Bad syntax! Try again!\n");
         read_func();
     }
 
@@ -337,14 +301,13 @@ nilArgFunc error_ = error_func;
 
 // error-checking helper
 bool are_both_nums(Obj a, Obj b) {
-    return GETTAG(a) == NUM &&
-        GETTAG(b) == NUM;
+    return GETTAG(a) == NUM && GETTAG(b) == NUM;
 }
 
 void print_error_message(Tag tag, char* source) {
     char* operation_type;
 
-    switch(tag) {
+    switch (tag) {
         case NUM:
             operation_type = "Arithmetic";
             break;
@@ -356,8 +319,7 @@ void print_error_message(Tag tag, char* source) {
             break;
     }
 
-    printf("%s operation error from *%s*! Oops!\n",
-                operation_type, source);
+    printf("%s operation error from *%s*! Oops!\n", operation_type, source);
 }
 
 /* primitive application */

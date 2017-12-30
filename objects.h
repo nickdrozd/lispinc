@@ -1,57 +1,45 @@
 /*
     OBJECTS
 
-    The explicit control evaluator uses just
-    eight variables (seven to represent
-    registers and one to represent the stack).
-    All (parsed) input, output, and intermediate
-    states of all computations must fit into
-    these variables. The challenge here is that
-    C requires the types of all variables to be
-    declared in advance. So what type should
-    the eight variables be?
+    The explicit control evaluator uses just eight variables (seven to
+    represent registers and one to represent the stack). All (parsed)
+    input, output, and intermediate states of all computations must
+    fit into these variables. The challenge here is that C requires
+    the types of all variables to be declared in advance. So what type
+    should the eight variables be?
 
-    The solution (or at least a solution) is to
-    use a combination of structs and unions. Each
-    of the seven register variables has the vaguely-
-    named type 'Obj'. Obj is essentially a wrapper
-    type that allows disparately-typed pieces of
-    information to interact. An Obj consists of
-    two parts: a 'val' that holds the Obj's 'real'
-    value, and a 'tag' that says the type of the val.
+    The solution (or at least a solution) is to use a combination of
+    structs and unions. Each of the seven register variables has the
+    vaguely- named type 'Obj'. Obj is essentially a wrapper type that
+    allows disparately-typed pieces of information to interact. An Obj
+    consists of two parts: a 'val' that holds the Obj's 'real' value,
+    and a 'tag' that says the type of the val.
 
-    The val is a union type called 'Val' which
-    provides for any possible type that the system
-    can handle. It can contain: a num (int), a name
-    (char*), a List (a pointer to a linked list of
-    Objs), a func (a pointer to a two-valued int
-    function), an env (a pointer to an Env, see
-    env.c), a Label (an enum type corresponding to
-    the main function's goto labels), and two ints
-    indicating that the Obj is uninitialized or a
-    dummy (used for error checking). More types
-    can be added as needed.
+    The val is a union type called 'Val' which provides for any
+    possible type that the system can handle. It can contain: a num
+    (int), a name (char*), a List (a pointer to a linked list of
+    Objs), a func (a pointer to a two-valued int function), an env (a
+    pointer to an Env, see env.c), a Label (an enum type corresponding
+    to the main function's goto labels), and two ints indicating that
+    the Obj is uninitialized or a dummy (used for error checking).
+    More types can be added as needed.
 
-    The tag is an enum type (so really an int) that
-    corresponds to the type of the val. It's used
-    for dispatching for functions that need to know
-    that, e.g. printf.
+    The tag is an enum type (so really an int) that corresponds to the
+    type of the val. It's used for dispatching for functions that need
+    to know that, e.g. printf.
 
-    The stack is of type List, a pointer to a
-    linked list of Objs. Objs can themselves contain
-    such pointers and bear the LIST tag.
+    The stack is of type List, a pointer to a linked list of Objs.
+    Objs can themselves contain such pointers and bear the LIST tag.
 
-    There are several constructors. makeList mallocs
-    a List cell and returns a pointer to it. NUMOBJ,
-    NAMEOBJ, and the rest are macros that expand to
-    different applications of another macro called
-    MKOBJ. MKOBJ in turn expands to an initialization
-    of an OBJ. Such an initialization is both hard to
-    read and annoying to type.
+    There are several constructors. makeList mallocs a List cell and
+    returns a pointer to it. NUMOBJ, NAMEOBJ, and the rest are macros
+    that expand to different applications of another macro called
+    MKOBJ. MKOBJ in turn expands to an initialization of an OBJ. Such
+    an initialization is both hard to read and annoying to type.
 
-    The Env type is included here because it's part
-    of Val, and the Frame type is included because
-    it's part of Env. See env.c for details.
+    The Env type is included here because it's part of Val, and the
+    Frame type is included because it's part of Env. See env.c for
+    details.
 */
 
 /*
@@ -73,7 +61,7 @@ typedef struct List List;
 
 typedef struct Prim Prim;
 typedef union primFunc primFunc;
-typedef Obj (*nilArgFunc) (void);
+typedef Obj (*nilArgFunc)(void);
 typedef Obj (*oneArgFunc)(Obj);
 typedef Obj (*twoArgFunc)(Obj, Obj);
 
@@ -105,15 +93,9 @@ typedef enum {
     label_count
 } Label;
 
-
 /* primitive functions */
 
-typedef enum {
-    NIL,
-    ONE,
-    TWO,
-    argCount_count
-} argCount;
+typedef enum { NIL, ONE, TWO, argCount_count } argCount;
 
 union primFunc {
     nilArgFunc nil;
@@ -166,7 +148,7 @@ union Val {
 };
 
 struct Obj {
-    Tag	tag;
+    Tag tag;
     Val val;
 };
 
@@ -192,7 +174,7 @@ struct Env {
 
 // cons two objects (second MUST BE listobj)
 // are all of these parens really needed?
-#define CONS(X,Y) LISTOBJ(makeList((X),((GETLIST((Y))))))
+#define CONS(X, Y) LISTOBJ(makeList((X), ((GETLIST((Y))))))
 
 #define CAR(X) GETLIST((X))->car
 #define CDR(X) LISTOBJ(GETLIST((X))->cdr)
@@ -225,27 +207,27 @@ struct Env {
 
 // Prim
 
-#define NILFUNC(FUNC,NAME) MKPRIM(NIL, nil, FUNC, NAME)
-#define ONEFUNC(FUNC,NAME) MKPRIM(ONE, one, FUNC, NAME)
-#define TWOFUNC(FUNC,NAME) MKPRIM(TWO, two, FUNC, NAME)
+#define NILFUNC(FUNC, NAME) MKPRIM(NIL, nil, FUNC, NAME)
+#define ONEFUNC(FUNC, NAME) MKPRIM(ONE, one, FUNC, NAME)
+#define TWOFUNC(FUNC, NAME) MKPRIM(TWO, two, FUNC, NAME)
 
-#define MKPRIM(COUNT,FUNCTYPE,FUNC,NAME) (Prim){ \
-        .count = COUNT, \
-        .func = (primFunc){.FUNCTYPE = FUNC}, \
-        .name = NAME }
+#define MKPRIM(COUNT, FUNCTYPE, FUNC, NAME)                                    \
+    (Prim) {                                                                   \
+        .count = COUNT, .func = (primFunc){.FUNCTYPE = FUNC}, .name = NAME     \
+    }
 
 #define PRIMOBJ(X) MKOBJ(PRIM, prim, X)
-
 
 // Comp
 
 #define COMPENVOBJ(X) ENVOBJ(GETCOMPENV(X))
 #define COMPLABOBJ(X) LABELOBJ(GETCOMPLAB(X))
 
-    // takes envobj, not plain env
-#define MKCOMP(LABEL,ENV) (Comp){.label = LABEL, .env = GETENV(ENV)}
-#define COMPOBJ(LABEL,ENV) MKOBJ(COMP, comp, MKCOMP(LABEL,ENV)) // parentheses needed?
-
+// takes envobj, not plain env
+#define MKCOMP(LABEL, ENV)                                                     \
+    (Comp) { .label = LABEL, .env = GETENV(ENV) }
+#define COMPOBJ(LABEL, ENV)                                                    \
+    MKOBJ(COMP, comp, MKCOMP(LABEL, ENV))  // parentheses needed?
 
 // Obj
 
@@ -276,10 +258,12 @@ struct Env {
 #define ERROROBJ MKOBJ(ERROR, error, 0)
 #define UNINITOBJ MKOBJ(UNINIT, uninit, 0)
 
-#define MKOBJ(TAG,VALTYPE,VAL) (Obj){.tag = TAG, .val = (Val){.VALTYPE = VAL}}
+#define MKOBJ(TAG, VALTYPE, VAL)                                               \
+    (Obj) {                                                                    \
+        .tag = TAG, .val = (Val) { .VALTYPE = VAL }                            \
+    }
 
 // List (defined in env.c)
 List* makeList(Obj car, List* cdr);
-
 
 #endif

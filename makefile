@@ -8,7 +8,7 @@ CFLAGS += -std=c99 -Wall -Wextra -g
 
 DEPS := objects.h keywords.h
 
-.PHONY : all clean
+.PHONY : all clean format
 
 all : $(NAME)
 
@@ -20,3 +20,6 @@ $(NAME) : $(OBJS)
 
 clean :
 	@- $(RM) $(OBJS)
+
+format :
+	clang-format -i *.[ch] -style=file

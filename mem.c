@@ -1,7 +1,7 @@
 #include "mem.h"
 
 void free_memory(void) {
-            if (DEBUG) printf("freeing memory...\n");
+    if (DEBUG) printf("freeing memory...\n");
 
     free_lists();
     free_envs();
@@ -14,10 +14,9 @@ List_list* lists_head;
 List_list* lists_tail;
 
 void free_lists(void) {
-            if (DEBUG) printf("freeing lists...\n");
+    if (DEBUG) printf("freeing lists...\n");
 
-    if (lists_head == NULL)
-        return;
+    if (lists_head == NULL) return;
 
     List_list* temp = lists_head;
     lists_head = lists_head->next;
@@ -26,8 +25,7 @@ void free_lists(void) {
 }
 
 void free_list(List** list) {
-    if (*list == NULL)
-        return;
+    if (*list == NULL) return;
 
     List* temp = *list;
     *list = (*list)->cdr;
@@ -37,15 +35,13 @@ void free_list(List** list) {
 }
 
 void append_to_lists(List* list) {
-    if (lists_tail)
-        lists_tail = lists_tail->next;
+    if (lists_tail) lists_tail = lists_tail->next;
 
     lists_tail = malloc(sizeof(List_list));
     lists_tail->list = list;
     lists_tail->next = NULL;
 
-    if (!lists_head)
-        lists_head = lists_tail;
+    if (!lists_head) lists_head = lists_tail;
 }
 
 /* envs */
@@ -55,10 +51,9 @@ Env_list* envs_head;
 Env_list* envs_tail;
 
 void free_envs(void) {
-            if (DEBUG) printf("freeing envs...\n");
+    if (DEBUG) printf("freeing envs...\n");
 
-    if (envs_head == NULL)
-        return;
+    if (envs_head == NULL) return;
 
     Env_list* temp = envs_head;
     envs_head = envs_head->next;
@@ -67,8 +62,7 @@ void free_envs(void) {
 }
 
 void free_env(Env** env) {
-    if (*env == NULL)
-        return;
+    if (*env == NULL) return;
 
     Frame* temp = (*env)->frame;
     free(*env);
@@ -77,8 +71,7 @@ void free_env(Env** env) {
 }
 
 void free_frame(Frame** frame) {
-    if (*frame == NULL)
-        return;
+    if (*frame == NULL) return;
 
     Frame* temp = (*frame)->next;
     free(*frame);
@@ -87,15 +80,13 @@ void free_frame(Frame** frame) {
 }
 
 void append_to_envs(Env* env) {
-    if (envs_tail)
-        envs_tail = envs_tail->next;
+    if (envs_tail) envs_tail = envs_tail->next;
 
     envs_tail = malloc(sizeof(Env_list));
     envs_tail->env = env;
     envs_tail->next = NULL;
 
-    if (!envs_head)
-        envs_head = envs_tail;
+    if (!envs_head) envs_head = envs_tail;
 }
 
 /* tokens freed in parse.c */
