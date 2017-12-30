@@ -148,11 +148,7 @@ Obj read_tokens(Token_list* tokens) {
         // if (DEBUG) printf("token: %s\n", token.text);
         char* text = token.text;
 
-        if (isdigit(text[0])) {
-            obj = NUMOBJ(atol(text));
-        } else {
-            obj = NAMEOBJ(text);
-        }
+        obj = isdigit(text[0]) ? NUMOBJ(atol(text)) : NAMEOBJ(text);
 
         return obj;
     }
@@ -215,17 +211,15 @@ Obj read_tokens(Token_list* tokens) {
 
 // token list
 void dock(Token_list** list) {
-    if (*list == NULL)
-        return;
+    if (*list == NULL) return;
 
-    else if ((*list)->next == NULL) {
+    if ((*list)->next == NULL) {
         free(*list);
         *list = NULL;
         return;
     }
 
-    else
-        dock(&((*list)->next));
+    dock(&((*list)->next));
 }
 
 Token_list* slice_ends(Token_list** list) {
@@ -233,6 +227,7 @@ Token_list* slice_ends(Token_list** list) {
     free(*list);
     *list = NULL;
     dock(&sliced);
+
     return sliced;
 }
 
@@ -245,8 +240,7 @@ void push(Obj obj, List** list) {
         return;
     }
 
-    else
-        push(obj, &((*list)->cdr));
+    push(obj, &((*list)->cdr));
 }
 
 /* for debugging */
@@ -261,7 +255,6 @@ void print_tokens(Token_list* tokens) {
     }
 
     printf("tokens printed!\n");
-    return;
 }
 
 /* memory management */
