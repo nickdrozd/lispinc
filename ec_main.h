@@ -1,38 +1,38 @@
 /*
-	TODO:
-		-- get better memory management
-		-- documentation!
+    TODO:
+        -- get better memory management
+        -- documentation!
 */
 
 /*
-	registers:
-		val -- result of evaluation
-		expr -- expression to be evaluated
-		env -- pointer to evaluation environment (data structure)
-		cont -- Label
-		func -- function / operator
-		arglist -- arguments / operands
-		unev -- temporary register for expressions
+    registers:
+        val -- result of evaluation
+        expr -- expression to be evaluated
+        env -- pointer to evaluation environment (data structure)
+        cont -- Label
+        func -- function / operator
+        arglist -- arguments / operands
+        unev -- temporary register for expressions
 */
 
 /*
-	CONTRACTS
+    CONTRACTS
 
-	Eval:
-		-- expr holds the expression to be evaluated
-		-- env holds the environment in which the
-			expression is to be evaluated
-		-- cont holds a place to go next
-		-- the result will be left in val; the contents
-			of all other registers may be destroyed
+    Eval:
+        -- expr holds the expression to be evaluated
+        -- env holds the environment in which the
+            expression is to be evaluated
+        -- cont holds a place to go next
+        -- the result will be left in val; the contents
+            of all other registers may be destroyed
 
-	Apply:
-		-- arglist contains a list of arguments
-		-- func contains a function to be applied
-		-- the top of the stack holds a place to go next
-		-- the result will be left in val;
-			the stack will be popped; the contents of 
-			all other registers may be destroyed
+    Apply:
+        -- arglist contains a list of arguments
+        -- func contains a function to be applied
+        -- the top of the stack holds a place to go next
+        -- the result will be left in val;
+            the stack will be popped; the contents of
+            all other registers may be destroyed
 */
 
 #ifndef EC_MAIN_GUARD

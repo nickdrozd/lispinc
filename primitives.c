@@ -5,138 +5,138 @@
 /* primitive type-checking */
 
 Obj isnumber_func(Obj obj) {
-	return BOOLOBJ(GETTAG(obj) == NUM);
+    return BOOLOBJ(GETTAG(obj) == NUM);
 }
 
 oneArgFunc isnumber_ = isnumber_func;
 
 Obj islist_func(Obj obj) {
-	return BOOLOBJ(GETTAG(obj) == LIST);
+    return BOOLOBJ(GETTAG(obj) == LIST);
 }
 
 oneArgFunc islist_ = islist_func;
 
 Obj isbool_func(Obj obj) {
-	return BOOLOBJ(GETTAG(obj) == BOOL_);
+    return BOOLOBJ(GETTAG(obj) == BOOL_);
 }
 
 oneArgFunc isbool_ = isbool_func;
 
 Obj issymbol_func(Obj obj) {
-	return BOOLOBJ(GETTAG(obj) == NAME);
+    return BOOLOBJ(GETTAG(obj) == NAME);
 }
 
 oneArgFunc issymbol_ = issymbol_func;
 
 // null? returns false for non-list objects
 Obj null_func(Obj obj) {
-	bool isList = GETTAG(obj) == LIST;
+    bool isList = GETTAG(obj) == LIST;
 
-	if (!isList) return FALSEOBJ;
+    if (!isList) return FALSEOBJ;
 
-	bool isNull = GETLIST(obj) == NULL;
+    bool isNull = GETLIST(obj) == NULL;
 
-	return BOOLOBJ(isNull);
+    return BOOLOBJ(isNull);
 }
 
 oneArgFunc null_ = null_func;
 
-/* primitive list functions 
-(not to be confused with the list 
+/* primitive list functions
+(not to be confused with the list
 macros found in objects.h!) */
 
 /* car and cdr both do simple error-checking */
 
 Obj car_func(Obj obj) {
-	if (!(GETTAG(obj) == LIST)) {
-		print_error_message(LIST, "car");
-		return ERROROBJ;
-	}
+    if (!(GETTAG(obj) == LIST)) {
+        print_error_message(LIST, "car");
+        return ERROROBJ;
+    }
 
-	List* list = GETLIST(obj);
+    List* list = GETLIST(obj);
 
-	if (list == NULL) {
-		print_error_message(LIST, "car");
-		return ERROROBJ;
-	}
-	else
-		return list->car;
+    if (list == NULL) {
+        print_error_message(LIST, "car");
+        return ERROROBJ;
+    }
+    else
+        return list->car;
 }
 
 Obj cdr_func(Obj obj) {
-	if (!(GETTAG(obj) == LIST)) {
-		print_error_message(LIST, "cdr");
-		return ERROROBJ;
-	}
+    if (!(GETTAG(obj) == LIST)) {
+        print_error_message(LIST, "cdr");
+        return ERROROBJ;
+    }
 
-	List* list = GETLIST(obj);
+    List* list = GETLIST(obj);
 
-	// cdr of empty list is empty list
-	if (list == NULL)
-		return NULLOBJ;
-	else
-		return LISTOBJ(list->cdr);
+    // cdr of empty list is empty list
+    if (list == NULL)
+        return NULLOBJ;
+    else
+        return LISTOBJ(list->cdr);
 }
 
 Obj setcar_func(Obj obj, Obj carval) {
-	if (GETTAG(obj) != LIST) {
-		print_error_message(LIST, "set-car!");
-		return ERROROBJ;
-	}
+    if (GETTAG(obj) != LIST) {
+        print_error_message(LIST, "set-car!");
+        return ERROROBJ;
+    }
 
-	List* list = GETLIST(obj);
+    List* list = GETLIST(obj);
 
-	if (list == NULL) {
-		print_error_message(LIST, "set-car!");
-		return ERROROBJ;
-	}
-	else {
-		list->car = carval;
-		return LISTOBJ(list);
-	}
+    if (list == NULL) {
+        print_error_message(LIST, "set-car!");
+        return ERROROBJ;
+    }
+    else {
+        list->car = carval;
+        return LISTOBJ(list);
+    }
 }
 
 Obj setcdr_func(Obj obj, Obj cdrval) {
-	if (GETTAG(obj) != LIST || 
-			GETTAG(cdrval) != LIST) {
-		print_error_message(LIST, "set-cdr!");
-		return ERROROBJ;
-	}
+    if (GETTAG(obj) != LIST ||
+            GETTAG(cdrval) != LIST) {
+        print_error_message(LIST, "set-cdr!");
+        return ERROROBJ;
+    }
 
-	List* list = GETLIST(obj);
+    List* list = GETLIST(obj);
 
-	if (list == NULL) {
-		print_error_message(LIST, "set-cdr!");
-		return ERROROBJ;
-	}
-	else {
-		list->cdr = GETLIST(cdrval);
-		return LISTOBJ(list);
-	}
+    if (list == NULL) {
+        print_error_message(LIST, "set-cdr!");
+        return ERROROBJ;
+    }
+    else {
+        list->cdr = GETLIST(cdrval);
+        return LISTOBJ(list);
+    }
 }
 
 Obj cadr_func(Obj obj) {
-	return car_func(cdr_func(obj));
+    return car_func(cdr_func(obj));
 }
 
 Obj cddr_func(Obj obj) {
-	return cdr_func(cdr_func(obj));
+    return cdr_func(cdr_func(obj));
 }
 
 Obj cdadr_func(Obj obj) {
-	return cdr_func(cadr_func(obj));
+    return cdr_func(cadr_func(obj));
 }
 
 Obj caddr_func(Obj obj) {
-	return car_func(cddr_func(obj));
+    return car_func(cddr_func(obj));
 }
 
 Obj cdddr_func(Obj obj) {
-	return cdr_func(cddr_func(obj));
+    return cdr_func(cddr_func(obj));
 }
 
 Obj cadddr_func(Obj obj) {
-	return car_func(cdddr_func(obj));
+    return car_func(cdddr_func(obj));
 }
 
 // is there a faster way to do this?
@@ -153,18 +153,18 @@ oneArgFunc caddr_ = caddr_func;
 oneArgFunc cdddr_ = cdddr_func;
 oneArgFunc cadddr_ = cadddr_func;
 
-/* second object MUST BE list. if it isn't 
+/* second object MUST BE list. if it isn't
 a list, it will be coerced to a one-item list */
 Obj cons_func(Obj car, Obj cdr) {
-	int isList = GETTAG(cdr) == LIST;
+    int isList = GETTAG(cdr) == LIST;
 
-	if (!isList) {
-		printf("%s\n", "Second arg not a list! Converting to one-item list...");
-		List* listcdr = makeList(cdr, NULL);
-		return LISTOBJ(makeList(car, listcdr));
-	}
-	else
-		return LISTOBJ(makeList(car, GETLIST(cdr)));
+    if (!isList) {
+        printf("%s\n", "Second arg not a list! Converting to one-item list...");
+        List* listcdr = makeList(cdr, NULL);
+        return LISTOBJ(makeList(car, listcdr));
+    }
+    else
+        return LISTOBJ(makeList(car, GETLIST(cdr)));
 }
 
 twoArgFunc cons_ = cons_func;
@@ -172,43 +172,43 @@ twoArgFunc cons_ = cons_func;
 /* primitive arithmetic */
 
 Obj add_func(Obj a, Obj b) {
-	if (!are_both_nums(a,b)) {
-		print_error_message(NUM, ADD_NAME);
-		return ERROROBJ;
-	}
-	return NUMOBJ(GETNUM(a) + GETNUM(b));
+    if (!are_both_nums(a,b)) {
+        print_error_message(NUM, ADD_NAME);
+        return ERROROBJ;
+    }
+    return NUMOBJ(GETNUM(a) + GETNUM(b));
 }
 
 Obj sub_func(Obj a, Obj b) {
-	if (!are_both_nums(a,b)) {
-		print_error_message(NUM, "-");
-		return ERROROBJ;
-	}
-	return NUMOBJ(GETNUM(a) - GETNUM(b));
+    if (!are_both_nums(a,b)) {
+        print_error_message(NUM, "-");
+        return ERROROBJ;
+    }
+    return NUMOBJ(GETNUM(a) - GETNUM(b));
 }
 
 Obj mul_func(Obj a, Obj b) {
-	if (!are_both_nums(a,b)) {
-		print_error_message(NUM, MUL_NAME);
-		return ERROROBJ;
-	}
-	return NUMOBJ(GETNUM(a) * GETNUM(b));
+    if (!are_both_nums(a,b)) {
+        print_error_message(NUM, MUL_NAME);
+        return ERROROBJ;
+    }
+    return NUMOBJ(GETNUM(a) * GETNUM(b));
 }
 
 Obj div_func(Obj a, Obj b) { // floor division
-	if (!are_both_nums(a,b)) {
-		print_error_message(NUM, "/");
-		return ERROROBJ;
-	}
-	return NUMOBJ(GETNUM(a) / GETNUM(b));
+    if (!are_both_nums(a,b)) {
+        print_error_message(NUM, "/");
+        return ERROROBJ;
+    }
+    return NUMOBJ(GETNUM(a) / GETNUM(b));
 }
 
 Obj addone_func(Obj a) {
-	return add_func(a, ONEOBJ);
+    return add_func(a, ONEOBJ);
 }
 
 Obj subone_func(Obj a) {
-	return sub_func(a, ONEOBJ);
+    return sub_func(a, ONEOBJ);
 }
 
 twoArgFunc add_ = add_func;
@@ -223,65 +223,65 @@ oneArgFunc subone_ = subone_func;
 
 // (not 0) and (not '()) return #t -- desirable?
 Obj not_func(Obj expr) {
-	if (GETBOOL(expr) != 0)
-		return FALSEOBJ;
-	else
-		return TRUEOBJ;
+    if (GETBOOL(expr) != 0)
+        return FALSEOBJ;
+    else
+        return TRUEOBJ;
 }
 
 Obj eq_func(Obj a, Obj b) {
-	if (!are_both_nums(a,b)) {
-		print_error_message(NUM, "=");
-		return ERROROBJ;
-	}
-	return BOOLOBJ(GETNUM(a) == GETNUM(b));
+    if (!are_both_nums(a,b)) {
+        print_error_message(NUM, "=");
+        return ERROROBJ;
+    }
+    return BOOLOBJ(GETNUM(a) == GETNUM(b));
 }
 
 Obj lt_func(Obj a, Obj b) {
-	if (!are_both_nums(a,b)) {
-		print_error_message(NUM, "<");
-		return ERROROBJ;
-	}
-	return BOOLOBJ(GETNUM(a) < GETNUM(b));
+    if (!are_both_nums(a,b)) {
+        print_error_message(NUM, "<");
+        return ERROROBJ;
+    }
+    return BOOLOBJ(GETNUM(a) < GETNUM(b));
 }
 
 Obj gt_func(Obj a, Obj b) {
-	if (!are_both_nums(a,b)) {
-		print_error_message(NUM, ">");
-		return ERROROBJ;
-	}
-	return BOOLOBJ(GETNUM(a) > GETNUM(b));
+    if (!are_both_nums(a,b)) {
+        print_error_message(NUM, ">");
+        return ERROROBJ;
+    }
+    return BOOLOBJ(GETNUM(a) > GETNUM(b));
 }
 
 Obj iszero_func(Obj a) {
-	return eq_func(a, ZEROOBJ);
+    return eq_func(a, ZEROOBJ);
 }
 
 Obj isone_func(Obj a) {
-	return eq_func(a, ONEOBJ);
+    return eq_func(a, ONEOBJ);
 }
 
 Obj geneq_func(Obj a, Obj b) {
-	Tag tag_a = GETTAG(a);
-	Tag tag_b = GETTAG(b);
+    Tag tag_a = GETTAG(a);
+    Tag tag_b = GETTAG(b);
 
-	if (tag_a != tag_b)
-		return FALSEOBJ;
+    if (tag_a != tag_b)
+        return FALSEOBJ;
 
-	// else if a and be have the same type
-	switch(tag_a) {
-		case NUM:
-			return eq_func(a, b);
-		case NAME:
-			return BOOLOBJ(streq(GETNAME(a), GETNAME(b)));
-		case BOOL_:
-			return BOOLOBJ(GETBOOL(a) == GETBOOL(b));
-		case LIST:
-			// pointers to the same list
-			return BOOLOBJ(GETLIST(a) == GETLIST(b));
-		default:
-			return FALSEOBJ;
-	}
+    // else if a and be have the same type
+    switch(tag_a) {
+        case NUM:
+            return eq_func(a, b);
+        case NAME:
+            return BOOLOBJ(streq(GETNAME(a), GETNAME(b)));
+        case BOOL_:
+            return BOOLOBJ(GETBOOL(a) == GETBOOL(b));
+        case LIST:
+            // pointers to the same list
+            return BOOLOBJ(GETLIST(a) == GETLIST(b));
+        default:
+            return FALSEOBJ;
+    }
 }
 
 oneArgFunc not_ = not_func;
@@ -295,40 +295,40 @@ twoArgFunc geneq_ = geneq_func;
 /* I/O */
 
 Obj read_func(void) {
-	// printf("%s\n", "READ: ");
-	get_input();
+    // printf("%s\n", "READ: ");
+    get_input();
 
-	if (isIrregular(code)) {
-		if (badSyntax(code))
-			printf("Bad syntax! Try again!\n");
-		read_func();
-	}
+    if (isIrregular(code)) {
+        if (badSyntax(code))
+            printf("Bad syntax! Try again!\n");
+        read_func();
+    }
 
-	return parse(code);
+    return parse(code);
 }
 
 nilArgFunc read_ = read_func;
 
 Obj display_func(Obj obj) {
-	// printf("DISPLAY: ");
-	print_obj(obj);
-	if (INFO) getchar();
+    // printf("DISPLAY: ");
+    print_obj(obj);
+    if (INFO) getchar();
 
-	return obj;
+    return obj;
 }
 
 oneArgFunc display_ = display_func;
 
 Obj newline_func(void) {
-	printf("\n");
-	return DUMMYOBJ;
+    printf("\n");
+    return DUMMYOBJ;
 }
 
 nilArgFunc newline_ = newline_func;
 
 Obj error_func(void) {
-	printf("Error? Uh-oh!\n");
-	return ERROROBJ;
+    printf("Error? Uh-oh!\n");
+    return ERROROBJ;
 }
 
 nilArgFunc error_ = error_func;
@@ -337,75 +337,75 @@ nilArgFunc error_ = error_func;
 
 // error-checking helper
 bool are_both_nums(Obj a, Obj b) {
-	return GETTAG(a) == NUM && 
-		GETTAG(b) == NUM;
+    return GETTAG(a) == NUM &&
+        GETTAG(b) == NUM;
 }
 
 void print_error_message(Tag tag, char* source) {
-	char* operation_type;
+    char* operation_type;
 
-	switch(tag) {
-		case NUM:
-			operation_type = "Arithmetic";
-			break;
-		case LIST:
-			operation_type = "List";
-			break;
-		default:
-			operation_type = "???";
-			break;
-	}
+    switch(tag) {
+        case NUM:
+            operation_type = "Arithmetic";
+            break;
+        case LIST:
+            operation_type = "List";
+            break;
+        default:
+            operation_type = "???";
+            break;
+    }
 
-	printf("%s operation error from *%s*! Oops!\n", 
-				operation_type, source);
+    printf("%s operation error from *%s*! Oops!\n",
+                operation_type, source);
 }
 
 /* primitive application */
 
-/* if new primitives are added, applyPrimitive 
+/* if new primitives are added, applyPrimitive
 can be extended in an obvious way */
 Obj applyPrimitive(Obj func, Obj arglist) {
-	Prim prim = func.val.prim;
+    Prim prim = func.val.prim;
 
-	primFunc primfunc = prim.func;
-	argCount argcount = prim.count;
+    primFunc primfunc = prim.func;
+    argCount argcount = prim.count;
 
-	if (argcount == NIL) {
-		nilArgFunc nilfunc = primfunc.nil;
-		return nilfunc();
-	}
-	
-	Obj arg1 = CAR(arglist);
+    if (argcount == NIL) {
+        nilArgFunc nilfunc = primfunc.nil;
+        return nilfunc();
+    }
 
-	if (argcount == ONE) {
-		oneArgFunc onefunc = primfunc.one;
-		return onefunc(arg1);
-	}
+    Obj arg1 = CAR(arglist);
 
-	Obj arg2 = CADR(arglist);
+    if (argcount == ONE) {
+        oneArgFunc onefunc = primfunc.one;
+        return onefunc(arg1);
+    }
 
-	if (argcount == TWO) {
-		twoArgFunc twofunc = primfunc.two;
-		return twofunc(arg1, arg2);
-	}
+    Obj arg2 = CADR(arglist);
 
-	return DUMMYOBJ;
+    if (argcount == TWO) {
+        twoArgFunc twofunc = primfunc.two;
+        return twofunc(arg1, arg2);
+    }
+
+    return DUMMYOBJ;
 }
 
 Obj apply_nil_func(Obj func, Obj arglist) {
-	return applyPrimitive(func, arglist);
+    return applyPrimitive(func, arglist);
 }
 
 twoArgFunc apply_nil_ = apply_nil_func;
 
 Obj apply_one_func(Obj func, Obj arglist) {
-	return applyPrimitive(func, arglist);
+    return applyPrimitive(func, arglist);
 }
 
 twoArgFunc apply_one_ = apply_one_func;
 
 Obj apply_two_func(Obj func, Obj arglist) {
-	return applyPrimitive(func, arglist);
+    return applyPrimitive(func, arglist);
 }
 
 twoArgFunc apply_two_ = apply_two_func;

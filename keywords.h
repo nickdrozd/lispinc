@@ -1,27 +1,27 @@
 /*
-	KEYWORDS
+    KEYWORDS
 
-	keywords.h contains settings for Lisp syntax and 
-	reserved words and user commands.
+    keywords.h contains settings for Lisp syntax and
+    reserved words and user commands.
 
-	Lisp has almost no syntax, so "syntax" here means 
-	delineators, parenthesis-like characters and 
-	space-like characters. If, for instance, you wanted 
-	to change lispinc to include angle brackets as 
-	delineators (so that <+ 4 5> and (+ 4 5) would be 
-	equivalent), this is the place to do it.
+    Lisp has almost no syntax, so "syntax" here means
+    delineators, parenthesis-like characters and
+    space-like characters. If, for instance, you wanted
+    to change lispinc to include angle brackets as
+    delineators (so that <+ 4 5> and (+ 4 5) would be
+    equivalent), this is the place to do it.
 
-	Reserved words are the "special" words that are not 
-	interpreted as normal functions (define, lambda, 
-	etc). If you want to add a new "special form" to 
-	lispinc (something like delay, for instace), this is 
-	the place to do it.
+    Reserved words are the "special" words that are not
+    interpreted as normal functions (define, lambda,
+    etc). If you want to add a new "special form" to
+    lispinc (something like delay, for instace), this is
+    the place to do it.
 
-	 Last, there are the user commands for doing things 
-	 like switching flags. Note that due to an 
-	 irregularity in the parsing process, any user 
-	 command that gets executes outside of the main body 
-	 of the interpreter must end in a newline character.
+     Last, there are the user commands for doing things
+     like switching flags. Note that due to an
+     irregularity in the parsing process, any user
+     command that gets executes outside of the main body
+     of the interpreter must end in a newline character.
 */
 
 

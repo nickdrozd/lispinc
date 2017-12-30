@@ -1,9 +1,9 @@
-/* 
-	This code is compiler-generated! 
-	It may be ugly, but it sure is fast!
-	Can you figure out how it works?
-	
-	https://github.com/nickdrozd/Lisp-C-Compyler
+/*
+    This code is compiler-generated!
+    It may be ugly, but it sure is fast!
+    Can you figure out how it works?
+
+    https://github.com/nickdrozd/Lisp-C-Compyler
 */
 
 #ifndef COMP_CODE_GUARD

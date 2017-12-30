@@ -1,11 +1,11 @@
 /*
-	MEM
+    MEM
 
-	mem.c handles memory management. In particular,
-	it contains functions that free memory that has
-	been allocated via malloc.
+    mem.c handles memory management. In particular,
+    it contains functions that free memory that has
+    been allocated via malloc.
 
-	Does any of this even work?
+    Does any of this even work?
 */
 
 #ifndef MEM_GUARD
@@ -25,8 +25,8 @@ void free_memory(void);
 typedef struct List_list List_list;
 
 struct List_list {
-	List* list;
-	List_list* next;
+    List* list;
+    List_list* next;
 };
 
 void free_lists(void);
@@ -38,8 +38,8 @@ void append_to_lists(List* list);
 typedef struct Env_list Env_list;
 
 struct Env_list {
-	Env* env;
-	Env_list* next;
+    Env* env;
+    Env_list* next;
 };
 
 void free_envs(void);

@@ -1,15 +1,15 @@
 /*
-	PRIMITIVES
+    PRIMITIVES
 
-	Primitive functions operate on actual C objects 
-	(like numbers and lists). primitives.c creates 
-	a list of the functions and list of the names of 
-	these functions and then passes them to env.c, 
-	where they are zipped together to create the frame 
-	of the base_env.
+    Primitive functions operate on actual C objects
+    (like numbers and lists). primitives.c creates
+    a list of the functions and list of the names of
+    these functions and then passes them to env.c,
+    where they are zipped together to create the frame
+    of the base_env.
 
-	TODO:
-		* primitive names should be moved to keywords.h
+    TODO:
+        * primitive names should be moved to keywords.h
 */
 
 #ifndef PRIMITIVES_GUARD
@@ -157,7 +157,7 @@ twoArgFunc apply_two_;
 // make sure to keep these updated!!!
 
 #define PRIM_LEN (arith_len + bool_len + type_len + \
-				list_len + io_len + prim_app_len)
+                list_len + io_len + prim_app_len)
 
 #define LIST_OF_PRIMITIVES { \
 addprim, subprim, mulprim, divprim, \

@@ -1,66 +1,66 @@
 /*
-	ENV
+    ENV
 
-	The evaluation environment is a lookup
-	table wherein names (variables) are bound
-	to values. The heart of Lisp is lambdas,
-	and lambdas are evaluated by extending
-	the enviroment with the lambdas variables
-	bound to its arguments.
+    The evaluation environment is a lookup
+    table wherein names (variables) are bound
+    to values. The heart of Lisp is lambdas,
+    and lambdas are evaluated by extending
+    the enviroment with the lambdas variables
+    bound to its arguments.
 
-	Typewise, an Env is a struct containing 
-	a pointer to another Env (its 'enclosing
-	enviroment' or 'enclosure') and a pointer
-	to a Frame. A Frame is a linked list of
-	key / value pairs. For convenience, both
-	keys and values are wrapped in the Obj
-	type (see objects.h for definitions).
+    Typewise, an Env is a struct containing
+    a pointer to another Env (its 'enclosing
+    enviroment' or 'enclosure') and a pointer
+    to a Frame. A Frame is a linked list of
+    key / value pairs. For convenience, both
+    keys and values are wrapped in the Obj
+    type (see objects.h for definitions).
 
-	[ add a diagram here? ]
+    [ add a diagram here? ]
 
-	Functions
+    Functions
 
-	makeBaseEnv returns a pointer to an
-	enviroment with basic arithmetic operations
-	defined. Other primitive functions can be
-	added later.
+    makeBaseEnv returns a pointer to an
+    enviroment with basic arithmetic operations
+    defined. Other primitive functions can be
+    added later.
 
-	lookup takes two Objs as arguments, the
-	first of type NAME and the second of type
-	ENV. It looks up the name in the env and
-	returns the bound value.
+    lookup takes two Objs as arguments, the
+    first of type NAME and the second of type
+    ENV. It looks up the name in the env and
+    returns the bound value.
 
-	defineVar and setVar each take three Objs as
-	arguments, with the first of type NAME and 
-	the third of type ENV (the second can be
-	anything.) setVar sets the first occurence
-	of the name in the env to the value (raising
-	an error if the name is unbound), while
-	defineVar adds a new name/value binding to 
-	the topmost frame of the env (it doesn't check 
-	to see if the name is already bound, but because 
-	of the top-down lookup procedure this doesn't 
-	create naming-collision problems).
+    defineVar and setVar each take three Objs as
+    arguments, with the first of type NAME and
+    the third of type ENV (the second can be
+    anything.) setVar sets the first occurence
+    of the name in the env to the value (raising
+    an error if the name is unbound), while
+    defineVar adds a new name/value binding to
+    the topmost frame of the env (it doesn't check
+    to see if the name is already bound, but because
+    of the top-down lookup procedure this doesn't
+    create naming-collision problems).
 
-	extendEnv takes two List Objs (the first being
-	a List of NAME Objs) and an Env Obj and adds
-	a returns a new Env Obj, the frame of which is
-	the two Lists zipped together and the enclosure
-	of which is the first Env.
+    extendEnv takes two List Objs (the first being
+    a List of NAME Objs) and an Env Obj and adds
+    a returns a new Env Obj, the frame of which is
+    the two Lists zipped together and the enclosure
+    of which is the first Env.
 
-	Note that these functions all take Objs as
-	arguments: this is because they have to
-	interface the registers of the evaluator,
-	which are all of type Obj. In general, the
-	functions in this file that operate on types
-	other than Obj are 'private' functions, and
-	the Obj-valued functions are 'public'.
+    Note that these functions all take Objs as
+    arguments: this is because they have to
+    interface the registers of the evaluator,
+    which are all of type Obj. In general, the
+    functions in this file that operate on types
+    other than Obj are 'private' functions, and
+    the Obj-valued functions are 'public'.
 */
 
 /*
-	TODO:
-		-- markings for distinct envs?
-		-- clean up lookup_prim_name, it's ugly
+    TODO:
+        -- markings for distinct envs?
+        -- clean up lookup_prim_name, it's ugly
 */
 
 #ifndef ENV_GUARD
@@ -88,8 +88,8 @@ Obj extendEnv(Obj vars_obj, Obj vals_obj, Obj base_env_obj);
 
 Obj lookup(Obj var_obj, Obj env_obj);
 
-	Obj lookup_in_env(char* var, Env* env);
-	Obj lookup_in_frame(char* var, Frame* frame);
+    Obj lookup_in_env(char* var, Env* env);
+    Obj lookup_in_frame(char* var, Frame* frame);
 
 /* modify env */
 
@@ -103,6 +103,3 @@ Env* makeEnv(Frame* frame, Env* enclosure);
 Frame* makeFrame(char* key, Obj val);
 
 #endif
-
-
-

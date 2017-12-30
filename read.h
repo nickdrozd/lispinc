@@ -1,20 +1,20 @@
 /*
-	READ
+    READ
 
-	read.c handles input. It doesn't do anything
-	terribly interesting or exotic. Input is taken
-	from fgets. If the input is a user command,
-	then command is executed. Otherwise, the input
-	(presumed to be Lisp code) is passed to the
-	functions in parse.c.
+    read.c handles input. It doesn't do anything
+    terribly interesting or exotic. Input is taken
+    from fgets. If the input is a user command,
+    then command is executed. Otherwise, the input
+    (presumed to be Lisp code) is passed to the
+    functions in parse.c.
 */
 
 /*
-	TODO:
-		-- make it so that newlines don't have to be
-			added to every input string (problem
-			with tokenize in parse.c?s)
-		-- reader macros
+    TODO:
+        -- make it so that newlines don't have to be
+            added to every input string (problem
+            with tokenize in parse.c?s)
+        -- reader macros
 */
 
 #ifndef READ_GUARD

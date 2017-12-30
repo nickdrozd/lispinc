@@ -1,10 +1,10 @@
 /*
-	FLAGS
+    FLAGS
 
-	Flags are used to indicate certain system settings. 
-	DEBUG, INFO, STATS, TAIL, and STEP are user-set, 
-	while LIB is used in the process of loading the 
-	library functions. 
+    Flags are used to indicate certain system settings.
+    DEBUG, INFO, STATS, TAIL, and STEP are user-set,
+    while LIB is used in the process of loading the
+    library functions.
 */
 
 #ifndef FLAGS_GUARD
@@ -39,7 +39,7 @@ void toggle_val(int* flag);
 void repl_switch(void);
 void demo_switch(void);
 
-/* LIB has its own dedicated toggle function 
+/* LIB has its own dedicated toggle function
 to make read.c more readable */
 void toggle_LIB(void);
 

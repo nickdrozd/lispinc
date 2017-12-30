@@ -18,5 +18,5 @@ $(NAME) : $(OBJS)
 %.o : %.c %.h $(DEPS)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-clean : 
+clean :
 	@- $(RM) $(OBJS)

@@ -1,18 +1,18 @@
 /*
-	PRINT
+    PRINT
 
-	Some of these print functions have to do with 
-	displaying information about the evaluator itself, 
-	and some print program information and greetings 
-	and that kind of things. A few are used specifically 
-	for debugging (they only do anything if the DEBUG 
-	flag is set).
+    Some of these print functions have to do with
+    displaying information about the evaluator itself,
+    and some print program information and greetings
+    and that kind of things. A few are used specifically
+    for debugging (they only do anything if the DEBUG
+    flag is set).
 */
 
 /*
-	TODO:
-		-- figure out how to mark envs
-			so that printing them is informative
+    TODO:
+        -- figure out how to mark envs
+            so that printing them is informative
 */
 
 #ifndef PRINT_GUARD

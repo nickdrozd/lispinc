@@ -1,11 +1,11 @@
 /*
-	Low-Level Helpers
+    Low-Level Helpers
 
-	These functions perform mostly boring
-	tasks like determing whether an expression
-	is lambda expression. The idea is that in
-	a real register machine, these would be
-	implemented as primitive machine operations.
+    These functions perform mostly boring
+    tasks like determing whether an expression
+    is lambda expression. The idea is that in
+    a real register machine, these would be
+    implemented as primitive machine operations.
 */
 
 #ifndef LLH_GUARD
@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-		
+
 #include "objects.h"
 #include "keywords.h"
 #include "flags.h"

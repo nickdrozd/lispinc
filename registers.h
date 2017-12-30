@@ -1,12 +1,12 @@
 /*
-	REGISTERS
+    REGISTERS
 
-	registers.c declares the evaluator's seven registers: 
-	EXPRession, VALue, CONTinue, FUNCtion, ARGumentLIST, 
-	UNEValuated, and ENVironment. It also provides a 
-	function to initialize the registers (as well as the 
-	stack) and a function to print the contents of a 
-	register.
+    registers.c declares the evaluator's seven registers:
+    EXPRession, VALue, CONTinue, FUNCtion, ARGumentLIST,
+    UNEValuated, and ENVironment. It also provides a
+    function to initialize the registers (as well as the
+    stack) and a function to print the contents of a
+    register.
 */
 
 #ifndef REGISTERS_GUARD
