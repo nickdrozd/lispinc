@@ -27,9 +27,13 @@
 #include "stack.h"
 #include "tally.h"
 
-#define TABNL_PRINT(X)                                                         \
+#define NL_PRINT(...)                                                          \
+    printf(__VA_ARGS__);                                                       \
+    NL;
+
+#define TABNL_PRINT(...)                                                       \
     TAB;                                                                       \
-    printf(X);                                                                 \
+    printf(__VA_ARGS__);                                                       \
     NL;
 
 #define NL printf("\n");

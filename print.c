@@ -48,10 +48,11 @@ void print_stack(void) {
     // printf("%s\n", "printing stack...");
     List* temp = stack;
     int count = 0;
+
     if (!temp) printf("%s\n", "-- EMPTY STACK --");
+
     while (temp) {
-        printf("-- STACK ENTRY %d --", count);
-        NL;
+        NL_PRINT("-- STACK ENTRY %d --", count);
         print_obj(temp->car);
         NL;
         temp = temp->cdr;
@@ -65,21 +66,19 @@ void print_base_env(void) {
 
     NL;
     NL;
-    printf("base_env: %p", base_env);
-    NL;
+    NL_PRINT("base_env: %p", base_env);
 }
 
 void print_unbound(void) {
     NL;
     NL;
-    printf("UNBOUND VARIABLE: \"%s\"!", GETNAME(expr));
-    NL;
+    NL_PRINT("UNBOUND VARIABLE: \"%s\"!", GETNAME(expr));
 }
 
 /* info helpers */
 
 void print_register(Obj reg, char* name) {
-    printf("-- %s -- \n", name);
+    NL_PRINT("-- %s --", name);
     print_obj(reg);
     NL;
 }
@@ -178,68 +177,50 @@ void print_label(Label label) {
 
 /* user interface printing */
 
-/* we could use macros to make these more concise,
-but this way the code has a wysiwyg feel */
-
 void print_intro(void) {
     NL;
-    printf("Welcome to lispinc!");
+
+    NL_PRINT("Welcome to lispinc!");
     NL;
+
+    NL_PRINT("Nick Drozd, 2016");
+
+    NL_PRINT("github.com/nickdrozd/lispinc");
     NL;
-    printf("Nick Drozd, 2016");
+
+    NL_PRINT("Enter .help for help and enter .quit to quit.");
     NL;
-    printf("github.com/nickdrozd/lispinc");
-    NL;
-    NL;
-    printf("Enter .help for help and enter .quit to quit.");
-    NL;
-    NL;
-    printf("Now, the time has come for you to lispinc...for your life!");
-    NL;
+
+    NL_PRINT("Now, the time has come for you to lispinc...for your life!");
     NL;
 }
 
 void print_help(void) {
     NL;
-    printf("*** HELP ***");
-    NL;
-    TAB;
-    printf("-- enter .info to toggle evaluator info mode");
-    NL;
-    TAB;
-    printf(
+
+    NL_PRINT("*** HELP ***");
+
+    TABNL_PRINT("-- enter .info to toggle evaluator info mode");
+    TABNL_PRINT(
         "-- enter .step to toggle step mode (pauses between each step of the "
         "evaluator in info mode)");
-    NL;
-    TAB;
-    printf("-- enter .stats to toggle stack stats mode");
-    NL;
-    TAB;
-    printf(
+    TABNL_PRINT("-- enter .stats to toggle stack stats mode");
+    TABNL_PRINT(
         "-- enter .tail to toggle tail recursion mode (turning this off is "
         "really only of any interest in conjunction with stats mode)");
-    NL;
-    TAB;
-    printf("-- enter .debug to toggle debug mode");
-    NL;
-    TAB;
-    printf("-- enter .quit to quit");
-    NL;
-    TAB;
-    printf("-- enter .repl to turn off info, stats, and step modes");
-    NL;
-    TAB;
-    printf("-- enter .demo to turn on info, stats, and step modes");
-    NL;
-    NL;
+    TABNL_PRINT("-- enter .debug to toggle debug mode");
+    TABNL_PRINT("-- enter .quit to quit");
+    TABNL_PRINT("-- enter .repl to turn off info, stats, and step modes");
+    TABNL_PRINT("-- enter .demo to turn on info, stats, and step modes");
 }
 
 void print_flags(void) {
     if (!INFO) return;
 
     NL;
-    printf("*** FLAGS ***");
-    NL;
+
+    NL_PRINT("*** FLAGS ***");
+
     print_flag(INFO, INFO_NAME);
     print_flag(STEP, STEP_NAME);
     print_flag(STATS, STATS_NAME);
@@ -249,18 +230,18 @@ void print_flags(void) {
 
 void print_exit(void) {
     NL;
-    printf("exiting lispinc...");
+
+    NL_PRINT("exiting lispinc...");
+
     NL;
-    NL;
-    printf("Byeeeeee!");
-    NL;
+
+    NL_PRINT("Byeeeeee!");
+
     NL;
 }
 
 void print_flag(int flag, char* name) {
-    TAB;
-    printf("%s  :%s", name, flag ? "ON" : "OFF");
-    NL;
+    TABNL_PRINT("%s  :%s", name, flag ? "ON" : "OFF");
 }
 
 /* debugging */
@@ -269,8 +250,9 @@ void debug_print(char* statement) {
     if (DEBUG) {
         NL;
         NL;
-        printf("DEBUG: %s", statement);
-        NL;
+
+        NL_PRINT("DEBUG: %s", statement);
+
         NL;
     }
 }
